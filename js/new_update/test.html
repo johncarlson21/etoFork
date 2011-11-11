@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<!--- <script language="javascript" type="text/javascript" src="jquery-1.3.2.min.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="jquery.flow.1.2.auto.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#myController").jFlow({
+		slides: "#slides",
+		controller: ".jFlowControl", // must be class, use . sign
+		slideWrapper : "#jFlowSlide", // must be id, use # sign
+		selectedWrapper: "jFlowSelected",  // just pure text, no sign
+		auto: true,		//auto change slide, default true
+		width: "212px",
+		height: "266px",
+		duration: 800,
+		prev: ".jFlowPrev", // must be class, use . sign
+		next: ".jFlowNext", // must be class, use . sign
+		fade: true, // are we fading or sliding
+		thumbs: false
+	});
+});
+
+</script>
+<style type="text/css" media="screen">
+.jflow-content-slider { position:relative; }
+#jFlowSlide { background:transparent; font-family: Georgia; }
+
+#myController { font-family: Georgia; padding:2px 0;  display:none; }
+#myController span.jFlowSelected { background:#000;margin-right:0px; color:#FFF; }
+
+.slide-wrapper { padding: 0; }
+.slide-thumbnail { width:212px;height:266px; }
+/*.slide-thumbnail img {max-width:300px; }*/
+.slide-details { width:290px; float:right; margin-left:10px;}
+.slide-details h2 { font-size:1.5em; font-style: italic; font-weight:normal; line-height: 1; margin:0; }
+.slide-details .description { margin-top:10px; }
+
+.jFlowControl, .jFlowPrev, .jFlowNext { color:#000; cursor:pointer; padding-left:5px; padding-right:5px; padding-top:2px; padding-bottom:2px; }
+.jFlowControl:hover, .jFlowPrev:hover, .jFlowNext:hover { color:#FFF; background: #000; }
+
+.jFlowControl { border:#FFF solid 2px; }
+.jFlowSelected, .jFlowControl:hover { border:#000 solid 2px; }
+
+.clear { clear:both; }
+
+</style>
+</head>
+<body>
+
+<div id="counter">
+
+</div>
+
+<div class='main-slide'>
+
+<div class="jflow-content-slider">
+  <div id="slides">
+  	<div class='slide-wrapper'><img src="images/DSC00270.jpg" border="0" /></div>
+  	<div class='slide-wrapper'><img src="images/DSC00358.jpg" border="0" /></div>
+	<div class='slide-wrapper'><img src="images/DSC00391.jpg" border="0" /></div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+  <div id="myController">
+  	<span class="jFlowPrev">Prev</span> 
+	<span class="jFlowControl">1</span>
+	<span class="jFlowControl">2</span>
+	<span class="jFlowControl">3</span>
+	<span class="jFlowNext">Next</span> </div>
+  <div class="clear"></div>
+
+
+</div>
+</body>
+</html>

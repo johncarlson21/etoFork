@@ -1,0 +1,4 @@
+// changes by John Carlson
+
+changed the db sql files accept the upgrade one to add meta_title, meta_description, and meta_keywords to the site_content table
+and added a new table called site_content_versions that is a duplicate structure of site_content and that also contains 2 extra fields, orig_id and versionedon.

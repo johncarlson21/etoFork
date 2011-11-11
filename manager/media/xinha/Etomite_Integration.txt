@@ -1,0 +1,12 @@
+Xinha 0.961 Etomite Integration
+
+* Modified /manager/actions/dymanic/xinha_mutate_settings.php
+* Modified /manager/media/xinha/plugins/ImageManager/config.inc.php
+* Modified /manager/media/xinha/plugins/ImageManager/backend.php
+* Modified /manager/media/xinha/plugins/ExtendedFileManager/config.inc.php
+* Modified /manager/media/xinha/plugins/ExtendedFileManager/backend.php
+* Added /manager/media/xinha/plugins/Stylist/img/ Directory
+* Added /manager/media/xinha/plugins/Stylist/img/ed_stylist.gif Button Image
+* Added /manager/media/xinha/valid_session.php
+* Used modified /manager/actions/dynamic/mutate_content.dynamic.action.php
+
