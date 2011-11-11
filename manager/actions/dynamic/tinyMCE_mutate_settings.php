@@ -28,13 +28,14 @@ $rel = (empty($strip_base_href)) ? "false" : "true";
     relative_urls : rel,
     remove_script_host : false,
     convert_urls : true,
-    plugins : "table, advhr, advimage, advlink, emotions, iespell, insertdatetime, preview, zoom, flash, searchreplace, print, contextmenu, paste, directionality, fullscreen",
+    //plugins : "table, advhr, advimage, advlink, emotions, iespell, insertdatetime, preview, searchreplace, print, contextmenu, paste, directionality, fullscreen",
+    plugins : "autolink,lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
     theme_advanced_buttons1_add_before : "newdocument, separator",
     theme_advanced_buttons1_add : "fontselect, fontsizeselect",
     theme_advanced_buttons2_add : "separator, insertdate, inserttime, preview, separator, forecolor, backcolor",
     theme_advanced_buttons2_add_before: "cut, copy, paste, pastetext, pasteword, separator, search, replace, separator",
     theme_advanced_buttons3_add_before : "tablecontrols, separator",
-    theme_advanced_buttons3_add : "emotions, iespell, flash, advhr, separator, print, separator, ltr, rtl, separator, fullscreen",
+    theme_advanced_buttons3_add : "emotions, iespell, media, advhr, separator, print, separator, ltr, rtl, separator, fullscreen",
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",
     theme_advanced_path_location : "bottom",
@@ -48,7 +49,9 @@ $rel = (empty($strip_base_href)) ? "false" : "true";
     file_browser_callback : "fileBrowserCallBack",
     theme_advanced_resize_horizontal : false,
     theme_advanced_resizing : true,
-    init_instance_callback : 'resizeEditorBox'
+    init_instance_callback : 'resizeEditorBox',
+    skin: "o2k7",
+    skin_variant: 'silver'
   });
 
   /*function fileBrowserCallBack(field_name, url, type, win) {
