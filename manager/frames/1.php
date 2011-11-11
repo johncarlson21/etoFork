@@ -18,14 +18,11 @@ if(!isset($manager_layout) || $manager_layout==1 || $browser!='ie') {
 <title><?php echo $site_name." - (Etomite site manager ".$version.")"; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $etomite_charset; ?>">
 </head>
-<frameset rows="0,25,*" frameborder="NO" border="0">
+<frameset rows="0,80,*" frameborder="NO" border="0">
   <frame src="index.php?a=1&f=5" name="scripter" scrolling="NO" noresize>
   <frame src="index.php?a=1&f=12" name="topFrame"  scrolling="NO" noresize>
   <frameset cols="280,*" border="<?php echo ($browser=='mz' || $browser=='fb') ? 6 : 0 ;?>" frameborder="1" FRAMESPACING="<?php echo ($browser=='mz' || $browser=='fb') ? 1 : 6 ;?>" bordercolor="#4791C5">
-    <frameset rows="290,*" name="menuFrame" border="<?php echo ($browser=='mz' || $browser=='fb') ? 6 : 0 ;?>" frameborder="1" FRAMESPACING="<?php echo ($browser=='mz' || $browser=='fb') ? 1 : 6 ;?>" bordercolor="#4791C5">
-      <frame src="index.php?a=1&f=2" name="mainMenu" scrolling="no" FRAMEBORDER="no" BORDER="0" BORDERCOLOR="#4791C5">
-      <frame src="index.php?a=1&f=3" name="menu" FRAMEBORDER="yes" BORDER="0" bordercolor="#4791C5" scrolling="yes">
-    </frameset>
+    <frame src="index.php?a=1&f=3" name="menu" FRAMEBORDER="yes" BORDER="0" bordercolor="#4791C5" scrolling="yes" style="min-width:280px;">
     <frame src="index.php?a=2" name="main" scrolling="auto" FRAMEBORDER="no" BORDER="0" BORDERCOLOR="#4791C5">
   </frameset>
 </frameset><noframes>Etomite requires a browser with support for frames.</noframes>

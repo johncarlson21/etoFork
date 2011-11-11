@@ -9,4 +9,7 @@
 // Read and Write permissions before attempting a
 // new installation.
 //
+
+require_once('server.local.php');
+
 ?>
