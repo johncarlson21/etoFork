@@ -49,8 +49,8 @@ if(strstr($_SERVER['HTTP_USER_AGENT'],'MSIE 7') && isset($_REQUEST['a']) && ($_R
 
   <script language="JavaScript" type="text/javascript">
   //<![CDATA[
-    if (/Mozilla\/5\.0/.test(navigator.userAgent))
-    document.write('<script type="text/javascript" src="./media/script/mozInnerHTML.js"><\/script>');
+    /*if (/Mozilla\/5\.0/.test(navigator.userAgent))
+    document.write('<script type="text/javascript" src="./media/script/mozInnerHTML.js"><\/script>');*/
 
     // set tree to default action.
     parent.menu.ca = "open";

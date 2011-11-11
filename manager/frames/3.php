@@ -320,7 +320,7 @@ $count = $row[0];
                    pagetitle='<?php echo $site_name; ?>';
                    document.getElementById('contextmenu').style.top = document.body.scrollTop + 2 + 'px';
                    document.getElementById('contextmenu').style.display = 'block';
-                   contextMenu();
+                   cMenu();
                    return false;"><a <?php echo 'onclick="treeAction(0,\''.$site_name.'\');"'; ?>><b><?php echo $site_name; ?></b></a></span>
   </div>
   <!-- END: Root of Document Tree -->
@@ -358,7 +358,7 @@ function generateMenu($handle,$id,$orderby,$sortDir,$fields,$level,$ptmLabel,$db
                    pagetitle='".addslashes($pagetitle)."';
                    document.getElementById('contextmenu').style.top = document.body.scrollTop + 2 + 'px';
                    document.getElementById('contextmenu').style.display = 'block';
-                   contextMenu();
+                   cMenu();
                    return false;\"";
     $target = " target=\"main\"";
     if($alias!="")
@@ -429,7 +429,7 @@ tree_save_changes = "<?php echo $_lang['tree_save_changes']; ?>";
 tree_drop_recycle = "<?php echo $_lang['tree_drop_recycle']; ?>";
 
 
-function contextMenu() { //SORTABLE EDIT: Added dialog to actions that would redraw the frameset if we are currently editing a document
+function cMenu() { //SORTABLE EDIT: Added dialog to actions that would redraw the frameset if we are currently editing a document
   menu = '';
   menu += '<table  border="0" cellpadding="0" cellspacing="0">';
   menu += '  <tr>';
