@@ -9,6 +9,13 @@ if(IN_ETOMITE_SYSTEM != "true")
   die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the Etomite Manager instead of accessing this file directly.");
 }
 
+if(!isset($dbase) || empty($dbase)) {
+    $dbase = dbase;
+}
+if(!isset($table_prefix) || empty($table_prefix)) {
+    $table_prefix = table_prefix;
+}
+
 // count messages
 $sql = "SELECT count(*) FROM $dbase.".$table_prefix."user_messages where recipient=".$_SESSION['internalKey']." and messageread=0;";
 $rs = mysql_query($sql);

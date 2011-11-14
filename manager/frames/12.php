@@ -86,6 +86,11 @@ function stopIt() {
         <?php if($_SESSION['permissions']['new_template']==1 || $_SESSION['permissions']['edit_template']==1 || $_SESSION['permissions']['new_snippet']==1 || $_SESSION['permissions']['edit_snippet']==1) { ?>
         <li><a onclick="this.blur();" href="index.php?a=76" target="main"><?php echo $_lang["resource_management"]; ?></a></li>
         <?php } ?>
+        <li><span class="dir"><?php echo $_lang['module_management']; ?></span>
+            <?php
+            echo $etomite->buildAdminModuleMenu();
+            ?>
+        </li>
         <?php if($_SESSION['permissions']['settings']==1 || $_SESSION['permissions']['edit_parser']==1 || $_SESSION['permissions']['logs']==1 || $_SESSION['permissions']['file_manager']==1 || $_SESSION['permissions']['export_html']==1) { ?>
         <li><span class="dir"><?php echo $_lang["administration"]; ?></span>
             <ul>

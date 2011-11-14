@@ -42,7 +42,7 @@ $rel = (empty($strip_base_href)) ? "false" : "true";
     content_css : "<?php echo $cssPath; ?>",
     plugin_insertdate_dateFormat : "<?php echo $date_format; ?>",
     plugin_insertdate_timeFormat : "<?php echo $time_format; ?>",
-    extended_valid_elements : "hr[class|width|size|noshade], font[face|size|color|style] ,span[class|align|style]",
+    extended_valid_elements : "hr[class|width|size|noshade], font[face|size|color|style] ,span[class|align|style],module",
     external_link_list_url : "example_data/example_link_list.js",
     external_image_list_url : "example_data/example_image_list.js",
     flash_external_list_url : "example_data/example_flash_list.js",

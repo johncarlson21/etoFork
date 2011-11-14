@@ -62,7 +62,7 @@ if($php_ver_comp < 0)
 
 // set some runtime options
 ini_set("include_path",ini_get("include_path").PATH_SEPARATOR.dirname(__FILE__)."/includes/");
-error_reporting(E_ALL ^ E_NOTICE);
+
 @set_magic_quotes_runtime(0);
 include_once("includes/quotes_stripper.inc.php");
 
@@ -83,6 +83,30 @@ if(!function_exists('html_entity_decode'))
     }
     return strtr($string, $trans_tbl);
   }
+}
+
+// added to take an xml object and turn it into an array
+function objectsIntoArray($arrObjData, $arrSkipIndices = array())
+{
+    $arrData = array();
+   
+    // if input is object, convert into array
+    if (is_object($arrObjData)) {
+        $arrObjData = get_object_vars($arrObjData);
+    }
+   
+    if (is_array($arrObjData)) {
+        foreach ($arrObjData as $index => $value) {
+            if (is_object($value) || is_array($value)) {
+                $value = objectsIntoArray($value, $arrSkipIndices); // recursive call
+            }
+            if (in_array($index, $arrSkipIndices)) {
+                continue;
+            }
+            $arrData[$index] = $value;
+        }
+    }
+    return $arrData;
 }
 
 // define various system constant values
@@ -176,10 +200,35 @@ else
 {
   $action=$_REQUEST['a'];
 }
-
+require_once('../etoClass.manager.php');
+require_once('includes/etomiteExtenders/eto.extender.php');
+$etomite = new etomiteExtender;
 // now we decide what to do according to the action request.
 switch($action)
 {
+/********************************************************************/
+// module action - handle module admin function
+/********************************************************************/
+    case "module":
+        require_once('../modules/module.php');
+        $moduleClass = new module; // start the module for basic function
+        
+        if(isset($_REQUEST['mod']) && !empty($_REQUEST['mod'])){
+            if(!isset($_REQUEST['action'])) {
+                $_REQUEST['action'] = 'adminView';
+            }
+            $module = $_REQUEST['mod'];
+            // load module config
+            $xmlUrl = "../modules/" . $module . "/" . $module . ".xml"; // XML feed file/URL
+            $xmlStr = file_get_contents($xmlUrl);
+            $xmlObj = simplexml_load_string($xmlStr);
+            $arrXml = objectsIntoArray($xmlObj);
+            $var_name = $module . "Config";
+            ${$var_name} = $arrXml; //simplexml_load_string($xmlStr);
+            // load module
+            require_once ('../modules/' . $module . "/" . $module . "_admin.php");
+        }
+    break;
 /********************************************************************/
 // frame management - show the requested frame
 /********************************************************************/
@@ -706,161 +755,161 @@ stopWorker();
 /********************************************************************/
 // we can start with 101 - 199 as our actions
 
-	case "101":
-		// manage categories section
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/manage_categories.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "102":
-		// add category
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/add_category.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "103":
-		// delete category
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/delete_category.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
+    case "101":
+        // manage categories section
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/manage_categories.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "102":
+        // add category
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/add_category.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "103":
+        // delete category
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/delete_category.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
 
-	case "104":
-		// edit category
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/edit_category.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "105":
-		// save category orders
-		include_once("actions/addons/listings/save_categories.dynamic.processor.php");
-	break;
-	
-	case "106":
-		// manage makes and models
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/manage_makes.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "107":
-		// add make or model
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/add_make_model.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "108":
-		// delete make or model
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/delete_make_model.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "109":
-		// edit make or model
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/edit_make_model.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "110":
-		// manage users
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/manage_users.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "111":
-		// search users
-		include_once("actions/addons/listings/search_users.dynamic.processor.php");
-	break;
-	
-	case "112":
-		// edit user
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/edit_users.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "113":
-		// delete user
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/delete_users.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "114":
-		// add user
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/add_users.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "115":
-		// set user status
-		include_once("actions/addons/listings/set_users_status.dynamic.processor.php");
-	break;
-	
-	case "116":
-		// manage listings
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/manage_listings.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
-	
-	case "117":
-		// add listings
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/add_listings.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
+    case "104":
+        // edit category
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/edit_category.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "105":
+        // save category orders
+        include_once("actions/addons/listings/save_categories.dynamic.processor.php");
+    break;
+    
+    case "106":
+        // manage makes and models
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/manage_makes.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "107":
+        // add make or model
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/add_make_model.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "108":
+        // delete make or model
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/delete_make_model.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "109":
+        // edit make or model
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/edit_make_model.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "110":
+        // manage users
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/manage_users.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "111":
+        // search users
+        include_once("actions/addons/listings/search_users.dynamic.processor.php");
+    break;
+    
+    case "112":
+        // edit user
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/edit_users.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "113":
+        // delete user
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/delete_users.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "114":
+        // add user
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/add_users.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "115":
+        // set user status
+        include_once("actions/addons/listings/set_users_status.dynamic.processor.php");
+    break;
+    
+    case "116":
+        // manage listings
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/manage_listings.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
+    
+    case "117":
+        // add listings
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/add_listings.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
 
-	case "118":
-		// edit listings
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/edit_listings.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
+    case "118":
+        // edit listings
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/edit_listings.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
 
-	case "119":
-		// delete listings
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/delete_listings.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
+    case "119":
+        // delete listings
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/delete_listings.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
 
-	case "120":
-		// set listing status
-		include_once("actions/addons/listings/set_listing_status.dynamic.processor.php");
-	break;
-	
-	case "121":
-		// manage listing images
-		include_once("includes/header.inc.php");
-		include_once("actions/addons/listings/manage_listing_images.dynamic.action.php");
-		include_once("includes/footer.inc.php");
-	break;
+    case "120":
+        // set listing status
+        include_once("actions/addons/listings/set_listing_status.dynamic.processor.php");
+    break;
+    
+    case "121":
+        // manage listing images
+        include_once("includes/header.inc.php");
+        include_once("actions/addons/listings/manage_listing_images.dynamic.action.php");
+        include_once("includes/footer.inc.php");
+    break;
 
-	case "122":
-		// search listings
-		include_once("actions/addons/listings/search_listings.dynamic.processor.php");
-	break;
+    case "122":
+        // search listings
+        include_once("actions/addons/listings/search_listings.dynamic.processor.php");
+    break;
 
 
 
 
 // modified 2010-04-22 by John Carlson to add section functionality to snippets and chunks.
   case "220":
-  	include_once("includes/header.inc.php");
-	include_once("actions/dynamic/mutate_section.dynamic.action.php");
-	include_once("includes/footer.inc.php");
+    include_once("includes/header.inc.php");
+    include_once("actions/dynamic/mutate_section.dynamic.action.php");
+    include_once("includes/footer.inc.php");
   break;
   case "221":
-  	include_once("processors/save_section.processor.php");
+    include_once("processors/save_section.processor.php");
   break;
 
   

@@ -453,6 +453,7 @@ $_lang['template_management_msg'] = "Here you can choose which template you wish
 $_lang['manage_snippets'] = "Manage Snippets";
 $_lang['snippet_management_msg'] = "Here you can choose which snippet you wish to edit.";
 $_lang['resource_management'] = "Manage Resources";
+$_lang['module_management'] = "Modules";
 $_lang['server_protocol_title'] = "Server Type:";
 $_lang['server_protocol_message'] = "If your site is on a https connection, please specify so here.";
 $_lang['server_protocol_http'] = "http";
