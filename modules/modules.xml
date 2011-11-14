@@ -2,5 +2,10 @@
 <modules>
 	<mod_test>
 		<active>true</active>
-		<name>Test Module</name></mod_test>
+		<name>Test Module</name>
+	</mod_test>
+	<mod_gallery>
+		<active>true</active>
+		<name>Gallery</name>
+	</mod_gallery>
 </modules>

@@ -203,6 +203,7 @@ else
 require_once('../etoClass.manager.php');
 require_once('includes/etomiteExtenders/eto.extender.php');
 $etomite = new etomiteExtender;
+$etomite->runStandalone();
 // now we decide what to do according to the action request.
 switch($action)
 {

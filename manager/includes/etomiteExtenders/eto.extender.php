@@ -665,6 +665,16 @@ function addBreadCrumb($content){
         return( false );
     }
     
+    function runStandalone() {
+        // convert variables initially calculated in config.inc.php into config variables
+        $this->config['absolute_base_path'] = $GLOBALS['absolute_base_path'];
+        $this->config['relative_base_path'] = $GLOBALS['relative_base_path'];
+        $this->config['www_base_path'] = $GLOBALS['www_base_path'];
+    
+        // get the settings
+        $this->getSettings();
+    }
+    
     function evalModules($content) {
         /*
          * $matches contains the module info.
