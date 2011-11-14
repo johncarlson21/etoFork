@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+	<version>1.0</version>
+	<name>Test Module</name>
+	<description>test module for etomite</description>
+	<author>John Carlson</author>
+	<authorEmail>johncarlson21@gmail.com</authorEmail>
+	<creationDate>November 13th 2011</creationDate>
+	<active>true</active>
+	<adminMenu>true</adminMenu>
+	<config>
+	
+	</config>
+</module>

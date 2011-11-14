@@ -1,0 +1,22 @@
+<?php
+if(IN_ETOMITE_SYSTEM != "true")
+{
+  die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the Etomite Manager instead of accessing this file directly.");
+}
+?>
+<?php include_once absolute_base_path . 'includes/header.inc.php'; ?>
+<div class="subTitle">
+    <span class="floatRight">
+        <img src="media/images/_tx_.gif" width="1" height="5"><br />
+        <?php echo $site_name ;?> - Test Module Administration
+    </span>
+</div>
+
+<div class="sectionHeader">
+    <img src='media/images/misc/dot.gif' alt="." />&nbsp;Test Module
+</div>
+
+<div class="sectionBody">
+    <p>This would be the main content area for the initial admin page</p>
+</div>
+<?php include_once absolute_base_path . 'includes/footer.inc.php'; ?>
