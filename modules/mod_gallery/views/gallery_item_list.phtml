@@ -1,0 +1,52 @@
+<?php
+if(IN_ETOMITE_SYSTEM != "true")
+{
+  die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the Etomite Manager instead of accessing this file directly.");
+}
+?>
+<?php include_once absolute_base_path . 'includes/header.inc.php'; ?>
+<div class="subTitle">
+    <span class="floatRight">
+        <img src="media/images/_tx_.gif" width="1" height="5"><br />
+        <?php echo $this->etomite->config['site_name'];?> - <?php echo $this->moduleConfig['name'];?> Administration
+    </span>
+</div>
+
+<div class="sectionHeader">
+    <img src='media/images/misc/dot.gif' alt="." />&nbsp;<?php echo $this->moduleConfig['name'];?> - Gallery Items for <?php echo $gallery['name']; ?>
+</div>
+
+<div class="sectionBody">
+<?php include_once 'admin_nav.phtml';?>
+<?php if($items){ ?>
+<form method='post'name='orderForm' action=''>
+    <table width='100%' cellpadding='3' border='1' class='gall-list'>
+        <tr><td colspan='5' align='right'><input type='submit' name='submit' value='Save Order' /></td></tr>
+        <tr><th>Image</th><th>Information</th><th>Add to Slides</th><th>Order</th><th>Actions</th></tr>
+        <?php
+        foreach ($items as $item) {
+            $gItems[] = $item['id'];
+			$output .= "<tr>";
+			$output .= "<td align='center' width='150' valign='middle'><img src='".$this->www.$this->thumbs."th_".$item['fn']."' border='0' /></td>";
+			$output .= "<td valign='top'><p><strong>Title:</strong>".stripslashes($item['title'])."</p><p><strong>Description:</strong><br />".stripslashes($item['description'])."</p></td>";
+			
+			$output .= "<td valign='middle' align='center' width='75'>";
+			if($item['slide']==1){ $output .= "<span class='slide-on'>YES</span>"; }else{ $output .= "&nbsp;"; }
+			$output .= "</td>";
+			// order
+			$output .= "<td valign='middle' align='center' width='75'><input type='text' size='5' maxchars='2' name='item_".$item['id']."_order' value='".$item['gal_order']."' /></td>";
+			// actions for the item
+			//$editLink = $etomite->makeUrl($docId,'',array('action'=>'edit','gId'=>$item['id'],'added'=>1));
+			//$delLink = $etomite->makeUrl($docId,'',array('action'=>'delete','gId'=>$item['id']));
+			$output .= "<td align='center' width='75'><a href=''>EDIT</a><br /><a href=''>DELETE</a></td>";
+			$output .= "</tr>";
+            
+        }?>
+        
+    </table>
+</form>
+<?php } else { ?>
+<h2>Sorry no gallery items to show! Please upload some images</h2>
+<?php } ?>
+</div>
+<?php include_once absolute_base_path . 'includes/footer.inc.php'; ?>

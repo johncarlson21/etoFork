@@ -1,0 +1,9 @@
+<div class="gallery-nav">
+    <p>
+    <a href="?a=module&mod=mod_gallery">Main</a> |
+    <a href="?a=module&mod=mod_gallery&action=createGallery">Create Gallery</a> |
+    <?php if (isset($gallery) && !empty($gallery['id'])) { ?>
+        <a href="?a=module&mod=mod_gallery&action=uploadGalleryItems&galId=<?php echo $gallery['id'];?>">Upload Items to Gallery</a> |
+    <?php } ?>
+    </p>
+</div>

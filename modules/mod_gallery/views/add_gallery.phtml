@@ -1,0 +1,28 @@
+<?php
+if(IN_ETOMITE_SYSTEM != "true")
+{
+  die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the Etomite Manager instead of accessing this file directly.");
+}
+?>
+<?php include_once absolute_base_path . 'includes/header.inc.php'; ?>
+<div class="subTitle">
+    <span class="floatRight">
+        <img src="media/images/_tx_.gif" width="1" height="5"><br />
+        <?php echo $this->etomite->config['site_name'];?> - <?php echo $this->moduleConfig['name'];?> Administration
+    </span>
+</div>
+
+<div class="sectionHeader">
+    <img src='media/images/misc/dot.gif' alt="." />&nbsp;<?php echo $this->moduleConfig['name'];?> - Add Gallery
+</div>
+
+<div class="sectionBody">
+    <?php include_once 'admin_nav.phtml';?>
+    <?php echo $success.$error; ?>
+    <form method="post" action="?a=module&mod=mod_gallery&action=createGallery">
+        <p><strong>Gallery Name:</strong> <input type="text" name="name" value="" maxchars="150" /></p>
+        <p><strong>Description:</strong><br /><textarea name="description" rows="6" cols="50"></textarea></p>
+        <p><input type="submit" name="submit" value="Save Gallery" /></p>
+    </form>
+</div>
+<?php include_once absolute_base_path . 'includes/footer.inc.php'; ?>

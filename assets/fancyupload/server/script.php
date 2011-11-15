@@ -105,13 +105,13 @@ if (!$error && ($size[0] < 25) || ($size[1] < 25))
 /**
  * Its a demo, you would move or process the file like:
  *
- * 
+ *
 */
 
 $filename = $_FILES['Filedata']['name'];
-$dir = '/home/web831/public_html/newdimensions/assets/gallery/original/';
+$dir = $_SERVER['DOCUMENT_ROOT'] . '/assets/gallery/original/';
 
-move_uploaded_file($_FILES['Filedata']['tmp_name'], '/home/web831/public_html/newdimensions/assets/gallery/original/' . $_FILES['Filedata']['name']);
+move_uploaded_file($_FILES['Filedata']['tmp_name'], $dir . $_FILES['Filedata']['name']);
 /* $return['src'] = '/uploads/' . $_FILES['Filedata']['name'];
  *
  * or

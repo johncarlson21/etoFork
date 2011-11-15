@@ -1,0 +1,18 @@
+<table width="100%" cellpadding="5" cellspacing="0" border="1" bgcolor="#FFFFFF">
+    <tr>
+        <td align="center">ID</td>
+        <td>Gallery</td>
+        <td>Desctiption</td>
+        <td align="center">Actions</td>
+    </tr>
+    <?php
+    if($galleries){
+        foreach ($galleries as $gallery) {
+            echo "<tr><td align='center'>" . $gallery['id'] . "</td><td>" . $gallery['name'] . "</td><td>" . $gallery['description'] .
+            "</td><td align='center'>";
+            echo "<a href='?a=module&mod=mod_gallery&action=listGalleryItems&galId=" . $gallery['id'] . "'>View Items</a>";
+            echo "</td></tr>";
+        }
+    }
+    ?>
+</table>
