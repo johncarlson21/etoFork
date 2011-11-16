@@ -1,38 +1,51 @@
 <?php
 
-class mod_test extends module {
+class mod_gallery extends module {
     var $classParams = array();
+    var $etomite;
+    var $moduleConfig; // main var passed from module xml file for basic config info
+    var $thumbnail_widths = array(120,207,800); // 120 = thumb, 212 = slide for front (height will be 266 and use the zc=C crop function), 640 = full image size
+    var $slideWidth = 207; // should be the same as the second thumbnail_width size
+    var $capture_raw_data = false;
+    
+    var $dir;
+    var $www;
+    var $orig = "original/"; // original image dir
+    var $thumbs = "thumbs/"; // thumbs dir
+    var $full = "full/"; // full size image dir
+    var $slides = "slides/"; // slides images
+    var $slide_height = 300; // slide height
     
     public function __construct($params=array()) {
         if (count($params) > 0) {
             $this->classParams = $params;
         }
+        $this->dir = absolute_base_path."assets/gallery/";
+        $this->www = www_base_path."assets/gallery/";
     }
     
     // show the gallery
     public function index() {
-        /*foreach ($this->classParams as $key=>$val) {
-            echo "<p>param: " . $key . "=" . $val . "</p>";
-        }*/
-        
-        $dir = absolute_base_path."assets/gallery/";
-        $www = $etomite->config['www_base_path']."assets/gallery/";
+        $this->etomite->setJSCSS('<script type="text/javascript" src="/manager/frames/scriptaculous/prototype.js" ></script>');
+        $this->etomite->setJSCSS('<script type="text/javascript" src="/manager/frames/scriptaculous/scriptaculous.js" ></script>');
+        $this->etomite->setJSCSS("<link rel='stylesheet' href='/assets/js/lightbox/lightbox.css' type='text/css' media='screen' />");
+        $this->etomite->setJSCSS("<script type='text/javascript' src='/assets/js/lightbox/lightbox-pt-1.6-compat.js'></script>");
+        $dir = $this->dir;
+        $www = $this->www;
         $orig = "original/"; // original image dir
         $thumbs = "thumbs/"; // thumbs dir
         $full = "full/"; // full size image dir
         $slides = "slides/"; // slides images
         $slide_height = 300; // slide height
         
-        $loginId = 13; // id of the login document
-        $manageId = 12; // id of the document that you put the manager snippet in
-        $docId = $etomite->documentIdentifier;
-        
         $columns = 3;
         $output = '';
         
+        $galId = $this->classParams['galId'];
+        
         // check db for gallery images
         
-        if($result = $etomite->getIntTableRows($fields="*",$from="831gallery",$where='docId='.$docId,$sort='gal_order',$dir='ASC')){
+        if($result = $this->etomite->getIntTableRows($fields="*",$from="831gallery_items",$where='galId='.$galId,$sort='gal_order',$dir='ASC')){
         	
         	$z=1;
         	$output .= "<table width='100%' cellpadding='5' class='gallery-table'>\n";
@@ -55,25 +68,17 @@ class mod_test extends module {
         }else{
         	$output .= "<p>Currently there are no gallery images!</p>";
         }
-        if($_SESSION['validated']!=1 && $_SESSION['role']!=1){
-        	$output .= "<p>&nbsp;</p><p>&nbsp;</p><p align='center'><a href='".$etomite->makeUrl($loginId,'',array())."'>Login to Manage Gallery</a></p>";
-        }else{
-        	$output .= "<p>&nbsp;</p><p>&nbsp;</p><div align='center'><p style='font-size:14px;'><a href='".$etomite->makeUrl($manageId,'',array('galId'=>$docId))."'>Manage Gallery</a></p>".'<form method="post" action="'.$etomite->makeUrl($loginId,'',array()).'">
-              <input type="submit" value="Logout" name="logout"> [ admin ]
-            </form>'."</div>";
-        }
-        
-        
-        return $output;
-        
-        
-        
+
+        include_once 'views/front_gallery_item_list.phtml';
+
     }
 }
 
 $action = (isset($action) && !empty($action)) ? $action : 'index'; // defaults to adminView
 
-$mod_test = new mod_test($moduleParams);
+$mod_gallery = new mod_gallery($moduleParams);
 
-$mod_test->$action();
+$mod_gallery->etomite = $etomite;
+
+$mod_gallery->$action();
 ?>

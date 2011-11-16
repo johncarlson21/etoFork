@@ -713,6 +713,7 @@ function addBreadCrumb($content){
      * set them to a variable such as $classParams
      */
     function runModule($module, $action='', $params=''){
+        $etomite = $this;
         require_once(absolute_base_path . 'modules/module.php');
         $moduleClass = new module; // start the module for basic function
         $moduleOutput = '';

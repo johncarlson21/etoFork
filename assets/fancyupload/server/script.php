@@ -107,11 +107,11 @@ if (!$error && ($size[0] < 25) || ($size[1] < 25))
  *
  *
 */
-
-$filename = $_FILES['Filedata']['name'];
+$galId = isset($_REQUEST['galId']) ? (int)$_REQUEST['galId'] : '';
+$filename = "gal_" . $galId . "_" . $_FILES['Filedata']['name'];
 $dir = $_SERVER['DOCUMENT_ROOT'] . '/assets/gallery/original/';
 
-move_uploaded_file($_FILES['Filedata']['tmp_name'], $dir . $_FILES['Filedata']['name']);
+move_uploaded_file($_FILES['Filedata']['tmp_name'], $dir . "gal_" . $galId . "_" . $_FILES['Filedata']['name']);
 /* $return['src'] = '/uploads/' . $_FILES['Filedata']['name'];
  *
  * or

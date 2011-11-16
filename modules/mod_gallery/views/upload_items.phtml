@@ -19,6 +19,7 @@ if(IN_ETOMITE_SYSTEM != "true")
 <div class="sectionBody">
     <?php include_once 'admin_nav.phtml';?>
     <?php echo $success.$error; ?>
+    <?php $this->checkForItemsToProcess();?>
     <!-- Framework CSS -->
     <!-- <link rel="stylesheet" href="/assets/fancyupload/source/screen.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="/assets/fancyupload/source/print.css" type="text/css" media="print"> -->
@@ -289,7 +290,7 @@ a:hover, a.hover {
         <h2>Queued Photo Uploader</h2>
         <!-- See index.html -->
         <div>
-            <form action="/assets/fancyupload/server/script.php" method="post" enctype="multipart/form-data" id="form-demo">
+            <form action="/assets/fancyupload/server/script.php?galId=<?php echo $galId;?>" method="post" enctype="multipart/form-data" id="form-demo">
 
     <fieldset id="demo-fallback">
         <legend>File Upload</legend>
@@ -307,7 +308,8 @@ a:hover, a.hover {
         <p>
             <a href="#" id="demo-browse">Browse Files</a> |
             <a href="#" id="demo-clear">Clear List</a> |
-            <a href="#" id="demo-upload">Start Upload</a>
+            <a href="#" id="demo-upload">Start Upload</a> |
+            <a href="?a=module&mod=mod_gallery&action=processItems&galId=<?php echo $galId;?>">Process Images</a>
         </p>
         <div>
             <strong class="overall-title"></strong><br />
