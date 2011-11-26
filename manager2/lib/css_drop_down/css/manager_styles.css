@@ -1,0 +1,41 @@
+body.topFrame {
+    
+}
+
+#buildText,
+#workText {
+    position: absolute;
+    right: 5px;
+    top: 0;
+}
+
+ul.dropdown {
+    background-image: none;
+    /*background-color: #C9E7FF;*/
+    width: 98%;
+}
+
+ul.dropdown li a,
+ul.dropdown .dir {
+    border-color: #dedede;
+    border-right-color: #999;
+}
+
+ul.dropdown li {
+    background-color: #dedede;
+}
+
+ul.dropdown li a:hover {
+    /*border-color: #3399FF;*/
+    border-right-color: #666;
+}
+
+ul.dropdown a,
+ul.dropdown span {
+    padding: 4px 12px;
+}
+
+ul.dropdown a:hover {
+    text-decoration: none;
+    background-color: #FFF;
+}

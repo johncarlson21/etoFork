@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Etomite</title>
+<meta http-equiv="content-type" content="text/html; charset=<?php echo $etomite_charset; ?>" />
+<meta name="robots" content="noindex, nofollow" />
+<link type="text/css" href="./css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link href="./css/manager_style.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="./js/etomite.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    Etomite.inAdmin = false;
+    Etomite.init();
+});
+</script>
+</head>
+<body id="loginPage">
+    <div class="header">Etomite Administration Login</div>
+    <div class="wrapper">
+        <div class="login-box">
+            <div class="login-info">
+                <div class="eto-logo"><img src='./images/misc/logo.gif' alt='<?php echo $release; ?>' title='<?php echo $release; ?>' /></div>
+                <div class="eto-login-msg"><p><?php echo $_lang["login_message"]; ?></p><?php echo $use_captcha==1 ? "<p />".$_lang["login_captcha_message"]."</p>" : "" ; ?></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="input-form">
+                <div class="input-box">
+                    <label>Username:</label>
+                    <input type="text" name="username" id="username" value="" />
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="input-box">
+                    <label>Password:</label>
+                    <input type="password" name="password" id="password" />
+                    <div style="clear:both"></div>
+                </div>
+                <input type="button" class="button" id="loginBtn" value="Login" />
+                <div style="clear:both"></div>
+            </div>
+        </div>
+        <div class="login-copy-terms">
+            <div class="copy"><strong>Etomite is &copy; and &trade; of The Etomite Project.</strong></div>
+            <div class="terms"><input type="checkbox" id="licenseOK" name="licenseOK" checked='checked' tabindex="6" /> &nbsp; <em>&quot;I agree to use Etomite in Accordance with the GPL.&quot;</em></div>
+        </div>
+    </div>
+</body>
+</html>

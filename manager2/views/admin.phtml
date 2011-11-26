@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>Etomite</title>
+<meta http-equiv="content-type" content="text/html; charset=<?php echo $etomite_charset; ?>" />
+<meta name="robots" content="noindex, nofollow" />
+<link type="text/css" href="./css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link type="text/css" href="./css/complex.css" rel="stylesheet" />
+<link href="./lib/css_drop_down/css/dropdown/dropdown.linear.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="./lib/css_drop_down/css/dropdown/themes/flickr.com/default.ultimate.linear.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="./js/jquery.layout-latest.js"></script>
+<script type="text/javascript" src="./js/complex.js"></script>
+<script type="text/javascript" src="./js/etomite.js"></script>
+<script type="text/javascript" src="./js/functions.js"></script>
+<script type="text/javascript" src="./lib/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="./js/spin.js"></script>
+<script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
+<link href="./css/manager_style.css" media="screen" rel="stylesheet" type="text/css" />
+<!--[if lt IE 7]>
+<script type="text/javascript" src="./lib/css_drop_down/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="./lib/css_drop_down/js/jquery/jquery.dropdown.js"></script>
+<![endif]-->
+<!-- Document Tree -->
+<script type="text/javascript" src="./lib/dynatree/jquery.cookie.js"></script>
+<link href="./lib/dynatree/skin-vista/ui.dynatree.css" rel="stylesheet" type="text/css">
+<script src="./lib/dynatree/jquery.dynatree.min.js" type="text/javascript"></script>
+<link href="./lib/dynatree/contextmenu/jquery.contextMenu.css" rel="stylesheet" type="text/css" >
+<script src="./lib/dynatree/contextmenu/jquery.contextMenu-custom.js" type="text/javascript"></script>
+<!-- End Document Tree -->
+<link href="./lib/css_drop_down/css/manager_styles.css" media="screen" rel="stylesheet" type="text/css" />
+<?php $rel = (empty($strip_base_href)) ? "false" : "true"; ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    Etomite.EtoRoot = "<?php echo $ETOMITE_PAGE_BASE['www']; ?>";
+    Etomite.rel = "<?php echo $rel ?>";
+    Etomite.db_url = "<?php echo $ETOMITE_PAGE_BASE['relative']; ?>";
+    Etomite.cssPath = "<?php echo $cssPath; ?>";
+    Etomite.dateFormat = "<?php echo $etomite->config['date_format']; ?>";
+    Etomite.timeFormat = "<?php echo $etomite->config['$time_format']; ?>";
+    Etomite.init();
+    Etomite.outerLayout = $('body').layout( layoutSettings_Outer );
+    var westSelector = "body > .ui-layout-west"; // outer-west pane
+    $("<span></span>").addClass("pin-button").prependTo( westSelector );
+    $("<span></span>").attr("id", "west-closer" ).prependTo( westSelector );
+    Etomite.outerLayout.addCloseBtn("#west-closer", "west");
+    Etomite.outerLayout.addPinBtn( westSelector +" .pin-button", "west");
+    Etomite.outerLayout.allowOverflow('north');
+});
+
+var layoutSettings_Outer = {
+    name: "outerLayout" // NO FUNCTIONAL USE, but could be used by custom code to 'identify' a layout
+    // options.defaults apply to ALL PANES - but overridden by pane-specific settings
+,   defaults: {
+        size:                   "auto"
+    ,   minSize:                50
+    ,   paneClass:              "pane"      // default = 'ui-layout-pane'
+    ,   resizerClass:           "resizer"   // default = 'ui-layout-resizer'
+    ,   togglerClass:           "toggler"   // default = 'ui-layout-toggler'
+    ,   buttonClass:            "button"    // default = 'ui-layout-button'
+    ,   contentSelector:        ".content"  // inner div to auto-size so only it scrolls, not the entire pane!
+    ,   contentIgnoreSelector:  "span"      // 'paneSelector' for content to 'ignore' when measuring room for content
+    ,   togglerLength_open:     35          // WIDTH of toggler on north/south edges - HEIGHT on east/west edges
+    ,   togglerLength_closed:   35          // "100%" OR -1 = full height
+    ,   hideTogglerOnSlide:     true        // hide the toggler when pane is 'slid open'
+    ,   togglerTip_open:        "Close This Pane"
+    ,   togglerTip_closed:      "Open This Pane"
+    ,   resizerTip:             "Resize This Pane"
+    //  effect defaults - overridden on some panes
+    ,   fxName:                 "slide"     // none, slide, drop, scale
+    ,   fxSpeed_open:           750
+    ,   fxSpeed_close:          1500
+    ,   fxSettings_open:        { easing: "easeInQuint" }
+    ,   fxSettings_close:       { easing: "easeOutQuint" }
+}
+,   north: {
+        spacing_open:           1           // cosmetic spacing
+    ,   togglerLength_open:     0           // HIDE the toggler button
+    ,   togglerLength_closed:   -1          // "100%" OR -1 = full width of pane
+    , closable: false
+    ,   resizable:              false
+    ,   slidable:               false
+    //  override default effect
+    ,   fxName:                 "none"
+    },
+    west: {
+        size:                   250
+    ,   minSize: 200
+    ,   spacing_closed:         21          // wider space when closed
+    ,   togglerLength_closed:   21          // make toggler 'square' - 21x21
+    ,   togglerAlign_closed:    "top"       // align to top of resizer
+    ,   togglerLength_open:     0           // NONE - using custom togglers INSIDE west-pane
+    ,   togglerTip_open:        "Close West Pane"
+    ,   togglerTip_closed:      "Open West Pane"
+    ,   resizerTip_open:        "Resize West Pane"
+    ,   slideTrigger_open:      "click"     // default
+    ,   initClosed:             false
+    //  add 'bounce' option to default 'slide' effect
+    ,   fxSettings_open:        { easing: "easeOutBounce" }
+    },
+    center: {
+        paneSelector: '#mainContent',
+        minWidth:               200
+    ,   minHeight:              200
+    }
+};
+</script>
+</head>
+<body>
+<div class="ui-layout-west">
+    <div class="header">Navigation</div>
+    <div class="content">
+        <?php include_once('doc_tree.phtml');?>
+    </div>
+</div>
+<div id="mainContent" class="ui-layout-center">
+    <div class="header">Welcome</div>
+    <?php include_once('welcome.phtml');?>
+</div>
+<div class="ui-layout-north">
+    <div class="header">Etomite CMS</div>
+    <div class="content"><?php include_once('admin_nav.phtml');?></div>
+</div>
+<!-- Definition of context menu -->
+<ul id="myMenu" class="contextMenu">
+    <li class="preview"><a href="#preview">Preview</a></li>
+    <li class="edit"><a href="#edit">Edit</a></li>
+    <li class="move"><a href="#move">Change Parent Document</a>
+    <li class="createDoc separator"><a href="#createDoc">Create Document Here</a></li>
+    <li class="createLink"><a href="#createLink">Create Weblink Here</a></li>
+    <li class="publish separator"><a href="#publish">Publish Docuement</a></li>
+    <li class="unpublish"><a href="#unpublish">Un-publish Docuement</a></li>
+    <li class="delete separator"><a href="#delete">Delete</a></li>
+    <li class="undelete"><a href="#undelete">Undelete</a></li>
+    <li class="showinmenu separator"><a href="#showinmenu">Show in menus</a></li>
+    <li class="hideinmenu"><a href="#hideinmenu">Hide in menus</a></li>
+    <!-- <li class="quit separator"><a href="#quit">Quit</a></li> -->
+</ul>
+<div id="spinner" style="display:none;"></div>
+</body>
+</html>
