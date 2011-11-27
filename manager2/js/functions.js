@@ -74,11 +74,20 @@ function bindContextMenu(node, span) {
         var id = node.data.key.replace(/id_/, '');
         switch( action ) {
         case "preview":
+            //window.open(node.data.docUrl);
+            alert(node.data.docUrl);
             break;
         case "move":
+            Etomite.moveDocumentDialog(id);
+            Etomite.movingDoc = true;
+            Etomite.movingDocId = id;
             break;
         case "edit":
-            Etomite.editDocument(id);
+            if (node.data.weblink) {
+                Etomite.editDocument(id, '', 'true');
+            } else {
+                Etomite.editDocument(id);
+            }
             break;
         case "createDoc":
             Etomite.editDocument('', id);
@@ -93,10 +102,56 @@ function bindContextMenu(node, span) {
             Etomite.updateDocProperty('published', '0', id);
             break;
         case "delete":
-            Etomite.updateDocProperty('deleted', '1', id);
+            $('<div id="confirm"></div>').appendTo('body').html("<p>Are you sure you want to delete this document and all child documents?</p>");
+            $('#confirm').dialog({
+                autoOpen: true,
+                minWidth: 200,
+                minHeight: 200,
+                position: 'center',
+                resizable: false,
+                closeOnEscape: false,
+                title: 'Alert: Delete Document',
+                modal: true,
+                buttons: {
+                    Yes: function() {
+                        Etomite.updateDocProperty('deleted', '1', id);
+                        $(this).dialog('close');
+                        $(this).dialog('destroy');
+                        $('#confirm').remove();
+                    },
+                    No: function() {
+                        $(this).dialog('close');
+                        $(this).dialog('destroy');
+                        $('#confirm').remove();
+                    }
+                }
+            });
             break;
         case "undelete":
-            Etomite.updateDocProperty('deleted', '0', id);
+            $('<div id="confirm"></div>').appendTo('body').html("<p>Are you sure you want to un-delete this document and all child documents?</p>");
+            $('#confirm').dialog({
+                autoOpen: true,
+                minWidth: 200,
+                minHeight: 200,
+                position: 'center',
+                resizable: false,
+                closeOnEscape: false,
+                title: 'Alert: Un-delete Document',
+                modal: true,
+                buttons: {
+                    Yes: function() {
+                        Etomite.updateDocProperty('deleted', '0', id);
+                        $(this).dialog('close');
+                        $(this).dialog('destroy');
+                        $('#confirm').remove();
+                    },
+                    No: function() {
+                        $(this).dialog('close');
+                        $(this).dialog('destroy');
+                        $('#confirm').remove();
+                    }
+                }
+            });
             break;
         case "showinmenu":
             Etomite.updateDocProperty('showinmenu', '1', id);
@@ -106,6 +161,9 @@ function bindContextMenu(node, span) {
             break;
         }
     });
+    if (node.data.key == 'id_0') {
+        $(span).disableContextMenuItems('#preview,#move,#edit,#publish,#unpublish,#delete,#undelete,#showinmenu,#hideinmenu');
+    }
 }
 
 var spinner = null;

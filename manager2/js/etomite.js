@@ -9,6 +9,8 @@ var Etomite = {
     dateFormat: '',
     timeFormat: '',
     goodAlias: true,
+    movingDoc: false,
+    movingDocId: '',
     
     init: function() {
         /* login page */
@@ -74,6 +76,24 @@ var Etomite = {
         
     },
     
+    loadPaneFromAction: function(act) {
+        if(act === null || act == '' || act == ' ') {
+            return false;
+        }
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: act
+            },
+            success: function (content) {
+                var p = $('#mainContent');
+                p.html(content);
+                Etomite.outerLayout.initContent('center');
+            }
+        });
+    },
+    
     loadPane: function(content) {
         var p = $('#mainContent');
         p.html(content);
@@ -92,10 +112,14 @@ var Etomite = {
             imagePath: 'lib/dynatree/skin-vista/',
             persist: true,
             onClick: function(node, event) {
+                if (Etomite.movingDoc) {
+                    var pid = node.data.key.replace(/id_/, '');
+                    Etomite.moveDocument(Etomite.movingDocId, pid);
+                    return false;
+                }
                 // Close menu on click
                 if( $(".contextMenu:visible").length > 0 ){
                     $(".contextMenu").hide();
-//                  return false;
                 }
             },
             
@@ -178,6 +202,22 @@ var Etomite = {
                     
                     $('#saveDocument').click(function(){
                         Etomite.saveDocument();
+                    });
+                    $('#deleteDocument').click(function(){
+                        Etomite.updateDocProperty('deleted', '1', docId);
+                    });
+                    $('#cancelDocument').click(function(){
+                        var content = '';
+                        $.ajax({
+                            url: 'ActionServer.php',
+                            dataType: 'html',
+                            data: {
+                                action: 'loadWelcome'
+                            },
+                            success: function(html) {
+                                $('#mainContent').html(html);
+                            }
+                        });
                     });
                     $('#alias').keyup(function() {
                         Etomite.goodAlias = true;
@@ -283,6 +323,80 @@ var Etomite = {
                 } else {
                     Etomite.notify('Document Updated!');
                     $("#docTree").dynatree("getTree").reload();
+                }
+            }
+        });
+    },
+    
+    moveDocumentDialog: function(docid) {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'moveDocDialog',
+                id: docid
+            },
+            success: function(html) {
+                if(html === null) {
+                    Etomite.errorDialog('You are not supposed to be here!', 'Error');
+                } else {
+                    Etomite.loadPane(html);
+                }
+            }
+        });
+    },
+    
+    moveDocument: function(docId, parentId) {
+        // alert('moving document: '+docId+'; to parent: '+parentId);
+        $('<div id="moveDocumentDialog"></div>').appendTo('#mainContent');
+        $('#moveDocumentDialog').html('<p>Are you sure you want to move the document?</p>');
+        $('#moveDocumentDialog').dialog({
+            autoOpen: true,
+            minWidth: 200,
+            minHeight: 200,
+            position: 'center',
+            resizable: false,
+            closeOnEscape: false,
+            title: 'Move Document',
+            modal: true,
+            buttons: {
+                Yes: function() {
+                    Etomite.updateDocProperty('parent', parentId, docId);
+                    Etomite.movingDoc = false;
+                    Etomite.movingDocId = '';
+                    
+                    var content = '';
+                    $.ajax({
+                        url: 'ActionServer.php',
+                        dataType: 'html',
+                        data: {
+                            action: 'loadWelcome'
+                        },
+                        success: function(html) {
+                            $('#mainContent').html(html);
+                        }
+                    });
+                    $(this).dialog('close');
+                    $(this).dialog('destroy');
+                    $('#moveDocumentDialog').remove();
+                },
+                No: function() {
+                    $(this).dialog('close');
+                    $(this).dialog('destroy');
+                    $('#moveDocumentDialog').remove();
+                    Etomite.movingDoc = false;
+                    Etomite.movingDocId = '';
+                    var content = '';
+                    $.ajax({
+                        url: 'ActionServer.php',
+                        dataType: 'html',
+                        data: {
+                            action: 'loadWelcome'
+                        },
+                        success: function(html) {
+                            $('#mainContent').html(html);
+                        }
+                    });
                 }
             }
         });

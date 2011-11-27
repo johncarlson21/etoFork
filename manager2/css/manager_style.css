@@ -709,7 +709,8 @@ h1, h2, h3, h4 {
     margin-top: 15px;
     padding: 0;
 }
-.ui-corner-all {
+.ui-tabs .ui-corner-all,
+.ui-tabs.ui-corner-all {
     border: none;
     border-radius: 0px;
 }

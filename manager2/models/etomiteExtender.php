@@ -196,11 +196,17 @@ function makeUrl($id, $alias='', $args='') {
         
         if(!empty($params)){ $args = "/".implode("/",$params); }/*else{ $args = $this->config['friendly_url_suffix']; }*/
         else{ $args = ''; }
+        if(empty($args)) {
+            $url .= $this->config['friendly_url_suffix'];
+        }
     }elseif($this->config['zend_urls']==1){
         //$url .= $this->config['friendly_url_suffix'];
         if(strlen($args)&&strpos($url, "?")){
             $url .= $this->config['friendly_url_suffix'];
             $args="&amp;".substr($args,1);
+        }
+        if(empty($args)) {
+            $url .= $this->config['friendly_url_suffix'];
         }
     }else{
         // make sure only the first argument parameter is preceded by a "?"
@@ -702,14 +708,25 @@ function addBreadCrumb($content){
         $parents = $this->getAllChildren($docId=$id, $orderby, $sortDir, $fields='id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu', '', true);
         $tree = array();
         if ($parents && count($parents) > 0) {
+            if ($id == 0) {
+                $root[0]['title'] = $this->config['site_name'];
+                $root[0]['key'] = 'id_0';
+                $root[0]['tooltip'] = "Root Site";
+                $root[0]['isfolder'] = 1;
+                $root[0]['expand'] = true;
+                $root[0]['icon'] = 'globe.gif';
+            }
+            
             for ($i=0; $i < count($parents); $i++) {
                 $p = $parents[$i];
                 $tree[$i]['title'] = $p['pagetitle'] . " (" . $p['id'] . ")";
                 $tree[$i]['key'] = "id_".$p['id'];
+                $tree[$i]['docUrl'] = $this->makeUrl($p['id']);
                 $tree[$i]['tooltip'] = "Alias: " . $p['alias'] . " - Menu index: " . $p['menuindex'];
                 $tree[$i]['showinmenu'] = $p['showinmenu'];
                 $tree[$i]['published'] = $p['published'];
                 $tree[$i]['deleted'] = $p['deleted'];
+                $tree[$i]['weblink'] = ($p['type'] == 'reference') ? true : false;
                 if ($p['isfolder'] == 1) {
                     $tree[$i]['isFolder'] = true;
                 }
@@ -754,7 +771,12 @@ function addBreadCrumb($content){
                     }
                 }
             }
-            return $tree;
+            if ($id == 0) {
+                $root[0]['children'] = $tree;
+                return $root;
+            } else {
+                return $tree;
+            }
         }
         return false;
     }

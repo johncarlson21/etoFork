@@ -143,11 +143,23 @@ class Content extends etomiteExtender {
                         $data['deletedon'] = time();
                         $data['deletedby'] = $_SESSION['internalKey'];
                         $data['editedby'] = $_SESSION['internalKey'];
+                        $children = $this->getAllChildren($id, 'menuindex', 'ASC', $fields='id, deleted', '', true);
+                        foreach ($children as $ch) {
+                            if ($ch['deleted'] != 1) {
+                                $this->updateDocProperty($ch['id'], 'deleted', '1');
+                            }
+                        }
                     } else {
                         $data['deleted'] = 0;
                         $data['deletedon'] = 0;
                         $data['deletedby'] = 0;
                         $data['editedby'] = $_SESSION['internalKey'];
+                        $children = $this->getAllChildren($id, 'menuindex', 'ASC', $fields='id, deleted', '', true);
+                        foreach ($children as $ch) {
+                            if ($ch['deleted'] == 1) {
+                                $this->updateDocProperty($ch['id'], 'deleted', '0');
+                            }
+                        }
                     }
                 break;
                 case "published":
@@ -163,6 +175,14 @@ class Content extends etomiteExtender {
                         $data['editedby'] = $_SESSION['internalKey'];
                     }
                 break;
+                case "parent":
+                    $parent = $this->getDocument($propertyVal);
+                    if ($parent['isfolder'] != 1) {
+                        $this->updIntTableRow(array('isfolder'=>1), 'site_content', 'id=' . $parent['id']);
+                    }
+                    $data[$property] = $propertyVal;
+                    $data['editedby'] = $_SESSION['internalKey'];
+                    break;
                 default:
                     $data[$property] = $propertyVal;
                     $data['editedby'] = $_SESSION['internalKey'];
@@ -174,6 +194,11 @@ class Content extends etomiteExtender {
         }
         return false;
     }
+    
+    public function moveDocDialog() {
+        include('views/move_doc.phtml');
+    }
+
 }
 
 ?>

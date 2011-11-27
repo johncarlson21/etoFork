@@ -17,6 +17,10 @@
 //            work with Dynatree drag'n'drop.  
 //            See http://code.google.com/p/dynatree/issues/detail?id=174
 //
+// 2011-11-26 John Carlson:
+//          changed the (this) to ('.contextMenu') because the disablecontextmenuitems
+//          was not working
+
 if(jQuery)( function() {
 	$.extend($.fn, {
 		
@@ -161,8 +165,7 @@ if(jQuery)( function() {
 				if( o != undefined ) {
 					var d = o.split(',');
 					for( var i = 0; i < d.length; i++ ) {
-						$(this).find('A[href="' + d[i] + '"]').parent().addClass('disabled');
-						
+						var option = $('.contextMenu').find('a[href="' + d[i] + '"]').parent().addClass('disabled');
 					}
 				}
 			});

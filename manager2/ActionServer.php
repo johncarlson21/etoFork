@@ -6,12 +6,19 @@ require_once('./models/Ajax.php');
 class ActionServer extends Ajax {
     
     public function __construct(){
-        $this->dbConfig['host'] = $GLOBALS['database_server'];
+        /*$this->dbConfig['host'] = $GLOBALS['database_server'];
         $this->dbConfig['dbase'] = $GLOBALS['dbase'];
         $this->dbConfig['user'] = $GLOBALS['database_user'];
         $this->dbConfig['pass'] = $GLOBALS['database_password'];
         $this->dbConfig['table_prefix'] = $GLOBALS['table_prefix'];
-        $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];
+        $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];*/
+        $this->runStandalone();
+    }
+    
+    public function loadWelcome() {
+        $etomite = $this;
+        $_lang = $this->_lang;
+        include('views/welcome.phtml');
     }
     
     public function loginRequest() {
@@ -142,6 +149,17 @@ class ActionServer extends Ajax {
             $this->respond(false, 'Property not updated');
         }
     }
+    
+    public function moveDocDialog() {
+        $id = isset($_REQUEST['id']) && is_numeric($_REQUEST['id']) ? (int)$_REQUEST['id'] : '';
+        $Content = new Content();
+        $Content->moveDocDialog();
+    }
+    
+    public function loadSystemInfo() {
+        include('views/system_info.phtml');
+    }
+
 }
 
 $action_server = new ActionServer();

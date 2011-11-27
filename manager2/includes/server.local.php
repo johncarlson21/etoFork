@@ -93,11 +93,21 @@ else
 
 $urlFilename = array_pop($urlPieces);
 $relative_base_path = $ETOMITE_PAGE_BASE["relative"] = implode("/", $urlPieces)."/";
+if ($man_pos !== false) {
+    $relative_base_path = $ETOMITE_PAGE_BASE["relative"] = substr($relative_base_path, 0, $man_pos)."/";
+}
 define("relative_base_path",$relative_base_path);
 
 // build the www path:
 $www_base_path = $ETOMITE_PAGE_BASE["www"] = $protocol.$_SERVER["HTTP_HOST"].$ETOMITE_PAGE_BASE["relative"];
+if ($man_pos !== false) {
+    $www_base_url = $www_base_path;
+    $www_base_path = $ETOMITE_PAGE_BASE["www"] = substr($www_base_path, 0, $man_pos)."/";
+} else {
+    $www_base_url = $www_base_url."/manager2/";
+}
 define("www_base_path", $www_base_path);
+define("MANAGER_URL", $www_base_url);
 
 // START: custom session handling
 

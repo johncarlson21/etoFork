@@ -55,7 +55,7 @@
         <ul>
         <?php if($_SESSION['permissions']['settings']==1) { ?>
             <li><a onclick="this.blur();" href="index.php?a=17" target="main"><?php echo $_lang["edit_settings"]; ?></a></li>
-            <li><a onclick="this.blur();" href="index.php?a=53" target="main"><?php echo $_lang["view_sysinfo"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadSystemInfo');" href="javascript:;"><?php echo $_lang["view_sysinfo"]; ?></a></li>
             <li><a onclick="this.blur();" href="javascript:top.scripter.removeLocks();"><?php echo $_lang["remove_locks"]; ?></a></li>
         <?php } ?>
         <?php if($_SESSION['permissions']['logs']==1) { ?>
