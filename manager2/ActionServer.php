@@ -159,6 +159,23 @@ class ActionServer extends Ajax {
     public function loadSystemInfo() {
         include('views/system_info.phtml');
     }
+    
+    public function removeLocks() {
+        $System = new System();
+        if ($System->removeLocks()) {
+            $this->respond(true, 'Locks removed!');
+        } else {
+            $this->respond(false, 'There was an error removing locks!');
+        }
+    }
+    
+    public function loadAuditTrail() {
+        include_once('views/audit_trail.phtml');
+    }
+    
+    public function manageFiles() {
+        include_once('views/manage_files.phtml');
+    }
 
 }
 

@@ -895,3 +895,18 @@ a.button:hover {
     font-weight: bold;
     background-color: #0C3;
 }
+
+ul.dropdown ul {
+    border-color: #666;
+}
+
+ul.dropdown li ul li {
+    background-color: #FFF;
+    text-align: left;
+    padding-left: 7px;
+}
+
+ul.dropdown li ul li a:hover {
+    color: #666;
+    text-decoration: underline;
+}

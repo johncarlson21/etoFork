@@ -198,6 +198,7 @@ class Content extends etomiteExtender {
     public function moveDocDialog() {
         include('views/move_doc.phtml');
     }
+    
 
 }
 

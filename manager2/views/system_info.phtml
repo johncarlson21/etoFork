@@ -7,20 +7,20 @@ if(@$handle = fopen("http://www.etomite.com/status/status.php", "r"))
   $newrelease = trim(strip_tags($newversion));
   if($release.$patch_level == $newrelease)
   {
-    $newversiontext = $_lang['sys_info_version_ok'];
+    $newversiontext = $this->_lang['sys_info_version_ok'];
   }
   if($release.$patch_level < $newrelease)
   {
-    $newversiontext = $_lang['sys_info_version_update']."<b>".$newrelease."</b>";
+    $newversiontext = $this->_lang['sys_info_version_update']."<b>".$newrelease."</b>";
   }
   if($release.$patch_level > $newrelease)
   {
-    $newversiontext = $_lang['sys_info_version_ok'];
+    $newversiontext = $this->_lang['sys_info_version_ok'];
   }
 }
 else
 {
-  $newversiontext = $_lang['sys_info_version_no_connect'];
+  $newversiontext = $this->_lang['sys_info_version_no_connect'];
 }
 ?>
 <div class="header">System Information</div>
@@ -28,6 +28,8 @@ else
     <ul>
         <li><a href="#recentDocs"><?php echo $this->_lang["activity_title"]; ?></a></li>
         <li><a href="#serverInfo"><?php echo $this->_lang['server_info']; ?></a></li>
+        <li><a href="#dbtables"><?php echo $this->_lang['database_tables']; ?></a></li>
+        <li><a href="#userpanel"><?php echo $this->_lang["onlineusers_title"]; ?></a></li>
     </ul>
     <div id="recentDocs">
         <p><?php echo $this->_lang["sys_info_activity_message"]; ?></p>
@@ -82,11 +84,6 @@ else
           <td><b><?php echo $this->config['code_name'] ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_phpinfo'];?></td>
-          <td>&nbsp;</td>
-          <td><b><a href=""><?php echo $this->_lang['sys_info_view'];?></a>&nbsp;</b></td>
-          </tr>
-          <tr>
           <td><?php echo $this->_lang['sys_info_acc_perms'];?></td>
           <td>&nbsp;</td>
           <td><b><?php echo $use_udperms==1 ? $this->_lang['sys_info_perms_enabled'] : $this->_lang['sys_info_perms_disabled']; ?>&nbsp;</b></td>
@@ -129,7 +126,7 @@ else
           <tr>
           <td><?php echo $this->_lang['sys_info_base_page_rel'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo str_replace(absolute_base_path, "/", MANAGER_PATH);?>&nbsp;</b></td>
+          <td><b><?php echo str_replace(absolute_base_path, "", MANAGER_PATH);?>&nbsp;</b></td>
           </tr>
           <tr>
           <td><?php echo $this->_lang['sys_info_base_page_www'];?></td>
@@ -147,6 +144,110 @@ else
           <td><b><?php echo session_id();?>&nbsp;</b></td>
           </tr>
         </table>
+    </div>
+    <div id="dbtables">
+        <div class="content">
+            <p><?php echo $this->_lang['sys_info_table_instructions'];?></p>
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+              <td width="160"><?php echo $this->_lang['sys_info_table_name'];?></td>
+              <td width="40" align="right"><?php echo $this->_lang['sys_info_records'];?></td>
+              <td width="120" align="right"><?php echo $this->_lang['sys_info_data_size'];?></td>
+              <td width="120" align="right"><?php echo $this->_lang['sys_info_overhead']?></td>
+              <td width="120" align="right"><?php echo $this->_lang['sys_info_effective_size'];?></td>
+              <td width="120" align="right"><?php echo $this->_lang['sys_info_index_size'];?></td>
+              <td width="120" align="right"><?php echo $this->_lang['sys_info_total_size'];?></td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $sql = "SHOW TABLE STATUS FROM ".$this->dbConfig['dbase'].";";
+            $rs = $this->dbQuery($sql);
+            $limit = $this->recordCount($rs);
+            for ($i = 0; $i < $limit; $i++)
+            {
+              $log_status = $this->fetchRow($rs);
+              $bgcolor = ($i % 2) ? 'odd' : 'even';
+            ?>
+            
+                  <tr class="<?php echo $bgcolor; ?>" title="<?php echo $log_status['Comment']; ?>" style="cursor:default">
+                  <td class="success"><?php echo $log_status['Name']; ?></td>
+                  <td align="right"><?php echo $log_status['Rows']; ?></td>
+                  <td align="right"><?php echo nicesize($log_status['Data_length']+$log_status['Data_free']); ?></td>
+                  <td align="right"><?php echo $log_status['Data_free']>0 ? nicesize($log_status['Data_free']) : "-" ; ?></td>
+                  <td align="right"><?php echo nicesize($log_status['Data_length']-$log_status['Data_free']); ?></td>
+                  <td align="right"><?php echo nicesize($log_status['Index_length']); ?></td>
+                  <td align="right"><?php echo nicesize($log_status['Index_length']+$log_status['Data_length']+$log_status['Data_free']); ?></td>
+                  </tr>
+            
+            <?php
+            $total = $total+$log_status['Index_length']+$log_status['Data_length'];
+            $totaloverhead = $totaloverhead+$log_status['Data_free'];
+            }
+            ?>
+            
+              <tr>
+              <td valign="top"><b>Totals:</b></td>
+              <td colspan="2">&nbsp;</td>
+              <td align="right" valign="top"><?php echo $totaloverhead>0 ? "<b style='color:#990033'>".nicesize($totaloverhead)."</b><br>(".number_format($totaloverhead)." B)" : "-"; ?></td>
+              <td colspan="2">&nbsp;</td>
+              <td align="right" valign="top"><?php echo "<b>".nicesize($total)."</b><br>(".number_format($total)." B)"; ?></td>
+              </tr>
+              </tbody>
+            </table>
+            <?php
+            if($totaloverhead>0)
+            {
+              echo "<p>".$this->_lang['sys_info_table_clear']."</p>";
+            }
+            ?>
+        </div>
+    </div>
+    
+    <div id="userpanel">
+        <div class="content">
+            <p><? echo $this->_lang["onlineusers_message"]; ?><br />
+            <b><?php echo $this->_lang['current_time:'].strftime($this->config['time_format'], time()+$this->config['server_offset_time']); ?></b></p>
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+                <tr>
+                <td><?php echo $this->_lang["onlineusers_user"];?></td>
+                <td><?php echo $this->_lang["onlineusers_userid"];?></td>
+                <td><?php echo $this->_lang["onlineusers_ipaddress"];?></td>
+                <td><?php echo $this->_lang["onlineusers_lasthit"];?></td>
+                <td><?php echo $this->_lang["onlineusers_action"];?></td>
+                <td><?php echo $this->_lang["onlineusers_action_id"];?></td>
+                </tr>
+              </thead>
+              <tbody>
+              
+              <?php
+                $timetocheck = (time()-(60*20));
+                
+                include_once("includes/actionlist.inc.php");
+                
+                $sql = "SELECT * FROM ".$this->db."active_users WHERE ".$this->db."active_users.lasthit>$timetocheck ORDER BY username ASC";
+                $rs = $this->dbQuery($sql);
+                $limit = $this->recordCount($rs);
+                if($limit < 1)
+                {
+                  echo $this->_lang['sys_info_no_active_users'];
+                }
+                else
+                {
+                  for ($i = 0; $i < $limit; $i++)
+                  {
+                    $activeusers = $this->fetchRow($rs);
+                    $currentaction = getAction($activeusers['action'], $activeusers['id']);
+                    echo "<tr><td><b>".$activeusers['username']."</b></td><td>".$activeusers['internalKey']."</td><td>".$activeusers['ip']."</td><td>".strftime($this->config['time_format'], $activeusers['lasthit']+$this->config['server_offset_time'])."</td><td>$currentaction</td><td align='right'>".$activeusers['action']."</td></tr>";
+                  }
+                }
+                ?>
+                
+              </tbody>
+            </table>
+        </div>
     </div>
     
 </div>

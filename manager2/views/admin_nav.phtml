@@ -56,13 +56,13 @@
         <?php if($_SESSION['permissions']['settings']==1) { ?>
             <li><a onclick="this.blur();" href="index.php?a=17" target="main"><?php echo $_lang["edit_settings"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadSystemInfo');" href="javascript:;"><?php echo $_lang["view_sysinfo"]; ?></a></li>
-            <li><a onclick="this.blur();" href="javascript:top.scripter.removeLocks();"><?php echo $_lang["remove_locks"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.removeLocks();" href="javascript:;"><?php echo $_lang["remove_locks"]; ?></a></li>
         <?php } ?>
         <?php if($_SESSION['permissions']['logs']==1) { ?>
-            <li><a onclick="this.blur();" href="index.php?a=13" target="main"><?php echo $_lang["view_logging"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadAuditTrail');" href="javascript:;"><?php echo $_lang["view_logging"]; ?></a></li>
         <?php } ?>
         <?php if($_SESSION['permissions']['file_manager']==1) { ?>
-            <li><a onclick="this.blur();" href="index.php?a=31" target="main"><?php echo $_lang["manage_files"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.loadPaneFromAction('manageFiles');" href="javascript:;"><?php echo $_lang["manage_files"]; ?></a></li>
         <?php } ?>
         <?php   if($_SESSION['permissions']['export_html']==1) { ?>
             <li><a onclick="this.blur();" href="index.php?a=83" target="main"><?php echo $_lang["export_site"]; ?></a></li>

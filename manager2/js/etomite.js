@@ -57,7 +57,7 @@ var Etomite = {
                 $('#loginBtn').click();
             }
         });
-
+        $('#loginPage #username').focus();
         $('#loginPage #username').keypress(function(e) {
             if(e.keyCode == 13) {
                 $('#loginBtn').click();
@@ -397,6 +397,24 @@ var Etomite = {
                             $('#mainContent').html(html);
                         }
                     });
+                }
+            }
+        });
+    },
+    
+    removeLocks: function() {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'json',
+            data: {
+                action: 'removeLocks'
+            },
+            success: function(json) {
+                if(json === null || json.succeeded !== true) {
+                    Etomite.errorDialog(json.message, 'Error');
+                } else {
+                    Etomite.notify(json.message);
+                    Etomite.loadPaneFromAction('loadSystemInfo');
                 }
             }
         });
