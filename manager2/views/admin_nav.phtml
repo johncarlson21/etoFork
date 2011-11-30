@@ -43,7 +43,7 @@
     </li>
     <?php } ?>
     <?php if($_SESSION['permissions']['new_template']==1 || $_SESSION['permissions']['edit_template']==1 || $_SESSION['permissions']['new_snippet']==1 || $_SESSION['permissions']['edit_snippet']==1) { ?>
-    <li><a onclick="this.blur();" href="index.php?a=76" target="main"><?php echo $_lang["resource_management"]; ?></a></li>
+    <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadResourcesView');" href="javascript:;"><?php echo $_lang["resource_management"]; ?></a></li>
     <?php } ?>
     <li><span class="dir"><?php echo $_lang['module_management']; ?></span>
         <?php
@@ -74,8 +74,8 @@
     <li><span class="dir"><?php echo $_lang["help"]; ?></span>
         <ul>
             <!-- <li><a onclick="this.blur();" href="javascript:openCredits();"><?php echo $_lang["credits"]; ?></a></li> -->
-            <li><a onclick="this.blur();" href="index.php?a=9" target="main"><?php echo $_lang["help"]; ?></a></li>
-            <li><a onclick="this.blur();" href="index.php?a=59" target="main"><?php echo $_lang["about"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadHelp');" href="javascript:;"><?php echo $_lang["help"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadAbout');" href="javascript:;"><?php echo $_lang["about"]; ?></a></li>
         </ul>
     </li>
     <?php } ?>

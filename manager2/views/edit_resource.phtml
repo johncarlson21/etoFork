@@ -1,0 +1,74 @@
+<div class="header"><?php echo $header_text; ?></div>
+<div class="action-btns">
+    <a href="javascript:;" id="saveResource" class="button">Save</a>
+    <a href="javascript:;" id="deleteResource" class="button">Delete</a>
+    <a href="javascript:;" id="cancelResource" class="button">Cancel</a>
+</div>
+<div class="content" id="editResource">
+    <input type="hidden" name="id" id="id" value="<?php echo isset($resource['id']) && is_numeric($resource['id']) ? $id : ''?>" />
+    <input type="hidden" name="type" id="type" value="<?php echo $type; ?>" />
+    <table width="100%" cellpadding="5" cellspacing="0" border="0" class="resource-table">
+        <tr>
+            <td width="200"><span class="warning">Resource Name:</span></td>
+            <td>{{ <input type="text" name="name" id="name" class="inputBox" style="width:300px;" value="<?php echo isset($resource['name']) && !empty($resource['name']) ? $resource['name'] : ''; ?>" /> }}
+            <div id="uniqueResourceName" style="display:none;"></div></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Resource Description:</span></td>
+            <td><input type="text" name="description" id="description" class="inputBox" style="width:300px;" value="<?php echo isset($resource['description']) && !empty($resource['description']) ? $resource['description'] : ''; ?>" /></td>
+        </tr>
+        <?php if ($type != 'template') { ?>
+        <tr>
+            <td width="200"><span class="warning">Resource Section</span></td>
+            <td><select name="section" id="section">
+                <?php
+                $sqlS = "select * from ".$this->db."site_section where section_type='".$type."' order by sort_order,name ASC";
+        		$rsS = $this->dbQuery($sqlS);
+        		$limitS = $this->recordCount($rsS);
+        		if($limitS>0){
+        			for($i=0;$i<$limitS;$i++){
+        				$row = $this->fetchRow($rsS);
+        				if($row['id']==$resource['section']){ $selected=" selected='selected'"; }else{ $selected = ''; }
+        				?>
+        					<option value="<?php echo $row['id']; ?>"<?php echo $selected;?>><?php echo $row['name']; ?></option>
+        				<?php
+        			}
+        		}
+                ?>
+            </select></td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td width="200"><span class="warning">Resource Locked:</span></td>
+            <td><span>&nbsp;&nbsp;</span><input name="locked" id="locked" type="checkbox" <?php echo $resource['locked']==1 ? "checked='checked'" : "" ;?> class="inputBox">Only Administrators (Role ID 1) can edit</td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Keep Editing:</span></td>
+            <td><span>&nbsp;&nbsp;</span><input name="stay" id="stay" type="checkbox" value="1" /></td>
+        </tr>
+    </table>
+    <textarea name="resource_editor" id="resource_editor" rows="15" style="width:100%;"><?php
+        switch($type) {
+            case 'template':
+                echo isset($resource['content']) && !empty($resource['content']) ? htmlspecialchars($resource['content']) : '';
+            break;
+            default:
+                echo isset($resource['content']) && !empty($resource['snippet']) ? htmlspecialchars($resource['snippet']) : '';
+            break;
+        }
+        ?></textarea>
+</div>
+<?php if ($this->config['use_code_editor'] == 1) {?>
+<script type="text/javascript">
+    Etomite.usingEAEditor = true;
+    editAreaLoader.init({
+        id : "resource_editor"        // textarea id
+        ,syntax: "<?php echo $syntax; ?>"            // syntax to be uses for highgliting
+        ,start_highlight: <?php echo isset($this->config['code_highlight']) && $this->config['code_highlight'] ==1 ? true : false; ?>        // to display with highlight mode on start-up
+        ,toolbar: "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, syntax_selection, highlight, reset_highlight, |, help"
+        ,syntax_selection_allow: "css,html,js,php,xml,sql"
+        ,allow_resize: "both"
+        ,allow_toggle: false
+    });
+</script>
+<?php } ?>

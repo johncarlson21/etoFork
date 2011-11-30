@@ -5,18 +5,8 @@ require_once('./models/Ajax.php');
 
 class ActionServer extends Ajax {
     
-    public function __construct(){
-        /*$this->dbConfig['host'] = $GLOBALS['database_server'];
-        $this->dbConfig['dbase'] = $GLOBALS['dbase'];
-        $this->dbConfig['user'] = $GLOBALS['database_user'];
-        $this->dbConfig['pass'] = $GLOBALS['database_password'];
-        $this->dbConfig['table_prefix'] = $GLOBALS['table_prefix'];
-        $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];*/
-        $this->runStandalone();
-    }
-    
     public function loadWelcome() {
-        $etomite = $this;
+        $etomite = new etomiteExtender();
         $_lang = $this->_lang;
         include('views/welcome.phtml');
     }
@@ -26,10 +16,11 @@ class ActionServer extends Ajax {
             'username',
             'password'
         ));
+        $etomite = new etomiteExtender();
         $username = $_REQUEST['username']; // this gets escaped in the function
         $password = $_REQUEST['password']; // this gets escaped in the function
         
-        if ($this->userLogin($username,$password)) {
+        if ($etomite->userLogin($username,$password)) {
             $this->respond(true,"User Logged In");
         } else {
             $this->respond(false, "Username and Password did not match!");
@@ -38,7 +29,8 @@ class ActionServer extends Ajax {
     }
     
     public function getDocTree() {
-        $documents = $this->generateDocTree();
+        $etomite = new etomiteExtender();
+        $documents = $etomite->generateDocTree();
         echo json_encode($documents);
         exit(0);
     }
@@ -156,7 +148,8 @@ class ActionServer extends Ajax {
         $Content->moveDocDialog();
     }
     
-    public function loadSystemInfo() {
+    public function loadSystemInfo() { // need to fix
+        $etomite = new etomiteExtender();
         include('views/system_info.phtml');
     }
     
@@ -175,6 +168,60 @@ class ActionServer extends Ajax {
     
     public function manageFiles() {
         include_once('views/manage_files.phtml');
+    }
+    
+    public function loadHelp() { // need to fix
+        $etomite = new etomiteExtender();
+        include_once('views/help.phtml');
+    }
+    
+    public function loadAbout() { // need to fix
+        $etomite = new etomiteExtender();
+        include_once('views/about.phtml');
+    }
+    
+    public function loadResourcesView() {
+        $Resource = new Resource();
+        $Resource->loadResourcesView();
+        //print_r($this->config);
+    }
+    
+    public function editResource() {
+        $this->validateRequest(array('type'));
+        $type = (isset($_REQUEST['type']) && !empty($_REQUEST['type'])) ? $_REQUEST['type'] : false;
+        $Resource = new Resource();
+        $Resource->editResource($type);
+    }
+    
+    public function saveResource() {
+        $this->validateRequest(array('type'));
+        $type = (isset($_REQUEST['type']) && !empty($_REQUEST['type'])) ? $_REQUEST['type'] : false;
+        $Resource = new Resource();
+        if ($Resource->saveResource($type)) {
+            if ($Resource->lastId && $Resource->lastId > 0) {
+                $params = array('id'=>$Resource->lastId);
+            }
+            $this->respond(true, 'Resource Saved!', $params);
+        } else {
+            $this->respond(false, 'Resource not saved!');
+        }
+    }
+    
+    public function checkResourceName() {
+        $Resource = new Resource();
+        // todo no contain
+        $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");
+        foreach($against as $a) {
+            if (strpos($_REQUEST['name'], $a) !== false) {
+                $this->respond(false, 'Resource name cannot contain &quot;'.$a.'&quot;');
+            }
+        }
+        $good = $Resource->checkResourceName($_REQUEST['name'], $_REQUEST['type'], (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false);
+        if ($good) {
+            $this->respond(true, 'That is a good resource name!');
+        } else {
+            $this->respond(false, 'Resource Name already exists!');
+        }
     }
 
 }

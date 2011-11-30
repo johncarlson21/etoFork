@@ -3,10 +3,7 @@
  * This class extends the etomite and etomiteExtender class so you can use
  * functions in the core classes
  */
-class Ajax extends etomiteExtender{
-    public function __construct() {
-    }
-
+class Ajax {
     /**
      * Check that all the @fields were sent on the request
      * returns true/false.

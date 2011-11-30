@@ -108,7 +108,7 @@ if ($man_pos !== false) {
     $www_base_url = $www_base_url."/manager2/";
 }
 define("www_base_path", $www_base_path);
-define("MANAGER_URL", str_replace("//", "/", $www_base_url));
+define("MANAGER_URL", $www_base_url);
 
 // START: custom session handling
 

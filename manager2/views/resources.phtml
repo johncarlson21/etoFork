@@ -1,0 +1,52 @@
+<div class="header"><?php echo $this->_lang['resource_management']; ?></div>
+<div id="resource-tabs">
+    <ul>
+        <li><a href="#templates"><?php echo $this->_lang['manage_templates']; ?></a></li>
+        <li><a href="#snippets"><?php echo $this->_lang['manage_snippets']; ?></a></li>
+        <li><a href="#chunks"><?php echo $this->_lang['manage_htmlsnippets']; ?></a></li>
+    </ul>
+    <div id="templates">
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTemplate" class="button">New Template</a></div>
+        <p><?php echo $this->_lang['template_management_msg']; ?></p>
+        <?php
+            $sql = "select templatename, id, description, locked from ".$this->db."site_templates order by templatename";
+            $rs = $this->dbQuery($sql);
+            $limit = $this->recordCount($rs);
+            if($limit<1){
+              echo "<p>".$this->_lang['no_results']."</p>";
+            } else {
+                echo "<ul>";
+                for($i=0; $i<$limit; $i++) {
+                    $row = $this->fetchRow($rs);
+                    $id = strval($row['id']);
+        ?>
+        <li><a id="<?php echo $row['id'];?>" class="templateBtn"><?php echo $row['templatename']; ?></a> (<?php echo $row['id']; ?>)<?php echo $row['description']!='' ? ' - '.$row['description'] : '' ; ?><?php echo $row['locked']==1 ? ' <i><small>('.$this->_lang['template_locked_message'].')</small></i>' : "" ; ?></li>
+        <?php
+                }// end for
+            }// end else for limit
+        ?>
+        <script type="text/javascript">
+            $('#newTemplate').click(function() {
+                Etomite.editResource('template');
+            });
+            $('.templateBtn').click(function() {
+                Etomite.editResource('template', $(this).attr('id'));
+            });
+        </script>
+    </div>
+    
+    <div id="snippets">
+        <p><?php echo $this->_lang['snippet_management_msg']; ?></p>
+    
+    </div>
+    
+    <div id="chunks">
+        <p><?php echo $this->_lang['htmlsnippet_management_msg']; ?></p>
+        
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $('#resource-tabs').tabs();
+</script>

@@ -11,6 +11,8 @@ var Etomite = {
     goodAlias: true,
     movingDoc: false,
     movingDocId: '',
+    usingEAEditor: false,
+    goodResource: true,
     
     init: function() {
         /* login page */
@@ -80,6 +82,7 @@ var Etomite = {
         if(act === null || act == '' || act == ' ') {
             return false;
         }
+        spin();
         $.ajax({
             url: 'ActionServer.php',
             dataType: 'html',
@@ -90,6 +93,9 @@ var Etomite = {
                 var p = $('#mainContent');
                 p.html(content);
                 Etomite.outerLayout.initContent('center');
+                setTimeout(function() {
+                    spin(false);
+                }, 1000);
             }
         });
     },
@@ -419,6 +425,140 @@ var Etomite = {
             }
         });
     },
+    
+    editResource: function(rtype, docId) {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'editResource',
+                type: rtype,
+                id: docId
+            },
+            success: function(response) {
+                if (response === null) {
+                    Etomite.errorDialog('There was an error!', 'Error')
+                } else {
+                    Etomite.loadPane(response);
+                }
+                
+                $('#name').keyup(function() {
+                    Etomite.goodResource = true;
+                    var rId = '';
+                    if($('#editResource #id').length > 0){
+                        rId = $('#id').val();
+                    }
+                    if ($('#name').val().length > 2) {
+                        $.ajax({
+                            url: 'ActionServer.php',
+                            dataType: 'json',
+                            data: { name: $('#name').val(), type: $('#type').val(), action: 'checkResourceName', id: rId },
+                            success: function(json) {
+                                if ((json === null) || (json.succeeded !== true)) {
+                                    $('#uniqueResourceName').show();
+                                    $('#uniqueResourceName').html(json.message);
+                                    $('#uniqueResourceName').css('color','red');
+                                    Etomite.goodResource = false;
+                                } else {
+                                    $('#uniqueResourceName').show();
+                                    $('#uniqueResourceName').html(json.message);
+                                    $('#uniqueResourceName').css('color','green');
+                                    Etomite.goodResource = true;
+                                }
+                            }
+                        });
+                    } else {
+                        $('#uniqueResourceName').hide();
+                    }
+                });
+                
+                $('#saveResource').click(function() {
+                    Etomite.saveResource();
+                });
+                $('#deleteResource').click(function() {
+                    Etomite.deleteResource();
+                });
+                $('#cancelResource').click(function() {
+                    Etomite.loadPaneFromAction('loadResourcesView');
+                });
+            }
+        });
+    },
+    
+    saveResource: function() {
+        if (Etomite.goodResource === false) {
+            Etomite.errorDialog('The resource name you are trying to use, already exists or contains invalid characters!', 'Alert')
+            return false;
+        }
+        var rId = $('#editResource #id').val();
+        var rType = $('#type').val();
+        var rName = $('#name').val();
+        var rDesc = $('#description').val();
+        var rSection = '';
+        var rLocked = $('#locked').is(':checked') ? 1 : 0;
+        if (rType != 'template') {
+            var rSection = $('#section').val();
+        }
+        var tArea = $('#resourc_editor').val();
+        if (Etomite.usingEAEditor) {
+            tArea = editAreaLoader.getValue('resource_editor');
+        }
+        var errors = '';
+        if (rName === null || rName == '' || rName == ' ') {
+            errors =+ "Name is required!<br />";
+        }
+        if (rType === null || rType == '' || rType == ' ') {
+            Etomite.errorDialog('No Valid Resource Type!<br />Sending you back to Manage Resources', 'Error');
+            setTimeout(function(){ Etomite.loadPaneFromAction('loadResourcesView');}, 1000);
+        }
+        if (errors != ''){
+            Etomite.errorDialog(errors, 'errors');
+        } else {
+            spin();
+            $.ajax({
+                url: 'ActionServer.php',
+                dataType: 'json',
+                data: {
+                    action: 'saveResource',
+                    id: rId,
+                    type: rType,
+                    name: rName,
+                    description: rDesc,
+                    section: rType,
+                    content: tArea,
+                    locked: rLocked
+                },
+                success: function(json) {
+                    if (json === null || json.succeeded !== true) {
+                        Etomite.errorDialog(json.message, 'Error');
+                    } else {
+                        setTimeout(function(){ spin(false); }, 1000);
+                        if ($('#stay').is(':checked')) {
+                            // only used for new insert
+                            if(json.params !== null || json.params.id) {
+                                $('#editResource #id').val(json.params.id);
+                            }
+                        } else {
+                            Etomite.loadPaneFromAction('loadResourcesView');
+                        }
+                    }
+                }
+            });
+        }
+        
+    },
+    
+    deleteResource: function() {
+        var rType = $('#editResource #type').val();
+        var rId = $('#editResource #id').val();
+        if (rType == '' || rType == " " || rType === null || rId == '' || rId === null || rId == " ") {
+            Etomite.errorDialog('That is not a valid Resource!', 'Error');
+            return false;
+        }
+        $.ajax({
+            
+        });
+    };
     
     notify: function(message) {
         $('<div id="notification">' + message + '</div>').appendTo('body');

@@ -789,7 +789,6 @@ function addBreadCrumb($content){
         $this->dbConfig['table_prefix'] = $GLOBALS['table_prefix'];
         $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];
         $this->_lang = $GLOBALS['_lang'];
-        
         // convert variables initially calculated in config.inc.php into config variables
         $this->config['absolute_base_path'] = $GLOBALS['absolute_base_path'];
         $this->config['relative_base_path'] = $GLOBALS['relative_base_path'];

@@ -50,14 +50,14 @@ class etomite {
   var $fbDBConn, $fbQueries;
   
   // Class constructor function used for instantiation
-  function etomite() {
+  /*function etomite() {
     $this->dbConfig['host'] = $GLOBALS['database_server'];
     $this->dbConfig['dbase'] = $GLOBALS['dbase'];
     $this->dbConfig['user'] = $GLOBALS['database_user'];
     $this->dbConfig['pass'] = $GLOBALS['database_password'];
     $this->dbConfig['table_prefix'] = $GLOBALS['table_prefix'];
     $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];
-  }
+  }*/
 
   //
   // START: Setup, configuration, and utility related functions
@@ -100,6 +100,7 @@ class etomite {
   function getSettings() {
     if(file_exists(absolute_base_path."assets/cache/etomiteCache.idx.php")) {
       include_once(absolute_base_path."assets/cache/etomiteCache.idx.php");
+      //print_r($this->config);
     } else {
       $result = $this->dbQuery("SELECT setting_name, setting_value FROM ".$this->db."system_settings");
       while ($row = $this->fetchRow($result, 'both')) {
