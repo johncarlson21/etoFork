@@ -183,7 +183,6 @@ class ActionServer extends Ajax {
     public function loadResourcesView() {
         $Resource = new Resource();
         $Resource->loadResourcesView();
-        //print_r($this->config);
     }
     
     public function editResource() {
@@ -207,6 +206,16 @@ class ActionServer extends Ajax {
         }
     }
     
+    public function deleteResource() {
+        $this->validateRequest(array('id','type'));
+        $Resource = new Resource();
+        if ($Resource->deleteResource((int)$_REQUEST['id'], $_REQUEST['type'])) {
+            $this->respond(true, 'Resource Deleted');
+        } else {
+            $this->respond(false, 'Resource not deleted!');
+        }
+    }
+    
     public function checkResourceName() {
         $Resource = new Resource();
         // todo no contain
@@ -222,6 +231,21 @@ class ActionServer extends Ajax {
         } else {
             $this->respond(false, 'Resource Name already exists!');
         }
+    }
+    
+    public function createSection() {
+        $this->validateRequest('name','description','section_type');
+        $Resource = new Resource();
+        if ($Resource->createSection($_REQUEST['name'], $_REQUEST['descriptoin'], $_REQUEST['section_type'])) {
+            $this->respond(true, 'created');
+        } else {
+            $this->respond(false, 'not created');
+        }
+    }
+    
+    public function loadUsersView() {
+        $User = new User();
+        $User->loadUsersView();
     }
 
 }

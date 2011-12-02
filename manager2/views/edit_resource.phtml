@@ -1,7 +1,9 @@
 <div class="header"><?php echo $header_text; ?></div>
 <div class="action-btns">
     <a href="javascript:;" id="saveResource" class="button">Save</a>
+    <?php if ($id && !empty($id)) {?>
     <a href="javascript:;" id="deleteResource" class="button">Delete</a>
+    <?php } ?>
     <a href="javascript:;" id="cancelResource" class="button">Cancel</a>
 </div>
 <div class="content" id="editResource">
@@ -10,17 +12,17 @@
     <table width="100%" cellpadding="5" cellspacing="0" border="0" class="resource-table">
         <tr>
             <td width="200"><span class="warning">Resource Name:</span></td>
-            <td>{{ <input type="text" name="name" id="name" class="inputBox" style="width:300px;" value="<?php echo isset($resource['name']) && !empty($resource['name']) ? $resource['name'] : ''; ?>" /> }}
+            <td><?php if ($type == 'chunk') { echo "{{"; } elseif ($type == 'snippet') { echo "[!"; } else { echo "&nbsp;&nbsp; "; } ?> <input type="text" name="name" id="name" class="inputBox" style="width:300px;" value="<?php echo isset($resource['name']) && !empty($resource['name']) ? $resource['name'] : ''; ?>" /> <?php if ($type == 'chunk') { echo "}}"; } elseif ($type == 'snippet') { echo "!]"; } ?>
             <div id="uniqueResourceName" style="display:none;"></div></td>
         </tr>
         <tr>
             <td width="200"><span class="warning">Resource Description:</span></td>
-            <td><input type="text" name="description" id="description" class="inputBox" style="width:300px;" value="<?php echo isset($resource['description']) && !empty($resource['description']) ? $resource['description'] : ''; ?>" /></td>
+            <td>&nbsp;&nbsp; <input type="text" name="description" id="description" class="inputBox" style="width:300px;" value="<?php echo isset($resource['description']) && !empty($resource['description']) ? $resource['description'] : ''; ?>" /></td>
         </tr>
         <?php if ($type != 'template') { ?>
         <tr>
             <td width="200"><span class="warning">Resource Section</span></td>
-            <td><select name="section" id="section">
+            <td>&nbsp;&nbsp; <select name="section" id="section">
                 <?php
                 $sqlS = "select * from ".$this->db."site_section where section_type='".$type."' order by sort_order,name ASC";
         		$rsS = $this->dbQuery($sqlS);
@@ -53,7 +55,7 @@
                 echo isset($resource['content']) && !empty($resource['content']) ? htmlspecialchars($resource['content']) : '';
             break;
             default:
-                echo isset($resource['content']) && !empty($resource['snippet']) ? htmlspecialchars($resource['snippet']) : '';
+                echo isset($resource['snippet']) && !empty($resource['snippet']) ? htmlspecialchars($resource['snippet']) : '';
             break;
         }
         ?></textarea>

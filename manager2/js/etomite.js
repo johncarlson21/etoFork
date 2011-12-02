@@ -13,7 +13,8 @@ var Etomite = {
     movingDocId: '',
     usingEAEditor: false,
     goodResource: true,
-    
+    resourceTabSelected: 0,
+
     init: function() {
         /* login page */
         $('#loginBtn').click(function(){
@@ -117,6 +118,7 @@ var Etomite = {
             },
             imagePath: 'lib/dynatree/skin-vista/',
             persist: true,
+            debugLevel: 0,
             onClick: function(node, event) {
                 if (Etomite.movingDoc) {
                     var pid = node.data.key.replace(/id_/, '');
@@ -497,9 +499,9 @@ var Etomite = {
         var rSection = '';
         var rLocked = $('#locked').is(':checked') ? 1 : 0;
         if (rType != 'template') {
-            var rSection = $('#section').val();
+            rSection = $('#editResource #section').val();
         }
-        var tArea = $('#resourc_editor').val();
+        var tArea = $('#editResource #resourc_editor').val();
         if (Etomite.usingEAEditor) {
             tArea = editAreaLoader.getValue('resource_editor');
         }
@@ -524,7 +526,7 @@ var Etomite = {
                     type: rType,
                     name: rName,
                     description: rDesc,
-                    section: rType,
+                    section: rSection,
                     content: tArea,
                     locked: rLocked
                 },
@@ -555,10 +557,79 @@ var Etomite = {
             Etomite.errorDialog('That is not a valid Resource!', 'Error');
             return false;
         }
+        var is_sure = window.confirm('Are you sure you want to delete this resource?');
+        if (!is_sure) {
+            return false;
+        }
+        spin();
         $.ajax({
-            
+            url: 'ActionServer.php',
+            dataType: 'json',
+            data: {
+                action: 'deleteResource',
+                id: rId,
+                type: rType
+            },
+            success: function(json) {
+                if (json === null || json.succeeded !== true) {
+                    Etomite.errorDialog('There was an error deleting this resource!', 'Error');
+                } else {
+                    Etomite.notify(json.message);
+                    Etomite.loadPaneFromAction('loadResourcesView');
+                }
+                spin(false);
+            }
         });
-    };
+    },
+    
+    createSection: function(rType) {
+        if (rType ===null || rType == '') {
+            return false;
+        }
+        $('<div id="sectionForm"></div>').appendTo('body');
+        $('#sectionForm').html('<p><strong>Section Name:</strong> <input type="text" id="sectionName" /></p>' +
+                '<p><strong>Description:</strong> <input type="text" maxchars="100" id="sectionDescription" /></p>');
+        $('#sectionForm').dialog({
+            autoOpen: true,
+            title: 'Create New Resource Section',
+            minWidth: 200,
+            minHeight: 200,
+            position: 'center',
+            resizable: false,
+            closeOnEscape: false,
+            modal: true,
+            buttons: {
+                Create: function() {
+                    var sectionName = $('#sectionName').val();
+                    var sectionDescription = $('#sectionDescription').val();
+                    $.ajax({
+                        url: 'ActionServer.php',
+                        dataType: 'json',
+                        data: {
+                            action: 'createSection',
+                            name: sectionName,
+                            description: sectionDescription,
+                            section_type: rType
+                        },
+                        success: function(json) {
+                            if(json === null || json.succeeded !== true) {
+                                Etomite.errorDialog('Error creating resource section!', 'Error');
+                            } else {
+                                Etomite.notify('New Resource Section Created!');
+                                Etomite.loadPaneFromAction('loadResourcesView');
+                            }
+                            $('#sectionForm').dialog('close');
+                            $('#sectionForm').remove();
+                        }
+                    });
+                },
+                Cancel: function() {
+                    $(this).dialog('close');
+                    $(this).remove();
+                }
+            }
+        });
+    },
     
     notify: function(message) {
         $('<div id="notification">' + message + '</div>').appendTo('body');

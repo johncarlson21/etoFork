@@ -61,7 +61,7 @@ class Resource extends etomiteExtender {
             case 'chunk':
                 $type_table = 'site_htmlsnippets';
                 $header_text = $this->_lang['htmlsnippet_title'];
-                $syntax = 'php';
+                $syntax = 'html';
             break;
         }
         // need a switch here for the type to choose the correct db
@@ -120,7 +120,20 @@ class Resource extends etomiteExtender {
         $data['description'] = $description;
         $data['locked'] = $locked;
         if ($id) {
+            $res = $this->getIntTableRows("*", $type_table, 'id='.$id);
+            $orig = $res[0];
             if ($this->updIntTableRows($data, $type_table, 'id='.$id)) {
+                if ($type != 'template') {
+                    // save version
+                    if ($type == 'chunk') {
+                        $orig["htmlsnippet_id"] = $id;
+                    } else {
+                        $orig["snippet_id"] = $id;
+                    }
+                    $orig['date_mod'] = date('Y-m-d h:i:s');
+                    unset($orig['id']);
+                    $this->putIntTableRow($orig, $type_table."_versions");
+                }
                 return true;
             }
             return false;
@@ -131,6 +144,36 @@ class Resource extends etomiteExtender {
             }
             return false;
         }
+    }
+    
+    public function deleteResource($id=false, $type=false) {
+        if(!$id || !$type) {
+            return false;
+        }
+        switch ($type) {
+            case 'template':
+                $type_table = 'site_templates';
+            break;
+            case 'snippet':
+                $type_table = 'site_snippets';
+            break;
+            case 'chunk':
+                $type_table = 'site_htmlsnippets';
+            break;
+        }
+        // delete the resource
+        if ($this->dbQuery("DELETE FROM ".$this->db.$type_table." WHERE id=".$id." LIMIT 1")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function createSection($name, $description, $type) {
+        if ($this->putIntTableRow(array('name'=>$name,'description'=>$description,'section_type'=>$type), 'site_section')){
+            return true;
+        }
+        return false;
     }
     
 }
