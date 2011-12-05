@@ -222,6 +222,46 @@ function makeUrl($id, $alias='', $args='') {
     return $url.$args;
 }
 
+    public function getUser($id) {
+        if (!isset($id) || !is_numeric($id)) {
+            return false;
+        } else {
+            $db = new ExtDB($this);
+            $db->select(array('manager_users'=>'mu'));
+            $db->where('mu.id = '.$id);
+            $db->leftJoin(
+                array('user_attributes'=>'ua'),
+                'ua.internalKey=mu.id',
+                array(
+                    'id as ua_id',
+                    'fullname',
+                    'role',
+                    'email',
+                    'phone',
+                    'mobilephone',
+                    'blocked',
+                    'blockeduntil',
+                    'logincount',
+                    'lastlogin',
+                    'thislogin',
+                    'failedlogincount',
+                    'address',
+                    'city',
+                    'state',
+                    'zip'
+                )
+            );
+            $db->limit('1');
+            $db->create();
+            
+            if($user = $db->fetch()) {
+                return $user;
+            }
+            
+            return false;
+        }
+    }
+
 // frontend user functions
 
 function getWebUser($internalKey){

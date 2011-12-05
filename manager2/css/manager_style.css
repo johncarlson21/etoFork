@@ -878,6 +878,11 @@ a.button:hover {
     text-decoration: none;
 }
 
+a#generatePasswordBtn.button {
+    font-size: 12px;
+    padding: 3px 10px;
+}
+
 .action-btns {
     margin: 10px;
     text-align: right;

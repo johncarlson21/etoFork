@@ -7,7 +7,7 @@
     <a href="javascript:;" id="cancelResource" class="button">Cancel</a>
 </div>
 <div class="content" id="editResource">
-    <input type="hidden" name="id" id="id" value="<?php echo isset($resource['id']) && is_numeric($resource['id']) ? $id : ''?>" />
+    <input type="hidden" name="id" id="id" value="<?php echo isset($resource['id']) && is_numeric($resource['id']) ? $resource['id'] : ''?>" />
     <input type="hidden" name="type" id="type" value="<?php echo $type; ?>" />
     <table width="100%" cellpadding="5" cellspacing="0" border="0" class="resource-table">
         <tr>

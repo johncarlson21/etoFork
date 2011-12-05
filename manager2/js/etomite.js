@@ -631,6 +631,64 @@ var Etomite = {
         });
     },
     
+    editUser: function(uid) {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'editUser',
+                id: uid
+            },
+            success: function(response) {
+                if(response === null) {
+                    Etomite.errorDialog('There was an error!', 'Error');
+                } else {
+                    Etomite.loadPane(response);
+                }
+                
+                $('#saveUser').click(function() {
+                    Etomite.saveUser();
+                });
+                $('#deleteUser').click(function() {
+                    Etomite.deleteUser();
+                });
+                $('#cancelUser').click(function() {
+                    Etomite.loadPaneFromAction('loadUsersView');
+                });
+            }
+        });
+    },
+    
+    saveUser: function() {
+        
+        var uid = $('#editUser #id').val();
+        var uname = $('#editUser #username').val();
+        var newpw = $('#editUser #newpassword').val();
+        var fname = $('#editUser #fullname').val();
+        var em = $('#editUser #email').val();
+        var ph = $('#editUser #phone').val();
+        var mph = $('#editUser #mobilephone').val();
+        var rl = $('#editUser #role').val();
+        
+        // need to add for permissions also
+        
+        var error = '';
+        
+    },
+    
+    generatePassword: function() {
+        var pw = getPassword();
+        $('#newpassword').val(pw);
+    },
+    
+    resetUserFailed: function(uid) {
+        
+    },
+    
+    resetUserBlocked: function(uid) {
+        
+    },
+    
     notify: function(message) {
         $('<div id="notification">' + message + '</div>').appendTo('body');
         $('#notification').center(false);

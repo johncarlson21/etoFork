@@ -13,7 +13,7 @@ class ExtDB {
 	public $_dbOrder; // select order
 	public $_dbLimit;	// query limit
 	public $_dbSelectTotal = 0; // total count of rows for a query. usefull if you are using a pagination script and need the total amount of records but want to just get the limited amount of rows.
-	public $_dbSelectTotalField = 'id'; // field used for the total select query 
+	public $_dbSelectTotalField = 'id'; // field used for the total select query
 	public $_noDBSel = 0; // set to 0 if you don't want to use the db select in the from portion
 
 	// load vars on creation
@@ -125,7 +125,6 @@ class ExtDB {
 	
 	function fetchAll(){ // fetch all rows
 		$sql = $this->_dbSelect;
-		fb($sql,FirePHP::INFO);
 		$result = $this->_eto->dbQuery($sql);
 		if($result && count($result)>0){
 			// put result into an array
@@ -140,8 +139,6 @@ class ExtDB {
 	
 	function fetch(){ // fetch rows
 		$sql = $this->_dbSelect;
-		
-		fb($sql,FirePHP::INFO);
 		
 		$result = $this->_eto->dbQuery($sql);
 		
@@ -215,7 +212,7 @@ class ExtDB {
 			$this->_dbSelectTotal = $this->_eto->recordCount($res);
 		}
 		
-		$this->_dbSelect = $sql; 
+		$this->_dbSelect = $sql;
 		return $this;
   }
   

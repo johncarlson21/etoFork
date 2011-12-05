@@ -247,6 +247,11 @@ class ActionServer extends Ajax {
         $User = new User();
         $User->loadUsersView();
     }
+    
+    public function editUser() {
+        $User = new User();
+        $User->editUser();
+    }
 
 }
 
