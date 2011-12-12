@@ -14,6 +14,7 @@ var Etomite = {
     usingEAEditor: false,
     goodResource: true,
     resourceTabSelected: 0,
+    goodUsername: true,
 
     init: function() {
         /* login page */
@@ -650,17 +651,58 @@ var Etomite = {
                     Etomite.saveUser();
                 });
                 $('#deleteUser').click(function() {
-                    Etomite.deleteUser();
+                    Etomite.deleteUser(uid);
                 });
                 $('#cancelUser').click(function() {
                     Etomite.loadPaneFromAction('loadUsersView');
+                });
+                
+                $('#editUser #username').keyup(function() {
+                    Etomite.goodResource = true;
+                    var uId = '';
+                    if($('#editUser #id').length > 0){
+                        uId = $('#id').val();
+                    }
+                    if ($('#username').val().length > 2) {
+                        $.ajax({
+                            url: 'ActionServer.php',
+                            dataType: 'json',
+                            data: { username: $('#editUser #username').val(), action: 'checkUsername', id: uId },
+                            success: function(json) {
+                                if ((json === null) || (json.succeeded !== true)) {
+                                    $('#uniqueUsername').show();
+                                    $('#uniqueUsername').html(json.message);
+                                    $('#uniqueUsername').css('color','red');
+                                    Etomite.goodUsername = false;
+                                } else {
+                                    $('#uniqueUsername').show();
+                                    $('#uniqueUsername').html(json.message);
+                                    $('#uniqueUsername').css('color','green');
+                                    Etomite.goodUsername = true;
+                                }
+                            }
+                        });
+                    } else {
+                        $('#uniqueUsername').hide();
+                    }
                 });
             }
         });
     },
     
     saveUser: function() {
-        
+        if (Etomite.goodUsername === false) {
+            Etomite.errorDialog('The Username you are trying to use, already exists or contains invalid characters!', 'Alert')
+            return false;
+        }
+        // build the user groups
+        var user_groups = new Array();
+        $.each($("input[name^='user_group']"), function(){
+            if ($(this).is(':checked')) {
+                //alert($(this).val());
+                user_groups.push($(this).val());
+            }
+        });
         var uid = $('#editUser #id').val();
         var uname = $('#editUser #username').val();
         var newpw = $('#editUser #newpassword').val();
@@ -669,11 +711,92 @@ var Etomite = {
         var ph = $('#editUser #phone').val();
         var mph = $('#editUser #mobilephone').val();
         var rl = $('#editUser #role').val();
+        var bl = $('#editUser #blocked').is(':checked') ? 1 : 0;
         
         // need to add for permissions also
         
         var error = '';
+        if (uname === null || uname == '') {
+            error =+ "User Name is required!<br />";
+        }
         
+        if (fname === null || fname == '') {
+            error =+ "Name is required!<br />";
+        }
+        
+        if (em === null || em == '') {
+            error =+ "Email is required!<br />";
+        }
+        
+        if (newpw.length > 0) {
+            if (newpw.length < 6) {
+                error =+ "Password to short";
+            }
+        }
+        
+        if (error != '') {
+            Etomite.errorDialog(error, 'Error');
+        } else {
+            $.ajax({
+                url: 'ActionServer.php',
+                dataType: 'json',
+                data: {
+                    action: 'saveUser',
+                    id: uid,
+                    username: uname,
+                    password: newpw,
+                    fullname: fname,
+                    email: em,
+                    phone: ph,
+                    mobilephone: mph,
+                    role: rl,
+                    blocked: bl,
+                    usergroups: user_groups
+                },
+                success: function(json) {
+                    if (json === null || json.succeeded !== true) {
+                        Etomite.errorDialog(json.message, 'Error');
+                        return false;
+                    } else {
+                        if (uid > 0) {
+                            Etomite.notify('User Updated!');
+                        } else {
+                            Etomite.notify('User Created!');
+                        }
+                        Etomite.loadPaneFromAction('loadUsersView');
+                    }
+                }
+            });
+        }
+        
+    },
+    
+    deleteUser: function(uid) {
+        if (uid === null || uid == "") {
+            Etomite.errorDialog('That is not a valid user!', 'Error');
+            return false;
+        }
+        var is_sure = window.confirm('Are you sure you want to delete this user?');
+        if (!is_sure) {
+            return false;
+        }
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'json',
+            data: {
+                action: 'deleteuser',
+                id: uid
+            },
+            success: function(json) {
+                if (json === null || json.succeeded !== true) {
+                    Etomite.errorDialog(json.message, 'Error');
+                    return false;
+                } else {
+                    Etomite.notify('User Deleted!');
+                    Etomite.loadPaneFromAction('loadUsersView');
+                }
+            }
+        });
     },
     
     generatePassword: function() {
@@ -682,11 +805,58 @@ var Etomite = {
     },
     
     resetUserFailed: function(uid) {
-        
+        if (uid) {
+            $.ajax({
+                url: 'ActionServer.php',
+                dataType: 'json',
+                data: {
+                    action: 'resetUserFailed',
+                    id: uid
+                },
+                success: function(json) {
+                    if (json === null || json.succeeded !== true) {
+                        return false;
+                    } else {
+                        $('#editUser #failed').text('0');
+                        $('#editUser #blocked-msg').hide();
+                        $('#editUser #blocked').removeAttr('checked');
+                        Etomite.notify('Failed Login Count Reset!<br />User no longer blocked!');
+                    }
+                }
+            });
+        }
     },
     
-    resetUserBlocked: function(uid) {
-        
+    editRole: function(rid) {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'editRole',
+                id: rid
+            },
+            success: function(response) {
+                if (response === null) {
+                    Etomite.errorDialog('There was an error opening the role');
+                    return false;
+                } else {
+                    Etomite.loadPane(response);
+                }
+                $('#saveRole').click(function() {
+                    Etomite.saveRole();
+                });
+                $('#deleteRole').click(function() {
+                    Etomite.deleteRole(rid);
+                });
+                $('#cancelRole').click(function() {
+                    Etomite.loadPaneFromAction('loadUsersView');
+                });
+            }
+        });
+    },
+    
+    saveRole: function() {
+        var rid = $('#editRole #id').val();
     },
     
     notify: function(message) {

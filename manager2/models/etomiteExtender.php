@@ -227,7 +227,7 @@ function makeUrl($id, $alias='', $args='') {
             return false;
         } else {
             $db = new ExtDB($this);
-            $db->select(array('manager_users'=>'mu'));
+            $db->select(array('manager_users'=>'mu'), array('id', 'username'));
             $db->where('mu.id = '.$id);
             $db->leftJoin(
                 array('user_attributes'=>'ua'),

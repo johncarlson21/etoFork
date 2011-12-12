@@ -1,4 +1,8 @@
-<div class="header"><?php echo $this->_lang['user_title']; ?></div>
+<div class="header"><?php echo $this->_lang['user_title']; ?>
+    <?php if (isset($userdata['id'])) {
+        echo " - ".$userdata['fullname']." (".$userdata['username'].")";
+    } ?>
+</div>
 <div class="action-btns">
     <a href="javascript:;" id="saveUser" class="button">Save</a>
     <?php if ($id && !empty($id)) {?>
@@ -13,18 +17,18 @@
     </ul>
     <div id="user-tab">
         <div id="editUser">
-        <input type="hidden" name="id" id="id" value="<?php isset($userdata['id']) && is_numeric($userdata['id']) ? $userdata['id'] : '' ?>">
+        <input type="hidden" name="id" id="id" value="<?php echo isset($userdata['id']) ? $userdata['id'] : '' ?>">
         <table border="0" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="3">
-              <span id="blocked" class="warning"><?php if($userdata['blocked']==1 || ($userdata['blockeduntil']>time() && $userdata['blockeduntil']!=0) || $userdata['failedlogins']>3) { ?><span class='warning'><?php echo $this->_lang['user_is_blocked']; ?></span><?php } ?></span>
+              <span id="blocked-msg" class="warning"><?php if($userdata['blocked']==1 || ($userdata['blockeduntil']>time() && $userdata['blockeduntil']!=0) || $userdata['failedlogins']>3) { ?><span class='warning'><?php echo $this->_lang['user_is_blocked']; ?></span><?php } ?></span>
               <br />
             </td>
           </tr>
           <tr>
             <td><?php echo $this->_lang['username']; ?>:</td>
             <td>&nbsp;</td>
-            <td width="400"><input type="text" name="username" id="username" class="inputBox" style="width:150px" value="<?php echo $userdata['username']; ?>"></td>
+            <td width="400"><input type="text" name="username" id="username" class="inputBox" style="width:150px" value="<?php echo $userdata['username']; ?>"><div style="display: none;" id="uniqueUsername"></div></td>
           </tr>
           <tr>
             <td valign="top"><?php echo isset($userdata['id']) && is_numeric($userdata['id']) ? $this->_lang['change_password_new'].":" : $this->_lang['password'].":" ; ?></td>
@@ -53,7 +57,7 @@
           <tr>
             <td><?php echo $this->_lang['user_email']; ?>:</td>
             <td>&nbsp;</td>
-            <td><input type="text" name="email" name="email" class="inputBox" style="width:150px" value="<?php echo $userdata['email']; ?>"></td>
+            <td><input type="text" name="email" id="email" class="inputBox" style="width:150px" value="<?php echo $userdata['email']; ?>"></td>
           </tr>
           <tr>
             <td><?php echo $this->_lang['user_phone']; ?>:</td>
@@ -99,17 +103,17 @@
           <tr>
             <td><?php echo $this->_lang['user_prevlogin']; ?>:</td>
             <td>&nbsp;</td>
-            <td><?php echo strftime('%d-%m-%y %H:%M:%S', $userdata['lastlogin']+$this->config['server_offset_time']) ?></td>
+            <td><?php echo $userdata['lastlogin'] > 0 ? strftime('%d-%m-%y %H:%M:%S', $userdata['lastlogin']+$this->config['server_offset_time']) : ''; ?></td>
           </tr>
           <tr>
             <td><?php echo $this->_lang['user_failedlogincount']; ?>:</td>
             <td>&nbsp;<input type="hidden" name="failedlogincount" id="failedlogincount"  value="<?php echo $userdata['failedlogincount']; ?>"></td>
-            <td><span id='failed'><?php echo $userdata['failedlogincount'] ?></span>&nbsp;&nbsp;&nbsp;[<a href="javascript:;" onclick="Etomite.resetUserFailed(<?php echo $userdata['id'];?>);" /><?php echo $this->_lang['reset_failedlogins']; ?></a>]</td>
+            <td><span id='failed'><?php echo $userdata['failedlogincount'] ?></span>&nbsp;&nbsp;&nbsp;[<a href="javascript:;" onclick="Etomite.resetUserFailed(<?php echo $userdata['id'];?>);"><?php echo $this->_lang['reset_failedlogins']; ?></a>]</td>
           </tr>
           <tr>
             <td><?php echo $this->_lang['user_block']; ?>:</td>
             <td>&nbsp;</td>
-            <td><input name="blocked" id="blocked" type="checkbox"<?php echo $userdata['blocked']==1 ? " checked='checked'": "" ; ?> onclick="Etomite.resetUserBlocked(<?php echo $userdata['id'];?>);" /></td>
+            <td><input name="blocked" id="blocked" type="checkbox"<?php echo $userdata['blocked']==1 ? " checked='checked'": "" ; ?> /></td>
           </tr>
           <?php } ?>
         </table>
@@ -117,8 +121,8 @@
         <?php if($userdata['id']==$_SESSION['internalKey']) { ?><span class='warning'><b><?php echo $this->_lang['user_edit_self_msg']; ?></span><br /><?php } ?>
     </div>
     <div id="user-permissions">
+        <p><?php echo $this->_lang['access_permissions_user_message']; ?></p>
         <?php
-        
           $groupsarray = array();
           if (isset($userdata['id']) && is_numeric($userdata['id'])) {
               $sql = "SELECT * FROM ".$this->db."member_groups where member=".$userdata['id']."";
@@ -138,7 +142,7 @@
         for($i=0; $i<$limit; $i++) {
           $row=$this->fetchRow($rs);
     ?>
-      <input type="checkbox" name="user_groups['<?php echo $row['id']; ?>']" id="user_groups['<?php echo $row['id']; ?>']" <?php echo in_array($row['id'], $groupsarray) ? "checked='checked'" : "" ; ?>><?php echo $row['name']; ?><br />
+      <input type="checkbox" name="user_groups[]" id="user_groups[]" <?php echo in_array($row['id'], $groupsarray) ? "checked='checked'" : "" ; ?> value="<?php echo $row['id'];?>" /><?php echo $row['name']; ?><br />
     <?php
         }
     ?>

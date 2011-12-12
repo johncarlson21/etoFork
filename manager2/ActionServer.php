@@ -195,6 +195,7 @@ class ActionServer extends Ajax {
     public function saveResource() {
         $this->validateRequest(array('type'));
         $type = (isset($_REQUEST['type']) && !empty($_REQUEST['type'])) ? $_REQUEST['type'] : false;
+        $params = array();
         $Resource = new Resource();
         if ($Resource->saveResource($type)) {
             if ($Resource->lastId && $Resource->lastId > 0) {
@@ -251,6 +252,68 @@ class ActionServer extends Ajax {
     public function editUser() {
         $User = new User();
         $User->editUser();
+    }
+    
+    public function checkUsername() {
+        $User = new User();
+        // todo no contain
+        $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");
+        foreach($against as $a) {
+            if (strpos($_REQUEST['username'], $a) !== false) {
+                $this->respond(false, 'Username cannot contain &quot;'.$a.'&quot;');
+            }
+        }
+        $good = $User->checkUsername($_REQUEST['username'], (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false);
+        if ($good) {
+            $this->respond(true, 'That is a good user name!');
+        } else {
+            $this->respond(false, 'That username is not available!');
+        }
+    }
+    
+    public function saveUser() {
+        $this->validateRequest(array(
+            'username',
+            'fullname',
+            'email'
+        ));
+        $params = array();
+        
+        $User = new User();
+        if ($User->saveUser()) {
+            if ($User->lastId && $User->lastId > 0) {
+                $params = array('id'=>$User->lastId);
+            }
+            $this->respond(true, 'created', $params);
+        } else {
+            $this->respond(false, 'not created');
+        }
+        
+    }
+    
+    public function deleteUser() {
+        $this->validateRequest(array('id'));
+        $User = new User();
+        if ($User->deleteUser((int)$_REQUEST['id'])) {
+            $this->respond(true, 'user deleted');
+        } else {
+            $this->respond(false, 'User not deleted!');
+        }
+    }
+    
+    public function resetUserFailed() {
+        $this->validateRequest(array('id'));
+        $User = new User();
+        if ($User->resetUserFailed((int)$_REQUEST['id'])) {
+            $this->respond(true, 'failed login reset');
+        } else {
+            $this->respond(false, 'not reset');
+        }
+    }
+    
+    public function editRole() {
+        $User = new User();
+        $User->editRole();
     }
 
 }
