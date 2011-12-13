@@ -1,5 +1,6 @@
 <div class="header"><?php echo $this->_lang['role_title']; ?></div>
 <div class="content" id="editRole">
+    <form id="editRoleForm">
     <div class="action-btns">
         <a href="javascript:;" id="saveRole" class="button">Save</a>
         <?php if ($id && !empty($id)) {?>
@@ -8,18 +9,18 @@
         <a href="javascript:;" id="cancelRole" class="button">Cancel</a>
     </div>
     <p>&nbsp;</p>
-    <input type="hidden" name="id" value="<?php echo isset($roledata['id']) ? (int)$roledata['id'] : ''; ?>" />
+    <input type="hidden" name="id" id="id" value="<?php echo isset($roledata['id']) ? (int)$roledata['id'] : ''; ?>" />
     <div class='fakefieldset'>
         <table border="0" cellspacing="0" cellpadding="4">
           <tr>
             <td><?php echo $this->_lang['role_name']; ?>:</td>
             <td>&nbsp;</td>
-            <td><input name="name" type="text" maxlength=50 value="<?php echo $roledata['name'] ; ?>" /></td>
+            <td><input name="name" id="name" type="text" maxlength=50 value="<?php echo $roledata['name'] ; ?>" /></td>
           </tr>
           <tr>
             <td><?php echo $this->_lang['document_description']; ?>:</td>
             <td>&nbsp;</td>
-            <td><input name="description" type="text" maxlength=255 value="<?php echo $roledata['description'] ; ?>" size="60" /></td>
+            <td><input name="description" id="description" type="text" maxlength=255 value="<?php echo $roledata['description'] ; ?>" size="60" /></td>
           </tr>
         </table>
     </div>
@@ -27,9 +28,6 @@
         <span class='fakefieldsettitle'><?php echo $this->_lang['page_data_general']; ?></span>
     </p>
     <div class='fakefieldset'>
-    <input name="frames" id="frames" type="checkbox" <?php echo $roledata['frames']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_frames']; ?></span>
-    <br />
 
     <input name="home" id="home" type="checkbox" checked disabled>
     <span><?php echo $this->_lang['role_home']; ?></span>
@@ -245,4 +243,5 @@
     <span><?php echo $this->_lang['role_file_manager']; ?></span>
     <br />
   </div>
+  </form>
 </div>

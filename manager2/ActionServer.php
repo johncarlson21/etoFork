@@ -315,6 +315,16 @@ class ActionServer extends Ajax {
         $User = new User();
         $User->editRole();
     }
+    
+    public function saveRole() {
+        $this->validateRequest(array('name')); // name is required
+        $User = new User();
+        if ($User->saveRole()) {
+            $this->respond(true, 'Role Saved');
+        } else {
+            $this->respond(false, 'Role not saved!');
+        }
+    }
 
 }
 

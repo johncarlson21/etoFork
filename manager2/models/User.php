@@ -146,6 +146,34 @@ class User extends etomiteExtender {
         include('views/edit_role.phtml');
     }
     
+    public function saveRole() {
+        $id = (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false;
+        $reqFields = $_REQUEST;
+        unset($reqFields['id'], $reqFields['action']);
+        $resF = $this->dbQuery('SHOW COLUMNS FROM '.$this->db.'user_roles WHERE Field != "id" AND Field != "name" AND Field != "description"');
+        $fields = array(); // list of table fields to use
+        while($row = $this->fetchRow($resF)) {
+            $fields[] = $row['Field'];
+        }
+        $data = array();
+        $data['name'] = $reqFields['name'];
+        $data['description'] = $reqFields['description'];
+        unset($reqFields['name'], $reqFields['description']);
+        foreach($fields as $f) {
+            $data[$f] = (isset($reqFields[$f]) && ($reqFields[$f] == 1 || $reqFields[$f] == 'on') ) ? 1 : 0;
+        }
+        if ($id) {
+            if ($this->updIntTableRows($data, 'user_roles', 'id='.$id)) {
+                return true;
+            }
+        } else {
+            if ($this->putIntTableRow($data, 'user_roles')) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }
 
 ?>

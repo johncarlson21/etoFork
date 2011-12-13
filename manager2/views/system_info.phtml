@@ -7,62 +7,62 @@ if(@$handle = fopen("http://www.etomite.com/status/status.php", "r"))
   $newrelease = trim(strip_tags($newversion));
   if($release.$patch_level == $newrelease)
   {
-    $newversiontext = $this->_lang['sys_info_version_ok'];
+    $newversiontext = $etomite->_lang['sys_info_version_ok'];
   }
   if($release.$patch_level < $newrelease)
   {
-    $newversiontext = $this->_lang['sys_info_version_update']."<b>".$newrelease."</b>";
+    $newversiontext = $etomite->_lang['sys_info_version_update']."<b>".$newrelease."</b>";
   }
   if($release.$patch_level > $newrelease)
   {
-    $newversiontext = $this->_lang['sys_info_version_ok'];
+    $newversiontext = $etomite->_lang['sys_info_version_ok'];
   }
 }
 else
 {
-  $newversiontext = $this->_lang['sys_info_version_no_connect'];
+  $newversiontext = $etomite->_lang['sys_info_version_no_connect'];
 }
 ?>
 <div class="header">System Information</div>
 <div id="systemInfoTabs">
     <ul>
-        <li><a href="#recentDocs"><?php echo $this->_lang["activity_title"]; ?></a></li>
-        <li><a href="#serverInfo"><?php echo $this->_lang['server_info']; ?></a></li>
-        <li><a href="#dbtables"><?php echo $this->_lang['database_tables']; ?></a></li>
-        <li><a href="#userpanel"><?php echo $this->_lang["onlineusers_title"]; ?></a></li>
+        <li><a href="#recentDocs"><?php echo $etomite->_lang["activity_title"]; ?></a></li>
+        <li><a href="#serverInfo"><?php echo $etomite->_lang['server_info']; ?></a></li>
+        <li><a href="#dbtables"><?php echo $etomite->_lang['database_tables']; ?></a></li>
+        <li><a href="#userpanel"><?php echo $etomite->_lang["onlineusers_title"]; ?></a></li>
     </ul>
     <div id="recentDocs">
-        <p><?php echo $this->_lang["sys_info_activity_message"]; ?></p>
+        <p><?php echo $etomite->_lang["sys_info_activity_message"]; ?></p>
         <table border=0 cellpadding=0 cellspacing=0 width=100%>
               <thead>
               <tr>
-                <td><b><?php echo $this->_lang['id']; ?></b></td>
-                <td><b><?php echo $this->_lang['document_title']; ?></b></td>
-                <td><b><?php echo $this->_lang["sys_info_userid"]; ?></b></td>
-                <td><b><?php echo $this->_lang['datechanged']; ?></b></td>
+                <td><b><?php echo $etomite->_lang['id']; ?></b></td>
+                <td><b><?php echo $etomite->_lang['document_title']; ?></b></td>
+                <td><b><?php echo $etomite->_lang["sys_info_userid"]; ?></b></td>
+                <td><b><?php echo $etomite->_lang['datechanged']; ?></b></td>
               </tr>
               </thead>
               <tbody>
         <?php
-        $sql = "SELECT id, pagetitle, editedby, editedon FROM ".$this->db."site_content WHERE ".$this->db."site_content.deleted=0 ORDER BY editedon DESC LIMIT 20";
-        $rs = $this->dbQuery($sql);
-        $limit = $this->recordCount($rs);
+        $sql = "SELECT id, pagetitle, editedby, editedon FROM ".$etomite->db."site_content WHERE ".$etomite->db."site_content.deleted=0 ORDER BY editedon DESC LIMIT 20";
+        $rs = $etomite->dbQuery($sql);
+        $limit = $etomite->recordCount($rs);
         if($limit < 1)
         {
-          echo $this->_lang['sys_info_nothing_found']."<p />";
+          echo $etomite->_lang['sys_info_nothing_found']."<p />";
         }
         else
         {
           for ($i = 0; $i < $limit; $i++)
           {
-            $content = $this->fetchRow($rs);
-            $sql = "select username from ".$this->db."manager_users WHERE id=".$content['editedby'];
-            $rs2 = $this->dbQuery($sql);
-            $limit2 = $this->recordCount($rs2);
+            $content = $etomite->fetchRow($rs);
+            $sql = "select username from ".$etomite->db."manager_users WHERE id=".$content['editedby'];
+            $rs2 = $etomite->dbQuery($sql);
+            $limit2 = $etomite->recordCount($rs2);
         
-            $user = $this->fetchRow($rs2);
+            $user = $etomite->fetchRow($rs2);
             $bgcolor = ($i % 2) ? 'odd' : 'even';
-            echo "<tr class=\"$bgcolor\"><td>".$content['id']."</td><td><a href='javascript:;' onclick='Etomite.editDocument('".$content['id']."');'>".$content['pagetitle']."</a></td><td>".$user['username']."</td><td>".strftime($this->config['date_format']." @ ".$this->config['time_format'], $content['editedon']+$this->config['server_offset_time'])."</td></tr>";
+            echo "<tr class=\"$bgcolor\"><td>".$content['id']."</td><td><a href='javascript:;' onclick='Etomite.editDocument('".$content['id']."');'>".$content['pagetitle']."</a></td><td>".$user['username']."</td><td>".strftime($etomite->config['date_format']." @ ".$etomite->config['time_format'], $content['editedon']+$etomite->config['server_offset_time'])."</td></tr>";
           }
         }
         ?>
@@ -71,65 +71,65 @@ else
         </table>
     </div>
     <div id="serverInfo">
-        <p><?php echo $this->_lang['sys_info_eto_install_info']; ?></p>
+        <p><?php echo $etomite->_lang['sys_info_eto_install_info']; ?></p>
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
-          <td width="150"><?php echo $this->_lang['sys_info_eto_version'];?></td>
+          <td width="150"><?php echo $etomite->_lang['sys_info_eto_version'];?></td>
           <td width="20">&nbsp;</td>
           <td><b><?php echo $release.$patch_level ?>&nbsp;</b><?php echo $newversiontext; ?></td>
           </tr>
           <tr>
-          <td width="150"><?php echo $this->_lang['sys_info_eto_codename'];?></td>
+          <td width="150"><?php echo $etomite->_lang['sys_info_eto_codename'];?></td>
           <td width="20">&nbsp;</td>
-          <td><b><?php echo $this->config['code_name'] ?>&nbsp;</b></td>
+          <td><b><?php echo $etomite->config['code_name'] ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_acc_perms'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_acc_perms'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo $use_udperms==1 ? $this->_lang['sys_info_perms_enabled'] : $this->_lang['sys_info_perms_disabled']; ?>&nbsp;</b></td>
+          <td><b><?php echo $use_udperms==1 ? $etomite->_lang['sys_info_perms_enabled'] : $etomite->_lang['sys_info_perms_disabled']; ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_time'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_time'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo strftime($this->config['time_format'], time()); ?>&nbsp;</b></td>
+          <td><b><?php echo strftime($etomite->config['time_format'], time()); ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_local_time'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_local_time'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo strftime($this->config['time_format'], time()+$this->config['server_offset_time']); ?>&nbsp;</b></td>
+          <td><b><?php echo strftime($etomite->config['time_format'], time()+$etomite->config['server_offset_time']); ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_offset'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_offset'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo $this->config['server_offset_time']/(60*60) ?></b> <?php echo $this->_lang['sys_info_offset_text'];?></td>
+          <td><b><?php echo $etomite->config['server_offset_time']/(60*60) ?></b> <?php echo $etomite->_lang['sys_info_offset_text'];?></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_db_name'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_db_name'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo $this->dbConfig['dbase'] ?>&nbsp;</b></td>
+          <td><b><?php echo $etomite->dbConfig['dbase'] ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_db_server'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_db_server'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo $this->dbConfig['host'] ?>&nbsp;</b></td>
+          <td><b><?php echo $etomite->dbConfig['host'] ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_db_prefix'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_db_prefix'];?></td>
           <td>&nbsp;</td>
-          <td><b><?php echo $this->dbConfig['table_prefix'] ?>&nbsp;</b></td>
+          <td><b><?php echo $etomite->dbConfig['table_prefix'] ?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_base_page_abs'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_base_page_abs'];?></td>
           <td>&nbsp;</td>
           <td><b><?php echo MANAGER_PATH;?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_base_page_rel'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_base_page_rel'];?></td>
           <td>&nbsp;</td>
           <td><b><?php echo str_replace(absolute_base_path, "", MANAGER_PATH);?>&nbsp;</b></td>
           </tr>
           <tr>
-          <td><?php echo $this->_lang['sys_info_base_page_www'];?></td>
+          <td><?php echo $etomite->_lang['sys_info_base_page_www'];?></td>
           <td>&nbsp;</td>
           <td><b><?php echo MANAGER_URL;?>&nbsp;</b></td>
           </tr>
@@ -147,27 +147,27 @@ else
     </div>
     <div id="dbtables">
         <div class="content">
-            <p><?php echo $this->_lang['sys_info_table_instructions'];?></p>
+            <p><?php echo $etomite->_lang['sys_info_table_instructions'];?></p>
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <thead>
             <tr>
-              <td width="160"><?php echo $this->_lang['sys_info_table_name'];?></td>
-              <td width="40" align="right"><?php echo $this->_lang['sys_info_records'];?></td>
-              <td width="120" align="right"><?php echo $this->_lang['sys_info_data_size'];?></td>
-              <td width="120" align="right"><?php echo $this->_lang['sys_info_overhead']?></td>
-              <td width="120" align="right"><?php echo $this->_lang['sys_info_effective_size'];?></td>
-              <td width="120" align="right"><?php echo $this->_lang['sys_info_index_size'];?></td>
-              <td width="120" align="right"><?php echo $this->_lang['sys_info_total_size'];?></td>
+              <td width="160"><?php echo $etomite->_lang['sys_info_table_name'];?></td>
+              <td width="40" align="right"><?php echo $etomite->_lang['sys_info_records'];?></td>
+              <td width="120" align="right"><?php echo $etomite->_lang['sys_info_data_size'];?></td>
+              <td width="120" align="right"><?php echo $etomite->_lang['sys_info_overhead']?></td>
+              <td width="120" align="right"><?php echo $etomite->_lang['sys_info_effective_size'];?></td>
+              <td width="120" align="right"><?php echo $etomite->_lang['sys_info_index_size'];?></td>
+              <td width="120" align="right"><?php echo $etomite->_lang['sys_info_total_size'];?></td>
             </tr>
             </thead>
             <tbody>
             <?php
-            $sql = "SHOW TABLE STATUS FROM ".$this->dbConfig['dbase'].";";
-            $rs = $this->dbQuery($sql);
-            $limit = $this->recordCount($rs);
+            $sql = "SHOW TABLE STATUS FROM ".$etomite->dbConfig['dbase'].";";
+            $rs = $etomite->dbQuery($sql);
+            $limit = $etomite->recordCount($rs);
             for ($i = 0; $i < $limit; $i++)
             {
-              $log_status = $this->fetchRow($rs);
+              $log_status = $etomite->fetchRow($rs);
               $bgcolor = ($i % 2) ? 'odd' : 'even';
             ?>
             
@@ -199,7 +199,7 @@ else
             <?php
             if($totaloverhead>0)
             {
-              echo "<p>".$this->_lang['sys_info_table_clear']."</p>";
+              echo "<p>".$etomite->_lang['sys_info_table_clear']."</p>";
             }
             ?>
         </div>
@@ -207,17 +207,17 @@ else
     
     <div id="userpanel">
         <div class="content">
-            <p><? echo $this->_lang["onlineusers_message"]; ?><br />
-            <b><?php echo $this->_lang['current_time:'].strftime($this->config['time_format'], time()+$this->config['server_offset_time']); ?></b></p>
+            <p><? echo $etomite->_lang["onlineusers_message"]; ?><br />
+            <b><?php echo $etomite->_lang['current_time:'].strftime($etomite->config['time_format'], time()+$etomite->config['server_offset_time']); ?></b></p>
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
               <thead>
                 <tr>
-                <td><?php echo $this->_lang["onlineusers_user"];?></td>
-                <td><?php echo $this->_lang["onlineusers_userid"];?></td>
-                <td><?php echo $this->_lang["onlineusers_ipaddress"];?></td>
-                <td><?php echo $this->_lang["onlineusers_lasthit"];?></td>
-                <td><?php echo $this->_lang["onlineusers_action"];?></td>
-                <td><?php echo $this->_lang["onlineusers_action_id"];?></td>
+                <td><?php echo $etomite->_lang["onlineusers_user"];?></td>
+                <td><?php echo $etomite->_lang["onlineusers_userid"];?></td>
+                <td><?php echo $etomite->_lang["onlineusers_ipaddress"];?></td>
+                <td><?php echo $etomite->_lang["onlineusers_lasthit"];?></td>
+                <td><?php echo $etomite->_lang["onlineusers_action"];?></td>
+                <td><?php echo $etomite->_lang["onlineusers_action_id"];?></td>
                 </tr>
               </thead>
               <tbody>
@@ -227,20 +227,20 @@ else
                 
                 include_once("includes/actionlist.inc.php");
                 
-                $sql = "SELECT * FROM ".$this->db."active_users WHERE ".$this->db."active_users.lasthit>$timetocheck ORDER BY username ASC";
-                $rs = $this->dbQuery($sql);
-                $limit = $this->recordCount($rs);
+                $sql = "SELECT * FROM ".$etomite->db."active_users WHERE ".$etomite->db."active_users.lasthit>$timetocheck ORDER BY username ASC";
+                $rs = $etomite->dbQuery($sql);
+                $limit = $etomite->recordCount($rs);
                 if($limit < 1)
                 {
-                  echo $this->_lang['sys_info_no_active_users'];
+                  echo $etomite->_lang['sys_info_no_active_users'];
                 }
                 else
                 {
                   for ($i = 0; $i < $limit; $i++)
                   {
-                    $activeusers = $this->fetchRow($rs);
+                    $activeusers = $etomite->fetchRow($rs);
                     $currentaction = getAction($activeusers['action'], $activeusers['id']);
-                    echo "<tr><td><b>".$activeusers['username']."</b></td><td>".$activeusers['internalKey']."</td><td>".$activeusers['ip']."</td><td>".strftime($this->config['time_format'], $activeusers['lasthit']+$this->config['server_offset_time'])."</td><td>$currentaction</td><td align='right'>".$activeusers['action']."</td></tr>";
+                    echo "<tr><td><b>".$activeusers['username']."</b></td><td>".$activeusers['internalKey']."</td><td>".$activeusers['ip']."</td><td>".strftime($etomite->config['time_format'], $activeusers['lasthit']+$etomite->config['server_offset_time'])."</td><td>$currentaction</td><td align='right'>".$activeusers['action']."</td></tr>";
                   }
                 }
                 ?>

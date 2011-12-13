@@ -420,7 +420,13 @@
 				$SFB.css({position:"relative",width:"auto",heigth:"auto"});
 				$SFBWin.css({position:"relative",border:"0px"});
 				var mPrn = $(ss.inline);
+				$(window).resize(function() {
+				    setTimeout(function() {
+				        resizeWindow(0,$('#fileManager').width(),$('#fileManager').height());
+				    }, 500);
+                });
 				resizeWindow(0,mPrn.width(),mPrn.height());
+				
 			}
 			// setupKeyboardShortcuts
 			setupKeyboardShortcuts();
@@ -1106,7 +1112,9 @@
 			var iWprv = $("#fbpreview").width();
 			var iHprv = $("#fbpreview").height();
 			if (ss.img.indexOf(oFile.mime)!=-1) {// preview Image
-				var sFuri = ss.previewPath+aPath[1]+sFile; //ss.prefx+ss.sfbpath+aPath.join("")+sFile; // $$ todo: cleanup img path
+			    var pt = aPath.join("");
+				var sFuri = "/"+pt.replace(/\.\.\//gi,"")+sFile; //ss.prefx+ss.sfbpath+aPath.join("")+sFile; // $$ todo: cleanup img path
+			    //var sFuri = ss.prefx+ss.sfbpath+aPath.join("")+sFile;
 				$("<img src=\""+sFuri+"?"+Math.random()+"\" />").appendTo("#fbpreview").click(function(){$(this).parent().toggleClass("auto")});
 			} else if (ss.ascii.indexOf(oFile.mime)!=-1||ss.archive.indexOf(oFile.mime)!=-1||oFile.mime=='pdf') {// preview ascii or zip
 				if (oFile.preview) {
@@ -1506,14 +1514,19 @@
 	function resizeWindow(e,xo,yo) {
 		var oSPos = $SFB.position();
 		var oWPos = $SFBWin.position();
+		
 		var iWdt = Math.max(Math.min(	e?e.pageX+xo-(oWPos.left+oSPos.left):(xo?xo:$SFBWin.width())	,oConstraint.mxw),oConstraint.mnw);
-		var iHgt = Math.max(Math.min(	e?e.pageY+yo-(oWPos.top+oSPos.top):(yo?yo:$SFBWin.height())		,oConstraint.mxh),oConstraint.mnh);
+		if(ss.inline){
+		    var iHgt = yo;
+		} else {
+		    var iHgt = Math.max(Math.min(	e?e.pageY+yo-(oWPos.top+oSPos.top):(yo?yo:$SFBWin.height())		,oConstraint.mxh),oConstraint.mnh);
+		}
 		$SFBWin.css({width:iWdt+"px",height:iHgt+"px"});
 		//
 		var iPrvH = $SFB.find("#fbpreview").height();
 		var iAddH = iPrvH+(iPrvH==null?90:105);
 		$TableH.css({height:(iHgt-iAddH+$Table.find("thead").height())+"px"});
-		$TbBody.css({height:(iHgt-iAddH)+"px"});
+		//$TbBody.css({height:(iHgt-iAddH)+"px"});
 		//
 		adjustFilenameWidth();
 		//

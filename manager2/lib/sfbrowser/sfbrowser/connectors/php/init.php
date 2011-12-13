@@ -2,8 +2,8 @@
 
 include("sfbrowser.php");
 
-$sCache = SFB_DEBUG?"?".rand(0,999):"";
-$sMin = SFB_DEBUG?"":".min";
+$sCache = ''; //SFB_DEBUG?"?".rand(0,999):"";
+$sMin = ''; SFB_DEBUG?"":".min";
 $T = SFB_DEBUG?"\t":"";
 $N = SFB_DEBUG?"\n":"";
 

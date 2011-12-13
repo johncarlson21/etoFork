@@ -856,7 +856,20 @@ var Etomite = {
     },
     
     saveRole: function() {
-        var rid = $('#editRole #id').val();
+        var params = $('#editRoleForm').serialize() + "&action=saveRole";
+        $.ajax({
+            url: 'ActionServer.php',
+            data: params,
+            dataType: 'json',
+            success: function(json) {
+                if (json === null || json.succeeded !== true) {
+                    Etomite.errorDialog(json.message, 'Error');
+                } else {
+                    Etomite.notify('Role Updated');
+                    Etomite.loadPaneFromAction('loadUsersView');
+                }
+            }
+        });
     },
     
     notify: function(message) {
