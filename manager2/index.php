@@ -56,6 +56,10 @@ startCMSSession();
 
 $etomite = new etomiteExtender;
 
+if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 1) {
+    $etomite->userLogout();
+}
+
 // send the charset header
 header('Content-Type: text/html; charset='.$etomite->config['etomite_charset']);
 

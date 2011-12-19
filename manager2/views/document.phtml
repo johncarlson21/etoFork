@@ -90,16 +90,23 @@ if($id && count($content)>0) {
             <td valign="top">
     
     <?php
-            if (isset($_REQUEST['pid'])) {
+            if (isset($_REQUEST['pid']) && !empty($_REQUEST['pid']) && !isset($content['parent'])) {
                 $parentDoc = $this->getDocument($_REQUEST['pid']);
                 $parentname = $parentDoc['pagetitle'];
+                $parentId = 0;
             } else {
-                $parentname = $this->config['site_name'];
+                if($parentDoc = $this->getDocument($content['parent'])) {
+                    $parentname = $parentDoc['pagetitle'];
+                    $parentId = $content['parent'];
+                } else {
+                    $parentname = $this->config['site_name'];
+                    $parentId = 0;
+                }
             }
     ?>
     
-            &nbsp;&nbsp;<b><span id="parentName"><?php echo isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0; ?> (<?php echo $parentname; ?>)</span></b>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_parent_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            <input type="hidden" name="parent" id="parent" value="<?php echo isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0; ?>" >
+            &nbsp;&nbsp;<b><span id="parentName"><?php echo $parentId; ?> (<?php echo $parentname; ?>)</span></b>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_parent_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+            <input type="hidden" name="parent" id="parent" value="<?php echo $parentId; ?>" >
             </td>
           </tr>
         </table>

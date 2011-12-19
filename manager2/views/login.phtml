@@ -14,10 +14,18 @@ $(document).ready(function(){
     Etomite.init();
 });
 </script>
+<style type="text/css">
+.error {
+    font-size: 11px;
+    color: #F00;
+    text-align: center;
+    font-weight: bold;
+}
+</style>
 </head>
 <body id="loginPage">
     <div class="header">Etomite Administration Login</div>
-    <div class="wrapper">
+    <div class="wrapper" id="mainContent">
         <div class="login-box">
             <div class="login-info">
                 <div class="eto-logo"><img src='./images/misc/logo.gif' alt='<?php echo $release; ?>' title='<?php echo $release; ?>' /></div>
@@ -25,6 +33,7 @@ $(document).ready(function(){
                 <div style="clear:both"></div>
             </div>
             <div class="input-form">
+                <div class="error"></div>
                 <div class="input-box">
                     <label>Username:</label>
                     <input type="text" name="username" id="username" value="" />

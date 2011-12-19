@@ -7,7 +7,7 @@ class ActionServer extends Ajax {
     
     public function loadWelcome() {
         $etomite = new etomiteExtender();
-        $_lang = $this->_lang;
+        $_lang = $etomite->_lang;
         include('views/welcome.phtml');
     }
     
@@ -49,11 +49,17 @@ class ActionServer extends Ajax {
     
     public function checkAlias() {
         $Content = new Content();
+        $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");
+        foreach($against as $a) {
+            if (strpos($_REQUEST['alias'], $a) !== false) {
+                $this->respond(false, 'Alias cannot contain &quot;'.$a.'&quot;');
+            }
+        }
         $good = $Content->checkAlias($_REQUEST['alias'], (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false);
         if ($good) {
-            $this->respond(true, 'That is a good alias');
+            $this->respond(true, 'That is a good alias!');
         } else {
-            $this->respond(false, 'Alias exists');
+            $this->respond(false, 'Alias already exists!');
         }
     }
     
@@ -311,6 +317,16 @@ class ActionServer extends Ajax {
         }
     }
     
+    public function changeUserPassword() {
+        $this->validateRequest(array('password'));
+        $User = new User();
+        if ($User->changeUserPassword($_REQUEST['password'])) {
+            $this->respond(true, 'Password Changed!');
+        } else {
+            $this->respond(false, 'Error Changing Password!');
+        }
+    }
+    
     public function editRole() {
         $User = new User();
         $User->editRole();
@@ -324,6 +340,16 @@ class ActionServer extends Ajax {
         } else {
             $this->respond(false, 'Role not saved!');
         }
+    }
+    
+    public function syncSite() {
+        $System = new System();
+        $System->syncSite();
+    }
+    
+    public function showSiteSchedule() {
+        $System = new System();
+        $System->showSiteSchedule();
     }
 
 }

@@ -177,8 +177,8 @@ class Content extends etomiteExtender {
                 break;
                 case "parent":
                     $parent = $this->getDocument($propertyVal);
-                    if ($parent['isfolder'] != 1) {
-                        $this->updIntTableRow(array('isfolder'=>1), 'site_content', 'id=' . $parent['id']);
+                    if ($parent['isfolder'] != 1 && $parent['id'] > 0) {
+                        $this->updIntTableRows(array('isfolder'=>1), 'site_content', 'id=' . $parent['id']);
                     }
                     $data[$property] = $propertyVal;
                     $data['editedby'] = $_SESSION['internalKey'];

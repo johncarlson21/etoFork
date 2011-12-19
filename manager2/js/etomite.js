@@ -9,6 +9,7 @@ var Etomite = {
     dateFormat: '',
     timeFormat: '',
     goodAlias: true,
+    editingDoc: false,
     movingDoc: false,
     movingDocId: '',
     usingEAEditor: false,
@@ -19,6 +20,7 @@ var Etomite = {
     init: function() {
         /* login page */
         $('#loginBtn').click(function(){
+            $('.error').text('').hide();
             var uname = $('#username').val();
             var pword = $('#password').val();
             var terms = ($('#licenseOK').is(':checked')) ? true : false;
@@ -47,9 +49,9 @@ var Etomite = {
                 },
                 success: function(json) {
                     if ((json === null) || (json.succeeded !== true)) {
-                        Etomite.errorDialog(json.message, 'ERROR');
+                        $('.error').text('Error: ' + json.message).show();
                     } else {
-                        Etomite.errorDialog('Logging you in. Please Wait');
+                        Etomite.notify('Logging you in. Please Wait');
                         setTimeout(function(){window.location.reload();},1000);
                     }
                 }
@@ -81,6 +83,9 @@ var Etomite = {
     },
     
     loadPaneFromAction: function(act) {
+        if (act != 'manageDocument') {
+            Etomite.editingDoc = false;
+        }
         if(act === null || act == '' || act == ' ') {
             return false;
         }
@@ -126,6 +131,14 @@ var Etomite = {
                     Etomite.moveDocument(Etomite.movingDocId, pid);
                     return false;
                 }
+                if (Etomite.editingDoc && $('#parent').length > 0) {
+                    var parentname = node.data.title;
+                    var pid = node.data.key.replace(/id_/, '');
+                    if (pid == '0') { parentname += " (0)"; }
+                    $('#parent').val(pid);
+                    $('#parentName').text(parentname);
+                    return false;
+                }
                 // Close menu on click
                 if( $(".contextMenu:visible").length > 0 ){
                     $(".contextMenu").hide();
@@ -147,7 +160,11 @@ var Etomite = {
                 if (node.data.deleted == '1') {
                     nsp.addClass('deletedNode');
                 }
-                bindContextMenu(node, span);
+                if (node.data.key == "id_0") {
+                    bindRootContextMenu(node, span);
+                } else {
+                    bindContextMenu(node, span);
+                }
             },
         /* D'n'd, just to show it's compatible with a context menu.
            See http://code.google.com/p/dynatree/issues/detail?id=174 */
@@ -183,6 +200,7 @@ var Etomite = {
     
     /* CONTENT */
     editDocument: function(docId, parentId, weblink) {
+        Etomite.editingDoc = true;
         spin();
         if (weblink != 'true' || weblink == null || weblink == '') {
             weblink = false;
@@ -200,6 +218,7 @@ var Etomite = {
             success: function(response) {
                 if (response === null) {
                     Etomite.errorDialog('There was an error', 'ERROR');
+                    Etomite.editingDoc = false;
                 } else {
                     Etomite.loadPane(response);
                     setTimeout(function() {
@@ -241,6 +260,7 @@ var Etomite = {
                                 data: { alias: $('#alias').val(), action: 'checkAlias', id: docId },
                                 success: function(json) {
                                     if ((json === null) || (json.succeeded !== true)) {
+                                        $('#aliasUniqueMessage').html(json.message);
                                         $('#aliasUniqueMessage').show();
                                         $('#aliasUniqueMessageResponse').hide();
                                         Etomite.goodAlias = false;
@@ -270,8 +290,13 @@ var Etomite = {
             if($('#docId').length > 0){
                 docId = $('#docId').val();
             }
-            var ed = tinyMCE.get('taContent');
-            var tinyContent = ed.getContent();
+            if ($('#type').val() == 'reference') {
+                var tinyContent = $('#taContent').val();
+            } else {
+                var ed = tinyMCE.get('taContent');
+                var tinyContent = ed.getContent();
+            }
+            
             $.ajax({
                 url: 'ActionServer.php',
                 dataType: 'json',
@@ -307,6 +332,7 @@ var Etomite = {
                     setTimeout(function() {
                         spin(false);
                     }, 1500);
+                    Etomite.notify('Document Saved');
                     $("#docTree").dynatree("getTree").reload();
                 }
             });
@@ -370,21 +396,12 @@ var Etomite = {
             modal: true,
             buttons: {
                 Yes: function() {
+                    //alert('parentid: '+parentId+"; document: "+docId); return false;
                     Etomite.updateDocProperty('parent', parentId, docId);
                     Etomite.movingDoc = false;
                     Etomite.movingDocId = '';
                     
-                    var content = '';
-                    $.ajax({
-                        url: 'ActionServer.php',
-                        dataType: 'html',
-                        data: {
-                            action: 'loadWelcome'
-                        },
-                        success: function(html) {
-                            $('#mainContent').html(html);
-                        }
-                    });
+                    Etomite.loadPaneFromAction('loadWelcome');
                     $(this).dialog('close');
                     $(this).dialog('destroy');
                     $('#moveDocumentDialog').remove();
@@ -395,17 +412,7 @@ var Etomite = {
                     $('#moveDocumentDialog').remove();
                     Etomite.movingDoc = false;
                     Etomite.movingDocId = '';
-                    var content = '';
-                    $.ajax({
-                        url: 'ActionServer.php',
-                        dataType: 'html',
-                        data: {
-                            action: 'loadWelcome'
-                        },
-                        success: function(html) {
-                            $('#mainContent').html(html);
-                        }
-                    });
+                    Etomite.loadPaneFromAction('loadWelcome');
                 }
             }
         });
@@ -424,6 +431,21 @@ var Etomite = {
                 } else {
                     Etomite.notify(json.message);
                     Etomite.loadPaneFromAction('loadSystemInfo');
+                }
+            }
+        });
+    },
+    
+    syncSite: function() {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'syncSite'
+            },
+            success: function(response) {
+                if (response) {
+                    Etomite.errorDialog(response, 'Clear Cache!');
                 }
             }
         });
@@ -771,6 +793,61 @@ var Etomite = {
         
     },
     
+    changePassword: function() {
+        $('<div id="changePasswordDialog"></div>').appendTo('body');
+        $('#changePasswordDialog').html('<p><strong>Password:</strong> <input type="text" name="newpassword" id="newpassword" /></p>' +
+            '<p><strong>Confirm:</strong> <input type="text" name="confirm" id="confirm" /></p>' +
+            '<p>Hint: Use the Generate button to create a password.</p>');
+        $('#changePasswordDialog').dialog({
+            autoOpen: true,
+            title: 'Change Password',
+            minWidth: 200,
+            minHeight: 200,
+            position: 'center',
+            resizable: false,
+            closeOnEscape: false,
+            modal: true,
+            buttons: {
+                Save: function() {
+                    var newpassword = $('#newpassword').val();
+                    var confirm = $('#confirm').val();
+                    
+                    if (newpassword != confirm) {
+                        Etomite.errorDialog('Password does not confirm', 'Alert!');
+                        return false;
+                    } else {
+                        $.ajax({
+                            url: 'ActionServer.php',
+                            dataType: 'json',
+                            data: {
+                                action: 'changeUserPassword',
+                                password: newpassword
+                            },
+                            success: function(json) {
+                                if (json === null || json.succeeded !== true) {
+                                    Etomite.errorDialog(json.message, 'Error');
+                                } else {
+                                    $(this).dialog('close');
+                                    $(this).dialog('destroy');
+                                    $('#changePasswordDialog').remove();
+                                    Etomite.notify('Password Changed!');
+                                }
+                            }
+                        });
+                    }
+                },
+                Cancel: function() {
+                    $(this).dialog('close');
+                    $(this).dialog('destroy');
+                    $('#changePasswordDialog').remove();
+                },
+                Generate: function() {
+                    Etomite.generateMyPassword();
+                }
+            }
+        });
+    },
+    
     deleteUser: function(uid) {
         if (uid === null || uid == "") {
             Etomite.errorDialog('That is not a valid user!', 'Error');
@@ -797,6 +874,12 @@ var Etomite = {
                 }
             }
         });
+    },
+    
+    generateMyPassword: function() {
+        var pw = getPassword();
+        $('#newpassword').val(pw);
+        $('#confirm').val(pw);
     },
     
     generatePassword: function() {
@@ -887,9 +970,9 @@ var Etomite = {
         $('<div id="errorDialog"></div>').appendTo('#mainContent');
         $('#errorDialog').html('<p>' + message + '</p>');
         $('#errorDialog').dialog({
-            autoOpen: false,
-            minWidth: 200,
-            minHeight: 200,
+            autoOpen: true,
+            minWidth: 300,
+            minHeight: 300,
             position: 'top',
             resizable: false,
             closeOnEscape: false,
@@ -900,8 +983,6 @@ var Etomite = {
                 }
             }
         });
-        
-        $('#errorDialog').dialog('open');
     }
     
 }// end etomite var

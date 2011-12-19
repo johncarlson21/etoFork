@@ -133,6 +133,16 @@ class User extends etomiteExtender {
         return false;
     }
     
+    public function changeUserPassword($password) {
+        if ($user = $this->userLoggedIn()) {
+            if ($this->updIntTableRows(array('password'=>md5($password)), 'manager_users', 'id='.$user['id'])) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    
     /* ######### ROLE MANAGEMENT ############# */
     
     public function editRole() {

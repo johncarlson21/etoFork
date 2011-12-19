@@ -1,0 +1,118 @@
+<div class="header"><?php echo $this->_lang['site_schedule']; ?></div>
+<div id="site-schedule-tabs">
+    <ul>
+        <li><a href="#publish-docs"><?php echo $this->_lang['publish_document']; ?></a></li>
+        <li><a href="#un-publish-docs"><?php echo $this->_lang['unpublish_document']; ?></a></li>
+        <li><a href="#pending"><?php echo $this->_lang['all_pending_documents']; ?></a></li>
+    </ul>
+    <div id="publish-docs">
+        <?php
+          $sql = "SELECT id, pagetitle, pub_date FROM ".$this->db."site_content WHERE pub_date > ".time()." ORDER BY pub_date ASC";
+          $rs = $this->dbQuery($sql);
+          $limit = $this->recordCount($rs);
+          if($limit<1) {
+            echo "<p>".$this->_lang["no_pending_publish"]."</p>";
+          } else {
+          ?>
+            <table border="0" cellpadding="2" cellspacing="0"  class="sort-table" id="table-1" width="100%">
+              <thead>
+                <tr>
+                  <td><b>Document</b></td>
+                  <td><b>ID</b></td>
+                  <td><b>Publish date</b></td>
+                </tr>
+              </thead>
+              <tbody>
+          <?php
+            for ($i=0;$i<$limit;$i++) {
+              $row = $this->fetchRow($rs);
+              $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
+          ?>
+              <tr <?php echo $classname; ?>>
+                <td class="cell"><?php echo $row['pagetitle'] ;?></td>
+                <td class="cell"><?php echo $row['id'] ;?></td>
+                <td class="cell"><?php echo strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['pub_date']+$this->config['server_offset_time']) ;?></td>
+              </tr>
+          <?php
+            }
+          ?>
+              </tbody>
+            </table>
+          <?php } ?>
+    </div>
+    <div id="un-publish-docs">
+        <?php
+          $sql = "SELECT id, pagetitle, unpub_date FROM ".$this->db."site_content WHERE unpub_date > " . time() . " ORDER BY unpub_date ASC";
+          $rs = $this->dbQuery($sql);
+          $limit = $this->recordCount($rs);
+          if($limit<1) {
+            echo "<p>".$this->_lang["no_pending_unpublish"]."</p>";
+          } else {
+          ?>
+            <table border="0" cellpadding="2" cellspacing="0"  class="sort-table" id="table-2" width="100%">
+              <thead>
+                <tr>
+                  <td><b>Document</b></td>
+                  <td><b>ID</b></td>
+                  <td><b>Unpublish date</b></td>
+                </tr>
+              </thead>
+              <tbody>
+          <?php
+            for ($i=0;$i<$limit;$i++) {
+              $row = $this->fetchRow($rs);
+              $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
+          ?>
+              <tr <?php echo $classname; ?>>
+                <td class="cell"><?php echo $row['pagetitle'] ;?></td>
+              <td class="cell"><?php echo $row['id'] ;?></td>
+                <td class="cell"><?php echo strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['unpub_date']+$this->config['server_offset_time']) ;?></td>
+              </tr>
+          <?php
+            }
+          ?>
+            </tbody>
+          </table>
+          <?php } ?>
+    </div>
+    <div id="pending">
+        <?php
+          $sql = "SELECT id, pagetitle, pub_date, unpub_date FROM ".$this->db."site_content WHERE pub_date > 0 OR unpub_date > 0 ORDER BY id";
+          $rs = $this->dbQuery($sql);
+          $limit = $this->recordCount($rs);
+          if($limit<1) {
+            echo "<p>".$this->_lang["no_pending_documents"]."</p>";
+          } else {
+          ?>
+            <table border="0" cellpadding="2" cellspacing="0" class="sort-table" id="table-3" width="100%">
+              <thead>
+                <tr>
+                  <td><b>Document</b></td>
+                  <td><b>ID</b></td>
+                  <td><b>Publish date</b></td>
+                  <td><b>Unpublish date</b></td>
+                </tr>
+              </thead>
+              <tbody>
+          <?php
+            for ($i=0;$i<$limit;$i++) {
+              $row = $this->fetchRow($rs);
+              $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
+          ?>
+              <tr <?php echo $classname; ?>>
+                <td class="cell"><?php echo $row['pagetitle'] ;?></td>
+              <td class="cell"><?php echo $row['id'] ;?></td>
+                <td class="cell"><?php echo $row['pub_date']==0 ? "" : strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['pub_date']+$this->config['server_offset_time']) ;?></td>
+                <td class="cell"><?php echo $row['unpub_date']==0 ? "" : strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['unpub_date']+$this->config['server_offset_time']) ;?></td>
+              </tr>
+          <?php
+            }
+          ?>
+            </tbody>
+          </table>
+          <?php } ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#site-schedule-tabs').tabs();
+</script>

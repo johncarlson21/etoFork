@@ -1996,7 +1996,9 @@ title='$siteName'>$siteName</a></h2>
       $url = $this->makeURL($id,$alias);
     }
     if($url != "") {
-      include_once("manager/processors/logout.processor.php");
+        $_SESSION = array();
+        session_destroy();
+        $this->sendRedirect(MANAGER_URL);
     }
   }
 
