@@ -1,33 +1,47 @@
 <div class="header"><?php echo $this->_lang['settings_title']; ?></div>
-<div class="content">
-    <form name="system-settings-form" id="system-settings-form">
-    <div id="system-settings-panel">
-        
-        <!-- start site settings -->
-        <?php include_once('site_settings.phtml');?>
-        <!-- end site settings -->
-        
-        <!-- start FURL settings -->
-        <?php include_once('furl_settings.phtml');?>
-        <!-- end FURL settings -->
-        
-        <!-- start user settings -->
-        <?php include_once('user_system_settings.phtml');?>
-        <!-- end user settings -->
-        
-        <!-- start interface/editor settings -->
-        <?php include_once('ui_settings.phtml');?>
-        <!-- end interface/editor settings -->
-        
-        <!-- start misc settings -->
-        <?php include_once('misc_settings.phtml');?>
-        <!-- end misc settings -->
-    
-    </div> <!-- end system settings panel -->
-    </form>
+<div class="action-btns">
+    <a href="javascript:;" id="saveSystemSettings" class="button">Save</a>
+    <a href="javascript:;" id="cancelSystemSettings" class="button">Cancel</a>
 </div>
+<form name="system-settings-form" id="system-settings-form">
+<div id="system-settings-tabs">
+    <ul>
+       <li><a href="#site_settings"><?php echo $this->_lang["settings_site"] ?></a></li>
+       <li><a href="#furl_settings"><?php echo $this->_lang["settings_furls"] ?></a></li>
+       <li><a href="#user_system_settings"><?php echo $this->_lang["settings_users"] ?></a></li>
+       <li><a href="#ui_settings"><?php echo $this->_lang["settings_ui"] ?></a></li>
+       <li><a href="#misc_settings"><?php echo $this->_lang["settings_misc"] ?></a></li>
+    </ul>
+    <!-- start site settings -->
+    <?php include_once('site_settings.phtml');?>
+    <!-- end site settings -->
+    
+    <!-- start FURL settings -->
+    <?php include_once('furl_settings.phtml');?>
+    <!-- end FURL settings -->
+    
+    <!-- start user settings -->
+    <?php include_once('user_system_settings.phtml');?>
+    <!-- end user settings -->
+    
+    <!-- start interface/editor settings -->
+    <?php include_once('ui_settings.phtml');?>
+    <!-- end interface/editor settings -->
+    
+    <!-- start misc settings -->
+    <?php include_once('misc_settings.phtml');?>
+    <!-- end misc settings -->
+
+</div> <!-- end system settings panel -->
+</form>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('#system-settings-panel').accordion({autoHeight: false});
+    $('#system-settings-tabs').tabs();
+    $('#saveSystemSettings').click(function() {
+        Etomite.saveSiteSettings();
+    });
+    $('#cancelSystemSettings').click(function() {
+        Etomite.loadPaneFromAction('loadWelcome');
+    });
 });
 </script>

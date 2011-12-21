@@ -1,0 +1,151 @@
+<div id="user_system_settings" class="content">
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["udperms_title"] ?></b></td>
+      <td> <input type="radio" name="use_udperms" value="1" <?php echo $this->config['use_udperms']=='1' ? 'checked="checked"' : "" ; ?> >
+            <?php echo $this->_lang["yes"]; ?><br />
+      <input type="radio" name="use_udperms" value="0" <?php echo ($this->config['use_udperms']=='0' || !isset($this->config['use_udperms'])) ? 'checked="checked"' : "" ; ?> >
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["udperms_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["uvperms_title"] ?></b></td>
+          <td> <input type="radio" name="use_uvperms" value="1" <?php echo $this->config['use_uvperms']=='1' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="use_uvperms" value="0" <?php echo ($this->config['use_uvperms']=='0' || !isset($this->config['use_uvperms'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["uvperms_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["access_denied_title"] ?></b></td>
+          <td> <textarea name="access_denied_message" style="width:100%; height: 120px;"><?php echo isset($this->config['access_denied_message']) ? $this->config['access_denied_message'] : "" ; ?></textarea> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["access_denied_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["udperms_allowroot_title"] ?></b></td>
+          <td> <input type="radio" name="udperms_allowroot" value="1" <?php echo $this->config['udperms_allowroot']=='1' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="udperms_allowroot" value="0" <?php echo ($this->config['udperms_allowroot']=='0' || !isset($this->config['udperms_allowroot'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["udperms_allowroot_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+
+<!-- START::manager logging control added by Ralph in [v1.0] -->
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["mgr_logging_title"] ?></b></td>
+          <td> <input type="radio" name="use_mgr_logging" value="1" <?php echo ($this->config['use_mgr_logging']=='1' || !isset($this->config['use_mgr_logging'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="use_mgr_logging" value="0" <?php echo $this->config['use_mgr_logging']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["mgr_logging_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+<!-- END::manager logging control added by Ralph in [v1.0] -->
+
+<!-- START::maximum failed manager login attempts added by Ralph in [v1.0] -->
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["max_attempts_title"] ?></b></td>
+          <td ><input type='text' maxlength='4' style="width: 50px;" name="max_attempts" value="<?php echo isset($this->config['max_attempts']) ? $this->config['max_attempts'] : "3" ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["max_attempts_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+<!-- END::maximum failed manager login attempts added by Ralph in [v1.0] -->
+
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["captcha_title"] ?></b></td>
+          <td> <input type="radio" name="use_captcha" value="1" <?php echo $this->config['use_captcha']=='1' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="use_captcha" value="0" <?php echo ($this->config['use_captcha']=='0' || !isset($this->config['use_captcha'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["captcha_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["captcha_words_title"] ?></b></td>
+          <td><input name="captcha_words" style="width:400px" value="<?php echo isset($this->config['captcha_words']) ? $this->config['captcha_words'] : "Array,BitCode,Chunk,Document,Etomite,Forum,Index,Javascript,Keyword,MySQL,Parser,Query,Random,Snippet,Template,Website"; ?>" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["captcha_words_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["signupemail_title"] ?></b></td>
+          <td> <textarea name="signupemail_message" style="width:100%; height: 120px;"><?php echo isset($this->config['signupemail_message']) ? $this->config['signupemail_message'] : "Hi! \n\nHere are your login details for Etomite:\n\nUsername: %s\nPassword: %s\n\nOnce you log into Etomite, you can change your password.\n\nRegards,\nThe Management" ; ?></textarea> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["signupemail_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["emailsender_title"] ?></b></td>
+          <td ><input type='text' maxlength='255' style="width: 200px;" name="emailsender" value="<?php echo isset($this->config['emailsender']) ? $this->config['emailsender'] : "you@yourdomain.com" ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["emailsender_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["emailsubject_title"] ?></b></td>
+          <td ><input type='text' maxlength='255' style="width: 200px;" name="emailsubject" value="<?php echo isset($this->config['emailsubject']) ? $this->config['emailsubject'] : "Your Etomite login details" ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["emailsubject_message"] ?></td>
+        </tr>
+      </table>
+</div>

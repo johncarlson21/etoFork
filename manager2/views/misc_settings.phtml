@@ -1,0 +1,160 @@
+<div id="misc_settings" class="content">
+    <table border="0" cellspacing="0" cellpadding="3">
+
+<!-- START: Added 2008-04-19 by Ralph for allow_embedded_php -->
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["allow_embedded_php_title"]; ?></b></td>
+          <td> <input type="radio" name="allow_embedded_php" value="1" <?php echo $this->config['allow_embedded_php']=='1' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="allow_embedded_php" value="0" <?php echo ($this->config['allow_embedded_php']=='0' || !isset($this->config['allow_embedded_php'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["allow_embedded_php_message"]; ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+<!-- END: Added 2008-04-19 by Ralph for allow_embedded_php -->
+
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["settings_strip_image_paths_title"]; ?></b></td>
+          <td> <input type="radio" name="strip_image_paths" value="1" <?php echo $this->config['strip_image_paths']=='1' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="strip_image_paths" value="0" <?php echo ($this->config['strip_image_paths']=='0' || !isset($this->config['strip_image_paths'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["settings_strip_image_paths_message"]; ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["filemanager_path_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='255' style="width: 300px;" name="filemanager_path" value="<?php echo isset($this->config['filemanager_path']) ? $this->config['filemanager_path'] : getEtomiteRoot() ; ?>">
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["filemanager_path_message"]; ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["uploadable_files_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='255' style="width: 300px;" name="upload_files" value="<?php echo isset($this->config['upload_files']) ?  str_replace(" ","",$this->config['upload_files']) :  str_replace(" ","","jpg,gif,png,ico,txt,php,html,htm,xml,js,css,cache,zip,gz,rar,z,tgz,tar,htaccess,bmp,mp3,wav,au,wmv,avi,mpg,mpeg,pdf,psd") ; ?>">
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["uploadable_files_message"]; ?></td>
+        </tr>
+
+<!-- START: Added 2008-03-17 by Ralph for inlineviewable files -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["inlineviewable_files_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='255' style="width: 300px;" name="inlineview_files" value="<?php echo isset($this->config['inlineview_files']) ?  str_replace(" ","",$this->config['inlineview_files']) :  str_replace(" ","","txt,php,html,htm,xml,js,css") ; ?>">
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["inlineviewable_files_message"]; ?></td>
+        </tr>
+<!-- END: Added 2008-03-17 by Ralph for inlineviewable files -->
+
+<!-- START: Added 2008-03-17 by Ralph for viewable files -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["viewable_files_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='255' style="width: 300px;" name="view_files" value="<?php echo isset($this->config['view_files']) ?  str_replace(" ","",$this->config['view_files']) :  str_replace(" ","","jpg,gif,png,ico") ; ?>">
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["viewable_files_message"]; ?></td>
+        </tr>
+<!-- END: Added 2008-03-17 by Ralph for viewable files -->
+
+<!-- START: Added 2008-03-17 by Ralph for editable files -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["editable_files_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='255' style="width: 300px;" name="edit_files" value="<?php echo isset($this->config['edit_files']) ? str_replace(" ","",$this->config['edit_files']) :  str_replace(" ","","txt,php,html,htm,xml,js,css") ; ?>">
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["editable_files_message"]; ?></td>
+        </tr>
+<!-- END: Added 2008-03-17 by Ralph for editable files -->
+
+<!-- START: Added 2008-03-17 by Ralph for exclude paths -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["exclude_paths_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='255' style="width: 300px;" name="exclude_paths" value="<?php echo isset($this->config['exclude_paths']) ? str_replace(" ","",$this->config['exclude_paths']) : str_replace(" ","","., ..,cgi-bin,manager") ; ?>">
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["exclude_paths_message"]; ?></td>
+        </tr>
+<!-- END: Added 2008-03-17 by Ralph for exclude paths -->
+
+<!-- START: Added 2008-03-17 by Ralph for Max upload size -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["maxuploadsize_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='10' style="width: 100px;" name="maxuploadsize" value="<?php echo isset($this->config['maxuploadsize']) ? $this->config['maxuploadsize'] : "" ; ?>">
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["maxuploadsize_message"]; ?></td>
+        </tr>
+<!-- END: Added 2008-03-17 by Ralph for Max upload size -->
+
+<!-- START: Added 2008-04-19 by Ralph for useNotice -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["useNotice_title"]; ?></b></td>
+          <td> <input type="radio" name="useNotice" value="1" <?php echo ($this->config['useNotice']=='1' || !isset($this->config['useNotice'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="useNotice" value="0" <?php echo $this->config['useNotice']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["useNotice_message"]; ?></td>
+        </tr>
+<!-- END: Added 2008-04-19 by Ralph for useNotice -->
+      </table>
+</div>

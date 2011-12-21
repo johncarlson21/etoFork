@@ -867,5 +867,7 @@ $_lang["dumpSQL_message"] = "This setting is for development only and should rem
 $_lang["dumpSnippets_title"] = "Debug Snippets:";
 $_lang["dumpSnippets_message"] = "This setting is for development only and should remain disabled for production sites. When enabled, snippet information will be displayed on every rendered page. If you have no need for this feature or you have no idea what this means, it's best just to leave it set to 'No'.";
 /* END: added in [v1.0] */
+$_lang["zendurls_title"] = "Use Zend Framework Style URLs:";
+$_lang["zendurls_message"] = "This allows you to have urls like: domain.com/page-alias/req1/req1-val/req2/req2-val<br />Must have Friendly URLs turned on!";
 
 ?>

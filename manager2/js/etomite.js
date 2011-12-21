@@ -955,6 +955,24 @@ var Etomite = {
         });
     },
     
+    saveSiteSettings: function() {
+        $.ajax({
+            url: 'ActionServer.php',
+            data: 'action=saveSiteSettings&' + $('#system-settings-form').serialize(),
+            dataType: 'json',
+            success: function(json) {
+                if (json === null || json.succeeded !== true) {
+                    Etomite.errorDialog(json.message, 'Error!');
+                } else {
+                    Etomite.notify(json.message + '<br />Refreshing Window!');
+                    setTimeout(function() {
+                        window.location.reload(true);
+                    }, 1000);
+                }
+            }
+        });
+    },
+    
     notify: function(message) {
         $('<div id="notification">' + message + '</div>').appendTo('body');
         $('#notification').center(false);

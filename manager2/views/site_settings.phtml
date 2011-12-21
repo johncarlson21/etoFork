@@ -1,4 +1,3 @@
-<h3><a href="#site_settings"><?php echo $this->_lang["settings_site"] ?></a></h3>
 <div id="site_settings" class="content">
     <table border="0" cellspacing="0" cellpadding="3">
 
@@ -202,14 +201,14 @@
         <tr>
           <td colspan="2"><div class='split'></div></td>
         </tr>
-        <tr id='logRow1' class='row1'>
+        <tr>
           <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["resolve_hostnames_title"] ?></b></td>
       <td> <input type="radio" name="resolve_hostnames" value="1" <?php echo ($this->config['resolve_hostnames']=='1' || !isset($this->config['resolve_hostnames'])) ? 'checked="checked"' : "" ; ?>>
             <?php echo $this->_lang["yes"]; ?><br />
       <input type="radio" name="resolve_hostnames" value="0" <?php echo $this->config['resolve_hostnames']=='0' ? 'checked="checked"' : "" ; ?>>
             <?php echo $this->_lang["no"]; ?> </td>
         </tr>
-        <tr id='logRow2' class='row1'>
+        <tr>
           <td>&nbsp;</td>
           <td class='comment'><?php echo $this->_lang["resolve_hostnames_message"] ?></td>
         </tr>

@@ -1,0 +1,185 @@
+<div id="ui_settings" class="content">
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["nologentries_title"]; ?></b></td>
+          <td><input type='text' maxlength='50' size="5" name="number_of_logs" value="<?php echo isset($this->config['number_of_logs']) ? $this->config['number_of_logs'] : 100 ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["nologentries_message"]; ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["nomessages_title"]; ?></b></td>
+          <td><input type='text' maxlength='50' size="5" name="number_of_messages" value="<?php echo isset($this->config['number_of_logs']) ? $this->config['number_of_logs'] : 30 ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["nomessages_message"]; ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["use_preview_title"]; ?></b></td>
+          <td> <input type="radio" name="show_doc_data_preview" id="show_doc_data_preview_yes" value="1" <?php echo ($this->config['show_doc_data_preview']=='1' || !isset($this->config['show_doc_data_preview'])) ? 'checked="checked"' : "" ; ?>>
+      <label for="show_doc_data_preview_yes"><?php echo $this->_lang["yes"]; ?></label><br />
+      <input type="radio" name="show_doc_data_preview" id="show_doc_data_preview_no" value="0" <?php echo ($this->config['show_doc_data_preview']=='0') ? 'checked="checked"' : "" ; ?>>
+            <label for="show_doc_data_preview_no"><?php echo $this->_lang["no"]; ?></label></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["use_preview_message"]; ?></td>
+    </tr>
+    <tr>
+      <td colspan="2"><div class='split'></div></td>
+    </tr>
+    <tr>
+      <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["use_doc_editor_title"]; ?></b></td>
+      <td> <input type="radio" name="use_doc_editor" id="use_doc_editor_yes" value="1" <?php echo ($this->config['use_doc_editor']=='1' || !isset($this->config['use_doc_editor'])) ? 'checked="checked"' : "" ; ?>>
+      <label for="use_doc_editor_yes"><?php echo $this->_lang["yes"]; ?></label><br />
+      <input type="radio" name="use_doc_editor" id="use_doc_editor_no" value="0" <?php echo $this->config['use_doc_editor']=='0' ? 'checked="checked"' : "" ; ?>>
+      <label for="use_doc_editor_no"><?php echo $this->_lang["no"]; ?></label></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td class='comment'><?php echo $this->_lang["use_doc_editor_message"]; ?></td>
+    </tr>
+    <tr id='editorRow6'>
+      <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr id='editorRow7'>
+      <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["which_doc_editor_title"]; ?></b></td>
+          <td>
+            <select name="which_editor">
+        <?php if(file_exists('lib/tinymce/')){ ?>
+        <option value="1" <?php echo !isset($this->config['which_editor']) || $this->config['which_editor']==1 ? "selected='selected'" : "" ;?>>TinyMCE</option>
+              <?php } ?>
+              <?php /*if(file_exists('media/editor/')){ ?>
+              <option value="2" <?php echo $this->config['which_editor']==2 ? "selected='selected'" : "" ;?>>HTMLArea</option>
+              <?php } ?>
+              <?php if(file_exists('media/fckeditor/')){ ?>
+              <option value="3" <?php echo $this->config['which_editor']==3 ? "selected='selected'" : "" ;?>>FCKeditor</option>
+              <?php } ?>
+              <?php if(file_exists('media/xinha/')){ ?>
+              <option value="4" <?php echo $this->config['which_editor']==4 ? "selected='selected'" : "" ;?>>Xinha</option>
+              <?php } ?>
+        <?php if(file_exists('media/rte/')){ ?>
+        <option value="5" <?php echo $this->config['which_editor']==5 ? "selected='selected'" : "" ;?>>RTE</option>
+              <?php }*/ ?>
+            </select>
+          </td>
+        </tr>
+        <tr id='editorRow8'>
+          <td>&nbsp;</td>
+      <td class='comment'><?php echo $this->_lang["which_doc_editor_message"]; ?></td>
+        </tr>
+    <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+
+  <!-- TinyMCE -->
+    <tr>
+      <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["tiny_css_path_title"]; ?></b></td>
+      <td>
+      <input type='text' maxlength='255' style="width: 300px;" name="tiny_css_path" value="<?php echo isset($this->config['tiny_css_path']) ? $this->config['tiny_css_path'] : "" ; ?>">
+      </td>
+    </tr>
+    <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["tiny_css_path_message"]; ?></td>
+    </tr>
+    <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+    <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["tiny_css_selectors_title"]; ?></b></td>
+          <td>
+            <input type='text' maxlength='255' style="width: 300px;" name="tiny_css_selectors" value="<?php echo isset($this->config['tiny_css_selectors']) ? $this->config['tiny_css_selectors'] : "" ; ?>">
+          </td>
+        </tr>
+    <tr>
+      <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["tiny_css_selectors_message"]; ?></td>
+        </tr>
+  <!-- /TinyMCE -->
+
+  <!-- The Code Editor - editarea -->
+  <?php if(file_exists('lib/editarea/')){ ?>
+    <tr>
+      <td colspan="2"><div class='split'></div></td>
+    </tr>
+    <tr>
+      <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["use_code_editor_title"]; ?></b></td>
+      <td>
+      <input type="radio" name="use_code_editor" id="use_code_editor_yes" value="1" <?php echo ($this->config['use_code_editor']=='1') ? 'checked="checked"' : "" ; ?> >
+        <label for="use_code_editor_yes"><?php echo $this->_lang["yes"]; ?></label><br />
+      <input type="radio" name="use_code_editor" id="use_code_editor_no" value="0" <?php echo ($this->config['use_code_editor']=='0' || $this->config['use_code_editor']=='') ? 'checked="checked"' : "" ; ?> >
+        <label for="use_code_editor_no"><?php echo $this->_lang["no"]; ?></label>
+      </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td class='comment'><?php echo $this->_lang["use_code_editor_message"]; ?></td>
+    </tr>
+
+    <tr>
+      <td colspan="2"><div class='split'></div></td>
+    </tr>
+    <?php } ?>
+
+    <tr>
+      <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["code_highlight_title"]; ?></b></td>
+      <td>
+      <input type="radio" name="code_highlight" id="code_highlight_yes" value="1" <?php echo ($this->config['code_highlight']=='1') ? 'checked="checked"' : "" ; ?>>
+        <label for="code_highlight_yes"><?php echo $this->_lang["yes"]; ?></label><br />
+      <input type="radio" name="code_highlight" id="code_highlight_no" value="0" <?php echo ($this->config['code_highlight']=='0' || $this->config['code_highlight']=='') ? 'checked=""' : "" ; ?>>
+        <label for="code_highlight_no"><?php echo $this->_lang["no"]; ?></label>
+      </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td class="comment" valign="top"><?php echo $this->_lang["code_highlight_message"]; ?></td>
+    </tr>
+
+    <tr>
+      <td colspan="2"><div class='split'></div></td>
+    </tr>
+  <!-- /The Code Editor - editarea -->
+
+<!-- START: Added 2008-04-21 [v1.0] by Ralph for dumpSQL -->
+      <tr>
+        <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["dumpSQL_title"]; ?></b></td>
+        <td> <input type="radio" name="dumpSQL" value="1" <?php echo $this->config['dumpSQL']=='1' ? 'checked="checked"' : "" ; ?>>
+          <?php echo $this->_lang["yes"]; ?><br />
+          <input type="radio" name="dumpSQL" value="0" <?php echo ($this->config['dumpSQL']=='0' || !isset($this->config['dumpSQL'])) ? 'checked="checked"' : "" ; ?>>
+          <?php echo $this->_lang["no"]; ?> </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class='comment'><?php echo $this->_lang["dumpSQL_message"]; ?></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><div class='split'></div></td>
+      </tr>
+<!-- END: Added 2008-04-21 [v1.0] by Ralph for dumpSQL -->
+
+<!-- START: Added 2008-04-21 [v1.0] by Ralph for dumpSnippets -->
+      <tr>
+        <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["dumpSnippets_title"]; ?></b></td>
+        <td> <input type="radio" name="dumpSnippets" value="1" <?php echo $this->config['dumpSnippets']=='1' ? 'checked="checked"' : "" ; ?>>
+          <?php echo $this->_lang["yes"]; ?><br />
+          <input type="radio" name="dumpSnippets" value="0" <?php echo ($this->config['dumpSnippets']=='0' || !isset($this->config['dumpSnippets'])) ? 'checked="checked"' : "" ; ?>>
+          <?php echo $this->_lang["no"]; ?> </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class='comment'><?php echo $this->_lang["dumpSnippets_message"]; ?></td>
+      </tr>
+<!-- END: Added 2008-04-21 [v1.0] by Ralph for dumpSnippets -->
+
+    </table>
+</div>

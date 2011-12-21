@@ -356,6 +356,15 @@ class ActionServer extends Ajax {
         $System = new System();
         $System->showSiteSettings();
     }
+    
+    public function saveSiteSettings() {
+        $System = new System();
+        if ($System->saveSiteSettings()) {
+            $this->respond(true, 'Settings Saved!');
+        } else {
+            $this->respond(false, 'Settings not saved!');
+        }
+    }
 
 }
 

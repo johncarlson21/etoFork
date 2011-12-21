@@ -1,4 +1,61 @@
-<h3><a href="#furl_settings">furl settings</a></h3>
 <div id="furl_settings" class="content">
-<p>furl settings panel</p>
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["friendlyurls_title"] ?></b></td>
+      <td> <input type="radio" name="friendly_urls" value="1" <?php echo $this->config['friendly_urls']=='1' ? 'checked="checked"' : "" ; ?> >
+            <?php echo $this->_lang["yes"]; ?><br />
+      <input type="radio" name="friendly_urls" value="0" <?php echo ($this->config['friendly_urls']=='0' || !isset($this->config['friendly_urls'])) ? 'checked="checked"' : "" ; ?> >
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td class="menuHeader" valign="top"><b><?php echo $this->_lang["zendurls_title"] ?></b></td>
+      <td> <input type="radio" name="zend_urls" value="1" <?php echo $this->config['zend_urls']=='1' ? 'checked="checked"' : "" ; ?> >
+            <?php echo $this->_lang["yes"]; ?><br />
+      <input type="radio" name="zend_urls" value="0" <?php echo ($this->config['zend_urls']=='0' || !isset($this->config['zend_urls'])) ? 'checked="checked"' : "" ; ?> >
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["zendurls_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+    <tr>
+      <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["friendlyurlsprefix_title"] ?></b></td>
+          <td><input type='text' maxlength='50' style="width: 200px;" name="friendly_url_prefix" value="<?php echo isset($this->config['friendly_url_prefix']) ? $this->config['friendly_url_prefix'] : "" ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["friendlyurlsprefix_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["friendlyurlsuffix_title"] ?></b></td>
+          <td><input type='text' maxlength='50' style="width: 200px;" name="friendly_url_suffix" value="<?php echo isset($this->config['friendly_url_suffix']) ? $this->config['friendly_url_suffix'] : ".html" ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["friendlyurlsuffix_message"] ?></td>
+        </tr>
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["friendly_alias_title"] ?></b></td>
+          <td> <input type="radio" name="friendly_alias_urls" value="1" <?php echo $this->config['friendly_alias_urls']=='1' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="friendly_alias_urls" value="0" <?php echo ($this->config['friendly_alias_urls']=='0' || !isset($this->config['friendly_alias_urls'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["friendly_alias_message"] ?></td>
+        </tr>
+      </table>
 </div>
