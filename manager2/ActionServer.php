@@ -351,6 +351,11 @@ class ActionServer extends Ajax {
         $System = new System();
         $System->showSiteSchedule();
     }
+    
+    public function showSiteSettings() {
+        $System = new System();
+        $System->showSiteSettings();
+    }
 
 }
 

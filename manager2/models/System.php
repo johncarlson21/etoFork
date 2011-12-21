@@ -36,7 +36,11 @@ class System extends etomiteExtender {
     }
     
     public function showSiteSchedule() {
-        include('views/site_schedule.phtml');
+        include_once('views/site_schedule.phtml');
+    }
+    
+    public function showSiteSettings() {
+        include_once('views/system_settings.phtml');
     }
     
 }

@@ -1,0 +1,332 @@
+<h3><a href="#site_settings"><?php echo $this->_lang["settings_site"] ?></a></h3>
+<div id="site_settings" class="content">
+    <table border="0" cellspacing="0" cellpadding="3">
+
+<!-- START::Added new Date and Time format options -->
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["date_format"]; ?></b></td>
+          <td>
+            <select name="date_format" size="1" class="inputBox" style="width: 120px;">
+              <option value="%Y-%m-%d"<?php echo ($this->config['date_format']=="%I:%M %p" || $this->config['date_format']==null) ? ' selected="selected"' : ""?>>YYYY-MM-DD</option>
+              <option value="%m-%d-%Y"<?php echo ($this->config['date_format']=="%m-%d-%Y") ? ' selected="selected"' : ""?>>MM-DD-YYYY</option>
+              <option value="%d-%m-%Y"<?php echo ($this->config['date_format']=="%d-%m-%Y") ? ' selected="selected"' : ""?>>DD-MM-YYYY</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["date_format_message"]; ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["time_format"]; ?></b></td>
+          <td>
+            <select name="time_format" size="1" class="inputBox" style="width: 120px;">
+              <option value="%I:%M %p"<?php echo ($this->config['time_format']=="%I:%M %p" || $this->config['time_format']==null) ? ' selected="selected"' : ""?>>HH:MM AM|PM</option>
+              <option value="%H:%M"<?php echo ($this->config['time_format']=="%H:%M") ? ' selected="selected"' : ""?>>HH:MM (24H)</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["time_format_message"]; ?></td>
+        </tr>
+<!-- END::Added new Date and Time format options -->
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["serveroffset_title"] ?></b></td>
+          <td>
+            <select name="server_offset_time" size="1" class="inputBox">
+<?php
+  for($i=-24; $i<25; $i++)
+  {
+    $seconds = $i*60*60;
+    $selectedtext = $seconds==$server_offset_time ? "selected='selected'" : "" ;
+?>
+              <option value="<?php echo $seconds; ?>" <?php echo $selectedtext; ?>><?php echo $i; ?></option>
+<?php
+  }
+?>
+            </select> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php printf($this->_lang["serveroffset_message"], strftime($this->config['time_format'], time()), strftime($this->config['time_format'], time()+$server_offset_time)); ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'>&nbsp;</div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["server_protocol_title"] ?></b></td>
+          <td> <input type="radio" name="server_protocol" value="http" <?php echo ($this->config['server_protocol']=='http' || !isset($this->config['server_protocol']))? 'checked="checked"' : "" ; ?>>
+      <?php echo $this->_lang["server_protocol_http"]; ?><br />
+      <input type="radio" name="server_protocol" value="https" <?php echo $this->config['server_protocol']=='https' ? 'checked="checked"' : "" ; ?>>
+      <?php echo $this->_lang["server_protocol_https"]; ?> </td>
+    </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["server_protocol_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["language_title"]; ?></b></td>
+          <td> <select name="manager_language" size="1" class="inputBox">
+            <?php
+              $dir = dir(MANAGER_PATH."includes/lang");
+
+              while ($file = $dir->read()) {
+                if(strpos($file, ".inc.php")>0) {
+                  $endpos = strpos ($file, ".");
+                  $languagename = substr($file, 0, $endpos);
+                  $selectedtext = $languagename==$this->config['manager_language'] ? "selected='selected'" : "" ;
+            ?>
+            <option value="<?php echo $languagename; ?>" <?php echo $selectedtext; ?>><?php echo ucwords(str_replace("_", " ", $languagename)); ?></option>
+            <?php
+                }
+              }
+              $dir->close();
+            ?>
+            </select> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["language_message"]; ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["charset_title"]; ?></b></td>
+          <td>
+            <select name="etomite_charset" size="1" class="inputBox">
+              <?php include(MANAGER_PATH."includes/charsets.php"); ?>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["charset_message"]; ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["sitename_title"] ?></b></td>
+      <td ><input type='text' maxlength='50' style="width: 200px;" name="site_name" value="<?php echo isset($this->config['site_name']) ? $this->config['site_name'] : "My Etomite Site" ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["sitename_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["sitestart_title"] ?></b></td>
+      <td ><input type='text' maxlength='10' size='5' name="site_start" value="<?php echo isset($this->config['site_start']) ? $this->config['site_start'] : 1 ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["sitestart_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["errorpage_title"] ?></b></td>
+      <td ><input type='text' maxlength='10' size='5' name="error_page" value="<?php echo isset($this->config['error_page']) ? $this->config['error_page'] : 3 ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["errorpage_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["sitestatus_title"] ?></b></td>
+      <td> <input type="radio" name="site_status" value="1" <?php echo ($this->config['site_status']=='1' || !isset($this->config['site_status'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["online"]; ?><br />
+      <input type="radio" name="site_status" value="0" <?php echo $this->config['site_status']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["offline"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["sitestatus_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["siteunavailable_title"] ?></b></td>
+          <td> <textarea name="site_unavailable_message" style="width:100%; height: 120px;"><?php echo ($this->config['site_unavailable_message'] != "") ? $this->config['site_unavailable_message'] : "The site is currently unavailable" ; ?></textarea> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["siteunavailable_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["track_visitors_title"] ?></b></td>
+      <td> <input type="radio" name="track_visitors" value="1" <?php echo ($this->config['track_visitors']=='1' || !isset($this->config['track_visitors'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+      <input type="radio" name="track_visitors" value="0" <?php echo $this->config['track_visitors']=='0' ? 'checked="checked"' : "" ; ?> >
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["track_visitors_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr id='logRow1' class='row1'>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["resolve_hostnames_title"] ?></b></td>
+      <td> <input type="radio" name="resolve_hostnames" value="1" <?php echo ($this->config['resolve_hostnames']=='1' || !isset($this->config['resolve_hostnames'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+      <input type="radio" name="resolve_hostnames" value="0" <?php echo $this->config['resolve_hostnames']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr id='logRow2' class='row1'>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["resolve_hostnames_message"] ?></td>
+        </tr>
+        <tr id='logRow3'>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["top_howmany_title"] ?></b></td>
+      <td><input type='text' maxlength='50' size="5" name="top_howmany" value="<?php echo isset($this->config['top_howmany']) ? $this->config['top_howmany'] : 10 ; ?>"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["top_howmany_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["defaulttemplate_title"] ?></b></td>
+          <td>
+            <?php
+              $sql = "SELECT templatename, id FROM ".$this->db."site_templates ORDER BY templatename";
+              $rs = $this->dbQuery($sql);
+            ?>
+            <select name="default_template" class="inputBox"".$this->db style="width:150px">
+            <?php
+            while ($row = $this->fetchRow($rs)) {
+                $selectedtext = $row['id']==$default_template ? "selected='selected'" : "" ;
+            ?>
+              <option value="<?php echo $row['id']; ?>" <?php echo $selectedtext; ?>><?php echo $row['templatename']; ?></option>
+            <?php
+            }
+            ?>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["defaulttemplate_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["defaultpublish_title"] ?></b></td>
+          <td> <input type="radio" name="publish_default" value="1" <?php echo ($this->config['publish_default']=='1' || !isset($this->config['publish_default'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="publish_default" value="0" <?php echo $this->config['publish_default']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["defaultpublish_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["defaultsearch_title"] ?></b></td>
+          <td> <input type="radio" name="search_default" value="1" <?php echo ($this->config['search_default']=='1' || !isset($this->config['search_default'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="search_default" value="0" <?php echo $this->config['search_default']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["defaultsearch_message"] ?></td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["defaultcache_title"] ?></b></td>
+          <td> <input type="radio" name="cache_default" value="1" <?php echo ($this->config['cache_default']=='1' || !isset($this->config['cache_default'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="cache_default" value="0" <?php echo $this->config['cache_default']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["defaultcache_message"] ?></td>
+        </tr>
+<!-- START::Added 2008-03-17 by Ralph for Empty Cache default -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["defaultsyncsitecheck_title"] ?></b></td>
+          <td> <input type="radio" name="syncsitecheck_default" value="1" <?php echo ($this->config['syncsitecheck_default']=='1' || !isset($this->config['syncsitecheck_default'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="syncsitecheck_default" value="0" <?php echo $this->config['syncsitecheck_default']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["defaultsyncsitecheck_message"] ?></td>
+        </tr>
+<!-- END::Added 2008-03-17 by Ralph for Empty Cache default -->
+<!-- START::Added 2008-03-17 by Ralph for Show in menu default -->
+        <tr>
+          <td colspan="2"><div class='split'></div></td>
+        </tr>
+        <tr>
+          <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["defaultshowinmenu_title"] ?></b></td>
+          <td> <input type="radio" name="showinmenu_default" value="1" <?php echo ($this->config['showinmenu_default']=='1' || !isset($this->config['showinmenu_default'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="showinmenu_default" value="0" <?php echo $this->config['showinmenu_default']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["defaultshowinmenu_message"] ?></td>
+        </tr>
+<!-- END::Added 2008-03-17 by Ralph for show in menu default -->
+      </table>
+</div><!-- end accordion panel -->

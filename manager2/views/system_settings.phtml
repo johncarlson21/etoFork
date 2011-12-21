@@ -1,0 +1,33 @@
+<div class="header"><?php echo $this->_lang['settings_title']; ?></div>
+<div class="content">
+    <form name="system-settings-form" id="system-settings-form">
+    <div id="system-settings-panel">
+        
+        <!-- start site settings -->
+        <?php include_once('site_settings.phtml');?>
+        <!-- end site settings -->
+        
+        <!-- start FURL settings -->
+        <?php include_once('furl_settings.phtml');?>
+        <!-- end FURL settings -->
+        
+        <!-- start user settings -->
+        <?php include_once('user_system_settings.phtml');?>
+        <!-- end user settings -->
+        
+        <!-- start interface/editor settings -->
+        <?php include_once('ui_settings.phtml');?>
+        <!-- end interface/editor settings -->
+        
+        <!-- start misc settings -->
+        <?php include_once('misc_settings.phtml');?>
+        <!-- end misc settings -->
+    
+    </div> <!-- end system settings panel -->
+    </form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#system-settings-panel').accordion({autoHeight: false});
+});
+</script>
