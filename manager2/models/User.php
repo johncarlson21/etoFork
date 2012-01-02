@@ -8,6 +8,7 @@ class User extends etomiteExtender {
     
     public function loadUsersView(){
         include_once('views/users.phtml');
+        $this->checkLogin();
     }
     
     public function editUser() {
@@ -180,6 +181,98 @@ class User extends etomiteExtender {
             if ($this->putIntTableRow($data, 'user_roles')) {
                 return true;
             }
+        }
+        return false;
+    }
+    
+    public function myMessages() {
+        include_once('views/messages.phtml');
+    }
+    
+    public function sendMyMessage() {
+        $db = $this->db;
+        $sendto = $_REQUEST['sendto'];
+        $userid = $_REQUEST['user'];
+        $groupid = $_REQUEST['group'];
+        $subject = addslashes($_REQUEST['messagesubject']);
+        if($subject == "") $subject = "(no subject)";
+        $message = addslashes($_REQUEST['messagebody']);
+        if($message == "") $message = "(no message)";
+        $postdate = time();
+        
+        if($sendto == 'u') {
+          if($userid == 0) {
+            return false;
+          }
+          $sql = "INSERT INTO ".$db."user_messages SET
+            type = 'Message',
+            subject = '$subject',
+            message = '$message',
+            sender = ". $_SESSION['internalKey'].",
+            recipient = $userid,
+            private = 1,
+            postdate = $postdate,
+            messageread = 0;
+          ";
+          $rs = $this->dbQuery($sql);
+          return true;
+        }
+        
+        if($sendto == 'g') {
+          if($groupid == 0) {
+            return false;
+          }
+          $sql = "SELECT internalKey FROM ".$db."user_attributes WHERE ".$db."user_attributes.role=$groupid;";
+          $rs = $this->dbQuery($sql);
+          $limit = $this->recordCount($rs);
+          for( $i=0; $i<$limit; $i++ ){
+            $row=$this->fetchRow($rs);
+            if($row['internalKey']!=$_SESSION['internalKey']) {
+              $sql2 = "INSERT INTO ".$db."user_messages SET
+                type = 'Message',
+                subject = '$subject',
+                message = '$message',
+                sender = ".$_SESSION['internalKey'].",
+                recipient = ".$row['internalKey'].",
+                private = 0,
+                postdate = $postdate,
+                messageread = 0;
+              ";
+              $rs2 =  $this->dbQuery($sql2);
+            }
+          }
+          return true;
+        }
+        
+        if($sendto == 'a') {
+          $sql = "SELECT id FROM ".$db."manager_users;";
+          $rs = $this->dbQuery($sql);
+          $limit = $this->recordCount($rs);
+          for( $i=0; $i<$limit; $i++ ){
+            $row=$this->fetchRow($rs);
+            if($row['id'] != $_SESSION['internalKey']) {
+              $sql2 = "INSERT INTO ".$db."user_messages SET
+                type = 'Message',
+                subject = '$subject',
+                message = '$message',
+                sender = ".$_SESSION['internalKey'].",
+                recipient = ".$row['id'].",
+                private = 0,
+                postdate = $postdate,
+                messageread = 0;
+              ";
+              $rs2 =  $this->dbQuery($sql2);
+            }
+          }
+          return true;
+        }
+        return false;
+    }
+    
+    public function deleteMyMessage($id, $userid) {
+        if (!empty($id) && is_numeric($id) && !empty($userid) && is_numeric($userid)) {
+            $this->dbQuery("DELETE FROM ".$this->db."user_messages WHERE id = '".$id."' AND recipient = '".$userid."'");
+            return true;
         }
         return false;
     }

@@ -74,8 +74,7 @@ function bindContextMenu(node, span) {
         var id = node.data.key.replace(/id_/, '');
         switch( action ) {
             case "preview":
-                //window.open(node.data.docUrl);
-                alert(node.data.docUrl);
+                window.open(node.data.docUrl);
                 break;
             case "move":
                 Etomite.moveDocumentDialog(id);

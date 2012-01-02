@@ -25,4 +25,5 @@ include_once(MANAGER_PATH . "models/etomite.class.php");
 
 include_once(MANAGER_PATH . "models/etomiteExtender.php");
 startCMSSession();
+
 ?>

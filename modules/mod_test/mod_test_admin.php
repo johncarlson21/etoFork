@@ -1,28 +1,25 @@
 <?php
-/*
- * IF YOU ARE OUTPUTTING HTML TO THE MANAGER FRAME
- * YOU SHOULD INCLUDE THE /manager/header.inc.php and
- * /manager/footer.inc.php files to setup the frame correctly
- * for layout. This can be done in a view/view_file.phtml file or
- * directly in the functions below.
+/* the module_admin.php file must extend the main System class
+ * this allows the module to take on the system vars (to access the etomite functions)
+ * actions can be called to the ActionServer.php file in a _GET format like this:
+ * domain.com/manager/ActionServer.php?action=manageModule&mod=module_name&moduleAction=hello&param1=xxx&param2=xxx
+ * this can be done with JS by using your own ajax calls, and then sending the response to Etomite.loadPane(response);
+ * to load the content in the pane
  */
 
-if(IN_ETOMITE_SYSTEM != "true" || !$etomite->userLoggedIn()) {
-    die("you are not supposed to be here");
-}
-
-class mod_test_admin extends module {
+class mod_test_admin extends System {
     
     var $moduleConfig; // main var passed from module xml file for basic config info
     
     public function __construct($config=null) {
+        $this->runStandalone();
         if (!empty($config) && $config != null) {
             $this->moduleConfig = $config;
         }
     }
     
     public function adminView() { // this is the default admin view page.
-        include_once 'views/admin.phtml';
+        include_once dirname(__FILE__).'/views/admin.phtml';
     }
     
     public function hello() {
@@ -30,9 +27,13 @@ class mod_test_admin extends module {
     }
 }
 
-$action = $_REQUEST['action']; // defaults to adminView
+$action = $_REQUEST['moduleAction']; // defaults to adminView
 
 $mod_test_admin = new mod_test_admin($mod_testConfig);
+
+/*if(IN_ETOMITE_SYSTEM != "true" || !$mod_test_admin->userLoggedIn()) {
+    die("you are not supposed to be here");
+}*/
 
 $mod_test_admin->$action();
 

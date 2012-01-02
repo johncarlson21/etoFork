@@ -7,12 +7,10 @@
  * directly in the functions below.
  */
 
-if(IN_ETOMITE_SYSTEM != "true" || !$etomite->userLoggedIn()) {
-    die("you are not supposed to be here");
-}
-
-class mod_gallery_admin extends module {
+class mod_gallery_admin extends System {
     var $etomite;
+    var $moduleDir;
+    var $ajaxClass;
     var $moduleConfig; // main var passed from module xml file for basic config info
     var $thumbnail_widths = array(120,207,800); // 120 = thumb, 212 = slide for front (height will be 266 and use the zc=C crop function), 640 = full image size
     var $slideWidth = 207; // should be the same as the second thumbnail_width size
@@ -33,12 +31,15 @@ class mod_gallery_admin extends module {
         if (!empty($config) && $config != null) {
             $this->moduleConfig = $config;
         }
-        $this->dir = str_replace("manager/", "", absolute_base_path . "assets/gallery/");
-        $this->www = str_replace("manager/", "", www_base_path . "assets/gallery/");
+        $this->moduleDir = dirname(__FILE__);
+        $this->dir = absolute_base_path . "assets/gallery/";
+        $this->www = www_base_path . "assets/gallery/";
+        $this->ajaxClass = new Ajax(); // setup the ajax functions to use
+        $this->checkLogin();
     }
     
     public function adminView() { // this is the default admin view page.
-        include_once 'views/admin.phtml';
+        include_once $this->moduleDir.'/views/admin.phtml';
     }
     
     public function listGalleryItems() {
@@ -60,7 +61,7 @@ class mod_gallery_admin extends module {
         if (count($g)>0) {
             $gallery = $g[0];
             $items = $this->etomite->getIntTableRows($fields="*",$from="831gallery_items",$where="galId=".$galId,$sort='gal_order',$dir='ASC');
-            include_once 'views/gallery_item_list.phtml';
+            include_once $this->moduleDir.'/views/gallery_item_list.phtml';
         } else {
             echo "<h2>Sorry that is not a valid gallery!</h2>";
         }
@@ -68,7 +69,7 @@ class mod_gallery_admin extends module {
     
     public function listGalleries() {
         $galleries = $this->etomite->getIntTableRows($fields="*",$from="831galleries",$where="",$sort='name',$dir='ASC');
-        include_once 'views/galleries_list.phtml';
+        include_once $this->moduleDir.'/views/galleries_list.phtml';
     }
     
     public function createGallery() {
@@ -125,14 +126,14 @@ class mod_gallery_admin extends module {
         $g = $this->etomite->getIntTableRows($fields="*", $from="831galleries",$where="id=".$galId);
         $gallery = $g[0];
         $dir = $this->dir;
-        $orig = $this->orig;
-        $thumbnail_widths = $this->thumbnail_widths;
+        $orig = $this->etomite->orig;
+        $thumbnail_widths = $this->etomite->thumbnail_widths;
         $thumbs = $this->thumbs;
         $slides = $this->slides;
         $full = $this->full;
-        $www = $this->www;
-        $slide_height = $this->slide_height;
-        $slideFlag = $this->slideFlag;
+        $www = $this->etomite->www;
+        $slide_height = $this->etomite->slide_height;
+        $slideFlag = $this->etomite->slideFlag;
         
         $output = '';
         // CREATE GALLERY ITEMS
@@ -194,8 +195,8 @@ class mod_gallery_admin extends module {
                     if ($phpThumb->GenerateThumbnail()) {
                         $output_size_x = ImageSX($phpThumb->gdimg_output);
                         $output_size_y = ImageSY($phpThumb->gdimg_output);
-                        if ($output_filename || $this->capture_raw_data) {
-                            if ($this->capture_raw_data && $phpThumb->RenderOutput()) {
+                        if ($output_filename || $this->etomite->capture_raw_data) {
+                            if ($this->etomite->capture_raw_data && $phpThumb->RenderOutput()) {
                             // RenderOutput renders the thumbnail data to $phpThumb->outputImageData, not to a file or the browser
                             } elseif ($phpThumb->RenderToFile($output_filename)) {
                             // do something on success
@@ -247,14 +248,14 @@ class mod_gallery_admin extends module {
         $itemId = (int) $_REQUEST['itemId'];
         if(isset($_REQUEST['edit']) && $_REQUEST['edit']=='true') {
             // lets try to edit the item
-            $this->validateRequest(array('title','itemId'));
+            $this->etomite->validateRequest(array('title','itemId'));
             $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
             $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
             $slide = (isset($_REQUEST['slide']) && $_REQUEST['slide'] == 1) ? 1 : 0;
             if($this->etomite->updIntTableRows(array('title'=>$title,'description'=>$description,'slide'=>$slide), "831gallery_items", "id=".$itemId)) {
-                $this->respond(true,"Item Saved");
+                $this->etomite->respond(true,"Item Saved");
             } else {
-                $this->respond(false,"Item not saved!");
+                $this->etomite->respond(false,"Item not saved!");
             }
         }
         // get item info
@@ -268,6 +269,7 @@ class mod_gallery_admin extends module {
     }
     
     public function deleteItem() {
+        $this->ajaxClass->validateRequest(array('itemId'));
         $itemId = (int) $_REQUEST['itemId'];
         if($gi = $this->etomite->getIntTableRows("*", "831gallery_items", "id=".$itemId)) {
             if(count($gi)>0) {
@@ -283,27 +285,27 @@ class mod_gallery_admin extends module {
                 }
                 // now remove the item from the db
                 if($this->etomite->dbQuery("DELETE FROM ".$this->etomite->db."831gallery_items WHERE id=".$item['id']." LIMIT 1")){
-                    $this->respond(true, "Item removed");
+                    $this->ajaxClass->respond(true, "Item removed");
                 } else {
-                    $this->respond(false, "Item not removed!");
+                    $this->ajaxClass->respond(false, "Item not removed!");
                 }
                 
             } else {
-                $this->respond(false, "That is not a valid item!");
+                $this->ajaxClass->respond(false, "That is not a valid item!");
             }
         } else {
-            $this->respond(false, "That is not a valid item!");
+            $this->ajaxClass->respond(false, "That is not a valid item!");
         }
         
     }
     
 }
 
-$action = $_REQUEST['action']; // defaults to adminView
+$action = $_REQUEST['moduleAction']; // defaults to adminView
 
 $mod_gallery_admin = new mod_gallery_admin($mod_galleryConfig);
 
-$mod_gallery_admin->etomite = $etomite;
+$mod_gallery_admin->etomite = $this;
 
 $mod_gallery_admin->$action();
 

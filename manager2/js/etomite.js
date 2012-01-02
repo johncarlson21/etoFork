@@ -82,6 +82,21 @@ var Etomite = {
         
     },
     
+    checkLogin: function() {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            cache: false,
+            data: {
+                action: 'checkLogin'
+            },
+            success: function(response) {
+                $(response).appendTo('body');
+                return true;
+            }
+        });
+    },
+    
     loadPaneFromAction: function(act) {
         if (act != 'manageDocument') {
             Etomite.editingDoc = false;
@@ -108,9 +123,13 @@ var Etomite = {
     },
     
     loadPane: function(content) {
+        spin();
         var p = $('#mainContent');
         p.html(content);
         Etomite.outerLayout.initContent('center');
+        setTimeout(function() {
+            spin(false);
+        }, 1000);
     },
     
     loadDocTree: function() {
@@ -953,6 +972,136 @@ var Etomite = {
                 }
             }
         });
+    },
+    
+    manageModule: function(module) {
+        if (module === null || module == '') {
+            return false;
+        }
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'manageModule',
+                mod: module
+            },
+            success: function(response) {
+                if (response !== null) {
+                    Etomite.loadPane(response);
+                } else {
+                    Etomite.errorDialog('There was an error loading that module', 'Error');
+                }
+            }
+        });
+    },
+    
+    moduleActionCall: function(url, params, container) {
+        if (params === null || params == '') {
+            return false;
+        }
+        $.ajax({
+            url: (url.length > 0) ? url : 'ActionServer.php',
+            data: params,
+            dataType: 'html',
+            success: function(response) {
+                if (container == null) {
+                    Etomite.loadPane(response);
+                } else {
+                    spin();
+                    $(container).html(response);
+                    setTimeout(function() {
+                        spin(false);
+                    },1000);
+                }
+            }
+        });
+    },
+    
+    showVisitorStats: function(params) { // params = url params: scope=total&start=xxxxxx
+        $.ajax({
+            url: 'ActionServer.php?action=showVisitorStats&' + params,
+            dataType: 'html',
+            success: function(response) {
+                if (response !== null) {
+                    Etomite.loadPane(response);
+                } else {
+                    return false;
+                }
+            }
+        });
+    },
+    
+    myMessages: function(params) {
+        $.ajax({
+            url: 'ActionServer.php?action=myMessages&' + params,
+            dataType: 'html',
+            success: function(response) {
+                if(response !== null) {
+                    Etomite.loadPane(response);
+                } else {
+                    return false;
+                }
+            }
+        });
+    },
+    
+    sendMyMessage: function() {
+        var sendto = $('#messagefrm [name=sendto]').val();
+        var user = $('#messagefrm [name=user]').val();
+        var group = $('#messagefrm [name=group]').val();
+        var message = $('#messagefrm [name=messagebody]').val();
+        if (sendto == 'u' && (user === null || user == '')) {
+            Etomite.errorDialog('You are trying to send to a specific user!<br />You need to select a user!', 'ALERT!');
+            return false;
+        }
+        if (sendto == 'g' && (group === null || group == '')) {
+            Etomite.errorDialog('You are trying to send to a specific group!<br />You need to select a group!', 'ALERT!');
+            return false;
+        }
+        if (message === null || message == '' || message == ' ') {
+            Etomite.errorDialog('Message Body must not be empty!', 'ALERT!');
+            return false;
+        }
+        var params = $('#messagefrm').serialize() + "&action=sendMyMessage";
+        $.ajax({
+            url: 'ActionServer.php',
+            data: params,
+            dataType: 'json',
+            success: function(json) {
+                if (json === null || json.succeeded !== true) {
+                    Etomite.errorDialog(json.message, 'Error:');
+                } else {
+                    Etomite.notify(json.message);
+                    Etomite.myMessages();
+                }
+            }
+        });
+    },
+    
+    deleteMyMessage: function(messageid) {
+        if (messageid === null || messageid == '') {
+            return false;
+        }
+        var is_sure = window.confirm('Are you sure you want to delete this message?');
+        if (is_sure) {
+            $.ajax({
+                url: 'ActionServer.php',
+                data: {
+                    action: 'deleteMyMessage',
+                    id: messageid
+                },
+                dataType: 'json',
+                success: function(json) {
+                    if (json === null || json.succeeded !== true) {
+                        Etomite.errorDialog(json.message);
+                        return false;
+                    } else {
+                        Etomite.notify('Message Deleted');
+                        Etomite.myMessages();
+                    }
+                }
+            });
+        }
     },
     
     saveSiteSettings: function() {

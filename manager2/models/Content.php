@@ -108,6 +108,8 @@ class Content extends etomiteExtender {
                 $orig_doc['versionedon'] = time();
                 unset($orig_doc['id']);
                 $result = $this->putIntTableRow($orig_doc, 'site_content_versions');
+                $System = new System();
+                $System->syncEtoCache();
                 return true;
             } else {
                 return false;
@@ -118,6 +120,8 @@ class Content extends etomiteExtender {
                 $data['versionedon'] = time();
                 unset($data['id']);
                 $result = $this->putIntTableRow($data, 'site_content_versions');
+                $System = new System();
+                $System->syncEtoCache();
                 return true;
             } else {
                 return false;

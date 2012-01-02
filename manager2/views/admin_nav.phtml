@@ -6,8 +6,8 @@
             <li><a onclick="this.blur();" href="../?z=manprev" target="_blank"><?php echo $_lang["launch_site"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.syncSite();" href="javascript:;"><?php echo $_lang["refresh_site"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('showSiteSchedule');" href="javascript:;"><?php echo $_lang["site_schedule"]; ?></a></li>
-            <li><a onclick="this.blur();" href="index.php?a=68" target="main"><?php echo $_lang["visitor_stats"]; ?></a></li>
-            <li><a onclick="this.blur();" href="index.php?a=69" target="main"><?php echo $_lang["visitor_stats_online"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.showVisitorStats();" href="javascript:;"><?php echo $_lang["visitor_stats"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.loadPaneFromAction('showOnlineVisitors');" href="javascript:;"><?php echo $_lang["visitor_stats_online"]; ?></a></li>
         </ul>
     </li>
     <?php  if($_SESSION['permissions']['new_document']==1) { ?>
@@ -22,7 +22,7 @@
     <li><span class="dir"><?php echo $_lang["my_etomite"]; ?></span>
         <ul>
         <?php if($_SESSION['permissions']['messages']==1) { ?>
-            <li><a onclick="this.blur();" href="index.php?a=10" target="main"><?php echo $_lang["messages"]; ?></a></li>
+            <li><a onclick="this.blur(); Etomite.myMessages();" href="javascript:;"><?php echo $_lang["messages"]; ?></a></li>
         <?php } ?>
         <?php if($_SESSION['permissions']['change_password']==1) { ?>
             <li><a onclick="this.blur(); Etomite.changePassword();" href="javascript:;"><?php echo $_lang["change_password"]; ?></a></li>

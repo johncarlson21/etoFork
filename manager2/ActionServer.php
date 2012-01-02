@@ -5,6 +5,13 @@ require_once('./models/Ajax.php');
 
 class ActionServer extends Ajax {
     
+    public function __construct() {
+        if ((!isset($_SESSION['validated']) || $_SESSION['validated'] != 1) && $_REQUEST['action'] != 'loginRequest') {
+            echo "<script>window.top.location.href='".MANAGER_URL."';</script>";
+            exit(0);
+        }
+    }
+    
     public function loadWelcome() {
         $etomite = new etomiteExtender();
         $_lang = $etomite->_lang;
@@ -363,6 +370,47 @@ class ActionServer extends Ajax {
             $this->respond(true, 'Settings Saved!');
         } else {
             $this->respond(false, 'Settings not saved!');
+        }
+    }
+    
+    public function manageModule() {
+        $this->validateRequest(array('mod'));
+        $System = new System();
+        $System->manageModule();
+    }
+    
+    public function showVisitorStats() {
+        $System = new System();
+        $System->showVisitorStats();
+    }
+    
+    public function showOnlineVisitors() {
+        $System = new System();
+        $System->showOnlineVisitors();
+    }
+    
+    public function myMessages() {
+        $User = new User();
+        $User->myMessages();
+    }
+    
+    public function sendMyMessage() {
+        $this->validateRequest(array('sendto','user'));
+        $User = new User();
+        if ($User->sendMyMessage()) {
+            $this->respond(true, 'Message Sent');
+        } else {
+            $this->respond(false, 'There was an error sending the message! Please try again!');
+        }
+    }
+    
+    public function deleteMyMessage() {
+        $this->validateRequest('id');
+        $User = new User();
+        if ($User->deleteMyMessage($_REQUEST['id'], $_SESSION['internalKey'])) {
+            $this->respond(true, 'Message Deleted');
+        } else {
+            $this->respond(false, 'Message was not removed!');
         }
     }
 

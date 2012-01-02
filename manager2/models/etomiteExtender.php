@@ -205,7 +205,7 @@ function makeUrl($id, $alias='', $args='') {
             $url .= $this->config['friendly_url_suffix'];
             $args="&amp;".substr($args,1);
         }
-        if(empty($args)) {
+        if(empty($args) && $id != $this->config['site_start']) {
             $url .= $this->config['friendly_url_suffix'];
         }
     }else{
@@ -908,11 +908,18 @@ function addBreadCrumb($content){
         $output = '<ul>';
         foreach($arrXml as $key=>$val) {
             if ($val['active'] == 'true') {
-                $output .= "<li><a onclick='this.blur()' target='main' href='index.php?a=module&mod=" . $key . "'>" . $val['name'] . "</a></li>";
+                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"".$key."\");' href='javascript:;'>" . $val['name'] . "</a></li>";
             }
         }
         $output .= "</ul>";
         return $output;
+    }
+    
+    function checkLogin() {
+        if(!$this->userLoggedIn()) {
+            echo "<script>window.top.location.href='".MANAGER_URL."';</script>";
+            exit(0);
+        }
     }
   
 

@@ -1,28 +1,13 @@
-<?php
-if(IN_ETOMITE_SYSTEM != "true")
-{
-  die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the Etomite Manager instead of accessing this file directly.");
-}
-?>
-<?php include_once absolute_base_path . 'includes/header.inc.php'; ?>
-<div class="subTitle">
-    <span class="floatRight">
-        <img src="media/images/_tx_.gif" width="1" height="5"><br />
+<div class="header">
         <?php echo $this->etomite->config['site_name'];?> - <?php echo $this->moduleConfig['name'];?> Administration
-    </span>
 </div>
 
-<div class="sectionHeader">
-    <img src='media/images/misc/dot.gif' alt="." />&nbsp;<?php echo $this->moduleConfig['name'];?>
-</div>
-
-<div class="sectionBody">
+<div class="content">
     <?php
     /*foreach ($this->moduleConfig as $key=>$val) {
         echo "<p>" . $key . ": " . $val . "</p>";
     }*/
     ?>
-    <?php include_once 'admin_nav.phtml';?>
-    <?php $this->listGalleries();?>
+    <?php include_once $this->moduleDir . '/views/admin_nav.phtml';?>
+    <?php $this->listGalleries(); ?>
 </div>
-<?php include_once absolute_base_path . 'includes/footer.inc.php'; ?>

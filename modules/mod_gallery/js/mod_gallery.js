@@ -59,24 +59,25 @@ function editItem(id, galId) {
 function deleteItem(id, galId) {
     var is_sure = confirm("Are you sure that you want to delete this item?");
     if(is_sure) {
-        // do something
-    }
-    $.ajax({
-        url: 'index.php',
-        dataType: 'json',
-        data: {
-            a: 'module',
-            mod: 'mod_gallery',
-            action: 'deleteItem',
-            itemId: id
-        },
-        success: function(json){
-            if ((json === null) || (json.succeeded !== true)) {
-                alert(json.message);
-                return;
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'json',
+            data: {
+                action: 'manageModule',
+                mod: 'mod_gallery',
+                moduleAction: 'deleteItem',
+                itemId: id
+            },
+            success: function(json){
+                if (json === null || json.succeeded !== true) {
+                    alert(json.message);
+                    return false;
+                }
+                alert("Item removed!");
+                Etomite.moduleActionCall('', "action=manageModule&mod=mod_gallery&moduleAction=listGalleryItems&galId=" + galId);
             }
-            alert("Item removed!");
-            window.location="index.php?a=module&mod=mod_gallery&action=listGalleryItems&galId=" + galId;
-        }
-    });
+        });
+    } else {
+        return false;
+    }
 }

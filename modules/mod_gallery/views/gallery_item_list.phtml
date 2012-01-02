@@ -1,28 +1,14 @@
-<?php
-if(IN_ETOMITE_SYSTEM != "true")
-{
-  die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the Etomite Manager instead of accessing this file directly.");
-}
-?>
-
-<?php include_once absolute_base_path . 'includes/header.inc.php'; ?>
-<link type="text/css" href="/modules/mod_gallery/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<!-- <link type="text/css" href="/modules/mod_gallery/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script> -->
 <script type="text/javascript" src="/modules/mod_gallery/js/mod_gallery.js"></script>
-<div class="subTitle">
-    <span class="floatRight">
-        <img src="media/images/_tx_.gif" width="1" height="5"><br />
-        <?php echo $this->etomite->config['site_name'];?> - <?php echo $this->moduleConfig['name'];?> Administration
-    </span>
+
+<div class="header">
+    <?php echo $this->moduleConfig['name'];?> - Gallery Items for <?php echo $gallery['name']; ?>
 </div>
 
-<div class="sectionHeader">
-    <img src='media/images/misc/dot.gif' alt="." />&nbsp;<?php echo $this->moduleConfig['name'];?> - Gallery Items for <?php echo $gallery['name']; ?>
-</div>
-
-<div class="sectionBody">
-<?php include_once 'admin_nav.phtml';?>
+<div class="content">
+<?php include_once $this->moduleDir.'/views/admin_nav.phtml';?>
 <?php if($items){ ?>
 <form method='post'name='orderForm' action=''>
     <table width='100%' cellpadding='3' border='1' class='gall-list'>
@@ -32,7 +18,13 @@ if(IN_ETOMITE_SYSTEM != "true")
         foreach ($items as $item) {
             $gItems[] = $item['id'];
 			$output .= "<tr>";
-			$output .= "<td align='center' width='150' valign='middle'><img src='".$this->www.$this->thumbs."th_".$item['fn']."' border='0' /></td>";
+			$output .= "<td align='center' width='150' valign='middle'>";
+			if (file_exists($this->www.$this->thumbs."th_".$item['fn'])) {
+			    $output .= "<img src='".$this->www.$this->thumbs."th_".$item['fn']."' border='0' />";
+			} else {
+			    $output .= "<p>File not found!</p>";
+			}
+			$output .= "</td>";
 			$output .= "<td valign='top'><p><strong>Title:</strong>".stripslashes($item['title'])."</p><p><strong>Description:</strong><br />".stripslashes($item['description'])."</p></td>";
 			
 			$output .= "<td valign='middle' align='center' width='75'>";
@@ -57,4 +49,3 @@ if(IN_ETOMITE_SYSTEM != "true")
 </div>
 <div id="editDialog"></div>
 <div id="deleteDialog"></div>
-<?php include_once absolute_base_path . 'includes/footer.inc.php'; ?>

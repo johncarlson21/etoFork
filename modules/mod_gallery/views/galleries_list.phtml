@@ -10,7 +10,7 @@
         foreach ($galleries as $gallery) {
             echo "<tr><td align='center'>" . $gallery['id'] . "</td><td>" . $gallery['name'] . "</td><td>" . $gallery['description'] .
             "</td><td align='center'>";
-            echo "<a href='?a=module&mod=mod_gallery&action=listGalleryItems&galId=" . $gallery['id'] . "'>View Items</a>";
+            echo "<a href='javascript:;' onclick=\"Etomite.moduleActionCall('', 'action=manageModule&mod=mod_gallery&moduleAction=listGalleryItems&galId=" . $gallery['id'] . "');\">View Items</a>";
             echo "</td></tr>";
         }
     }
