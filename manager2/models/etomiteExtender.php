@@ -915,7 +915,7 @@ function addBreadCrumb($content){
         return $output;
     }
     
-    function checkLogin() {
+    function checkManagerLogin() {
         if(!$this->userLoggedIn()) {
             echo "<script>window.top.location.href='".MANAGER_URL."';</script>";
             exit(0);

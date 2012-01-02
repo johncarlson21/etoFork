@@ -1,4 +1,5 @@
 <?php
+define("IN_ETOMITE_SYSTEM", true);
 include_once('includes/bootstrap.php');
 
 class Content extends etomiteExtender {

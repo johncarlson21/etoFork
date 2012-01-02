@@ -6,9 +6,13 @@ class User extends etomiteExtender {
     public $lastId = false;
     public $errors;
     
+    public function __construct() {
+        parent::__construct();
+        $this->checkManagerLogin();
+    }
+    
     public function loadUsersView(){
         include_once('views/users.phtml');
-        $this->checkLogin();
     }
     
     public function editUser() {
