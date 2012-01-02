@@ -238,7 +238,7 @@
           <tbody>
     
     <?php
-    $timetocheck = (time()-(60*20));//+$server_offset_time;
+    $timetocheck = (time()-(60*20)); //+$etomite->config['server_offset_time'];
     include_once("includes/actionlist.inc.php");
     $sql = "SELECT * FROM ".$etomite->db."active_users WHERE ".$etomite->db."active_users.lasthit > '".$timetocheck."' ORDER BY username ASC";
     $rs = $etomite->dbQuery($sql);

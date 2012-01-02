@@ -113,7 +113,7 @@ var layoutSettings_Outer = {
 </head>
 <body>
 <div class="ui-layout-west">
-    <div class="header">Navigation</div>
+    <div class="header">Documents</div>
     <div class="content">
         <?php include_once('doc_tree.phtml');?>
     </div>
@@ -122,7 +122,7 @@ var layoutSettings_Outer = {
     <?php include_once('welcome.phtml');?>
 </div>
 <div class="ui-layout-north">
-    <div class="header">Etomite CMS</div>
+    <div class="header"><?php echo $etomite->config['full_appname'];?></div>
     <div class="content"><?php include_once('admin_nav.phtml');?></div>
 </div>
 <!-- Definition of context menu -->
@@ -138,7 +138,6 @@ var layoutSettings_Outer = {
     <li class="undelete"><a href="#undelete">Undelete</a></li>
     <li class="showinmenu separator"><a href="#showinmenu">Show in menus</a></li>
     <li class="hideinmenu"><a href="#hideinmenu">Hide in menus</a></li>
-    <!-- <li class="quit separator"><a href="#quit">Quit</a></li> -->
 </ul>
 <!-- Definition of context menu -->
 <ul id="myRootMenu" class="contextMenu">
@@ -146,5 +145,19 @@ var layoutSettings_Outer = {
     <li class="createLink"><a href="#createLink">Create Weblink Here</a></li>
 </ul>
 <div id="spinner" style="display:none;"></div>
+<div id="debug-output">
+<?php
+if(debug) {
+    var_dump($etomite->config);
+?>
+<script type="text/javascript">
+$(function() {
+    Etomite.showDebugWindow();
+});
+</script>
+<?php
+}
+?>
+</div>
 </body>
 </html>

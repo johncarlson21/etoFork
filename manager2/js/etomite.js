@@ -1150,6 +1150,18 @@ var Etomite = {
                 }
             }
         });
+    },
+    
+    showDebugWindow: function() {
+        $('#debug-output').dialog({
+            title: "DEBUG",
+            autoOpen: true,
+            width: 600,
+            height: 400,
+            resizable: true,
+            position: 'top',
+            modal: false
+        });
     }
     
 }// end etomite var

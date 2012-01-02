@@ -1929,6 +1929,7 @@ title='$siteName'>$siteName</a></h2>
     $_SESSION['lastlogin']         = $row['lastlogin'];
     $_SESSION['role']              = $row['role'];
     $_SESSION['nrlogins']          = $row['logincount'];
+    $_SESSION['ip']                = $_SERVER['REMOTE_ADDR'];
 
     if($row['failedlogincount']>=$this->config['max_attempts'] && $row['blockeduntil']>time())
     {

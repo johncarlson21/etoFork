@@ -30,6 +30,7 @@ $table_prefix = "etomite_";
 
 define('dbase', $dbase);
 define('table_prefix', $table_prefix);
+define('debug', false);
 
 
 // YOU CAN ASSIGN THE DIRECTORY WHERE SESSIONS WILL BE STORED.
