@@ -1,0 +1,47 @@
+<div class="content">
+    <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#000000">
+    <thead>
+      <tr>
+        <td colspan="4"><b><?php printf($this->_lang['stats_top_pages'], $toplimit); ?></b></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class='row3'><b><?php echo $this->_lang['rank']; ?></b></td>
+        <td class='row3' width="25%"><b><?php echo $this->_lang['document']; ?></b></td>
+        <td class='row3' width="25%" colspan="2"><b><?php echo $this->_lang['page_impressions']; ?></b></td>
+      </tr>
+  <?php
+  // get page titles
+  $sql = "SELECT id, pagetitle FROM ".$this->db."site_content";
+  $rs = $this->dbQuery($sql);
+  $pagetitles = array();
+  while ($row = $this->fetchRow($rs, 'num')) {
+    $pagetitles[$row[0]] = $row[1];
+  }
+
+  $sql = "SELECT COUNT(document) AS hits, document FROM ".$this->db."log_access WHERE timestamp > $startdate AND timestamp < $enddate GROUP BY document ORDER BY hits DESC LIMIT $toplimit";
+  $rs = $this->dbQuery($sql);
+  $actualRows = $this->recordCount($rs);
+  for($i=0;$i<$actualRows; $i++) {
+    $tmp = $this->fetchRow($rs);
+  ?>
+      <tr>
+        <td class='row3' style="width:12.5%;"><?php echo $i+1; ?></td>
+        <td class='row1'><?php echo $pagetitles[$tmp['document']]; ?></td>
+        <td class='row1' style="width:12.5%;"><?php echo $tmp['hits']; ?></td>
+        <td class='row1' style="width:12.5%;"><?php echo $tmp['hits']==0 ? "-" : number_format(($tmp['hits']/$pitotal)*100, 1)." %"; ?></td>
+      </tr>
+  <?php
+  }
+  if($actualRows==0) {
+  ?>
+      <tr>
+        <td class='row1' colspan="4"><?php echo $this->_lang['no_results']; ?></td>
+      </tr>
+  <?php
+  }
+  ?>
+    </tbody>
+  </table>
+</div> <!-- end content -->

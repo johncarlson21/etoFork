@@ -1,0 +1,41 @@
+<div class="content">
+
+  <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#000000">
+    <thead>
+      <tr>
+        <td colspan="4"><b><?php printf($this->_lang['stats_top_hosts'], $toplimit); ?></b></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class='row3'><b><?php echo $this->_lang['rank']; ?></b></td>
+        <td class='row3' width="25%"><b><?php echo $this->_lang['hostname']; ?></b></td>
+        <td class='row3' width="25%" colspan="2"><b><?php echo $this->_lang['visitors_came_from_here']; ?></b></td>
+      </tr>
+  <?php
+  $sql = "SELECT COUNT(DISTINCT(t3.visitor)) AS hits, t2.data AS hostname FROM ".$this->db."log_visitors AS t1, ".$this->db."log_hosts AS t2, ".$this->db."log_access AS t3 WHERE t3.visitor = t1.id AND t1.host_id = t2.id AND t3.timestamp > $startdate AND t3.timestamp < $enddate GROUP BY hostname ORDER BY hits DESC LIMIT $toplimit";
+  $rs = $this->dbQuery($sql);
+  $actualRows = $this->recordCount($rs);
+  for($i=0;$i<$actualRows; $i++) {
+    $tmp = $this->fetchRow($rs);
+  ?>
+      <tr>
+        <td class='row3' style="width:12.5%;"><?php echo $i+1; ?></td>
+        <td class='row1'><?php echo $tmp['hostname']; ?></td>
+        <td class='row1' style="width:12.5%;"><?php echo $tmp['hits']; ?></td>
+        <td class='row1' style="width:12.5%;"><?php echo $tmp['hits']==0 ? "-" : number_format(($tmp['hits']/$vistotal)*100, 1)." %"; ?></td>
+      </tr>
+  <?php
+  }
+  if($actualRows==0) {
+  ?>
+      <tr>
+        <td class='row1' colspan="4"><?php echo $this->_lang['no_results']; ?></td>
+      </tr>
+  <?php
+  }
+  ?>
+    </tbody>
+  </table>
+
+</div>
