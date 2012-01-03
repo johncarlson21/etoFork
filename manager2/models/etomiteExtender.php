@@ -248,7 +248,8 @@ function makeUrl($id, $alias='', $args='') {
                     'address',
                     'city',
                     'state',
-                    'zip'
+                    'zip',
+                    'mailmessages'
                 )
             );
             $db->limit('1');
@@ -838,6 +839,45 @@ function addBreadCrumb($content){
         $this->getSettings();
     }
     
+    /*
+     * Send Message to user from the messages system
+     */
+    
+    function sendMessageToUser($to = array(), $message) {
+        if(empty($to) || !is_array($to) || empty($message)) {
+            return false;
+        }
+        $curUser = $this->getUser($_SESSION['internalKey']);
+        require_once(MANAGER_PATH."/lib/phpmailer/class.phpmailer.php");
+        $mail = new PHPMailer();
+        
+        $mail->IsMail();      // telling the class to use PHP's Mail()
+        $mail->AddReplyTo('nobody@yourdomain.com', 'Nobody');
+        $mail->From       = $this->config['emailsender'];
+        $mail->FromName   = $this->config['site_name'];
+        
+        foreach($to as $r) {
+            $mail->AddAddress($r['email'], $r['name']);
+        }
+        
+        $mail->Subject  = "You Have a Message!";
+        $mail->AltBody = html_entity_decode($message);
+        $mail->WordWrap = 80;
+        $mail->MsgHTML($message);
+        
+        try {
+            if ( !$mail->Send() ) {
+              $error = "Unable to send to: " . print_r($to, 1) . "<br />";
+              throw new phpmailerAppException($error);
+            }
+            return true;
+        }
+        catch (phpmailerAppException $e) {
+            $errorMsg[] = $e->errorMessage();
+        }
+        return false;
+    }
+    
     function evalModules($content) {
         /*
          * $matches contains the module info.
@@ -924,5 +964,12 @@ function addBreadCrumb($content){
   
 
 } // end class
+
+class phpmailerAppException extends Exception {
+    public function errorMessage() {
+        $errorMsg = '<strong>' . $this->getMessage() . "</strong><br />";
+        return $errorMsg;
+    }
+}
 
 ?>

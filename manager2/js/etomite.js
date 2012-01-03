@@ -753,6 +753,7 @@ var Etomite = {
         var mph = $('#editUser #mobilephone').val();
         var rl = $('#editUser #role').val();
         var bl = $('#editUser #blocked').is(':checked') ? 1 : 0;
+        var sm = $('#editUser #sendmessages').is(':checked') ? 1 : 0;
         
         // need to add for permissions also
         
@@ -792,6 +793,7 @@ var Etomite = {
                     mobilephone: mph,
                     role: rl,
                     blocked: bl,
+                    mailmessages: sm,
                     usergroups: user_groups
                 },
                 success: function(json) {
@@ -1046,9 +1048,9 @@ var Etomite = {
     },
     
     sendMyMessage: function() {
-        var sendto = $('#messagefrm [name=sendto]').val();
-        var user = $('#messagefrm [name=user]').val();
-        var group = $('#messagefrm [name=group]').val();
+        var sendto = $('#messagefrm input:radio[name=sendto]:checked').val();
+        var user = $('#messagefrm [name=user] option:selected').val();
+        var group = $('#messagefrm [name=group] option:selected').val();
         var message = $('#messagefrm [name=messagebody]').val();
         if (sendto == 'u' && (user === null || user == '')) {
             Etomite.errorDialog('You are trying to send to a specific user!<br />You need to select a user!', 'ALERT!');

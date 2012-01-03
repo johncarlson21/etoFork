@@ -617,6 +617,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}user_attributes` (
   `city` varchar(100) NOT NULL,
   `state` varchar(100) NOT NULL,
   `zip` varchar(100) NOT NULL,
+  `mailmessages` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `userid` (`internalKey`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Contains information about Etomite users.' AUTO_INCREMENT=2 ;
@@ -630,7 +631,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}user_attributes` (
 
 CREATE TABLE IF NOT EXISTS `{PREFIX}user_messages` (
   `id` int(10) NOT NULL auto_increment,
-  `type` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+  `type` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `subject` varchar(60) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `message` text character set utf8 collate utf8_unicode_ci NOT NULL,
   `sender` int(10) NOT NULL default '0',
@@ -762,7 +763,7 @@ INSERT INTO `{PREFIX}web_user_roles` (`id`, `name`, `description`) VALUES
 
 INSERT INTO `{PREFIX}manager_users` VALUES (1, '{ADMIN}', MD5('{ADMINPASS}'));
 
-INSERT INTO `{PREFIX}user_attributes` VALUES(1, 1, 'Administration account', 1, 'Your email goes here', '', '', 0, 0, 0, {TIMESTAMP}, {TIMESTAMP}, 0, '', '', '', '', '');
+INSERT INTO `{PREFIX}user_attributes` VALUES(1, 1, 'Administration account', 1, 'Your email goes here', '', '', 0, 0, 0, {TIMESTAMP}, {TIMESTAMP}, 0, '', '', '', '', '', 0);
 
 INSERT INTO `{PREFIX}user_roles` VALUES(1, 'Administrator', 'Site administrators have full access to all functions', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0);
 

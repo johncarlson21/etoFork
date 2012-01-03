@@ -94,6 +94,11 @@
         </select>
           </td>
           </tr>
+          <tr>
+            <td><?php echo $this->_lang['user_sendmessages']; ?>:</td>
+            <td>&nbsp;</td>
+            <td><input name="sendmessages" id="sendmessages" type="checkbox"<?php echo $userdata['mailmessages']==1 ? " checked='checked'": "" ; ?> /></td>
+          </tr>
           <?php if (isset($userdata['id']) && is_numeric($userdata['id'])) { ?>
           <tr>
             <td><?php echo $this->_lang['user_logincount']; ?>:</td>

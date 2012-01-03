@@ -50,6 +50,7 @@ class User extends etomiteExtender {
         $mobilephone = (isset($_REQUEST['mobilephone']) && !empty($_REQUEST['mobilephone'])) ? mysql_escape_string($_REQUEST['mobilephone']) : '';
         $role = (isset($_REQUEST['role']) && !empty($_REQUEST['role'])) ? (int)$_REQUEST['role'] : '';
         $blocked = (isset($_REQUEST['blocked']) && !empty($_REQUEST['blocked'])) ? (int)$_REQUEST['blocked'] : 0;
+        $mailmessages = (isset($_REQUEST['mailmessages']) && !empty($_REQUEST['mailmessages'])) ? (int)$_REQUEST['mailmessages'] : 0;
         $password = (isset($_REQUEST['password']) && !empty($_REQUEST['password'])) ? mysql_escape_string($_REQUEST['password']) : '';
         $usergroups = (isset($_REQUEST['usergroups']) && !empty($_REQUEST['usergroups'])) ? $_REQUEST['usergroups'] : array();
         $mu_data = array(
@@ -61,7 +62,8 @@ class User extends etomiteExtender {
             'phone' => $phone,
             'mobilephone' => $mobilephone,
             'role' => $role,
-            'blocked' => $blocked
+            'blocked' => $blocked,
+            'mailmessages' => $mailmessages
         );
         
         if (isset($password) && !empty($password)) {
@@ -204,6 +206,10 @@ class User extends etomiteExtender {
         if($message == "") $message = "(no message)";
         $postdate = time();
         
+        $footerInfo = "<hr /><p>&nbsp;</p><p>Login to the <a href='".MANAGER_URL."'>MANAGER</a> to view this message</p>" .
+            "<p>If the link above doesn't work, copy and past this link: ".MANAGER_URL." into your browser!</p>" .
+        	"<p align='center'><strong><em>Do not reply to this message, it will go nowhere!</em></strong></p>";
+        
         if($sendto == 'u') {
           if($userid == 0) {
             return false;
@@ -219,6 +225,26 @@ class User extends etomiteExtender {
             messageread = 0;
           ";
           $rs = $this->dbQuery($sql);
+          // put in sent message
+          $rs = $this->dbQuery("INSERT INTO ".$db."user_messages SET
+			type = 'Message Sent',
+			subject = '$subject',
+			message = '$message',
+			sender = ".$_SESSION['internalKey'].",
+			recipient = $userid,
+			private = 1,
+			postdate = $postdate,
+			messageread = 1;
+          ");
+          // send mail if nessesary
+          $curUser = $this->getUser($_SESSION['internalKey']);
+          $user = $this->getUser($userid);
+          if($user['mailmessages'] == 1) {
+              $message = "<p><strong>User:</strong> ".$curUser['fullname']." has sent you a message</p>".
+                  "<p><strong>Subject:</strong> ".$subject."</p><p><strong>Message:</strong></p>".$message.$footerInfo;
+              $to = array(array('email'=>$user['email'], 'name'=>$user['fullname']));
+              $this->sendMessageToUser($to, $message);
+          }
           return true;
         }
         
@@ -229,6 +255,7 @@ class User extends etomiteExtender {
           $sql = "SELECT internalKey FROM ".$db."user_attributes WHERE ".$db."user_attributes.role=$groupid;";
           $rs = $this->dbQuery($sql);
           $limit = $this->recordCount($rs);
+          $curUser = $this->getUser($_SESSION['internalKey']);
           for( $i=0; $i<$limit; $i++ ){
             $row=$this->fetchRow($rs);
             if($row['internalKey']!=$_SESSION['internalKey']) {
@@ -243,8 +270,28 @@ class User extends etomiteExtender {
                 messageread = 0;
               ";
               $rs2 =  $this->dbQuery($sql2);
+              // send mail if nessesary
+              $user = $this->getUser($row['internalKey']);
+              if($user['mailmessages'] == 1) {
+                  $sendmessage = "<p><strong>User:</strong> ".$curUser['fullname']." has sent you a message</p>".
+                      "<p><strong>Subject:</strong> ".$subject."</p><p><strong>Message:</strong></p>".$message.$footerInfo;
+                  $to = array(array('email'=>$user['email'], 'name'=>$user['fullname']));
+                  $this->sendMessageToUser($to, $sendmessage);
+              }
             }
+            
           }
+          // put in sent message
+          $rs = $this->dbQuery("INSERT INTO ".$db."user_messages SET
+			type = 'Message Sent; group|$groupid',
+			subject = '$subject',
+			message = '$message',
+			sender = ".$_SESSION['internalKey'].",
+			recipient = 0,
+			private = 0,
+			postdate = $postdate,
+			messageread = 1;
+          ");
           return true;
         }
         
@@ -252,6 +299,7 @@ class User extends etomiteExtender {
           $sql = "SELECT id FROM ".$db."manager_users;";
           $rs = $this->dbQuery($sql);
           $limit = $this->recordCount($rs);
+          $curUser = $this->getUser($_SESSION['internalKey']);
           for( $i=0; $i<$limit; $i++ ){
             $row=$this->fetchRow($rs);
             if($row['id'] != $_SESSION['internalKey']) {
@@ -266,8 +314,27 @@ class User extends etomiteExtender {
                 messageread = 0;
               ";
               $rs2 =  $this->dbQuery($sql2);
+              // send mail if nessesary
+              $user = $this->getUser($row['id']);
+              if($user['mailmessages'] == 1) {
+                  $sendmessage = "<p><strong>User:</strong> ".$curUser['fullname']." has sent you a message</p>".
+                      "<p><strong>Subject:</strong> ".$subject."</p><p><strong>Message:</strong></p>".$message.$footerInfo;
+                  $to = array(array('email'=>$user['email'], 'name'=>$user['fullname']));
+                  $this->sendMessageToUser($to, $sendmessage);
+              }
             }
           }
+          // put in sent message
+          $rs = $this->dbQuery("INSERT INTO ".$db."user_messages SET
+			type = 'Message Sent; everyone',
+			subject = '$subject',
+			message = '$message',
+			sender = ".$_SESSION['internalKey'].",
+			recipient = 0,
+			private = 0,
+			postdate = $postdate,
+			messageread = 1;
+          ");
           return true;
         }
         return false;
@@ -275,7 +342,7 @@ class User extends etomiteExtender {
     
     public function deleteMyMessage($id, $userid) {
         if (!empty($id) && is_numeric($id) && !empty($userid) && is_numeric($userid)) {
-            $this->dbQuery("DELETE FROM ".$this->db."user_messages WHERE id = '".$id."' AND recipient = '".$userid."'");
+            $this->dbQuery("DELETE FROM ".$this->db."user_messages WHERE id = '".$id."' AND (recipient = '".$userid."' OR sender = '".$userid."')");
             return true;
         }
         return false;

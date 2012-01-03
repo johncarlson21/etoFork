@@ -5,6 +5,7 @@
         <li><a href="#messages-read"><?php echo $this->_lang['messages_read_message']; ?></a></li>
         <?php } ?>
         <li><a href="#messages-inbox"><?php echo $this->_lang['messages_inbox']; ?></a></li>
+        <li><a href="#messages-sent"><?php echo $this->_lang['messages_sent_tab']; ?></a></li>
         <li><a href="#messages-compose"><?php echo $this->_lang['messages_compose']; ?></a></li>
     </ul>
     <?php if(isset($_REQUEST['id']) && $_REQUEST['m']=='r') { ?>
@@ -17,7 +18,7 @@
         echo "Wrong number of messages returned!";
       } else {
         $message=$this->fetchRow($rs);
-        if($message['recipient']!=$_SESSION['internalKey']) {
+        if($message['recipient'] != $_SESSION['internalKey'] && $message['sender'] != $_SESSION['internalKey']) {
           echo $this->_lang['messages_not_allowed_to_read'];
         } else {
           // output message!
@@ -38,7 +39,9 @@
           <td colspan="2">
             <div>
               <span class="floatLeft">
+                <?php if ($message['sender'] != $_SESSION['internalKey']) { ?>
                 <input type="button" onClick="Etomite.myMessages('m=rp&id=<?php echo $message['id']; ?>');" value="<?php echo $this->_lang['messages_reply']; ?>" />
+                <?php } ?>
                 <input type="button" onClick="Etomite.myMessages('m=f&id=<?php echo $message['id']; ?>');" value="<?php echo $this->_lang['messages_forward']; ?>" />
                 <input type="button" onClick="Etomite.deleteMyMessage('<?php echo $message['id']; ?>');" value="<?php echo $this->_lang["delete"]; ?>" />
               </span>
@@ -191,6 +194,119 @@
       </tbody>
       </table>
     </div>
+    <div id="messages-sent">
+      <?php
+      // Get  number of rows
+      $sql = "SELECT count(id) FROM ".$this->db."user_messages WHERE type LIKE 'Message Sent%' AND sender=".$_SESSION['internalKey']."";
+      $rs=$this->dbQuery($sql);
+      $countrows = $this->fetchRow($rs);
+      $num_rows = $countrows['count(id)'];
+    
+      // ==============================================================
+      // Example Usage
+      // Note: I make 2 query to the database for this exemple, it
+      // could (and should) be made with only one query...
+      // ==============================================================
+    
+      // If current position is not set, set it to zero
+      if( !isset( $_REQUEST['int_cur_position'] ) || $_REQUEST['int_cur_position'] == 0 ){
+        $int_cur_position = 0;
+      } else {
+        $int_cur_position = $_REQUEST['int_cur_position'];
+      }
+    
+      // Number of result to display on the page, will be in the LIMIT of the sql query also
+      $int_num_result = $this->config['number_of_messages'];
+    
+      $extargv = ""; // extra argv here (could be anything depending on your page)
+    
+      include_once("includes/paginate.inc.php");
+      // New instance of the Paging class, you can modify the color and the width of the html table
+      $p = new Paging( $num_rows, $int_cur_position, $int_num_result, $extargv );
+      $pager = '';
+      // Load up the 2 array in order to display result
+      $array_paging = $p->getPagingArray();
+      $array_row_paging = $p->getPagingRowArray();
+    
+      // Display the result as you like...
+      $pager .= $this->_lang['showing']." ". $array_paging['lower'];
+      $pager .=  " ".$this->_lang['to']." ". $array_paging['upper'];
+      $pager .=  " (". $array_paging['total']." ".$this->_lang['total'].")";
+      $pager .=  "<br />". $array_paging['previous_link'] ."<<</a> " ;
+      for( $i=0; $i<sizeof($array_row_paging); $i++ ){
+        $pager .=  $array_row_paging[$i] ."&nbsp;";
+      }
+      $pager .=  $array_paging['next_link'] .">></a>";
+    
+      // The above example prints something like:
+      // Results 1 to 20 of 597  <<< 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 >>>
+      // Of course you can now play with array_row_paging in order to print only the results you would like...
+    
+      $sql = "SELECT * FROM ".$this->db."user_messages WHERE type LIKE 'Message Sent%' AND ".$this->db."user_messages.sender=".$_SESSION['internalKey']." ORDER BY postdate DESC LIMIT ".$int_cur_position.", ".$int_num_result;
+      $rs = $this->dbQuery($sql);
+      $limit = $this->recordCount($rs);
+      if($limit<1) {
+        echo $this->_lang['messages_no_sent'];
+      } else {
+      echo $pager;
+      ?>
+    
+        <table border=0 cellpadding=0 cellspacing=0  class="sort-table" id="table-1" style="width:100%;">
+          <thead>
+            <tr>
+              <td width="12"></td>
+              <td width="50%"><b><?php echo $this->_lang['messages_subject']; ?></b></td>
+              <td><b><?php echo $this->_lang['messages_to']; ?></b></td>
+              <td><b><?php echo $this->_lang['messages_private']; ?></b></td>
+          <td width="150px"><b><?php echo $this->_lang['messages_sent']; ?></b></td>
+            </tr>
+          </thead>
+          <tbody>
+    
+        <?php
+          for ($i = 0; $i < $limit; $i++) {
+            $message = $this->fetchRow($rs);
+            $recipient = $message['recipient'];
+            if($recipient == 0) {
+              $type = $message['type'];
+              $type = explode(";", $type);
+              $type = explode("|", $type[1]);
+              $who = trim($type[0]);
+              $typeId = isset($type[1]) ? trim($type[1]):'';
+              if ($who == 'everyone') {
+                  $receivername = "[Everyone]";
+              } elseif ($who == 'group') {
+                  $sql = "SELECT name FROM ".$this->db."user_roles WHERE id=$typeId";
+                  $rs2 = $this->dbQuery($sql);
+                  $row2 = $this->fetchRow($rs2);
+                  $receivername = $row2['name'];
+              }
+            } else {
+              $sql = "SELECT username FROM ".$this->db."manager_users WHERE id=$recipient";
+              $rs2 = $this->dbQuery($sql);
+              $row2 = $this->fetchRow($rs2);
+              $receivername = $row2['username'];
+            }
+            $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
+            $messagestyle = $message['messageread']==0 ? "messageUnread" : "messageRead";
+        ?>
+          <tr <?php echo $classname; ?>>
+          <td ><?php echo $message['messageread']==0 ? "<img src='".MANAGER_URL."images/icons/new1-09.gif'>" : ""; ?></td>
+            <td class="<?php echo $messagestyle; ?>" style="cursor: pointer; text-decoration: underline;" onClick="Etomite.myMessages('id=<?php echo $message['id']; ?>&m=r');">
+              <?php echo $message['subject']; ?>
+            </td>
+          <td ><?php echo $receivername; ?></td>
+          <td ><?php echo $message['private']==0 ? "No" : "Yes"; ?></td>
+            <td ><?php echo strftime($this->config['date_format'].' @ '.$this->config['time_format'], $message['postdate']+$this->config['server_offset_time']); ?></td>
+          </tr>
+    
+          <?php
+            }
+        }
+        ?>
+      </tbody>
+      </table>
+    </div>
     <div id="messages-compose">
       <?php
       $composeFlag = false;
@@ -202,7 +318,8 @@
           echo "Wrong number of messages returned!";
         } else {
           $message=$this->fetchRow($rs);
-          if($message['recipient']!=$_SESSION['internalKey']) {
+          //if($message['recipient']!=$_SESSION['internalKey']) {
+          if($message['recipient'] != $_SESSION['internalKey'] && $message['sender'] != $_SESSION['internalKey']) {
             echo $this->_lang['messages_not_allowed_to_read'];
           } else {
             // output message!
@@ -326,7 +443,7 @@
     $(document).ready(function() {
         $('#messages-tabs').tabs(
         <?php if ($composeFlag) {?>
-        { selected: 1 }
+        { selected: 2 }
         <?php } ?>
         );
     });
