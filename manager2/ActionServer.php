@@ -161,6 +161,15 @@ class ActionServer extends Ajax {
         $Content->moveDocDialog();
     }
     
+    public function purgeDocuments() {
+        $Content = new Content();
+        if ($Content->purgeDocuments()) {
+            $this->respond(true, 'Documents Purged');
+        } else {
+            $this->respond(false, 'There was an error removing all the documents!');
+        }
+    }
+    
     public function loadSystemInfo() { // need to fix
         $etomite = new etomiteExtender();
         include('views/system_info.phtml');

@@ -58,7 +58,8 @@
 .contextMenu LI.cut A { background-image: url(images/cut.png); }
 .contextMenu LI.copy A { background-image: url(images/page_white_copy.png); }
 .contextMenu LI.paste A { background-image: url(images/page_white_paste.png); }
-.contextMenu LI.delete A { background-image: url(images/page_white_delete.png); }
+.contextMenu LI.delete A,
+.contextMenu LI.purgeDocs A { background-image: url(images/page_white_delete.png); }
 .contextMenu LI.quit A { background-image: url(images/door.png); }
 
 .contextMenu LI.preview A { background-image: url(images/preview.gif); }
@@ -70,3 +71,4 @@
 .contextMenu LI.undelete A { background-image: url(images/undelete.gif); }
 .contextMenu LI.showinmenu A { background-image: url(images/showinmenu.png); }
 .contextMenu LI.hideinmenu A { background-image: url(images/hideinmenu.png); }
+.contextMenu LI.refreshTree A { background-image: url(images/reload.png); }

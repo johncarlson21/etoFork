@@ -915,3 +915,10 @@ ul.dropdown li ul li a:hover {
     color: #666;
     text-decoration: underline;
 }
+
+#myMenu .header h2,
+#myRootMenu .header h2 {
+    font-weight: normal;
+    padding: 5px;
+    color: #000;
+}

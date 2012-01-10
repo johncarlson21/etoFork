@@ -173,6 +173,35 @@ function bindRootContextMenu(node, span) {
             case "createLink":
                 Etomite.editDocument('', id, 'true');
                 break;
+            case "purgeDocs":
+                $('<div id="confirm"></div>').appendTo('body').html("<p>Are you sure you want to delete this document and all child documents?</p><p>THERE IS NO GOING BACK!</p>");
+                $('#confirm').dialog({
+                    autoOpen: true,
+                    minWidth: 200,
+                    minHeight: 200,
+                    position: 'center',
+                    resizable: false,
+                    closeOnEscape: false,
+                    title: 'Alert: Purge Documents',
+                    modal: true,
+                    buttons: {
+                        Yes: function() {
+                            Etomite.purgeDocuments();
+                            $(this).dialog('close');
+                            $(this).dialog('destroy');
+                            $('#confirm').remove();
+                        },
+                        No: function() {
+                            $(this).dialog('close');
+                            $(this).dialog('destroy');
+                            $('#confirm').remove();
+                        }
+                    }
+                });
+                break;
+            case "refreshTree":
+                $("#docTree").dynatree("getTree").reload();
+                break;
         }
     });
 }

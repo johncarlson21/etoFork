@@ -79,6 +79,9 @@ if(jQuery)( function() {
 							(e.pageY) ? y = e.pageY : y = e.clientY + d.scrollTop;
 							
 							// Show the menu
+							// get header
+							var spanA = $(this).children('a');
+							$('#' + o.menu + ' .header').html("<h2>" + spanA.text() + "</h2>");
 							$(document).unbind('click');
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
 							// Hover events

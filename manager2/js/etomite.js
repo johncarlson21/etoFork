@@ -133,7 +133,6 @@ var Etomite = {
     },
     
     loadDocTree: function() {
-        
         $("#docTree").dynatree({
             initAjax: {
                 url: 'ActionServer.php',
@@ -158,10 +157,15 @@ var Etomite = {
                     $('#parentName').text(parentname);
                     return false;
                 }
+
                 // Close menu on click
                 if( $(".contextMenu:visible").length > 0 ){
                     $(".contextMenu").hide();
                 }
+            },
+            
+            onFocus: function(node, event) {
+                
             },
             
             /*Bind context menu for every node when it's DOM element is created.
@@ -432,6 +436,21 @@ var Etomite = {
                     Etomite.movingDoc = false;
                     Etomite.movingDocId = '';
                     Etomite.loadPaneFromAction('loadWelcome');
+                }
+            }
+        });
+    },
+    
+    purgeDocuments: function() {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'json',
+            data: { action: 'purgeDocuments' },
+            success: function(json) {
+                if(json === null || json.succeeded !== true) {
+                    Etomite.errorDialog(json.message, 'Error');
+                } else {
+                    $("#docTree").dynatree("getTree").reload();
                 }
             }
         });

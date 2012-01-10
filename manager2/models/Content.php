@@ -204,6 +204,14 @@ class Content extends etomiteExtender {
         include('views/move_doc.phtml');
     }
     
+    public function purgeDocuments() {
+        // delete all documents where deleted = 0;
+        if ($result = $this->dbQuery("DELETE FROM ".$this->db."site_content WHERE deleted=1")) {
+            return true;
+        }
+        return false;
+    }
+    
 
 }
 
