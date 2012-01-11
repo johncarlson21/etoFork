@@ -487,8 +487,8 @@ class etomite {
     if( isset($_SESSION['tpl']) && ($_SESSION['tpl'] != $this->documentObject['template']) ) return;
     if( $this->documentGenerated==1 && $this->documentObject['cacheable']==1 && $this->documentObject['type']=='document' )
     {
-      $basepath=dirname(__FILE__);
-      if($fp = @fopen($basepath."/assets/cache/docid_".$this->documentIdentifier.".etoCache","w"))
+      $basepath = absolute_base_path;
+      if($fp = @fopen($basepath."assets/cache/docid_".$this->documentIdentifier.".etoCache","w"))
       {
         fputs($fp,$this->documentContent);
         fclose($fp);
@@ -974,7 +974,6 @@ title='$siteName'>$siteName</a></h2>
   function log() {
     // if we are tracking visitors and this is not the 404 error page, log the hit
     if($this->config['track_visitors'] && $this->documentIdentifier != $this->config['error_page']) {
-      $basepath=dirname(__FILE__); // $basedir added by Dean [0613]
       include_once(MANAGER_PATH."includes/visitor_logging.inc.php");
     }
   }
