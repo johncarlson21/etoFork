@@ -24,6 +24,7 @@ class etomiteExtender extends etomite {
     public $breadCrumbs = array();
     public $bcSep = " &raquo; "; // default breadCrumb separator
     public $_lang = array();
+    public $documentTVs = array();
     
     function __construct(){
         $this->dbConfig['host'] = $GLOBALS['database_server'];
@@ -597,6 +598,13 @@ function addBreadCrumb($content){
     return $content;
 }
 
+function mergeDocumentContent($template) {
+    foreach ($this->documentObject as $key => $value) {
+      $template = str_replace("[*".$key."*]", stripslashes($value), $template);
+    }
+    return $template;
+}
+
 // extended output function
 
   function outputContent() {
@@ -710,6 +718,32 @@ function addBreadCrumb($content){
         return false;
       }
     }
+  }
+  
+  function getDocumentObject($method=false, $identifier=false) {
+      if (!$method || !$identifier) {
+          return false;
+      }
+      
+      $sql = "SELECT * FROM ".$this->db."site_content WHERE ".$this->db."site_content.".$method." = '".$identifier."';";
+      $result = $this->dbQuery($sql);
+      if ($this->recordCount($result) > 0) {
+          $doc = $this->fetchRow($result);
+          // get tvs for this document
+          //$result = $this->getIntTableRows('tv_id,tv_value', 'site_content_tv_val', 'doc_id='.$doc['id']);
+          $sql = "SELECT tvv.*, tv.field_name FROM ".$this->db."site_content_tv_val tvv" .
+              " LEFT JOIN ".$this->db."template_variables tv" .
+              " ON tvv.tv_id=tv.tv_id" .
+              " WHERE tvv.doc_id=".$doc['id'];
+          $result = $this->dbQuery($sql);
+          if ($this->recordCount($result) > 0) {
+            while($r = $this->fetchRow($result)) {
+                $doc[$r['field_name']] = $r['tv_value'];
+            }
+          }
+          return $doc;
+      }
+      return false;
   }
   
     function get_time_difference( $start, $end )
@@ -834,7 +868,7 @@ function addBreadCrumb($content){
         $this->config['absolute_base_path'] = $GLOBALS['absolute_base_path'];
         $this->config['relative_base_path'] = $GLOBALS['relative_base_path'];
         $this->config['www_base_path'] = $GLOBALS['www_base_path'];
-    
+        $this->dbConnect();
         // get the settings
         $this->getSettings();
     }

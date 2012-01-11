@@ -1,0 +1,84 @@
+<div class="header">Edit Template Variable</div>
+<div class="action-btns">
+    <a href="javascript:;" id="saveTV" class="button">Save</a>
+    <?php if ($id && !empty($id)) {?>
+    <a href="javascript:;" id="deleteTV" class="button">Delete</a>
+    <?php } ?>
+    <a href="javascript:;" id="cancelTV" class="button">Cancel</a>
+</div>
+<div class="content" id="editTV">
+    <input type="hidden" name="tv_id" id="tv_id" value="<?php echo isset($tv['tv_id']) && is_numeric($tv['tv_id']) ? $tv['tv_id'] : ''?>" />
+    <table width="100%" cellpadding="5" cellspacing="0" border="0" class="resource-table">
+        <tr>
+            <td width="200"><span class="warning">TV Name:</span></td>
+            <td><input type="text" maxlength="150" name="name" id="name" class="inputBox" style="width:300px;" value="<?php echo isset($tv['name']) ? stripslashes($tv['name']):'';?>" /></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Field Name:</span></td>
+            <td><input type="text" maxlength="50" name="field_name" id="field_name" class="inputBox" style="width:300px;" value="<?php echo isset($tv['field_name']) ? stripslashes($tv['field_name']):'';?>" /></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Description:</span></td>
+            <td><textarea name="description" id="description" cols="50" rows="6"><?php echo isset($tv['description']) ? stripslashes($tv['description']):'';?></textarea></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Field Type:</span></td>
+            <td>
+                <select name="type" id="type">
+                    <?php foreach($tvTypes as $t) {
+                        if (isset($tv['type']) && $tv['type'] == $t) {
+                            echo "<option value='".$t."' selected='selected'>".ucwords($t)."</option>";
+                        } else {
+                            echo "<option value='".$t."'>".ucwords($t)."</option>";
+                        }
+                    }?>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Options:</span></td>
+            <td><textarea name="opts" id="opts" cols="50" rows="6"><?php echo isset($tv['opts']) ? stripslashes($tv['opts']):'';?></textarea></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Default Value:</span></td>
+            <td><textarea name="default_val" id="default_val" cols="50" rows="6"><?php echo isset($tv['description']) ? stripslashes($tv['description']):'';?></textarea></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Field Size:</span></td>
+            <td><input type="text" maxlength="3" size="5" name="field_size" id="field_size" class="inputBox" value="<?php echo isset($tv['field_size']) ? (int)$tv['field_size']:'';?>" /></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Field Max Size:</span></td>
+            <td><input type="text" maxlength="3" size="5" name="field_max_size" id="field_max_size" class="inputBox" value="<?php echo isset($tv['field_max_size']) ? (int)$tv['field_max_size']:'';?>" /></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Order:</span></td>
+            <td><input type="text" maxlength="3" size="5" name="tv_order" id="tv_order" class="inputBox" value="<?php echo isset($tv['tv_order']) ? (int)$tv['tv_order']:'0';?>" /></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Required:</span></td>
+            <td><input type="checkbox" name="required" id="required" value="1" <?php echo isset($tv['required']) && $tv['required'] == 1 ? 'checked="checked"':'';?>" /></td>
+        </tr>
+        <tr>
+            <td width="200"><span class="warning">Templates:</span></td>
+            <td>
+                <select name="templates" id="templates" multiple="multiple" size="8">
+                    <?php
+                        if(count($templates) > 0) {
+                            foreach($templates as $tpl) {
+                                if(isset($tv['templates']) && count($tv['templates']) > 0) {
+                                    if (in_array($tpl['id'], $tv['templates'])) {
+                                        echo "<option value='".$tpl['id']."' selected='selected'>".$tpl['templatename']."</option>";
+                                    } else {
+                                        echo "<option value='".$tpl['id']."'>".$tpl['templatename']."</option>";
+                                    }
+                                } else {
+                                    echo "<option value='".$tpl['id']."'>".$tpl['templatename']."</option>";
+                                }
+                            }
+                        }
+                    ?>
+                </select>
+            </td>
+    </table>
+</div>

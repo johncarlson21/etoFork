@@ -4,6 +4,7 @@
         <li><a href="#templates"><?php echo $this->_lang['manage_templates']; ?></a></li>
         <li><a href="#snippets"><?php echo $this->_lang['manage_snippets']; ?></a></li>
         <li><a href="#chunks"><?php echo $this->_lang['manage_htmlsnippets']; ?></a></li>
+        <li><a href="#templateVars"><?php echo $this->_lang['template_var_tab'];?></a></li>
     </ul>
     <div id="templates">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTemplate" class="button">New Template</a></div>
@@ -149,6 +150,32 @@
                 Etomite.editResource('chunk', $(this).attr('id'));
             });
             $('#chunk-accordion').accordion({fillSpace: true, clearStyle: true});
+        </script>
+    </div>
+    <div id="templateVars">
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTv" class="button"><?php echo $this->_lang['create_template_var'];?></a></div>
+        <p><?php echo $this->_lang['template_var_tab_msg'];?></p>
+        <?php
+            $tvs = $this->getIntTableRows($fields="tv_id,field_name,name,description",$from="template_variables");
+            if (count($tvs) > 0) {
+            ?>
+                <ul>
+                    <?php foreach($tvs as $tv) {?>
+                        <li><a id="<?php echo $tv['tv_id'];?>" class="tvBtn"><strong><?php echo $tv['name']."</strong> (".$tv['field_name'].") - ".$tv['description'];?></a></li>
+                    <?php }?>
+                </ul>
+            <?php
+            } else {
+                echo "<p><em>Currently no Template Variables!</em></p>";
+            }
+        ?>
+        <script type="text/javascript">
+            $('#newTv').click(function() {
+                Etomite.editTV();
+            });
+            $('.tvBtn').click(function() {
+                Etomite.editTV($(this).attr('id'));
+            });
         </script>
     </div>
 </div>

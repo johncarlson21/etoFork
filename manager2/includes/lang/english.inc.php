@@ -873,5 +873,8 @@ $_lang["dumpSnippets_message"] = "This setting is for development only and shoul
 /* END: added in [v1.0] */
 $_lang["zendurls_title"] = "Use Zend Framework Style URLs:";
 $_lang["zendurls_message"] = "This allows you to have urls like: domain.com/page-alias/req1/req1-val/req2/req2-val<br />Must have Friendly URLs turned on!";
-
+$_lang["template_var_tab"] = "Manage Template Variables";
+$_lang["template_var_title"] = "Template Variables";
+$_lang["create_template_var"] = "New Template Variable";
+$_lang["template_var_tab_msg"] = "Template Variables are variables created for documents based on the template chosen.";
 ?>

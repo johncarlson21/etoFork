@@ -135,7 +135,8 @@ class ActionServer extends Ajax {
             'showinmenu' => (isset($_REQUEST['showinmenu']) && $_REQUEST['showinmenu'] == 1) ? 1 : 0,
             'meta_title' => addslashes($_REQUEST['meta_title']),
             'meta_description' => addslashes($_REQUEST['meta_description']),
-            'meta_keywords' => addslashes($_REQUEST['meta_description'])
+            'meta_keywords' => addslashes($_REQUEST['meta_description']),
+            'templateVars' => isset($_REQUEST['templateVars']) ? $_REQUEST['templateVars']:''
         );
         $Content = new Content();
         if($Content->saveDocument($data)) {
@@ -263,6 +264,31 @@ class ActionServer extends Ajax {
             $this->respond(true, 'created');
         } else {
             $this->respond(false, 'not created');
+        }
+    }
+    
+    public function editTV() {
+        $Resource = new Resource();
+        $Resource->editTV();
+    }
+    
+    public function saveTV() {
+        $this->validateRequest('name','field_name','templates');
+        $Resource = new Resource();
+        if ($Resource->saveTV()) {
+            $this->respond(true, 'TV Saved!');
+        } else {
+            $this->respond(false, 'TV not saved!');
+        }
+    }
+    
+    public function deleteTV() {
+        $this->validateRequest('tv_id');
+        $Resource = new Resource();
+        if ($Resource->deleteTV($_REQUEST['tv_id'])) {
+            $this->respond(true, 'Template Variable Removed!');
+        } else {
+            $this->respond(false, 'Template Variable was not removed!');
         }
     }
     

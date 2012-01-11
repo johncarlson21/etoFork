@@ -106,7 +106,7 @@ if ($man_pos !== false) {
     $www_base_url = $www_base_path;
     $www_base_path = $ETOMITE_PAGE_BASE["www"] = substr($www_base_path, 0, $man_pos)."/";
 } else {
-    $www_base_url = $www_base_url."/manager2/";
+    $www_base_url = $www_base_url."/manager/";
 }
 define("www_base_path", $www_base_path);
 define("MANAGER_URL", $www_base_url);

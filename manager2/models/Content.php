@@ -13,23 +13,24 @@ class Content extends etomiteExtender {
     public function saveTree($data=array(), $count=0) {
         if (is_array($data) && count($data) > 0) {
             // process the tree here
-            $menuindex = $count;
+            /*$menuindex = $count;
             foreach($data['children'] as $child) {
                 $id = str_replace("id_", "", $child['key']);
                 $this->updIntTableRows(array('menuindex'=>$menuindex), 'site_content', 'id='.$id);
                 $menuindex++;
                 if (isset($child['children']) && count($child['children']) > 0) {
-                    /*foreach($child['children'] as $cc) {
-                        $cid = str_replace("id_", "", $cc['key']);
-                        $this->updIntTableRows(array('menuindex'=>$menuindex), 'site_content', 'id='.$cid);
-                        $menuindex++;
-                    }*/
                     $menuindex = $this->saveTree($child, $menuindex);
                 }
                 if($count > 0) {
                     return $menuindex;
                 }
                 
+            }*/
+            for($i=0;$i < count($data);$i++) {
+                $id = str_replace("id_", "", $data[$i]);
+                if ($id > 0) {
+                    $this->updIntTableRows(array('menuindex'=>$i), 'site_content', 'id='.$id);
+                }
             }
             return true;
         }
@@ -44,6 +45,26 @@ class Content extends etomiteExtender {
             // make sure to set the reference
             if($content['type']=='reference'){
                 $reference = true;
+            }
+            // grab tvs for set template
+            $result = $this->dbQuery(
+                "SELECT t.* FROM ".$this->db."template_variables t" .
+                " LEFT JOIN ".$this->db."template_variable_templates tvt" .
+                " ON t.tv_id = tvt.tv_id" .
+                " WHERE tvt.template_id = ".$content['template']
+            );
+            $templateVars = array();
+            while($row = $this->fetchRow($result)) {
+                $templateVars[] = $row;
+            }
+            // now grab template vars for the document
+            $result = $this->getIntTableRows('tv_id,tv_value', 'site_content_tv_val', 'doc_id='.$content['id']);
+            if (count($result) > 0) {
+                foreach($result as $r){
+                    $content['tvs'][$r['tv_id']] = $r['tv_value'];
+                }
+            } else {
+                $content['tvs'] = array();
             }
         } else {
             $content = array();
@@ -74,6 +95,8 @@ class Content extends etomiteExtender {
             return false;
         }
         $id = (isset($data['id']) && is_numeric($data['id']) && !empty($data['id'])) ? $data['id'] : false;
+        $templateVars = isset($data['templateVars']) && !empty($data['templateVars']) ? $data['templateVars']:false;
+        unset($data['templateVars']);
         unset($data['id']);
         $syncsite = $data['syncsite'];
         unset($data['syncsite']);
@@ -109,6 +132,11 @@ class Content extends etomiteExtender {
                 $orig_doc['versionedon'] = time();
                 unset($orig_doc['id']);
                 $result = $this->putIntTableRow($orig_doc, 'site_content_versions');
+                if ($templateVars) {
+                    // set template vars
+                    $Resource = new Resource();
+                    $Resource->setTVS2Doc($templateVars, $id);
+                }
                 $System = new System();
                 $System->syncEtoCache();
                 return true;
@@ -121,6 +149,12 @@ class Content extends etomiteExtender {
                 $data['versionedon'] = time();
                 unset($data['id']);
                 $result = $this->putIntTableRow($data, 'site_content_versions');
+                $id = $data['orig_id'];
+                if ($templateVars) {
+                    // set template vars
+                    $Resource = new Resource();
+                    $Resource->setTVS2Doc($templateVars, $id);
+                }
                 $System = new System();
                 $System->syncEtoCache();
                 return true;

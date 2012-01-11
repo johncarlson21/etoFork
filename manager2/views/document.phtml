@@ -34,6 +34,7 @@ if($id && count($content)>0) {
         <?php } ?>
         <li><a href="#identification"><?php echo $this->_lang['document_identification']; ?></a></li>
         <li><a href="#publishing"><?php echo $this->_lang['document_opt']; ?></a></li>
+        <li><a href="#templateVars"><?php echo $this->_lang['template_var_tab']; ?></a></li>
         <li><a href="#prev-versions"><?php echo $this->_lang['document_previous_versions']; ?></a></li>
     </ul>
     <div class="ui-layout-content">
@@ -264,6 +265,9 @@ if($id && count($content)>0) {
               while ($row = $this->fetchRow($rs))
               {
                 $selectedtext = $row['id']==$this->config['default_template'] ? "selected='selected'" : "" ;
+                if (isset($content['template']) && !empty($content['template']) && $row['id'] == $content['template']) {
+                    $selectedtext = "selected='selected'";
+                }
     ?>
                 <option value="<?php echo $row['id']; ?>" <?php echo $selectedtext; ?>><?php echo $row['templatename']; ?></option>
     <?php       }?>
@@ -323,6 +327,110 @@ if($id && count($content)>0) {
           <!-- End::New in [0614] Ralph -->
     
         </table>
+    </div>
+    <div id="templateVars">
+        <form>
+        <?php
+        if (!isset($id)) {
+            echo "<p>You must first save the document to see the template variables available for the template chosen for this document.</p>";
+        } else {
+            
+            echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">';
+            
+            if(count($templateVars) > 0) {
+                foreach($templateVars as $tv) {
+                    $field_size = '';
+                    $field_max_size = '';
+                    $cValue = '';
+                    if (isset($content['tvs'][$tv['tv_id']])) {
+                        $cValue = $content['tvs'][$tv['tv_id']];
+                    }
+                    switch($tv['type']) {
+                        case 'text':
+                        default:
+                            echo '<tr>';
+                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                            echo '<td>';
+                            if ($tv['field_size'] > 0) {
+                                $field_size = ' size="'.$tv['field_size'].'"';
+                            }
+                            if ($tv['field_max_size'] > 0) {
+                                $field_max_size = ' maxlength="'.$tv['field_max_size'].'"';
+                            }
+                            $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
+                            echo "<input type='text' name='".$tv['field_name']."' id='".$tv['field_name']."'".$field_size.$field_max_size." value='".$val."' />";
+                            echo '</td>';
+                            echo '</tr>';
+                            break;
+                        case 'textarea':
+                            echo '<tr>';
+                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                            echo '<td>';
+                            $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
+                            echo "<textarea name='".$tv['field_name']."' id='".$tv['field_name']."'>".$val."</textarea>";
+                            echo '</td>';
+                            echo '</tr>';
+                            break;
+                        case 'checkbox':
+                            echo '<tr>';
+                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                            echo '<td>';
+                            $checked = ((isset($cValue) && !empty($cValue)) && $cValue == $tv['default_val']) ? " checked='checked'":'';
+                            echo "<input type='checkbox' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$tv['default_val']."'".$checked." />";
+                            echo '</td>';
+                            echo '</tr>';
+                            break;
+                        case 'radio':
+                            echo '<tr>';
+                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                            echo '<td>';
+                            if (!empty($tv['opts'])) {
+                                $opts = explode("|", $tv['opts']);
+                                if (count($opts) > 0) {
+                                    foreach($opts as $o) {
+                                        $option = explode(":", $o);
+                                        $checked = ((isset($cValue) && !empty($cValue)) && $cValue == $option[1]) ? " checked='checked'":'';
+                                        echo "<input type='radio' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$option[1]."'".$checked." /> ".$option[0]."<br />";
+                                    }
+                                }
+                            }
+                            echo '</td>';
+                            echo '</tr>';
+                            break;
+                        case 'select':
+                            echo '<tr>';
+                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                            echo '<td>';
+                            echo "<select name='".$tv['field_name']."' id='".$tv['field_name']."'>";
+                            if (!empty($tv['opts'])) {
+                                $opts = explode("|", $tv['opts']);
+                                if (count($opts) > 0) {
+                                    foreach($opts as $o) {
+                                        $option = explode(":", $o);
+                                        $selected = ((isset($cValue) && !empty($cValue)) && $cValue == $option[1]) ? " selected='selected'":'';
+                                        echo "<option value='".$option[1]."'".$selected.">".$option[0]."</option>";
+                                    }
+                                }
+                            } else {
+                                echo "<option value=''>No options specified for this tv!</option>";
+                            }
+                            echo "</select>";
+                            echo '</td>';
+                            echo '</tr>';
+                            break;
+                    }
+                }
+            }
+            echo '</table>';
+            
+            // template vars
+            if (isset($content['tvs']) && count($content['tvs']) > 0) {
+                
+            } else {
+                // no varables for this document
+            }
+        }?>
+        </form>
     </div>
     <div id="prev-versions">
         <?php

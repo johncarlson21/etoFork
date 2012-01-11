@@ -728,23 +728,28 @@ class etomite {
     {
       $this->documentContent = $this->checkCache($this->documentIdentifier);
     }
-
-    if($this->documentContent=="") {
-      $sql = "SELECT * FROM ".$this->db."site_content WHERE ".$this->db."site_content.".$this->documentMethod." = '".$this->documentIdentifier."';";
-      $result = $this->dbQuery($sql);
-      if($this->recordCount($result) < 1) {
+    
+    // add by John Carlson
+    // always get document object
+    /*$sql = "SELECT * FROM ".$this->db."site_content WHERE ".$this->db."site_content.".$this->documentMethod." = '".$this->documentIdentifier."';";
+    $result = $this->dbQuery($sql);
+    $rowCount = $this->recordCount($result);
+    if($this->recordCount($result) < 1) {*/
+    
+    if (!$this->documentObject = $this->getDocumentObject($this->documentMethod, $this->documentIdentifier)) {
         // no match found, send the visitor to the error_page
         $this->sendRedirect($this->error404page);
         ob_clean();
         exit;
-      }
+    }
+    
+    if($this->documentContent=="") {
 
       if($rowCount>1) {
         // no match found, send the visitor to the error_page
         $this->messageQuit("More than one result returned when attempting to translate `alias` to `id` - there are multiple documents using the same alias");
       }
-      // this is now the document
-      $this->documentObject = $this->fetchRow($result);
+      
       // write the documentName to the object
       $this->documentName = $this->documentObject['pagetitle'];
 

@@ -203,12 +203,26 @@ var Etomite = {
             },
             onDrop: function(node, sourceNode, hitMode, ui, draggable) {
                 sourceNode.move(node, hitMode);
+                var dict = $("#docTree").dynatree("getTree").toDict();
+                var children = dict.children;
+                var treeOrder = new Array();
+                var b = 0;
+                for(i=0;i < children.length;i++) {
+                    treeOrder[b] = children[i]['key'];
+                    b++;
+                    if(children[i]['children'].length > 0){
+                        for(z=0;z < children[i]['children'].length;z++){
+                            treeOrder[b] = children[i]['children'][z]['key'];
+                            b++;
+                        }
+                    }
+                }
                 $.ajax({
                     url: 'ActionServer.php',
                     dataType: 'json',
                     data: {
                         action: 'saveTree',
-                        tree: $("#docTree").dynatree("getTree").toDict()
+                        tree: treeOrder //$("#docTree").dynatree("getTree").toDict()
                     },
                     success: function(json) {
                         if(json === null && json.succeed !== true) {
@@ -320,6 +334,9 @@ var Etomite = {
                 var tinyContent = ed.getContent();
             }
             
+            // get tvs
+            var tvs = $('#templateVars form').serializeArray();
+            
             $.ajax({
                 url: 'ActionServer.php',
                 dataType: 'json',
@@ -349,7 +366,8 @@ var Etomite = {
                     showinmenu: ($('#showinmenu').is(':checked')) ? 1 : 0,
                     meta_title: $('#meta_title').val(),
                     meta_description: $('#meta_description').val(),
-                    meta_keywords: $('#meta_keywords').val()
+                    meta_keywords: $('#meta_keywords').val(),
+                    templateVars: tvs
                 },
                 success: function() {
                     setTimeout(function() {
@@ -357,6 +375,15 @@ var Etomite = {
                     }, 1500);
                     Etomite.notify('Document Saved');
                     $("#docTree").dynatree("getTree").reload();
+                    if ($('#docId').length > 0) {
+                        if ($('#type').val() == 'reference') {
+                            Etomite.editDocument(docId, '', 'true');
+                        } else {
+                            Etomite.editDocument(docId);
+                        }
+                    } else {
+                        Etomite.loadPaneFromAction('loadWelcome');
+                    }
                 }
             });
         } else {
@@ -690,6 +717,115 @@ var Etomite = {
                 }
             }
         });
+    },
+    
+    editTV: function(tv_id) {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'editTV',
+                id: tv_id
+            },
+            success: function(response) {
+                if(response === null) {
+                    Etomite.errorDialog('There was an error!', 'Error!');
+                    return false;
+                } else {
+                    Etomite.loadPane(response);
+                }
+                
+                // might need to add field name check here
+                
+                $('#saveTV').click(function() {
+                    Etomite.saveTV();
+                });
+                $('#deleteTV').click(function() {
+                    Etomite.deleteTV();
+                });
+                $('#cancelTV').click(function() {
+                    Etomite.loadPaneFromAction('loadResourcesView');
+                });
+            }
+        });
+    },
+    
+    saveTV: function() {
+        var id = $('#editTV #tv_id').val();
+        var tName = $('#editTV #name').val();
+        var tFName = $('#editTV #field_name').val();
+        var tDescription = $('#editTV #description').val();
+        var tDefaultVal = $('#editTV #default_val').val();
+        var tType = $('#editTV #type option:selected').val();
+        var tOpts = $('#editTV #opts').val();
+        var tFSize = $('#editTV #field_size').val();
+        var tFMSize = $('#editTV #field_max_size').val();
+        var tOrder = $('#editTV #tv_order').val();
+        var tRequired = $('#editTV #required').is(':checked') ? 1 : 0;
+        var tTemplates = $('#editTV #templates').val();
+        var errors = '';
+        if (tName === null || tName == '' || tName == ' ') {
+            errors += "TV Name is required!<br />";
+        }
+        if (tFName === null || tFName == '' || tFName == ' ') {
+            errors += "TV Field Name is required!"
+        }
+        if (errors != '') {
+            Etomite.errorDialog(errors, 'Alert!');
+            return false;
+        }
+        
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'json',
+            data: {
+                action: 'saveTV',
+                tv_id: id,
+                name: tName,
+                field_name: tFName,
+                description: tDescription,
+                default_val: tDefaultVal,
+                type: tType,
+                opts: tOpts,
+                field_size: tFSize,
+                field_max_size: tFMSize,
+                tv_order: tOrder,
+                required: tRequired,
+                templates: tTemplates
+            },
+            success: function(json) {
+                if (json === null || json.succeeded !== true) {
+                    Etomite.errorDialog(json.message, 'Error');
+                } else {
+                    Etomite.notify(json.message);
+                    Etomite.loadPaneFromAction('loadResourcesView');
+                }
+            }
+        });
+        
+    },
+    
+    deleteTV: function() {
+        var id = $('#editTV #tv_id').val();
+        var is_sure = window.confirm("Are you sure you want to remove this Template Variable?");
+        if(is_sure) {
+            $.ajax({
+                url: 'ActionServer.php',
+                dataType: 'json',
+                data: {
+                    action: 'deleteTV',
+                    tv_id: id
+                },
+                success: function(json) {
+                    if (json === null || json.succeeded !== true) {
+                        Etomite.errorDialog(json.message, 'Error!');
+                    } else {
+                        Etomite.notify('Template Variable Removed!');
+                        Etomite.loadPaneFromAction('loadResourcesView');
+                    }
+                }
+            });
+        }
     },
     
     editUser: function(uid) {

@@ -5,6 +5,11 @@ include('includes/bootstrap.php');
 class Resource extends etomiteExtender {
     public $lastId = false;
     
+    public function __construct() {
+        parent::__construct();
+        $this->checkManagerLogin();
+    }
+    
     public function loadResourcesView() {
         include_once('views/resources.phtml');
     }
@@ -172,6 +177,110 @@ class Resource extends etomiteExtender {
     public function createSection($name, $description, $type) {
         if ($this->putIntTableRow(array('name'=>$name,'description'=>$description,'section_type'=>$type), 'site_section')){
             return true;
+        }
+        return false;
+    }
+    
+    public function getTVFromFieldName($name) {
+        if (!empty($name)) {
+            $result = $this->getIntTableRows("*",'template_variables','field_name="'.$name.'"');
+            if(count($result) > 0) {
+                return $result[0];
+            }
+        }
+    }
+    
+    public function setTVS2Doc($templateVars, $docId) {
+        if(empty($docId) || count($templateVars) < 0) { return; }
+        // delete all vars first
+        $this->dbQuery("DELETE FROM ".$this->db."site_content_tv_val WHERE doc_id=".$docId);
+        foreach($templateVars as $t) {
+            if ($tv = $this->getTVFromFieldName($t['name'])) {
+                $result = $this->putIntTableRow(array('doc_id'=>$docId,'tv_id'=>$tv['tv_id'],'tv_value'=>$t['value']), 'site_content_tv_val');
+            }
+        }
+    }
+    
+    public function editTV() {
+        $tvTypes = array('text','textarea','select','checkbox','radio');
+        $templates = $this->getIntTableRows('*','site_templates');
+        $id = (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false;
+        
+        if ($id) {
+            if ($result = $this->getIntTableRows("*", 'template_variables', 'tv_id='.$id)) {
+                $tv = $result[0];
+                // get templates for tv
+                $tvTpls = $this->getIntTableRows("*", 'template_variable_templates', 'tv_id='.$id);
+                foreach($tvTpls as $tt) {
+                    $tv['templates'][] = $tt['template_id'];
+                }
+                unset($tvTpls);
+            } else {
+                return "<h2>That is not a valid resource!</h2>";
+            }
+        } else {
+            $tv = array();
+        }
+        
+        include_once('views/edit_tv.phtml');
+    }
+    
+    public function saveTV() {
+        $id = (isset($_REQUEST['tv_id']) && !empty($_REQUEST['tv_id']) && is_numeric($_REQUEST['tv_id'])) ? (int)$_REQUEST['tv_id'] : false;
+        // build data
+        $data = array(
+            'name' => isset($_REQUEST['name']) ? mysql_real_escape_string($_REQUEST['name']):'',
+            'field_name' => isset($_REQUEST['field_name']) ? mysql_real_escape_string($_REQUEST['field_name']):'',
+            'description' => isset($_REQUEST['description']) ? mysql_real_escape_string($_REQUEST['description']):'',
+            'type' => isset($_REQUEST['type']) ? mysql_real_escape_string($_REQUEST['type']):'text',
+            'opts' => isset($_REQUEST['opts']) ? mysql_real_escape_string($_REQUEST['opts']):'',
+            'field_size' => isset($_REQUEST['field_size']) ? (int)$_REQUEST['field_size']:'',
+            'field_max_size' => isset($_REQUEST['field_max_size']) ? (int)$_REQUEST['field_max_size']:'',
+            'tv_order' => isset($_REQUEST['tv_order']) ? (int)$_REQUEST['tv_order']:'0',
+            'default_val' => isset($_REQUEST['default_val']) ? mysql_real_escape_string($_REQUEST['default_val']):'',
+            'required' => isset($_REQUEST['required']) && $_REQUEST['required'] == 1 ? 1:0
+        );
+        
+        $templates = isset($_REQUEST['templates']) ? $_REQUEST['templates']:''; // need to add this part.
+        
+        if ($id) {
+            if ($this->updIntTableRows($data, 'template_variables', 'tv_id='.$id)) {
+                if(!empty($templates) && count($templates) > 0) {
+                    // delete all of them first
+                    $delR = $this->dbQuery('DELETE FROM '.$this->db.'template_variable_templates WHERE tv_id='.$id);
+                    foreach ($templates as $tpl) {
+                        $this->putIntTableRow(array('template_id'=>$tpl['id'],'tv_id'=>$id),'template_variable_templates');
+                    }
+                }
+                return true;
+            }
+        } else {
+            if ($this->putIntTableRow($data, 'template_variables')) {
+                $tv_id = $this->insertId();
+                if(!empty($templates) && count($templates) > 0) {
+                    foreach ($templates as $tpl) {
+                        $this->putIntTableRow(array('template_id'=>$tpl['id'],'tv_id'=>$tv_id),'template_variable_templates');
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function deleteTV($tv_id) {
+        if (empty($tv_id)) { return false; }
+        // remove template variable
+        if ($result = $this->dbQuery("DELETE FROM ".$this->db."template_variables WHERE tv_id = ".$tv_id)) {
+            if ($result = $this->dbQuery("DELETE FROM ".$this->db."template_variable_templates WHERE tv_id = ".$tv_id)) {
+                if ($result = $this->dbQuery("DELETE FROM ".$this->db."site_content_tv_val WHERE tv_id = ".$tv_id)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
         return false;
     }
