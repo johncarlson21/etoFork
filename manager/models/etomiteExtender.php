@@ -917,7 +917,7 @@ function mergeDocumentContent($template) {
          * $matches contains the module info.
          * $matches[2][0] contains the module info we need to pass
          */
-        preg_match_all("/(<module>)(.*?)(<\/module>)/", $content, $matches);
+        preg_match_all("/(\[module\])(.*?)(\[\/module\])/", $content, $matches);
         if (count($matches) > 0) {
             foreach ($matches[2] as $match) {
                 $mod = $match;
@@ -934,7 +934,7 @@ function mergeDocumentContent($template) {
                     // run the module here..
                     $moduleOutput = $this->runModule($module, $action, $params);
                     // now replace module
-                    $content = str_replace("<module>".$match."</module>", $moduleOutput, $content);
+                    $content = str_replace("[module]".$match."[/module]", $moduleOutput, $content);
                 }
             }
         }

@@ -1,7 +1,7 @@
 <?php
 // had to add the full path to the sfbrowser connector
-include_once($_SERVER['DOCUMENT_ROOT']."/manager2/lib/sfbrowser/sfbrowser/connectors/php/"."config.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/manager2/lib/sfbrowser/sfbrowser/connectors/php/"."functions.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/manager/lib/sfbrowser/sfbrowser/connectors/php/"."config.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/manager/lib/sfbrowser/sfbrowser/connectors/php/"."functions.php");
 
 abstract class AbstractSFB {
 	
