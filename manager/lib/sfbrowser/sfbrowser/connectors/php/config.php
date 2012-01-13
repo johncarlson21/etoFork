@@ -11,7 +11,7 @@ define("FILETIME",			"j-n-Y H:i");		// file time display
 
 define("SFB_ERROR_RETURN",	"<html><head><meta http-equiv=\"Refresh\" content=\"0;URL=http:/\" /></head></html>");
 
-define("SFB_PLUGINS",		"imageresize");
+define("SFB_PLUGINS",		""); //"imageresize");
 
 define("SFB_DEBUG",			false);
 ?>

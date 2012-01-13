@@ -101,7 +101,7 @@ define("relative_base_path",$relative_base_path);
 define("file_manager_path", str_replace("/", "", $relative_base_path));
 
 // build the www path:
-$www_base_path = $ETOMITE_PAGE_BASE["www"] = $protocol.$_SERVER["HTTP_HOST"].$ETOMITE_PAGE_BASE["relative"];
+$www_base_path = $ETOMITE_PAGE_BASE["www"] = $protocol.$_SERVER["HTTP_HOST"].$ETOMITE_PAGE_BASE["relative"]."/";
 if ($man_pos !== false) {
     $www_base_url = $www_base_path;
     $www_base_path = $ETOMITE_PAGE_BASE["www"] = substr($www_base_path, 0, $man_pos)."/";

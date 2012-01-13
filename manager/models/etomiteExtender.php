@@ -25,6 +25,7 @@ class etomiteExtender extends etomite {
     public $bcSep = " &raquo; "; // default breadCrumb separator
     public $_lang = array();
     public $documentTVs = array();
+    public $parseAgain = true;
     
     function __construct(){
         $this->dbConfig['host'] = $GLOBALS['database_server'];
@@ -155,7 +156,7 @@ function makeUrl($id, $alias='', $args='') {
       $this->messageQuit("`$id` is not numeric and may not be passed to makeUrl()");
     }
     // assign a shorter base URL variable
-    $baseURL=$this->config['www_base_path'];
+    $baseURL = $this->config['www_base_path'];
     if($this->config['zend_urls']==1 && !empty($alias) && isset($this->documentListing[$alias])){
         $url = $baseURL.$alias;
     }elseif($this->config['zend_urls']==1 && $this->aliases[$id]!=""){
@@ -616,21 +617,28 @@ function mergeDocumentContent($template) {
       $output = str_replace('[!', '[[', $output);
       $output = str_replace('!]', ']]', $output);
 
-      $this->nonCachedSnippetParsePasses = empty($this->nonCachedSnippetParsePasses) ? 1 : $this->nonCachedSnippetParsePasses;
-      for($i=0; $i<$this->nonCachedSnippetParsePasses; $i++) {
+      $this->parseAgain = true;
+      while($this->parseAgain == true)
+      {
+        $this->parseCount++;
+        $this->parseAgain = false;
         if($this->config['dumpSnippets']==1) {
           echo "<fieldset style='text-align: left'><legend>NONCACHED PARSE PASS ".($i+1)."</legend>The following snipppets (if any) were parsed during this pass.<div style='width:100%' align='center'>";
         }
+        // re check for document content
+        $output = $this->mergeDocumentContent($output);
         // replace settings referenced in document
         $output = $this->mergeSettingsContent($output);
         // replace HTMLSnippets in document
         $output = $this->mergeHTMLSnippetsContent($output);
         // find and merge snippets
         $output = $this->evalSnippets($output);
+        // parse modules
+        $output = $this->evalModules($output);
         if($this->config['dumpSnippets']==1) {
           echo "</div></fieldset><br />";
         }
-        $output = $this->evalModules($output);
+        
       }
     }
 
@@ -731,10 +739,14 @@ function mergeDocumentContent($template) {
           $doc = $this->fetchRow($result);
           // get tvs for this document
           //$result = $this->getIntTableRows('tv_id,tv_value', 'site_content_tv_val', 'doc_id='.$doc['id']);
-          $sql = "SELECT tvv.*, tv.field_name FROM ".$this->db."site_content_tv_val tvv" .
+          $sql = "SELECT tvv.*, tv.field_name, tvt.template_id FROM ".$this->db."site_content_tv_val tvv" .
               " LEFT JOIN ".$this->db."template_variables tv" .
               " ON tvv.tv_id=tv.tv_id" .
-              " WHERE tvv.doc_id=".$doc['id'];
+              " LEFT JOIN ".$this->db."template_variable_templates tvt" .
+              " ON tvt.tv_id=tv.tv_id" .
+              " WHERE tvv.doc_id=".$doc['id'] .
+              " AND tvt.template_id=".$doc['template'];
+          
           $result = $this->dbQuery($sql);
           if ($this->recordCount($result) > 0) {
             while($r = $this->fetchRow($result)) {

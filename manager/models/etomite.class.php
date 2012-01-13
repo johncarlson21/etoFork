@@ -504,8 +504,10 @@ class etomite {
   }
 
   function mergeSettingsContent($template) {
-    preg_match_all('~\[\((.*?)\)\]~', $template, $matches);
-    $settingsCount = count($matches[1]);
+    $settingsCount = preg_match_all('~\[\((.*?)\)\]~', $template, $matches);
+
+    if($settingsCount) $this->parseAgain = true; // [v1.2]
+    
     for($i=0; $i<$settingsCount; $i++) {
       $replace[$i] = $this->config[$matches[1][$i]];
     }
@@ -514,8 +516,10 @@ class etomite {
   }
 
   function mergeHTMLSnippetsContent($content) {
-    preg_match_all('~{{(.*?)}}~', $content, $matches);
-    $settingsCount = count($matches[1]);
+    $settingsCount = preg_match_all('~{{(.*?)}}~', $content, $matches);
+
+    if($settingsCount) $this->parseAgain = true; // [v1.2]
+    
     for($i=0; $i<$settingsCount; $i++) {
       if(isset($this->chunkCache[$matches[1][$i]])) {
         $replace[$i] = base64_decode($this->chunkCache[$matches[1][$i]]);
@@ -547,11 +551,12 @@ class etomite {
   }
 
   function evalSnippets($documentSource) {
-    preg_match_all('~\[\[(.*?)\]\]~', $documentSource, $matches);
+    $matchCount = preg_match_all('~\[\[(.*?)\]\]~', $documentSource, $matches);
 
     $etomite = $this;
 
-    $matchCount=count($matches[1]);
+    if($matchCount) $this->parseAgain = true; // [v1.2]
+    
     for($i=0; $i<$matchCount; $i++) {
       $spos = strpos($matches[1][$i], '?', 0);
       if($spos!==false) {
@@ -609,29 +614,32 @@ class etomite {
   }
 
   function rewriteUrls($documentSource) {
+    // modified [v1.2] by Ralph for improved performance
+    $search_regexp = '!\[\~(.*?)\~\]!is';
+    $replace_regexp = "index.php?id=".'\1';
     // rewrite the urls
-    // based on code by daseymour ;)
-    if($this->config['friendly_alias_urls']==1) {
-      // additional code that was here originally has been moved to getSettings() for added functionality
-      // write the function for the preg_replace_callback. Probably not the best way of doing this,
-      // but otherwise it brakes on some people's installs...
-      $func = '
-      $aliases=unserialize("'.addslashes(serialize($this->aliases)).'");
-      if (isset($aliases[$m[1]])) {
-        if('.$this->config["friendly_alias_urls"].'==1) {
-        return "'.$this->config["friendly_url_prefix"].'".$aliases[$m[1]]."'.$this->config["friendly_url_suffix"].'";
-        } else {
-          return $aliases[$m[1]];
+    if($this->config['friendly_urls'] == 1)
+    {
+      if($count = preg_match_all($search_regexp, $documentSource, $matches))
+      {
+        for($i=0; $i<$count; $i++)
+        {
+          $id = $matches[1][$i];
+          if($this->config['friendly_alias_urls'] == 1 && isset($this->aliases[$id]))
+          {
+            $furl = $this->config['friendly_url_prefix'] . $this->aliases[$id] . $this->config['friendly_url_suffix'];
+          }
+          else
+          {
+            $furl = $this->config['friendly_url_prefix'] . $id . $this->config['friendly_url_suffix'];
+          }
+          $documentSource = str_replace($matches[0][$i], $furl, $documentSource);
         }
-      } else {
-        return "'.$this->config["friendly_url_prefix"].'".$m[1]."'.$this->config["friendly_url_suffix"].'";
-      }';
-      $in = '!\[\~(.*?)\~\]!is';
-      $documentSource = preg_replace_callback($in, create_function('$m', $func), $documentSource);
-    } else {
-      $in = '!\[\~(.*?)\~\]!is';
-      $out = "index.php?id=".'\1';
-      $documentSource = preg_replace($in, $out, $documentSource);
+      }
+    }
+    else
+    {
+      $documentSource = preg_replace($search_regexp, $replace_regexp, $documentSource);
     }
     return $documentSource;
   }
@@ -819,11 +827,14 @@ class etomite {
         }
       }
       $row = $this->fetchRow($result);
-      $documentSource = $row['content'];
+      $documentSource = stripslashes($row['content']);
 
       // get snippets and parse them the required number of times
-      $this->snippetParsePasses = empty($this->snippetParsePasses) ? 3 : $this->snippetParsePasses ;
-      for($i=0; $i<$this->snippetParsePasses; $i++) {
+      $this->parseAgain = true;
+      while($this->parseAgain == true)
+      {
+        $this->parseCount++;
+        $this->parseAgain =  false;
         if($this->config['dumpSnippets']==1) {
           echo "<fieldset><legend><b style='color: #821517;'>PARSE PASS ".($i+1)."</b></legend>The following snipppets (if any) were parsed during this pass.<div style='width:100%' align='center'>";
         }

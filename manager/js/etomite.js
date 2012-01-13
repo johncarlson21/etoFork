@@ -828,6 +828,18 @@ var Etomite = {
         }
     },
     
+    sfBrowserWindow: function(element) {
+        $.sfb({
+            select: function(aFiles) {
+                if(aFiles !== null && aFiles.length > 0) {
+                    var fn = aFiles[0].file.replace(/\.\.\//gi,"");
+                    $('#'+element).val("/" + fn); // we only accept 1 file name
+                }   
+            },
+            swfupload: true
+        });
+    },
+    
     editUser: function(uid) {
         $.ajax({
             url: 'ActionServer.php',

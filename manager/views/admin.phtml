@@ -30,7 +30,16 @@
 <!-- End Document Tree -->
 <link href="./lib/css_drop_down/css/manager_styles.css" media="screen" rel="stylesheet" type="text/css" />
 <!-- file manager -->
-<?php include_once("lib/sfbrowser/sfbrowser/connectors/php/init.php"); ?>
+<?php //include_once("lib/sfbrowser/sfbrowser/connectors/php/init.php"); ?>
+<!-- elFinder CSS (REQUIRED) -->
+<link rel="stylesheet" type="text/css" media="screen" href="./lib/elfinder2_0/css/elfinder.full.css">
+<link rel="stylesheet" type="text/css" media="screen" href="./lib/elfinder2_0/css/theme.css">
+
+<!-- elFinder JS (REQUIRED) -->
+<script type="text/javascript" src="./lib/elfinder2_0/js/elfinder.min.js"></script>
+
+<!-- elFinder translation (OPTIONAL) -->
+<script type="text/javascript" src="./lib/elfinder2_0/js/i18n/elfinder.en.js"></script>
 <!-- end file manager -->
 <script type="text/javascript" src="./lib/editarea/edit_area_full.js"></script>
 <?php $rel = (empty($strip_base_href)) ? "false" : "true"; ?>

@@ -202,7 +202,7 @@ class Resource extends etomiteExtender {
     }
     
     public function editTV() {
-        $tvTypes = array('text','textarea','select','checkbox','radio');
+        $tvTypes = array('text','textarea','select','checkbox','radio','file');
         $templates = $this->getIntTableRows('*','site_templates');
         $id = (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false;
         
