@@ -12,6 +12,7 @@ class System extends etomiteExtender {
             parent::__construct();
             $this->checkManagerLogin();
         }
+        $this->getSettingsFields();
     }
     
     public function getSettingsFields() {
