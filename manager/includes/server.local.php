@@ -68,6 +68,7 @@ if ($man_pos === false) {
     $absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = substr($cwd,0, $man_pos)."/";
     $manager_path = $cwd."/";
 }
+
 define('MANAGER_PATH', $manager_path);
 define("absolute_base_path",$absolute_base_path);
 
@@ -193,5 +194,7 @@ if(!function_exists("startCMSSession")){
     session_start();
   }
 }
+
+define('CONFIG_LOADED', true);
 
 ?>

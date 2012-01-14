@@ -1,13 +1,17 @@
 <?php
-define("IN_ETOMITE_SYSTEM", true);
-include_once('includes/bootstrap.php');
+if (!defined(CONFIG_LOADED)) {
+    define("IN_ETOMITE_SYSTEM", true);
+    include('includes/bootstrap.php');
+}
 
 class System extends etomiteExtender {
     var $settingsFields;
     
     public function __construct() {
-        $this->runStandalone();
-        $this->getSettingsFields();
+        if (!defined(CONFIG_LOADED)) {
+            parent::__construct();
+            $this->checkManagerLogin();
+        }
     }
     
     public function getSettingsFields() {

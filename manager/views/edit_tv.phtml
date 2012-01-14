@@ -36,6 +36,20 @@
             </td>
         </tr>
         <tr>
+            <td width="200"><span class="warning">Output Type:</span></td>
+            <td>
+                <select name="output_type" id="output_type">
+                    <?php foreach($tvOTypes as $t) {
+                        if (isset($tv['output_type']) && $tv['output_type'] == $t) {
+                            echo "<option value='".$t."' selected='selected'>".ucwords($t)."</option>";
+                        } else {
+                            echo "<option value='".$t."'>".ucwords($t)."</option>";
+                        }
+                    }?>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td width="200"><span class="warning">Options:</span></td>
             <td><textarea name="opts" id="opts" cols="50" rows="6"><?php echo isset($tv['opts']) ? stripslashes($tv['opts']):'';?></textarea></td>
         </tr>

@@ -1,4 +1,13 @@
 <?php
+/* added for using as an etomite file manager */
+define("IN_ETOMITE_SYSTEM", true);
+include_once("../../../includes/bootstrap.php");
+
+$etomite = new etomiteExtender();
+$etomite->runStandalone();
+$etomite->checkManagerLogin();
+
+/* end etomite check */
 
 error_reporting(0); // Set E_ALL for debuging
 

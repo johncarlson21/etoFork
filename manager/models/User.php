@@ -1,14 +1,18 @@
 <?php
-define("IN_ETOMITE_SYSTEM", true);
-include('includes/bootstrap.php');
+if (!defined(CONFIG_LOADED)) {
+    define("IN_ETOMITE_SYSTEM", true);
+    include('includes/bootstrap.php');
+}
 
 class User extends etomiteExtender {
     public $lastId = false;
     public $errors;
     
     public function __construct() {
-        parent::__construct();
-        $this->checkManagerLogin();
+        if (!defined(CONFIG_LOADED)) {
+            parent::__construct();
+            $this->checkManagerLogin();
+        }
     }
     
     public function loadUsersView(){

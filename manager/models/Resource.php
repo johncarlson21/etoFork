@@ -1,13 +1,18 @@
 <?php
-define("IN_ETOMITE_SYSTEM", true);
-include('includes/bootstrap.php');
+if (!defined(CONFIG_LOADED)) {
+    define("IN_ETOMITE_SYSTEM", true);
+    include('includes/bootstrap.php');
+}
+
 
 class Resource extends etomiteExtender {
     public $lastId = false;
     
     public function __construct() {
-        parent::__construct();
-        $this->checkManagerLogin();
+        if (!defined(CONFIG_LOADED)) {
+            parent::__construct();
+            $this->checkManagerLogin();
+        }
     }
     
     public function loadResourcesView() {
@@ -203,6 +208,7 @@ class Resource extends etomiteExtender {
     
     public function editTV() {
         $tvTypes = array('text','textarea','select','checkbox','radio','file');
+        $tvOTypes = array('text','image','link','date');
         $templates = $this->getIntTableRows('*','site_templates');
         $id = (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false;
         
@@ -233,6 +239,7 @@ class Resource extends etomiteExtender {
             'field_name' => isset($_REQUEST['field_name']) ? mysql_real_escape_string($_REQUEST['field_name']):'',
             'description' => isset($_REQUEST['description']) ? mysql_real_escape_string($_REQUEST['description']):'',
             'type' => isset($_REQUEST['type']) ? mysql_real_escape_string($_REQUEST['type']):'text',
+            'output_type' => isset($_REQUEST['output_type']) ? mysql_real_escape_string($_REQUEST['output_type']):'text',
             'opts' => isset($_REQUEST['opts']) ? mysql_real_escape_string($_REQUEST['opts']):'',
             'field_size' => isset($_REQUEST['field_size']) ? (int)$_REQUEST['field_size']:'',
             'field_max_size' => isset($_REQUEST['field_max_size']) ? (int)$_REQUEST['field_max_size']:'',

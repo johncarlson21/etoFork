@@ -757,6 +757,7 @@ var Etomite = {
         var tDescription = $('#editTV #description').val();
         var tDefaultVal = $('#editTV #default_val').val();
         var tType = $('#editTV #type option:selected').val();
+        var tOType = $('#editTV #output_type option:selected').val();
         var tOpts = $('#editTV #opts').val();
         var tFSize = $('#editTV #field_size').val();
         var tFMSize = $('#editTV #field_max_size').val();
@@ -786,6 +787,7 @@ var Etomite = {
                 description: tDescription,
                 default_val: tDefaultVal,
                 type: tType,
+                output_type: tOType,
                 opts: tOpts,
                 field_size: tFSize,
                 field_max_size: tFMSize,

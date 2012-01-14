@@ -599,9 +599,19 @@ function addBreadCrumb($content){
     return $content;
 }
 
-function mergeDocumentContent($template) {
+function mergeDocumentContent($template, $cleanup=false) {
+    if (empty($this->documentObject)) { return ''; }
     foreach ($this->documentObject as $key => $value) {
       $template = str_replace("[*".$key."*]", stripslashes($value), $template);
+    }
+    if ($cleanup) {
+        $count = preg_match_all('~\[\*(.*?)\*\]~', $template, $matches);
+        if ($count > 0) {
+            for ($i=0; $i<$count; $i++) {
+                $replace[$i] = "";
+            }
+            $template = str_replace($matches[0], $replace, $template);
+        }
     }
     return $template;
 }
@@ -695,6 +705,9 @@ function mergeDocumentContent($template) {
     $documentOutput = str_replace("[^p^]", $phpTime, $documentOutput);
     $documentOutput = str_replace("[^t^]", $totalTime, $documentOutput);
     $documentOutput = str_replace("[^s^]", $source, $documentOutput);
+    
+    // clean up all document vars
+    $documentOutput = $this->mergeDocumentContent($documentOutput, true);
 
     // Check to see if document content contains PHP tags.
     // PHP tag support contributed by SniperX
@@ -739,7 +752,7 @@ function mergeDocumentContent($template) {
           $doc = $this->fetchRow($result);
           // get tvs for this document
           //$result = $this->getIntTableRows('tv_id,tv_value', 'site_content_tv_val', 'doc_id='.$doc['id']);
-          $sql = "SELECT tvv.*, tv.field_name, tvt.template_id FROM ".$this->db."site_content_tv_val tvv" .
+          $sql = "SELECT tvv.*, tv.field_name, tv.output_type, tv.opts, tvt.template_id FROM ".$this->db."site_content_tv_val tvv" .
               " LEFT JOIN ".$this->db."template_variables tv" .
               " ON tvv.tv_id=tv.tv_id" .
               " LEFT JOIN ".$this->db."template_variable_templates tvt" .
@@ -748,9 +761,10 @@ function mergeDocumentContent($template) {
               " AND tvt.template_id=".$doc['template'];
           
           $result = $this->dbQuery($sql);
+          
           if ($this->recordCount($result) > 0) {
             while($r = $this->fetchRow($result)) {
-                $doc[$r['field_name']] = $r['tv_value'];
+                $doc[$r['field_name']] = $this->formatTVOutput($r['tv_value'], $r['output_type'], $r['opts']);
             }
           }
           return $doc;
@@ -1006,6 +1020,27 @@ function mergeDocumentContent($template) {
             echo "<script>window.top.location.href='".MANAGER_URL."';</script>";
             exit(0);
         }
+    }
+    
+    function formatTVOutput($value, $output='text', $opts) {
+        if (empty($value)) { return ""; }
+        
+        switch($output) {
+            case 'text':
+            default:
+                return $value;
+                break;
+            case 'image':
+                return "<img src='".$value."' ".$opts." />";
+                break;
+            case 'link':
+                return "<a href='".$value."' ".$opts.">".$value."</a>";
+                break;
+            case 'date':
+                return $value; // to do later
+                break;
+        }
+        return "";
     }
   
 

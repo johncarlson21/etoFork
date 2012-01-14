@@ -1,13 +1,18 @@
 <?php
-define("IN_ETOMITE_SYSTEM", true);
-include_once('includes/bootstrap.php');
+if (!defined(CONFIG_LOADED)) {
+    define("IN_ETOMITE_SYSTEM", true);
+    include('includes/bootstrap.php');
+}
 
 class Content extends etomiteExtender {
     
     var $id;
     
     public function __construct($id = null) {
-        $this->runStandalone();
+        if (!defined(CONFIG_LOADED)) {
+            parent::__construct();
+            $this->checkManagerLogin();
+        }
     }
     
     public function saveTree($data=array(), $count=0) {

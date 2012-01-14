@@ -5,10 +5,9 @@
  * this could also be used to include other files needed
  */
 
-// include language file
-include_once("./includes/lang/english.inc.php");
+
 // include_once config file
-$config_filename = "./includes/config.inc.php";
+$config_filename = dirname(__FILE__) . "/config.inc.php";
 if(!file_exists($config_filename))
 {
    print "Main configuration file not found. Please run the Etomite installer.<p>Check the documentation for more information.";
@@ -17,6 +16,9 @@ if(!file_exists($config_filename))
 
 // include the configuration file
 include_once($config_filename);
+
+// include language file
+include_once("lang/english.inc.php");
 
 // include functions file
 include_once("functions.php");

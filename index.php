@@ -47,7 +47,7 @@ $INCPATH = ini_get("include_path").PATH_SEPARATOR.dirname(__FILE__)."/manager/in
 ini_set("include_path", $INCPATH);
 
 // include functions file
-include_once("functions.php");
+include_once(MANAGER_PATH . "includes/functions.php");
 
 include_once(MANAGER_PATH . "models/etomite.class.php");
 

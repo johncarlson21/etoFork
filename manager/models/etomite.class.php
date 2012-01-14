@@ -496,7 +496,7 @@ class etomite {
     }
   }
 
-  function mergeDocumentContent($template) {
+  function mergeDocumentContent($template, $cleanup=false) {
     foreach ($this->documentObject as $key => $value) {
       $template = str_replace("[*".$key."*]", stripslashes($value), $template);
     }
