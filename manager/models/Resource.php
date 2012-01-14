@@ -85,6 +85,7 @@ class Resource extends etomiteExtender {
                 } else {
                     $header_text .= "&nbsp;-&nbsp;".$resource['name'];
                 }
+                $resource['content'] = stripslashes($resource['content']);
             } else {
                 return "<h2>That is not a valid resource!</h2>";
             }
