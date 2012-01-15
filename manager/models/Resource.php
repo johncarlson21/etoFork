@@ -143,8 +143,9 @@ class Resource extends etomiteExtender {
                         $orig["snippet_id"] = $id;
                     }
                     $orig['date_mod'] = date('Y-m-d h:i:s');
+                    $orig['snippet'] = mysql_real_escape_string($orig['snippet']);
                     unset($orig['id']);
-                    //$this->putIntTableRow($orig, $type_table."_versions");
+                    $this->putIntTableRow($orig, $type_table."_versions");
                 }
                 return true;
             }
