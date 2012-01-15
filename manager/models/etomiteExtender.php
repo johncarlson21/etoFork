@@ -752,7 +752,7 @@ function mergeDocumentContent($template, $cleanup=false) {
           $doc = $this->fetchRow($result);
           // get tvs for this document
           //$result = $this->getIntTableRows('tv_id,tv_value', 'site_content_tv_val', 'doc_id='.$doc['id']);
-          $sql = "SELECT tvv.*, tv.field_name, tv.output_type, tv.opts, tvt.template_id FROM ".$this->db."site_content_tv_val tvv" .
+          /*$sql = "SELECT tvv.*, tv.field_name, tv.output_type, tv.opts, tvt.template_id FROM ".$this->db."site_content_tv_val tvv" .
               " LEFT JOIN ".$this->db."template_variables tv" .
               " ON tvv.tv_id=tv.tv_id" .
               " LEFT JOIN ".$this->db."template_variable_templates tvt" .
@@ -766,7 +766,7 @@ function mergeDocumentContent($template, $cleanup=false) {
             while($r = $this->fetchRow($result)) {
                 $doc[$r['field_name']] = $this->formatTVOutput($r['tv_value'], $r['output_type'], $r['opts']);
             }
-          }
+          }*/
           return $doc;
       }
       return false;
