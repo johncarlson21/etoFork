@@ -759,7 +759,6 @@ function mergeDocumentContent($template, $cleanup=false) {
               " ON tvt.tv_id=tv.tv_id" .
               " WHERE tvv.doc_id=".$doc['id'] .
               " AND tvt.template_id=".$doc['template'];
-          error_log($sql);
           $result = $this->dbQuery($sql);
           
           if ($this->recordCount($result) > 0) {
