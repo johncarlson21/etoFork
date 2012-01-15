@@ -571,14 +571,13 @@ class etomite {
     for($i=0;$i<$nrSnippetsToGet;$i++) {
       if(isset($this->snippetCache[$matches[1][$i]])) {
         $snippets[$i]['name'] = $matches[1][$i];
-        $snippets[$i]['snippet'] = stripslashes($this->snippetCache[$matches[1][$i]]);
+        $snippets[$i]['snippet'] = $this->snippetCache[$matches[1][$i]];
       } else {
         $sql = "SELECT * FROM ".$this->db."site_snippets WHERE ".$this->db."site_snippets.name='".$matches[1][$i]."';";
         $result = $this->dbQuery($sql);
         if($this->recordCount($result)==1) {
           $row = $this->fetchRow($result);
           $snippets[$i]['name'] = $row['name'];
-          $row['snippet'] = stripslashes($row['snippet']);
           $snippets[$i]['snippet'] = base64_encode($row['snippet']);
           $this->snippetCache = $snippets[$i];
         } else {
