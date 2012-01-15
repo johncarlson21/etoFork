@@ -52,10 +52,10 @@
     <textarea name="resource_editor" id="resource_editor" rows="15" style="width:100%;"><?php
         switch($type) {
             case 'template':
-                echo isset($resource['content']) && !empty($resource['content']) ? stripslashes($resource['content']) : '';
+                echo isset($resource['content']) && !empty($resource['content']) ? htmlspecialchars($resource['content']) : '';
             break;
             default:
-                echo isset($resource['snippet']) && !empty($resource['snippet']) ? stripslashes($resource['snippet']) : '';
+                echo isset($resource['snippet']) && !empty($resource['snippet']) ? htmlspecialchars($resource['snippet']) : '';
             break;
         }
         ?></textarea>
