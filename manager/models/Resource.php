@@ -103,7 +103,8 @@ class Resource extends etomiteExtender {
         $name = (isset($_REQUEST['name']) && !empty($_REQUEST['name'])) ? mysql_escape_string($_REQUEST['name']) : 'unsaved';
         $description = (isset($_REQUEST['description']) && !empty($_REQUEST['description'])) ? mysql_escape_string($_REQUEST['description']) : '';
         $section = (isset($_REQUEST['section']) && !empty($_REQUEST['section'])) ? (int)$_REQUEST['section'] : 1;
-        $content = (isset($_REQUEST['content']) && !empty($_REQUEST['content'])) ? mysql_escape_string(stripslashes($_REQUEST['content'])) : '';
+        $content = (isset($_REQUEST['content']) && !empty($_REQUEST['content'])) ? stripslashes($_REQUEST['content']) : '';
+        $content = mysql_real_escape_string($content);
         $locked = (isset($_REQUEST['locked']) && $_REQUEST['locked']) ? 1 : 0;
         $data = array();
         $type_table = '';
