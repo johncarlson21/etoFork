@@ -32,7 +32,7 @@ include("../manager/includes/version.inc.php");
 <body>
 <table border="0" cellpadding="0" cellspacing="0" class="mainTable">
   <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/media/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?></span></td>
+    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?></span></td>
     <td align="right"><span class="headers">New Installation</span></td>
   </tr>
   <tr class="fancyRow2">
@@ -44,7 +44,6 @@ include("../manager/includes/version.inc.php");
         <tr align="left" valign="top">
           <td class="pad" id="content" colspan="2">
             <h1>New Installation Setup</h1>
-            <p><b>NOTE:</b> If you are upgrading an existing installation of Etomite, please click your <a href="index.php" title="Go Back"><u><b>Back</b></u></a> button and select <b>Upgrade an existing installation</b>.</p>
             <p>Etomite setup has carried out a number of checks to see if everything's ready to start the setup.<br />
 <?php
 

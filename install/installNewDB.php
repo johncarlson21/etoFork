@@ -30,7 +30,7 @@ $sqlFile = "sql/".$_SESSION['sqlFile'];
 <body>
 <table border="0" cellpadding="0" cellspacing="0" class="mainTable">
   <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/media/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite</span></td>
+    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite</span></td>
     <td align="right"><span class="headers">Installation</span></td>
   </tr>
   <tr class="fancyRow2">

@@ -73,25 +73,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}document_groups` (
 -- Dumping data for table `{PREFIX}document_groups`
 --
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `{PREFIX}keyword_xref`
---
-
-CREATE TABLE IF NOT EXISTS `{PREFIX}keyword_xref` (
-  `content_id` int(11) NOT NULL default '0',
-  `keyword_id` int(11) NOT NULL default '0',
-  KEY `content_id` (`content_id`),
-  KEY `keyword_id` (`keyword_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Cross reference bewteen keywords and content';
-
---
--- Dumping data for table `{PREFIX}keyword_xref`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -494,20 +475,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_htmlsnippets_versions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `{PREFIX}site_keywords`
---
-
-CREATE TABLE IF NOT EXISTS `{PREFIX}site_keywords` (
-  `id` int(11) NOT NULL auto_increment,
-  `keyword` varchar(40) character set utf8 collate utf8_unicode_ci NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `keyword` (`keyword`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Site keyword list' AUTO_INCREMENT=1 ;
-
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `{PREFIX}site_section`
 --
 
@@ -877,5 +844,54 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}831gallery` (
   `gal_order` int(11) NOT NULL default '999',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='gallery setup by 831' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{PREFIX}template_variables`
+--
+
+CREATE TABLE IF NOT EXISTS `{PREFIX}template_variables` (
+  `tv_id` int(11) NOT NULL auto_increment,
+  `field_name` varchar(50) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `description` varchar(250) NOT NULL,
+  `type` enum('checkbox','radio','text','textarea','select','file') NOT NULL,
+  `opts` text NOT NULL,
+  `field_size` tinyint(3) NOT NULL,
+  `field_max_size` tinyint(3) NOT NULL,
+  `tv_order` tinyint(3) NOT NULL default '0',
+  `default_val` text NOT NULL,
+  `required` char(1) NOT NULL default '0',
+  `output_type` enum('text','image','link','date') NOT NULL,
+  PRIMARY KEY  (`tv_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{PREFIX}template_variable_templates`
+--
+
+CREATE TABLE IF NOT EXISTS `{PREFIX}template_variable_templates` (
+  `id` int(11) NOT NULL auto_increment,
+  `template_id` int(11) NOT NULL,
+  `tv_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{PREFIX}site_content_tv_val`
+--
+
+CREATE TABLE IF NOT EXISTS `{PREFIX}site_content_tv_val` (
+  `id` int(11) NOT NULL auto_increment,
+  `doc_id` int(11) NOT NULL,
+  `tv_id` int(11) NOT NULL,
+  `tv_value` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 -- --------------------------------------------------------

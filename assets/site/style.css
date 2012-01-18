@@ -14,7 +14,7 @@ body {
   border-left: 1px solid #003399;
   border-right: 1px solid #003399;
   width: 740px;
-  background: #fff url(../../manager/media/images/bg/section.jpg) no-repeat top right ;
+  background: #fff url(../../manager/images/bg/section.jpg) no-repeat top right ;
   margin: 0px auto;
   text-align: left;
 }
@@ -48,7 +48,7 @@ a:hover {
   margin:	0px;
   height: 100%; 
   border:	1px solid #003399;
-  background: #fff url(../../manager/media/images/bg/section.jpg) no-repeat top right;
+  background: #fff url(../../manager/images/bg/section.jpg) no-repeat top right;
 }
 
 .navigation a,.navigation a:hover {
@@ -59,14 +59,14 @@ a:hover {
   display: block;
   color: #000000;
   border: 1px solid #FFFFFF;
-  background: #fff url(../../manager/media/images/bg/section.jpg) no-repeat top right;
+  background: #fff url(../../manager/images/bg/section.jpg) no-repeat top right;
 }
 
 .navigation a:hover {
   padding: 4px;
   text-decoration: none; 
   color: #821517;
-  background: #fff url(../../manager/media/images/misc/buttonbar.gif) repeat-x top ;
+  background: #fff url(../../manager/images/misc/buttonbar.gif) repeat-x top ;
   border: 1px solid #003399;
 }
 
@@ -81,21 +81,21 @@ a:hover {
 }
 
 .highLight { 
-  background: #fff url(../../manager/media/images/misc/buttonbar.gif) repeat-x top ;
+  background: #fff url(../../manager/images/misc/buttonbar.gif) repeat-x top ;
   font-weight: bold;
   border: solid 1px #000000; 
 }
 
 .fancyRow {
-  background: #fff url(../../manager/media/images/misc/buttonbar_gs.gif) repeat-x top;
+  background: #fff url(../../manager/images/misc/buttonbar_gs.gif) repeat-x top;
 }
 
 .fancyRow2 {
-  background: #fff url(../../manager/media/images/misc/buttonbar.gif) repeat-x top;
+  background: #fff url(../../manager/images/misc/buttonbar.gif) repeat-x top;
 }
 
 body {
-  background: #fff url(../../manager/media/images/bg/treeback.jpg) repeat-x top;
+  background: #fff url(../../manager/images/bg/treeback.jpg) repeat-x top;
 }
 
 .border-top-bottom {
@@ -126,7 +126,7 @@ img {
 li {
   padding: 0px;
   margin: 6px 0px 0px 15px;
-  list-style: disc outside url("../../manager/media/images/misc/li.gif");
+  list-style: disc outside url("../../manager/images/misc/li.gif");
 }
 
 ul {
@@ -147,7 +147,7 @@ ul {
   padding: 4px;
   margin: 4px;
   border:	1px solid #003399;
-  background: #fff url(../../manager/media/images/bg/section.jpg) no-repeat top right;
+  background: #fff url(../../manager/images/bg/section.jpg) no-repeat top right;
 }
 
 fieldset { 

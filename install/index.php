@@ -25,7 +25,7 @@ include("../manager/includes/version.inc.php");
 <body>
 <table border="0" cellpadding="0" cellspacing="0" class="mainTable">
   <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/media/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?> <span style="font-style:oblique;">EXPLODED</span> ( Updated Code from John Carlson )</span></td>
+    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?> <span style="font-style:oblique;">EXPLODED</span> ( Updated Code from John Carlson )</span></td>
     <td align="right"><span class="headers">Installation - Upgrade</span></td>
   </tr>
   <tr class="fancyRow2">
@@ -44,7 +44,7 @@ include("../manager/includes/version.inc.php");
 
       <p><a href="installStart.php?installationType=full" title="Perform Full Install Now">New installation (Full)</a> - Includes an assortment of sample resources to demonstrate how Etomite can be implemented.</p>
 	  <p>This installation has updates/extensions to the core to allow for zend framework like urls, versioning ( documents, snippets and chunks), meta information on documents, sections for snippets and chunks to organize them, and the phpFire library.</p>
-<!-- 
+<!--
       <p><a href="installStart.php?installationType=lite" title="Perform Lite Install Now">New installation (Lite)</a> - Includes only a limited number of resources that experienced developers have come to depend on.</p>
 
       <p><a href="installStart.php?installationType=bare" title="Perform Bare Install Now">New installation (Bare)</a> - Includes no resources at all - you're on your own. Only required records to allow Etomite Manager login are installed. Only extremely experienced developers should consider selecting this option as several critical configuration options that other install options automatically calculate will require manual entry.</p>
