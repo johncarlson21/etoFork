@@ -11,14 +11,31 @@
 // Modified: 2008-05-08 [v1.1] by Ralph A. Dahlgren
 // - Added $config_release variable for upgrade purposes
 
+/*
+ *  // uncomment the lines below to turn on some error logging
+ * error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', $_SERVER['DOCUMENT_ROOT'].'/tmp/etofork.errors');
+ini_set('display_errors', 1);
+ini_set('track_errors', 'On');
+ini_set('ignore_repeated_errors','On');
+
+*/
+
 // Etomite database connection parameters
-$config_release = "1.1";
+$config_release = "2.0";
 $database_type = "mysql";
 $database_server = "{HOST}";
 $database_user = "{USER}";
 $database_password = "{PASS}";
 $dbase = "`{DBASE}`";
 $table_prefix = "{PREFIX}";
+
+define('dbase', $dbase);
+define('table_prefix', $table_prefix);
+define('debug', false);
+
 
 // YOU CAN ASSIGN THE DIRECTORY WHERE SESSIONS WILL BE STORED.
 // THE $sessdir VARIABLE CAN BE SET TO ANY ABSOLUTE DIRECTORY LOCATION WHERE
@@ -42,9 +59,21 @@ error_reporting(E_ALL ^ E_NOTICE);
 // detect current protocol
 $protocol = (isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == "on") ? "https://" : "http://";
 
-// build the absolute file path:
-$cwd = (substr(PHP_OS, 0, 3) == "WIN") ? str_replace(chr(92),"/",strtolower(getcwd())) : getcwd();
-$absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = $cwd."/";
+// build the absolute file path and manager path:
+//$cwd = (substr(PHP_OS, 0, 3) == "WIN") ? str_replace(chr(92),"/",strtolower(getcwd())) : getcwd();
+$cwd = (substr(PHP_OSS, 0, 3) == "WIN") ? str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']))) : getcwd();
+$man_pos = strpos($cwd, "/manager"); // check if we are somewhere in the manager
+
+
+if ($man_pos === false) {
+    $absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = $cwd."/";
+    $manager_path = $cwd."/manager/";
+} else {
+    $absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = substr($cwd,0, $man_pos)."/";
+    $manager_path = $cwd."/";
+}
+
+define('MANAGER_PATH', $manager_path);
 define("absolute_base_path",$absolute_base_path);
 
 // build the relative path:
@@ -69,12 +98,23 @@ else
 }
 
 $urlFilename = array_pop($urlPieces);
-$relative_base_path = $ETOMITE_PAGE_BASE["relative"] = implode("/", $urlPieces)."/";
+$relative_base_path = $ETOMITE_PAGE_BASE["relative"] = implode("/", $urlPieces);
+if ($man_pos !== false) {
+    $relative_base_path = $ETOMITE_PAGE_BASE["relative"] = substr($relative_base_path, 0, $man_pos)."/";
+}
 define("relative_base_path",$relative_base_path);
+define("file_manager_path", str_replace("/", "", $relative_base_path));
 
 // build the www path:
-$www_base_path = $ETOMITE_PAGE_BASE["www"] = $protocol.$_SERVER["HTTP_HOST"].$ETOMITE_PAGE_BASE["relative"];
-
+$www_base_path = $ETOMITE_PAGE_BASE["www"] = $protocol.$_SERVER["HTTP_HOST"].$ETOMITE_PAGE_BASE["relative"]."/";
+if ($man_pos !== false) {
+    $www_base_url = $www_base_path;
+    $www_base_path = $ETOMITE_PAGE_BASE["www"] = substr($www_base_path, 0, $man_pos)."/";
+} else {
+    $www_base_url = $www_base_url."/manager/";
+}
+define("www_base_path", $www_base_path);
+define("MANAGER_URL", $www_base_url);
 
 // START: custom session handling
 
@@ -158,5 +198,7 @@ if(!function_exists("startCMSSession")){
     session_start();
   }
 }
+
+define('CONFIG_LOADED', true);
 
 ?>

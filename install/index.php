@@ -44,13 +44,7 @@ include("../manager/includes/version.inc.php");
 
       <p><a href="installStart.php?installationType=full" title="Perform Full Install Now">New installation (Full)</a> - Includes an assortment of sample resources to demonstrate how Etomite can be implemented.</p>
 	  <p>This installation has updates/extensions to the core to allow for zend framework like urls, versioning ( documents, snippets and chunks), meta information on documents, sections for snippets and chunks to organize them, and the phpFire library.</p>
-<!--
-      <p><a href="installStart.php?installationType=lite" title="Perform Lite Install Now">New installation (Lite)</a> - Includes only a limited number of resources that experienced developers have come to depend on.</p>
 
-      <p><a href="installStart.php?installationType=bare" title="Perform Bare Install Now">New installation (Bare)</a> - Includes no resources at all - you're on your own. Only required records to allow Etomite Manager login are installed. Only extremely experienced developers should consider selecting this option as several critical configuration options that other install options automatically calculate will require manual entry.</p>
-
-      <p><a href="installStart.php?installationType=upgrade" title="Perform Upgrade Now">Upgrade an existing installation</a> - Choose this installation option if you already have an earlier release of Etomite installed. Some manual steps may be required depending on which previous release you are upgrading from.</p>
--->
     </td>
   </tr>
   <tr class="fancyRow2">
