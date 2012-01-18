@@ -25,8 +25,8 @@ include("../manager/includes/version.inc.php");
 <body>
 <table border="0" cellpadding="0" cellspacing="0" class="mainTable">
   <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?> <span style="font-style:oblique;">EXPLODED</span> ( Updated Code from John Carlson )</span></td>
-    <td align="right"><span class="headers">Installation - Upgrade</span></td>
+    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?> ( Updated Code from John Carlson )</span></td>
+    <td align="right"><span class="headers">Installation</span></td>
   </tr>
   <tr class="fancyRow2">
     <td colspan="2" class="border-top-bottom smallText" align="right">&nbsp;</td>
