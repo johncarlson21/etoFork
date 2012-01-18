@@ -43,7 +43,7 @@ startCMSSession();
 
 // changed by John Carlson to add url functionality
 
-$INCPATH = ini_get("include_path").PATH_SEPARATOR.dirname(__FILE__)."/manager/includes/".PATH_SEPARATOR.dirname(__FILE__)."/models/";
+$INCPATH = ini_get("include_path").PATH_SEPARATOR.dirname(__FILE__)."/manager/includes/".PATH_SEPARATOR.dirname(__FILE__)."/manager/".PATH_SEPARATOR.dirname(__FILE__)."/models/";
 ini_set("include_path", $INCPATH);
 
 // include functions file
@@ -51,9 +51,7 @@ include_once(MANAGER_PATH . "includes/functions.php");
 
 include_once(MANAGER_PATH . "models/etomite.class.php");
 
-include_once(MANAGER_PATH . "models/etomiteExtender.php");
-
-$etomite = new etomiteExtender;
+$etomite = new etomite;
 
 
 // set some options

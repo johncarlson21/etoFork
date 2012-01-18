@@ -7,15 +7,12 @@
  * to load the content in the pane
  */
 
-class mod_test_admin extends System {
+class mod_test_admin extends etomite {
     
     var $moduleConfig; // main var passed from module xml file for basic config info
     
-    public function __construct($config=null) {
-        $this->runStandalone();
-        if (!empty($config) && $config != null) {
-            $this->moduleConfig = $config;
-        }
+    public function __construct() {
+        parent::__construct();
     }
     
     public function adminView() { // this is the default admin view page.

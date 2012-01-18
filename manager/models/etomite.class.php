@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 class etomite {
-  var $db, $rs, $result, $sql, $table_prefix, $config, $debug,
+  public $db, $rs, $result, $sql, $table_prefix, $debug,
     $documentIdentifier, $documentMethod, $documentGenerated, $documentContent, $tstart,
     $snippetParsePasses, $documentObject, $templateObject, $snippetObjects,
     $stopOnNotice, $executedQueries, $queryTime, $currentSnippet, $documentName,
@@ -47,23 +47,70 @@ class etomite {
     $version, $code_name, $notice, $blockLogging, $useblockLogging, $offline_page;
   
   // new variables for firephp
-  var $fbDBConn, $fbQueries;
-  
-  // Class constructor function used for instantiation
-  /*function etomite() {
-    $this->dbConfig['host'] = $GLOBALS['database_server'];
-    $this->dbConfig['dbase'] = $GLOBALS['dbase'];
-    $this->dbConfig['user'] = $GLOBALS['database_user'];
-    $this->dbConfig['pass'] = $GLOBALS['database_password'];
-    $this->dbConfig['table_prefix'] = $GLOBALS['table_prefix'];
-    $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];
-  }*/
+    public $fbDBConn, $fbQueries;
+    // new variables for the new functions and code
+    public $config = array();
+    public $_request = array(); // variable to hold the request/post/get from a url format of /varname/value/varname2/value2
+    public $_vars = array(); // variable use to pass information  such as an ID that you want to grab in another snippet
+    
+    // used to make changes to the head or sections of the html
+    public $headJSCSS = ''; // variable to add js and css to the head of the document.
+    public $_meta = ''; // variable to add meta to the head
+    
+    public $breadCrumbs = array();
+    public $bcSep = " &raquo; "; // default breadCrumb separator
+    public $_lang = array();
+    public $documentTVs = array();
+    public $parseAgain = true;
+    
+    public function __construct(){
+        $this->runStandalone();
+    }
+    
+    public function runStandalone() {
+        $this->dbConfig['host'] = $GLOBALS['database_server'];
+        $this->dbConfig['dbase'] = $GLOBALS['dbase'];
+        $this->dbConfig['user'] = $GLOBALS['database_user'];
+        $this->dbConfig['pass'] = $GLOBALS['database_password'];
+        $this->dbConfig['table_prefix'] = $GLOBALS['table_prefix'];
+        $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];
+        $this->_lang = $GLOBALS['_lang'];
+        // convert variables initially calculated in config.inc.php into config variables
+        $this->config['absolute_base_path'] = $GLOBALS['absolute_base_path'];
+        $this->config['relative_base_path'] = $GLOBALS['relative_base_path'];
+        $this->config['www_base_path'] = $GLOBALS['www_base_path'];
+        $this->dbConnect();
+        // get the settings
+        $this->getSettings();
+    }
+    
+    // parses the url to pull out and set the request data from /page/this/style url
+    public function parseUrl($q){
+
+        function checkNum($num){
+          return ($num%2) ? TRUE : FALSE;
+        }
+        //print_r($q); exit;
+        if(empty($q)) return;
+        $q = trim($q,"/"); // remove leading and ending slashes
+        $parts = explode("/",$q); // put the url into a split array
+        
+        if(checkNum(count($parts)) === TRUE){ array_push($parts,""); }
+        $keys = array();
+        $values = array();
+        foreach($parts as $p){
+            if($p=='0'){ $p = strval($p); }
+            ((++$i%2==0)?array_push($values,$p):array_push($keys,$p));
+        }
+        
+        return array_combine($keys,$values);
+    }
 
   //
   // START: Setup, configuration, and utility related functions
   //
 
-  function checkSession() {
+  public function checkSession() {
     if(isset($_SESSION['validated'])) {
       return true;
     } else  {
@@ -71,7 +118,7 @@ class etomite {
     }
   }
 
-  function checkCookie() {
+  public function checkCookie() {
     if(isset($_COOKIE['etomiteLoggingCookie'])) {
       $this->visitor = $_COOKIE['etomiteLoggingCookie'];
       if(isset($_SESSION['_logging_first_hit'])) {
@@ -92,20 +139,27 @@ class etomite {
     }
   }
 
-  function getMicroTime() {
+  public function getMicroTime() {
      list($usec, $sec) = explode(" ", microtime());
      return ((float)$usec + (float)$sec);
   }
 
-  function getSettings() {
+  public function getSettings() {
     if(file_exists(absolute_base_path."assets/cache/etomiteCache.idx.php")) {
       include_once(absolute_base_path."assets/cache/etomiteCache.idx.php");
-      //print_r($this->config);
     } else {
-      $result = $this->dbQuery("SELECT setting_name, setting_value FROM ".$this->db."system_settings");
+      /*$result = $this->dbQuery("SELECT setting_name, setting_value FROM ".$this->db."system_settings");
       while ($row = $this->fetchRow($result, 'both')) {
         $this->config[$row[0]] = $row[1];
-      }
+      }*/
+        include_once(MANAGER_PATH . "includes/cache_sync.class.processor.php");
+        $sync = new synccache($this, $this->_lang);
+        $sync->setCachepath(absolute_base_path."assets/cache/");
+        $sync->setReport(false);
+        $sync->emptyCache();
+        if(file_exists(absolute_base_path."assets/cache/etomiteCache.idx.php")) {
+          include_once(absolute_base_path."assets/cache/etomiteCache.idx.php");
+        }
     }
     // get current version information
     include(MANAGER_PATH."includes/version.inc.php");
@@ -142,7 +196,7 @@ class etomite {
     $this->authenticates = $authenticates;
   }
 
-  function sendRedirect($url, $count_attempts=3, $type='') {
+  public function sendRedirect($url, $count_attempts=3, $type='') {
     if(empty($url)) {
       return false;
     } else {
@@ -174,7 +228,7 @@ class etomite {
     }
   }
 
-  function checkPreview() {
+  public function checkPreview() {
     if($this->checkSession()==true) {
       if(isset($_REQUEST['z']) && $_REQUEST['z']=='manprev') {
         return true;
@@ -186,7 +240,7 @@ class etomite {
     }
   }
 
-  function checkSiteStatus() {
+  public function checkSiteStatus() {
     if($this->config['site_status']==1) {
       return true;
     } else {
@@ -194,7 +248,7 @@ class etomite {
     }
   }
 
-  function syncsite() {
+  public function syncsite() {
   // clears and rebuilds the site cache
   // added in 0.6.1.1
   // Modified 2008-03-17 by Ralph for improved cachePath handling
@@ -205,7 +259,7 @@ class etomite {
     $sync->emptyCache();
   }
 
-  function checkCache($id) {
+  public function checkCache($id) {
     $cacheFile = absolute_base_path."assets/cache/docid_".$id.".etoCache";
     if(file_exists($cacheFile)) {
       $this->documentGenerated=0;
@@ -224,7 +278,7 @@ class etomite {
   // START: Page rendering related functions
   //
 
-   function getDocumentMethod() {
+  public function getDocumentMethod() {
    // function to test the query and find the retrieval method
    if(isset($_REQUEST['rw'])) {
      return "alias";
@@ -235,41 +289,54 @@ class etomite {
     }
   }
 
-  function getDocumentIdentifier($method) {
-  // function to test the query and find the retrieval method
-    switch($method) {
-      case "alias" :
-        return preg_replace("/[^\w\.@-]/", "", htmlspecialchars($_REQUEST['rw']));
-        break;
-      case "id" :
-        return is_numeric($_REQUEST['id']) ? $_REQUEST['id'] : "";
-        break;
-      case "none" :
-        return $this->config['site_start'];
-        break;
-      default :
-        return $this->config['site_start'];
+    public function getDocumentIdentifier($method) {
+        // function to test the query and find the retrieval method
+        switch($method) {
+          case "alias" :
+            if(strpos($_REQUEST['rw'], "/")>0) {
+              $qOrig = substr($_REQUEST['rw'], 0, strpos($_REQUEST['rw'], "/")); // old line
+            }else{ $qOrig = $_REQUEST['rw']; }
+            //return preg_replace("/[^\w\.@-]/", "", htmlspecialchars($_REQUEST['rw']));
+            return preg_replace("/[^\w\.@-]/", "", htmlspecialchars($qOrig));
+            break;
+          case "id" :
+            return is_numeric($_REQUEST['id']) ? $_REQUEST['id'] : "";
+            break;
+          case "none" :
+            return $this->config['site_start'];
+            break;
+          default :
+            return $this->config['site_start'];
+        }
     }
-  }
 
-  function cleanDocumentIdentifier($qOrig) {
-    if(strpos($q, "/")>0) {
-      $q = substr($q, 0, strpos($q, "/"));
+    public function cleanDocumentIdentifier($qOrig) {
+        
+        if($this->config['zend_urls']==1){ // sets the zend style url to a request of $key=>$val
+            
+            $this->_request = $this->parseUrl(substr($_REQUEST['rw'], strpos($_REQUEST['rw'], "/")));
+            
+            $this->_request = array_merge($this->_request,$_POST);
+            unset($this->_request['rw']);
+        }else{ // set the _get var to the _request var
+            $this->_request = $_GET;
+            unset($this->_request['rw']); // unset the q variable that is sent by the .htaccess file
+        }
+        
+        $q = str_replace($this->config['friendly_url_prefix'], "", $qOrig);
+        $q = str_replace($this->config['friendly_url_suffix'], "", $q);
+        // we got an ID returned unless the error_page alias is "404"
+        if(is_numeric($q) && ($q != $this->aliases[$this->config['error_page']])) {
+          $this->documentMethod = 'id';
+          return $q;
+        // we didn't get an ID back, so instead we assume it's an alias
+        } else {
+          $this->documentMethod = 'alias';
+          return $q;
+        }
     }
-    $q = str_replace($this->config['friendly_url_prefix'], "", $qOrig);
-    $q = str_replace($this->config['friendly_url_suffix'], "", $q);
-    // we got an ID returned unless the error_page alias is "404"
-    if(is_numeric($q) && ($q != $this->aliases[$this->config['error_page']])) {
-      $this->documentMethod = 'id';
-      return $q;
-    // we didn't get an ID back, so instead we assume it's an alias
-    } else {
-      $this->documentMethod = 'alias';
-      return $q;
-    }
-  }
 
-  function addNotice($content, $type="text/html") {
+  public function addNotice($content, $type="text/html") {
     /* LEGAL STUFF REMOVED TO SHRINK FILE */
 
     if($type == "text/html"){
@@ -290,7 +357,7 @@ class etomite {
   }
   
   // added to ad the page-alias class to the body tag
-  function addPageClass($content,$type="text/html"){
+  public function addPageClass($content,$type="text/html"){
     if($type != "text/html"){ return $content; }
     
     $doc = $this->documentObject;
@@ -310,7 +377,8 @@ class etomite {
     
   }
 
-  function outputContent() {
+  public function outputContent() {
+    $this->setDefaultBreadCrumb();
     $output = $this->documentContent;
 
     // check for non-cached snippet output
@@ -318,20 +386,28 @@ class etomite {
       $output = str_replace('[!', '[[', $output);
       $output = str_replace('!]', ']]', $output);
 
-      $this->nonCachedSnippetParsePasses = empty($this->nonCachedSnippetParsePasses) ? 1 : $this->nonCachedSnippetParsePasses;
-      for($i=0; $i<$this->nonCachedSnippetParsePasses; $i++) {
+      $this->parseAgain = true;
+      while($this->parseAgain == true)
+      {
+        $this->parseCount++;
+        $this->parseAgain = false;
         if($this->config['dumpSnippets']==1) {
           echo "<fieldset style='text-align: left'><legend>NONCACHED PARSE PASS ".($i+1)."</legend>The following snipppets (if any) were parsed during this pass.<div style='width:100%' align='center'>";
         }
+        // re check for document content
+        $output = $this->mergeDocumentContent($output);
         // replace settings referenced in document
         $output = $this->mergeSettingsContent($output);
         // replace HTMLSnippets in document
         $output = $this->mergeHTMLSnippetsContent($output);
         // find and merge snippets
         $output = $this->evalSnippets($output);
+        // parse modules
+        $output = $this->evalModules($output);
         if($this->config['dumpSnippets']==1) {
           echo "</div></fieldset><br />";
         }
+        
       }
     }
 
@@ -374,6 +450,9 @@ class etomite {
     
     // added by John Carlson
     $documentOutput = $this->addPageClass($documentOutput,$type);
+    $documentOutput = $this->addMeta($documentOutput);
+    $documentOutput = $this->addJSCSS($documentOutput);
+    $documentOutput = $this->addBreadCrumb($documentOutput);
     // end added
 
 
@@ -385,6 +464,9 @@ class etomite {
     $documentOutput = str_replace("[^p^]", $phpTime, $documentOutput);
     $documentOutput = str_replace("[^t^]", $totalTime, $documentOutput);
     $documentOutput = str_replace("[^s^]", $source, $documentOutput);
+    
+    // clean up all document vars
+    $documentOutput = $this->mergeDocumentContent($documentOutput, true);
 
     // Check to see if document content contains PHP tags.
     // PHP tag support contributed by SniperX
@@ -401,8 +483,7 @@ class etomite {
     }
   }
 
-
-  function checkPublishStatus(){
+  public function checkPublishStatus(){
     include(absolute_base_path."assets/cache/etomitePublishing.idx");
     $timeNow = time()+$this->config['server_offset_time'];
     if(($cacheRefreshTime<=$timeNow && $cacheRefreshTime!=0) || !isset($cacheRefreshTime)) {
@@ -427,6 +508,7 @@ class etomite {
           if ($file != "." && $file != "..") {
             $filesincache += 1;
             if (preg_match ("/\.etoCache/", $file)) {
+
               $deletedfilesincache += 1;
               while(!unlink($basepath."/assets/cache/".$file));
             }
@@ -476,7 +558,7 @@ class etomite {
     }
   }
 
-  function postProcess()
+  public function postProcess()
   {
     // if enabled, do logging
     if($this->config['track_visitors']==1 && ($_REQUEST['z']!="manprev"))
@@ -496,14 +578,24 @@ class etomite {
     }
   }
 
-  function mergeDocumentContent($template, $cleanup=false) {
-    foreach ($this->documentObject as $key => $value) {
-      $template = str_replace("[*".$key."*]", stripslashes($value), $template);
+    public function mergeDocumentContent($template, $cleanup=false) {
+        if (empty($this->documentObject)) { return ''; }
+        foreach ($this->documentObject as $key => $value) {
+          $template = str_replace("[*".$key."*]", stripslashes($value), $template);
+        }
+        if ($cleanup) {
+            $count = preg_match_all('~\[\*(.*?)\*\]~', $template, $matches);
+            if ($count > 0) {
+                for ($i=0; $i<$count; $i++) {
+                    $replace[$i] = "";
+                }
+                $template = str_replace($matches[0], $replace, $template);
+            }
+        }
+        return $template;
     }
-    return $template;
-  }
 
-  function mergeSettingsContent($template) {
+  public function mergeSettingsContent($template) {
     $settingsCount = preg_match_all('~\[\((.*?)\)\]~', $template, $matches);
 
     if($settingsCount) $this->parseAgain = true; // [v1.2]
@@ -515,7 +607,7 @@ class etomite {
     return $template;
   }
 
-  function mergeHTMLSnippetsContent($content) {
+  public function mergeHTMLSnippetsContent($content) {
     $settingsCount = preg_match_all('~{{(.*?)}}~', $content, $matches);
 
     if($settingsCount) $this->parseAgain = true; // [v1.2]
@@ -541,7 +633,7 @@ class etomite {
     return $content;
   }
 
-  function evalSnippet($snippet, $params) {
+  public function evalSnippet($snippet, $params) {
     $etomite = $this;
     if(is_array($params)) {
       extract($params, EXTR_SKIP);
@@ -550,7 +642,7 @@ class etomite {
     return $snip;
   }
 
-  function evalSnippets($documentSource) {
+  public function evalSnippets($documentSource) {
     $matchCount = preg_match_all('~\[\[(.*?)\]\]~', $documentSource, $matches);
 
     $etomite = $this;
@@ -578,6 +670,14 @@ class etomite {
         if($this->recordCount($result)==1) {
           $row = $this->fetchRow($result);
           $snippets[$i]['name'] = $row['name'];
+          $row['snippet'] = trim($row['snippet']);
+          // check the snippet for php tags
+          if (preg_match("/^(<\?php|<\?)/", $row['snippet'])) {
+              $row['snippet'] = "?>" . $row['snippet'];
+          }
+          if (substr($row['snippet'], 0, -2) == "?>") {
+              $row['snippet'] .= "<?php ";
+          }
           $snippets[$i]['snippet'] = base64_encode($row['snippet']);
           $this->snippetCache = $snippets[$i];
         } else {
@@ -613,7 +713,7 @@ class etomite {
     return $documentSource;
   }
 
-  function rewriteUrls($documentSource) {
+  public function rewriteUrls($documentSource) {
     // modified [v1.2] by Ralph for improved performance
     $search_regexp = '!\[\~(.*?)\~\]!is';
     $replace_regexp = "index.php?id=".'\1';
@@ -636,6 +736,7 @@ class etomite {
           $documentSource = str_replace($matches[0][$i], $furl, $documentSource);
         }
       }
+
     }
     else
     {
@@ -644,7 +745,7 @@ class etomite {
     return $documentSource;
   }
 
-  function executeParser() {
+  public function executeParser() {
     //error_reporting(0);
     set_error_handler(array($this,"phpError"));
 
@@ -865,7 +966,7 @@ class etomite {
 /* START: Error Handler and Logging Functions
 /***************************************************************************************/
 
-  function phpError($nr, $text, $file, $line) {
+  public function phpError($nr, $text, $file, $line) {
     if($nr==2048) return true; // added by mfx 10-18-2005 to ignore E_STRICT erros in PHP5
     if($nr==8 && $this->stopOnNotice==false) {
       return true;
@@ -879,7 +980,7 @@ class etomite {
     $this->messageQuit("PHP Parse Error", '', true, $nr, $file, $source, $text, $line);
   }
 
-  function messageQuit($msg='unspecified error', $query='', $is_error=true,$nr='', $file='', $source='', $text='', $line='') {
+  public function messageQuit($msg='unspecified error', $query='', $is_error=true,$nr='', $file='', $source='', $text='', $line='') {
     $this->aborting = true; // added in [v1.0] by Ralph to resolve header issues
     $pms = "<html><head><title>Etomite ".$this->config['release']." ".$this->config['code_name']."</title>
     <style>TD, BODY { font-size: 11px; font-family:verdana; }</style>
@@ -982,7 +1083,7 @@ title='$siteName'>$siteName</a></h2>
 
   // Parsing functions used in this class are based on/ inspired by code by Sebastian Bergmann.
   // The regular expressions used in this class are taken from the ModLogAn (http://jan.kneschke.de/projects/modlogan/) project.
-  function log() {
+  public function log() {
     // if we are tracking visitors and this is not the 404 error page, log the hit
     if($this->config['track_visitors'] && $this->documentIdentifier != $this->config['error_page']) {
       include_once(MANAGER_PATH."includes/visitor_logging.inc.php");
@@ -997,7 +1098,7 @@ title='$siteName'>$siteName</a></h2>
 /* START: Etomite API functions                                                        */
 /***************************************************************************************/
 
-  function getAllChildren($id=0, $sort='menuindex', $dir='ASC', $fields='id, pagetitle, longtitle, description, parent, alias', $limit="", $showhidden=false) {
+  public function getAllChildren($id=0, $sort='menuindex', $dir='ASC', $fields='id, pagetitle, longtitle, description, parent, alias', $limit="", $showhidden=false) {
   // returns a two dimensional array of $key=>$value data for all existing documents regardless of activity status
   // $id = id of the document whose children have been requested
   // $sort = the field to sort the result by
@@ -1017,7 +1118,7 @@ title='$siteName'>$siteName</a></h2>
     return $resourceArray;
   }
 
-  function getActiveChildren($id=0, $sort='menuindex', $dir='', $fields='id, pagetitle, longtitle, description, parent, alias, showinmenu', $limit="", $showhidden=false) {
+  public function getActiveChildren($id=0, $sort='menuindex', $dir='', $fields='id, pagetitle, longtitle, description, parent, alias, showinmenu', $limit="", $showhidden=false) {
   // returns a two dimensional array of $key=>$value data for active documents only
   // $id = id of the document whose children have been requested
   // $sort = the field to sort the result by
@@ -1037,7 +1138,7 @@ title='$siteName'>$siteName</a></h2>
     return $resourceArray;
   }
 
-  function getDocuments($ids=array(), $published=1, $deleted=0, $fields="*", $where='', $sort="menuindex", $dir="ASC", $limit="", $showhidden=false) {
+  public function getDocuments($ids=array(), $published=1, $deleted=0, $fields="*", $where='', $sort="menuindex", $dir="ASC", $limit="", $showhidden=false) {
   // Modified getDocuments function which includes LIMIT capabilities - Ralph
   // returns $key=>$values for an array of document id's
   // $id = the identifier of the document whose data is being requested
@@ -1064,16 +1165,15 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function getDocument($id=0, $fields="*") {
-  // returns $key=>$values for a specific document
-  // $id is the identifier of the document whose data is being requested
-  // $fields is a comma delimited list of fields to be returned in a $key=>$value array (defaults to all)
-  // Modified 2008-04-14 [v1.0] to disregard showinmenu setting
+  public function getDocument($id=0, $fields="*") {
+      // returns $key=>$values for a specific document
+      // $id is the identifier of the document whose data is being requested
+      // $fields is a comma delimited list of fields to be returned in a $key=>$value array (defaults to all)
+      // Modified 2008-04-14 [v1.0] to disregard showinmenu setting
     if($id==0) {
       return false;
     } else {
-      $tmpArr[] = $id;
-      $docs = $this->getDocuments($tmpArr, 1, 0, $fields, $where, $sort="menuindex", $dir="ASC", $limit="1", $showhidden=true);
+      $docs = $this->getIntTableRows($fields, 'site_content', 'id='.$id);
       if($docs!=false) {
         return $docs[0];
       } else {
@@ -1081,8 +1181,38 @@ title='$siteName'>$siteName</a></h2>
       }
     }
   }
+  
+  public function getDocumentObject($method=false, $identifier=false) {
+      if (!$method || !$identifier) {
+          return false;
+      }
+      
+      $sql = "SELECT * FROM ".$this->db."site_content WHERE ".$this->db."site_content.".$method." = '".$identifier."';";
+      $result = $this->dbQuery($sql);
+      if ($this->recordCount($result) > 0) {
+          $doc = $this->fetchRow($result);
+          // get tvs for this document
+          //$result = $this->getIntTableRows('tv_id,tv_value', 'site_content_tv_val', 'doc_id='.$doc['id']);
+          $sql = "SELECT tvv.*, tv.field_name, tv.output_type, tv.opts, tvt.template_id FROM ".$this->db."site_content_tv_val tvv" .
+              " LEFT JOIN ".$this->db."template_variables tv" .
+              " ON tvv.tv_id=tv.tv_id" .
+              " LEFT JOIN ".$this->db."template_variable_templates tvt" .
+              " ON tvt.tv_id=tv.tv_id" .
+              " WHERE tvv.doc_id=".$doc['id'] .
+              " AND tvt.template_id=".$doc['template'];
+          $result = $this->dbQuery($sql);
+          
+          if ($this->recordCount($result) > 0) {
+            while($r = $this->fetchRow($result)) {
+                $doc[$r['field_name']] = $this->formatTVOutput($r['tv_value'], $r['output_type'], $r['opts']);
+            }
+          }
+          return $doc;
+      }
+      return false;
+  }
 
-  function getPageInfo($id=-1, $active=1, $fields='id, pagetitle, description, alias') {
+  public function getPageInfo($id=-1, $active=1, $fields='id, pagetitle, description, alias') {
   // returns a $key=>$value array of information for a single document
   // $id is the identifier of the document whose data is being requested
   // $active boolean (0=false|1=true) determines whether to return data for any or only an active document
@@ -1099,7 +1229,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function getParent($id=-1, $active=1, $fields='id, pagetitle, description, alias, parent') {
+  public function getParent($id=-1, $active=1, $fields='id, pagetitle, description, alias, parent') {
   // returns document information for a given document identifier
   // $id is the identifier of the document whose parent is being requested
   // $active boolean (0=false|1=true) determines whether to return any or only an active parent
@@ -1121,12 +1251,12 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function getSnippetName() {
+  public function getSnippetName() {
   // returns the textual name of the calling snippet
     return $this->currentSnippet;
   }
 
-  function clearCache() {
+  public function clearCache() {
   // deletes all cached documents from the ./assets/acahe directory
     $basepath=dirname(__FILE__);
     if (@$handle = opendir($basepath."/assets/cache")) {
@@ -1148,44 +1278,113 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function makeUrl($id, $alias='', $args='') {
-  // Modified by mikef
-  // Last Modified: 2006-04-08 by Ralph Dahlgren
-  // returns a properly formatted URL as of 0.6.1 Final
-  // $id is a valid document id and is optional when sending an alias
-  // $alias can now be sent without $id but may cause failures if the alias doesn't exist
-  // $args is a URL compliant text string of $_GET key=value pairs
-  // Examples: makeURL(45,'','?cms=Etomite') OR makeURL('','my_alias','?cms=Etomite')
-  // ToDo: add conditional code to create $args from a $key=>$value array
+    public function makeUrl($id, $alias='', $args='') {
+        // Last Modified: 2010-03-17 by John Carlson to add the new zend framework style of urls like this /page/var1/value1/var2/value2
+        // Fixed the code to accept a $key=>$value array for the arguments
+        // Modified by mikef
+        // Last Modified: 2006-04-08 by Ralph Dahlgren
+        // returns a properly formatted URL as of 0.6.1 Final
+        // $id is a valid document id and is optional when sending an alias
+        // $alias can now be sent without $id but may cause failures if the alias doesn't exist
+        // $args is a URL compliant text string of $_GET key=value pairs
+        // Examples: makeURL(45,'','?cms=Etomite') OR makeURL('','my_alias','?cms=Etomite')
+        // ToDo: add conditional code to create $args from a $key=>$value array
+        
+        // USAGE
+        // assuming our page id is 4 with an alias of test and our domain is domain.com
+        // zend_urls = 1 // using zend urls instead of normal urls
+        // $ar = array('var1'=>'value1','var2'=>'value2');
+        // $url = $etomite->makeUrl('4','',$ar); // returns http://domain.com/test/var1/value1/var2/value2
+        //
+        // OR using regular string style of parameters passed with the zend urls will convert it to the normal url
+        //
+        // $params = "?var1=value1&var2=value2";
+        // $url = $etomite->makeUrl('4','',$params); // returns http://domain.com/test.html?var1=value1&var2=value2
+        //
+        // OR using regular style urls with the zend urls off or zend_urls=0
+        //
+        // $params = "?var1=value1&var2=value2";
+        // $url = $etomite->makeUrl('4','',$params); // returns http://domain.com/test.html?var1=value1&var2=value2
+        //
+        // and also will work the same with a $key=>$value style of parameters
+        // $ar = array('var1'=>'value1','var2'=>'value2');
+        // $url = $etomite->makeUrl('4','',$ar); // returns http://domain.com/test.html?var1=value1&var2=value2
+        
+        
+        // make sure $id data type is not string
+        if(!is_numeric($id) && $id!="") {
+          $this->messageQuit("`$id` is not numeric and may not be passed to makeUrl()");
+        }
+        // assign a shorter base URL variable
+        $baseURL = $this->config['www_base_path'];
+        if($this->config['zend_urls']==1 && !empty($alias) && isset($this->documentListing[$alias])){
+            $url = $baseURL.$alias;
+        }elseif($this->config['zend_urls']==1 && $this->aliases[$id]!=""){
+            if($id!=$this->config['site_start']){
+                $url = $baseURL.$this->aliases[$id];
+            }else{
+                $url = $baseURL;
+            }
+        }
+        // if $alias was sent in the function call and the alias exists, use it
+        elseif($this->config['friendly_alias_urls']==1 && isset($this->documentListing[$alias])) {
+            $url = $baseURL.$this->config['friendly_url_prefix'].$alias.$this->config['friendly_url_suffix'];
+        }
+        // $alias wasn't sent or doesn't exist so try to get the documents alias based on id if it exists
+        elseif($this->config['friendly_alias_urls']==1 && $this->aliases[$id]!="") {
+            if($id!=$this->config['site_start']){
+                $url = $baseURL.$this->config['friendly_url_prefix'].$this->aliases[$id].$this->config['friendly_url_suffix'];
+            }else{
+                $url = $baseURL;
+            }
+        }
+        // only friendly URL's are enabled or previous alias attempts failed
+        elseif($this->config['friendly_urls']==1) {
+          $url = $baseURL.$this->config['friendly_url_prefix'].$id.$this->config['friendly_url_suffix'];
+        }
+        // for some reason nothing else has workd so revert to the standard URL method
+        else {
+          $url = $baseURL."index.php?id=$id";
+        }
+        
+        if($this->config['zend_urls']==1 && is_array($args)){
+            $params = array();
+            foreach($args as $key=>$val){
+                if(!empty($val)){
+                    array_push($params,$key);
+                    array_push($params,$val);
+                }
+            }
+            
+            if(!empty($params)){ $args = "/".implode("/",$params); }/*else{ $args = $this->config['friendly_url_suffix']; }*/
+            else{ $args = ''; }
+            if(empty($args)) {
+                $url .= $this->config['friendly_url_suffix'];
+            }
+        }elseif($this->config['zend_urls']==1){
+            //$url .= $this->config['friendly_url_suffix'];
+            if(strlen($args)&&strpos($url, "?")){
+                $url .= $this->config['friendly_url_suffix'];
+                $args="&amp;".substr($args,1);
+            }
+            if(empty($args) && $id != $this->config['site_start']) {
+                $url .= $this->config['friendly_url_suffix'];
+            }
+        }else{
+            // make sure only the first argument parameter is preceded by a "?"
+            if(is_array($args)){ // fix the arguments if they are in an array form
+                $argsArray = array();
+                foreach($args as $key=>$val){
+                    $argsArray[] = $key."=".$val;
+                }
+                $args = "?".implode("&amp;",$argsArray);
+            }
+            if(strlen($args)&&strpos($url, "?")) $args="&amp;".substr($args,1);
+        }
+        return $url.$args;
+    }
 
-    // make sure $id data type is not string
-    if(!is_numeric($id) && $id!="") {
-      $this->messageQuit("`$id` is not numeric and may not be passed to makeUrl()");
-    }
-    // assign a shorter base URL variable
-    $baseURL=$this->config['www_base_path'];
-    // if $alias was sent in the function call and the alias exists, use it
-    if($this->config['friendly_alias_urls']==1 && isset($this->documentListing[$alias])) {
-        $url = $baseURL.$this->config['friendly_url_prefix'].$alias.$this->config['friendly_url_suffix'];
-    }
-    // $alias wasn't sent or doesn't exist so try to get the documents alias based on id if it exists
-    elseif($this->config['friendly_alias_urls']==1 && $this->aliases[$id]!="") {
-      $url = $baseURL.$this->config['friendly_url_prefix'].$this->aliases[$id].$this->config['friendly_url_suffix'];
-    }
-    // only friendly URL's are enabled or previous alias attempts failed
-    elseif($this->config['friendly_urls']==1) {
-      $url = $baseURL.$this->config['friendly_url_prefix'].$id.$this->config['friendly_url_suffix'];
-    }
-    // for some reason nothing else has workd so revert to the standard URL method
-    else {
-      $url = $baseURL."index.php?id=$id";
-    }
-    // make sure only the first argument parameter is preceded by a "?"
-    if(strlen($args)&&strpos($url, "?")) $args="&amp;".substr($args,1);
-    return $url.$args;
-  }
-
-  function getConfig($name='') {
+  public function getConfig($name='') {
   // returns the requested configuration setting_value to caller
   // based on $key=>$value records stored in system_settings table
   // $name can be any valid setting_name
@@ -1197,7 +1396,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function getVersionData() {
+  public function getVersionData() {
   // returns a $key=>$value array of software package information to caller
     include(MANAGER_PATH."includes/version.inc.php");
     $version = array();
@@ -1210,7 +1409,7 @@ title='$siteName'>$siteName</a></h2>
     return $version;
   }
 
-  function makeList($array, $ulroot='root', $ulprefix='sub_', $type='', $ordered=false, $tablevel=0, $tabstr="") {
+  public function makeList($array, $ulroot='root', $ulprefix='sub_', $type='', $ordered=false, $tablevel=0, $tabstr="") {
   // returns either ordered or unordered lists based on passed parameters
   // $array can be a single or multi-dimensional $key=>$value array
   // $ulroot is the lists root CSS class name for controlling list-item appearance
@@ -1248,7 +1447,7 @@ title='$siteName'>$siteName</a></h2>
     return $listhtml;
   }
 
-  function userLoggedIn() {
+  public function userLoggedIn() {
   // returns an array of user details if logged in else returns false
   // array components returned are self-explanatory
     $userdetails = array();
@@ -1262,7 +1461,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function getKeywords($id=0) {
+  public function getKeywords($id=0) {
   // returns a single dimensional array of document specific keywords
   // $id is the identifier of the document for which keywords have been requested
     if($id==0 || $id=="") {
@@ -1282,25 +1481,26 @@ title='$siteName'>$siteName</a></h2>
     return $keywords;
   }
 
-  function runSnippet($snippetName, $params=array()) {
+  public function runSnippet($snippetName, $params=array()) {
   // returns the processed results of a snippet to the caller
   // $snippetName = name of the snippet to process
   // $params = array of $key=>$value parameter pairs passed to the snippet
     return $this->evalSnippet($this->snippetCache[$snippetName], $params);
   }
 
-  function getChunk($chunkName) {
+  public function getChunk($chunkName) {
   // returns the contents of a cached chunk as code
   // $chunkName = textual name of the chunk to be returned
     return base64_decode($this->chunkCache[$chunkName]);
   }
 
-  function putChunk($chunkName) {
+  public function putChunk($chunkName) {
+
   // at present this is only an alias of getChunk() and is not used
     return $this->getChunk($chunkName);
   }
 
-  function parseChunk($chunkName, $chunkArr, $prefix="{", $suffix="}") {
+  public function parseChunk($chunkName, $chunkArr, $prefix="{", $suffix="}") {
   // returns chunk code with marker tags replaced with $key=>$value values
   // $chunkName = the textual name of the chunk to be parsed
   // $chunkArr = a single dimensional $key=>$value array of tags and values
@@ -1340,15 +1540,233 @@ title='$siteName'>$siteName</a></h2>
     return $chunk;
   }
 
-  function getUserData() {
+    public function getUser($id) {
+        if (!isset($id) || !is_numeric($id)) {
+            return false;
+        } else {
+            $db = new ExtDB($this);
+            $db->select(array('manager_users'=>'mu'), array('id', 'username'));
+            $db->where('mu.id = '.$id);
+            $db->leftJoin(
+                array('user_attributes'=>'ua'),
+                'ua.internalKey=mu.id',
+                array(
+                    'id as ua_id',
+                    'fullname',
+                    'role',
+                    'email',
+                    'phone',
+                    'mobilephone',
+                    'blocked',
+                    'blockeduntil',
+                    'logincount',
+                    'lastlogin',
+                    'thislogin',
+                    'failedlogincount',
+                    'address',
+                    'city',
+                    'state',
+                    'zip',
+                    'mailmessages'
+                )
+            );
+            $db->limit('1');
+            $db->create();
+            
+            if($user = $db->fetch()) {
+                return $user;
+            }
+            
+            return false;
+        }
+    }
+
+  public function getUserData() {
   // returns user agent related (browser) info in a $key=>$value array using the phpSniff class
   // can be used to perform conditional operations based on visitors browser specifics
   // items returned: ip,ua,browser,long_name,version,maj_ver,min_vermin_ver,letter_ver,javascript,platform,os,language,gecko,gecko_ver,html,images,frames,tables,java,plugins,css2,css1,iframes,xml,dom,hdml,wml,must_cache_forms,avoid_popup_windows,cache_ssl_downloads,break_disposition_header,empty_fil,e_input_value,scrollbar_in_way
     include_once(MANAGER_PATH."models/getUserData.extender.php");
     return $tmpArray;
   }
+  
+    // frontend user functions
+    
+    public function getWebUser($internalKey){
+        // returns a $key=>$value array of information from the user_attributes table
+        // $internalKey which correlates with a documents createdby value.
+        // Uasge: There are several ways in which this function can be called.
+        //   To call this function from within a snippet you could use
+        //   $author = $etomite->getAuthorData($etomite->documentObject['createdby'])
+        //   or $author = $etomite->getAuthorData($row['createdby']) or $author = $etomite->getAuthorData($rs[$i]['createdby']).
+        //   Once the $key=>$value variable, $author, has been populated you can access the data by using code similar to
+        //   $name = $author['fullname'] or $output .= $author['email'] for example.
+        //   There is also a snippet named GetAuthorData which uses the format:
+        //   [[GetAuthorData?internalKey=[*createdby*]&field=fullname]]
+        // Last Modified: 2008-04-17 [v1.0] by Ralph A. Dahlgren
+        // * fixed to return false if user record not found
+        $tbl = $this->db."web_users";
+        $sql = "SELECT * FROM $tbl WHERE $tbl.id=".$internalKey;
+        $result = $this->dbQuery($sql);
+        $limit = $this->recordCount($result);
+        if($limit < 1) {
+          return false;
+        } else {
+          $user = $this->fetchRow($result);
+          unset($user['password'],$user['hash']);
+          return $user;
+        }
+    }
+    
+    
+    public function webUserLoggedIn() {
+        // returns an array of user details if logged in else returns false
+        // array components returned are self-explanatory
+        $userdetails = array();
+        if(isset($_SESSION['validated'])) {
+          $userdetails['loggedIn']=true;
+          $userdetails['id']=strip_tags($_SESSION['internalKey']);
+          $userdetails['username']=strip_tags($_SESSION['shortname']);
+          $userdetails['role']=(int)$_SESSION['role'];
+          // need to add more to this
+          return $userdetails;
+        } else {
+          return false;
+        }
+    }
+    
+    public function webUserLogin($username,$password,$rememberme=0,$url="",$id="",$alias="",$use_captcha=0,$captcha_code="") {
+        // Performs user login and permissions assignment
+        // And combination of the following variables can be sent
+        // Defaults to current document
+        // $url   = and fully qualified URL (no validation performed)
+        // $id    = an existing document ID (no validation performed)
+        // $alias = any document alias (no validation performed)
+        
+        // include the crypto thing
+        include_once("./manager/includes/crypt.class.inc.php");
+        
+        // include_once the error handler
+        include_once("./manager/includes/error.class.inc.php");
+        $e = new errorHandler;
+        
+        if($use_captcha==1) {
+          if($_SESSION['veriword']!=$captcha_code) {
+            unset($_SESSION['veriword']);
+            $e->setError(905);
+            $e->dumpError();
+            $newloginerror = 1;
+          }
+        }
+        unset($_SESSION['veriword']);
+        
+        $username = htmlspecialchars($username);
+        $givenPassword = htmlspecialchars($password);
+        
+        $sql = "SELECT * FROM ".$this->db."web_users WHERE ".$this->db."web_users.username REGEXP BINARY '^".$username."$'";
+        $rs = $this->dbQuery($sql);
+        $limit = $this->recordCount($rs);
+        
+        if($limit==0 || $limit>1)
+        {
+            $e->setError(900);
+            $e->dumpError();
+        }
+        
+        $row = $this->fetchRow($rs);
+        
+        $_SESSION['shortname']         = $username;
+        $_SESSION['fullname']          = $row['firstName']." ".$row['lastName'];
+        $_SESSION['email']             = $row['email'];
+        $_SESSION['phone']             = $row['phone'];
+        $_SESSION['phone2']       = $row['phone2'];
+        $_SESSION['internalKey']       = $row['id'];
+        //$_SESSION['failedlogins']      = $row['failedlogincount'];
+        $_SESSION['lastlogin']         = $row['lastlogin'];
+        $_SESSION['role']              = $row['role'];
+        //$_SESSION['nrlogins']          = $row['logincount'];
+        
+        // fix this later
+        /*
+        if($row['failedlogincount']>=$this->config['max_attempts'] && $row['blockeduntil']>time())
+        {
+            session_destroy();
+            session_unset();
+            $e->setError(902);
+            $e->dumpError();
+        }
+        
+        if($row['failedlogincount']>=$this->config['max_attempts'] && $row['blockeduntil']<time())
+        {
+          $sql = "UPDATE ".$this->db."user_attributes SET failedlogincount='0', blockeduntil='".(time()-1)."' where internalKey=".$row['internalKey'].";";
+          $rs = $this->dbQuery($sql);
+        }
+        
+        if($row['blocked']=="1")
+        {
+          session_destroy();
+          session_unset();
+          $e->setError(903);
+          $e->dumpError();
+        }
+        
+        if($row['blockeduntil']>time())
+        {
+          session_destroy();
+          session_unset();
+          $e->setError(904);
+          $e->dumpError();
+        }
+        */
+        
+        if($row['password'] != md5($givenPassword))
+        {
+            session_destroy();
+            session_unset();
+            $e->setError(901);
+            $newloginerror = 1;
+            $e->dumpError();
+        }
+        
+        $sql="SELECT * FROM ".$this->db."web_user_roles where id=".$row['role'].";";
+        $rs = $this->dbQuery($sql);
+        $row = $this->fetchRow($rs);
+        //$_SESSION['permissions'] = $row;
+        //$_SESSION['frames'] = 0;
+        $_SESSION['validated'] = 1;
+        
+        // set last login
+        $sql = "UPDATE ".$this->db."web_users SET lastlogin=NOW() WHERE id=".$_SESSION['internalKey'];
+        $rs = $this->dbQuery($sql);
+        
+        if($url=="") {
+          $url = $this->makeURL($id,$alias);
+        }
+        $this->sendRedirect($url);
+    }
+        
+    public function webUserLogout($url="",$id="",$alias="") {
+        // Use the managers logout routine to end the current session
+        // And combination of the following variables can be sent
+        // Defaults to index.php in the current directory
+        // $url   = any fully qualified URL (no validation performed)
+        // $id    = an existing document ID (no validation performed)
+        // $alias = any document alias (no validation performed)
+        if($url == "") {
+          if($alias == "") {
+            $id = ($id != "") ? $id : $this->documentIdentifier;
+            $rs = $this->getDocument($id,'alias');
+            $alias = $rs['alias'];
+          } else {
+            $id = 0;
+          }
+          $url = $this->makeURL($id,$alias);
+        }
+        if($url != "") {
+          include_once("manager/processors/logout.processor.php");
+        }
+    }
 
-  function getSiteStats() {
+  public function getSiteStats() {
   // returns a single dimensional $key=>$value array of the visitor log totals
   // array $keys are  today, month, piDay, piMonth, piAll, viDay, viMonth, viAll, visDay, visMonth, visAll
   // today = date in YYYY-MM-DD format
@@ -1367,7 +1785,7 @@ title='$siteName'>$siteName</a></h2>
   // START: Database abstraction layer related functions
   //
 
-  function dbConnect() {
+  public function dbConnect() {
   // function to connect to the database
     $tstart = $this->getMicroTime();
     if(@!$this->rs = mysql_connect($this->dbConfig['host'], $this->dbConfig['user'], $this->dbConfig['pass'])) {
@@ -1386,7 +1804,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function dbQuery($query) {
+  public function dbQuery($query) {
     // function to query the database
     // check the connection and create it if necessary
     error_log($query);
@@ -1413,12 +1831,12 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function recordCount($rs) {
+  public function recordCount($rs) {
   // function to count the number of rows in a record set
     return mysql_num_rows($rs);
   }
 
-  function fetchRow($rs, $mode='assoc') {
+  public function fetchRow($rs, $mode='assoc') {
   // [0614] object mode added by Ralph
     if($mode=='assoc') {
       return mysql_fetch_assoc($rs);
@@ -1433,22 +1851,22 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function affectedRows() {
+  public function affectedRows() {
   // returns the number of rows affected by the last query
     return mysql_affected_rows($this->rs);
   }
 
-  function insertId() {
+  public function insertId() {
   // returns auto-increment id of the last insert
     return mysql_insert_id($this->rs);
   }
 
-  function dbClose() {
+  public function dbClose() {
   // function to close a database connection
     mysql_close($this->rs);
   }
 
-  function getIntTableRows($fields="*", $from="", $where="", $sort="", $dir="ASC", $limit="", $push=true, $addPrefix=true) {
+  public function getIntTableRows($fields="*", $from="", $where="", $sort="", $dir="ASC", $limit="", $push=true, $addPrefix=true) {
   // function to get rows from ANY internal database table
   // This function works much the same as the getDocuments() function. The main differences are that it will accept a table name and can use a LIMIT clause.
   // $fields = a comma delimited string: $fields="name,email,age"
@@ -1486,7 +1904,7 @@ title='$siteName'>$siteName</a></h2>
     return $resourceArray;
   }
 
-  function putIntTableRow($fields="", $into="", $addPrefix=true) {
+  public function putIntTableRow($fields="", $into="", $addPrefix=true) {
   // function to put a row into ANY internal database table
   // INSERT's a new table row into ANY internal Etomite database table. No data validation is performed.
   // $fields = a $key=>$value array: $fields=("name"=>$name,"email"=$email,"age"=>$age)
@@ -1514,7 +1932,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function updIntTableRows($fields="", $into="", $where="", $sort="", $dir="ASC", $limit="", $addPrefix=true) {
+  public function updIntTableRows($fields="", $into="", $where="", $sort="", $dir="ASC", $limit="", $addPrefix=true) {
   // function to update a row into ANY internal database table
   // $fields = a $key=>$value array: $fields=("name"=>$name,"email"=$email,"age"=>$age)
   // $into = name of the internal Etomite table which will receive the new data row without database name or table prefix: $into="user_messages"
@@ -1548,7 +1966,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function getExtTableRows($host="", $user="", $pass="", $dbase="", $fields="*", $from="", $where="", $sort="", $dir="ASC", $limit="", $push=true) {
+  public function getExtTableRows($host="", $user="", $pass="", $dbase="", $fields="*", $from="", $where="", $sort="", $dir="ASC", $limit="", $push=true) {
   // function to get table rows from an external MySQL database
   // Performance is identical to getIntTableRows plus additonal information regarding the external database.
   // $host is the hostname where the MySQL database is located: $host="localhost"
@@ -1582,7 +2000,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function putExtTableRow($host="", $user="", $pass="", $dbase="", $fields="", $into="") {
+  public function putExtTableRow($host="", $user="", $pass="", $dbase="", $fields="", $into="") {
   // function to update a row into an external database table
   // $host = hostname where the MySQL database is located: $host="localhost"
   // $user = MySQL username for the external MySQL database: $user="username"
@@ -1612,7 +2030,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function updExtTableRows($host="", $user="", $pass="", $dbase="", $fields="", $into="", $where="", $sort="", $dir="ASC", $limit="") {
+  public function updExtTableRows($host="", $user="", $pass="", $dbase="", $fields="", $into="", $where="", $sort="", $dir="ASC", $limit="") {
   // function to put a row into an external database table
   // INSERT's a new table row into an external database table. No data validation is performed.
   // $host = hostname where the MySQL database is located: $host="localhost"
@@ -1643,7 +2061,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function dbExtConnect($host, $user, $pass, $dbase) {
+  public function dbExtConnect($host, $user, $pass, $dbase) {
   // function used to connect to external database
   // This function is called by other functions and should not need to be called directly.
   // $host = hostname where the MySQL database is located: $host="localhost"
@@ -1664,7 +2082,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function dbExtQuery($host, $user, $pass, $dbase, $query) {
+  public function dbExtQuery($host, $user, $pass, $dbase, $query) {
   // function to query an external database
   // This function can be used to perform queries on any external MySQL database.
   // $host = hostname where the MySQL database is located: $host="localhost"
@@ -1689,7 +2107,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function intTableExists($table) {
+  public function intTableExists($table) {
   // Modified 2008-05-10 [v1.1] by Ralph to use FROM clause
   // function to determine whether or not a specific database table exists
   // $table = the table name, including prefix, to check for existence
@@ -1701,7 +2119,7 @@ title='$siteName'>$siteName</a></h2>
     return ($row = $this->fetchRow($rs)) ? true : false;
   }
 
-  function extTableExists($host, $user, $pass, $dbase, $table) {
+  public function extTableExists($host, $user, $pass, $dbase, $table) {
   // Added 2006-04-15 by Ralph Dahlgren
   // function to determine whether or not a specific database table exists
   // $host = hostname where the MySQL database is located: $host="localhost"
@@ -1719,7 +2137,7 @@ title='$siteName'>$siteName</a></h2>
   // END: Database abstraction layer related functions
   //
 
-  function getFormVars($method="",$prefix="",$trim="",$REQUEST_METHOD) {
+  public function getFormVars($method="",$prefix="",$trim="",$REQUEST_METHOD) {
   // function to retrieve form results into an associative $key=>$value array
   // This function is intended to be used to retrieve an associative $key=>$value array of form data which can be sent directly to the putIntTableRow() or putExttableRow() functions. This function performs no data validation. By utilizing $prefix it is possible to // retrieve groups of form results which can be used to populate multiple database tables. This funtion does not contain multi-record form capabilities.
   // $method = form method which can be POST or GET and is not case sensitive: $method="POST"
@@ -1749,7 +2167,7 @@ title='$siteName'>$siteName</a></h2>
     return $results;
   }
 
-  function arrayValuesToList($rs,$col) {
+  public function arrayValuesToList($rs,$col) {
   // Converts a column of a resultset array into a comma delimited list (col,col,col)
   // $rs = query resultset OR an two dimensional associative array
   // $col = the target column to compile into a comma delimited string
@@ -1768,7 +2186,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function mergeCodeVariables($content="",$rs="",$prefix="{",$suffix="}",$oddStyle="",$evenStyle="",$tag="") {
+  public function mergeCodeVariables($content="",$rs="",$prefix="{",$suffix="}",$oddStyle="",$evenStyle="",$tag="") {
   //  parses any string data for template tags and populates from a resultset or single associative array
   //  $content = the string data to be parsed
   //  $rs = the resultset or associateve array which contains the data to check for possible insertion
@@ -1797,7 +2215,7 @@ title='$siteName'>$siteName</a></h2>
     return $output;
   }
 
-  function getAuthorData($internalKey){
+  public function getAuthorData($internalKey){
   // returns a $key=>$value array of information from the user_attributes table
   // $internalKey which correlates with a documents createdby value.
   // Uasge: There are several ways in which this function can be called.
@@ -1826,7 +2244,7 @@ title='$siteName'>$siteName</a></h2>
   // Permissions and Authentication related functions
   //
 
-  function checkUserRole($action="",$user="",$id="") {
+  public function checkUserRole($action="",$user="",$id="") {
   //  determine document permissions for a user
   //  $action = any role action name (edit_document,delete_document,etc.)
   //  $user = user id or internalKey
@@ -1847,7 +2265,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function checkPermissions($id="")
+  public function checkPermissions($id="")
   {
   //  determines user permissions for the current document
   // Returns error on fialure.
@@ -1901,7 +2319,7 @@ title='$siteName'>$siteName</a></h2>
     return false;
   }
 
-  function userLogin($username,$password,$rememberme=0,$url="",$id="",$alias="",$use_captcha=0,$captcha_code="") {
+  public function userLogin($username,$password,$rememberme=0,$url="",$id="",$alias="",$use_captcha=0,$captcha_code="") {
   // Performs user login and permissions assignment
   // And combination of the following variables can be sent
   // Defaults to current document
@@ -1994,7 +2412,7 @@ title='$siteName'>$siteName</a></h2>
     return true;
   }
 
-  function userLogout($url="",$id="",$alias="") {
+  public function userLogout($url="",$id="",$alias="") {
   // Use the managers logout routine to end the current session
   // And combination of the following variables can be sent
   // Defaults to index.php in the current directory
@@ -2018,7 +2436,7 @@ title='$siteName'>$siteName</a></h2>
     }
   }
 
-  function getCaptchaNumber($length, $alt='Captcha Number', $title='Security Code') {
+  public function getCaptchaNumber($length, $alt='Captcha Number', $title='Security Code') {
   // returns a Captcha Number image to caller and stores value in $_SESSION['captchNumber']
   // $length = number of digits to return
   // $alt = alternate text if image cannot be displayed
@@ -2027,14 +2445,14 @@ title='$siteName'>$siteName</a></h2>
     return '<img src="./manager/includes/captchanumbers/captchaNumber.php?size='.$length.'" alt="'.$alt.'" title="'.$title.'" />';
   }
 
-  function validCaptchaNumber($number) {
+  public function validCaptchaNumber($number) {
   // returns Captcha Number validation back to caller - boolean (true|false)
   // $number = number entered by user for validation (example: $_POST['captchaNumber'])
     $result = (isset ($_SESSION['captchaNumber']) && $_SESSION['captchaNumber'] == $number) ? true : false;
     return $result;
   }
 
-  function getCaptchaCode($alt='CaptchaCode', $title='Security Code', $width="148", $height="80", $refresh=false) {
+  public function getCaptchaCode($alt='CaptchaCode', $title='Security Code', $width="148", $height="80", $refresh=false) {
   // returns a CaptchaCode image to caller and stores value in $_SESSION['captchCode']
   // $alt = alternate text if image cannot be displayed
   // $title = message to display for onhover event
@@ -2049,7 +2467,7 @@ title='$siteName'>$siteName</a></h2>
     return $code;
   }
 
-  function validCaptchaCode($captchaCode) {
+  public function validCaptchaCode($captchaCode) {
   // returns CaptchaCode validation back to caller - boolean (true|false)
   // $captchaCode = code entered by user for validation (example: $_POST['captchaCode'])
     $result = ($_SESSION['veriword'] == $captchaCode) ? true : false;
@@ -2060,10 +2478,428 @@ title='$siteName'>$siteName</a></h2>
   // END: Permissions and Authentication related functions
   //
 
+    public function parseChunkExtended($chunkFile='',$chunkType=true, $chunkArr, $prefix="{", $suffix="}") {
+    // returns chunk code with marker tags replaced with $key=>$value values
+    // $chunkFile = the filename or string chunk to be parsed
+    // $chunkType = flag for type: true=file, false=string; default of true
+    // $chunkArr = a single dimensional $key=>$value array of tags and values
+    // $prefix and $suffix = tag begin and end markers which can be customized when called
+    // Modified 2007-09-28 by Ralph to allow $key=>array($keys=>$values) to be
+    // sent which will be processed by looping through code wrapped within {tag}{/tag} pairs.
+    // Example: {tag}<tr><td>{col1}</td><td>{col2}</td></tr>{/tag}
+    if(!is_array($chunkArr) || count($chunkArr) < 1 || empty($chunkFile)) {
+      return false;
+    }
+    if($chunkType){
+        // file so grab it
+        if(!file_exists($chunkFile)){ return false; }
+        $chunk = file_get_contents($chunkFile);
+        
+    }else{
+        // string
+        $chunk = $chunkFile;
+    }
+    foreach($chunkArr as $key => $value)
+    {
+      if(!is_array($value))
+      {
+        $chunk = str_replace($prefix.$key.$suffix, $value, $chunk);
+      }
+      else
+      {
+        if(preg_match("|".$prefix.$key.$suffix."(.+)".$prefix.'/'.$key.$suffix."|s", $chunk, $match)
+        && count($value) > 0)
+        {
+          $loopData = '';
+          foreach($value as $row)
+          {
+            $loopTemp = $match['1'];
+            foreach($row as $loopKey => $loopValue)
+            {
+              $loopTemp = str_replace($prefix.$loopKey.$suffix, $loopValue, $loopTemp);
+            }
+            $loopData .= $loopTemp;
+          }
+          $chunk = str_replace($match['0'], $loopData, $chunk);
+        }
+      }
+    }
+    return $chunk;
+    }
+    
+    // set the class head and js and css code to the variable
+    public function setJSCSS($code){
+        if(!empty($code)){
+            $this->headJSCSS .= $code."\n";
+        }
+    }
+    
+    // add the js and css to the document
+    public function addJSCSS($content) {
+        if(!empty($this->headJSCSS)){
+            if(strpos($content, "</head>")>0) {
+              $content = str_replace("</head>", $this->headJSCSS."</head>", $content);
+            } elseif(strpos($content, "</HEAD>")>0) {
+              $content = str_replace("</HEAD>", $this->headJSCSS."</HEAD>", $content);
+            } else {
+              $content .= $this->headJSCSS;
+            }
+        }
+        $this->headJSCSS = '';
+        return $content;
+    }
+    
+    // set the key value for meta example $etomite->setMeta('title','This is my Title Text');
+    public function setMeta($key,$val){
+        $this->_meta[$key] = $val;
+    }
+    
+    public function addMeta($content){
+        if(count($this->_meta)>0 && !empty($this->_meta)){
+            $meta = '';
+            foreach($this->_meta as $key=>$val){
+                if($key == 'title'){
+                    $content = eregi_replace("<title[^>]*>.*</title>","",$content);
+                    if(!empty($this->config['site_name'])){
+                        $val = $this->config['site_name']." - ".$val;
+                    }
+                    $meta .= "<title>".htmlspecialchars($val)."</title>\n";
+                }else{
+                    $content = eregi_replace("<meta name=\"".$key."\"[^>]*>","",$content);
+                    $meta .= "<meta name='".$key."' content='".htmlspecialchars($val)."' />\n";
+                }
+            }
+            // add the meta to the head
+            if(!empty($meta)){
+                if(strpos($content, "<head>")>0) {
+                  $content = str_replace("<head>", "<head>\n".$meta,  $content);
+                } elseif(strpos($content, "<HEAD>")>0) {
+                  $content = str_replace("<HEAD>", "<HEAD>\n".$meta,  $content);
+                } else {
+                  $content .= $meta;
+                }
+            }
+            $this->_meta = '';
+            return $content;
+        }// end if for meta count
+        return $content;
+    }
+    
+    
+    public function setDefaultBreadCrumb(){
+        $sep = $this->bcSep;
+        $ptarr = array();
+        $pid = $this->documentObject['parent'];
+        $ptarr[] = "<a href='[~".$this->documentObject['id']."~]'>".$this->documentObject['pagetitle']."</a>";
+        
+        while ($parent=$this->getParent($pid)) {
+            $ptarr[] = "<a href='[~".$parent['id']."~]'>".$parent['pagetitle']."</a>";
+            $pid = $parent['parent'];
+        }
+        
+        // need to add the sitestart link
+        $sitestart = $this->getDocument($this->config['site_start']);
+        if(!empty($sitestart)){
+            $ptarr[] = "<a href='/'>".$sitestart['pagetitle']."</a>";
+        }
+        
+        $ptarr = array_reverse($ptarr);
+        $this->breadCrumbs[] = join($ptarr, $sep);
+    }
+    
+    // add to the system breadcrumb
+    public function setBreadCrumb($crumb){
+        if(!empty($crumb)){
+        $this->breadCrumbs[] = $crumb;
+        }
+    }
+    
+    // reset the system breadcrumb to empty
+    public function resetBreadCrumb(){
+        $this->breadCrumbs = array();
+    }
+    
+    public function setBreadCrumbSep($sep){
+        $this->bcSep = $sep;
+    }
+    
+    // add breadcrumb to the document content
+    public function addBreadCrumb($content){
+        if(!empty($this->breadCrumbs) && count($this->breadCrumbs)>0){
+            $crumbs = implode($this->bcSep,$this->breadCrumbs);
+            $content = str_replace("[+BreadCrumb+]",$crumbs,$content);
+        }else{
+            $content = str_replace("[+BreadCrumb+]","",$content);
+        }
+        $content = $this->rewriteUrls($content);
+        return $content;
+    }
+    
+    public function get_time_difference( $start, $end )
+    {
+        $uts['start']      =    strtotime( $start );
+        $uts['end']        =    strtotime( $end );
+        if( $uts['start']!==-1 && $uts['end']!==-1 )
+        {
+            if( $uts['end'] >= $uts['start'] )
+            {
+                $diff    =    $uts['end'] - $uts['start'];
+                if( $days=intval((floor($diff/86400))) )
+                    $diff = $diff % 86400;
+                if( $hours=intval((floor($diff/3600))) )
+                    $diff = $diff % 3600;
+                if( $minutes=intval((floor($diff/60))) )
+                    $diff = $diff % 60;
+                $diff    =    intval( $diff );
+                return( array('days'=>$days, 'hours'=>$hours, 'minutes'=>$minutes, 'seconds'=>$diff) );
+            }
+            else
+            {
+                trigger_error( "Ending date/time is earlier than the start date/time", E_USER_WARNING );
+            }
+        }
+        else
+        {
+            trigger_error( "Invalid date/time data detected", E_USER_WARNING );
+        }
+        return( false );
+    }
+    
+    // returns an array with the multi dimensional arra of parent -> children
+    public function generateDocTree($id=0, $orderby="menuindex", $sortDir="ASC"){
+        
+        $parents = $this->getAllChildren($docId=$id, $orderby, $sortDir, $fields='id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu', '', true);
+        $tree = array();
+        if ($parents && count($parents) > 0) {
+            if ($id == 0) {
+                $root[0]['title'] = $this->config['site_name'];
+                $root[0]['key'] = 'id_0';
+                $root[0]['tooltip'] = "Root Site";
+                $root[0]['isfolder'] = 1;
+                $root[0]['expand'] = true;
+                $root[0]['icon'] = 'globe.gif';
+            }
+            
+            for ($i=0; $i < count($parents); $i++) {
+                $p = $parents[$i];
+                $tree[$i]['title'] = $p['pagetitle'] . " (" . $p['id'] . ")";
+                $tree[$i]['key'] = "id_".$p['id'];
+                $tree[$i]['docUrl'] = $this->makeUrl($p['id']);
+                $tree[$i]['tooltip'] = "Alias: " . $p['alias'] . " - Menu index: " . $p['menuindex'];
+                $tree[$i]['showinmenu'] = $p['showinmenu'];
+                $tree[$i]['published'] = $p['published'];
+                $tree[$i]['deleted'] = $p['deleted'];
+                $tree[$i]['weblink'] = ($p['type'] == 'reference') ? true : false;
+                if ($p['isfolder'] == 1) {
+                    $tree[$i]['isFolder'] = true;
+                }
+                if ($p['type'] == 'reference') {
+                    if ($p['isfolder']==1) {
+                        $tree[$i]['icon'] = 'weblinkfolder.gif';
+                        if ($p['deleted'] == 1) {
+                            $tree[$i]['icon'] = 'deletedweblinkfolder.gif';
+                        }
+                        if ($p['published'] == 0) {
+                            $tree[$i]['icon'] = 'unpublishedweblinkfolder.gif';
+                        }
+                    } else {
+                        $tree[$i]['icon'] = 'weblink.gif';
+                        if ($p['deleted'] == 1) {
+                            $tree[$i]['icon'] = 'deletedweblink.gif';
+                        }
+                        if ($p['published'] == 0) {
+                            $tree[$i]['icon'] = 'unpublishedweblink.gif';
+                        }
+                    }
+                } else {
+                    if ($p['isfolder']==1) {
+                        if ($p['deleted'] == 1) {
+                            $tree[$i]['icon'] = 'deletedfolder.gif';
+                        }
+                        if ($p['published'] == 0) {
+                            $tree[$i]['icon'] = 'unpublishedfolder.gif';
+                        }
+                    } else {
+                        if ($p['deleted'] == 1) {
+                            $tree[$i]['icon'] = 'deletedpage.gif';
+                        }
+                        if ($p['published'] == 0) {
+                            $tree[$i]['icon'] = 'unpublishedpage.gif';
+                        }
+                    }
+                }
+                if($children = $this->generateDocTree($p['id'])) {
+                    if(count($children) > 0) {
+                        $tree[$i]['children'] = $children;
+                    }
+                }
+            }
+            if ($id == 0) {
+                $root[0]['children'] = $tree;
+                return $root;
+            } else {
+                return $tree;
+            }
+        }
+        return false;
+    }
+    
+	/*
+     * Send Message to user from the messages system
+     */
+    
+    public function sendMessageToUser($to = array(), $message) {
+        if(empty($to) || !is_array($to) || empty($message)) {
+            return false;
+        }
+        $curUser = $this->getUser($_SESSION['internalKey']);
+        require_once(MANAGER_PATH."/lib/phpmailer/class.phpmailer.php");
+        $mail = new PHPMailer();
+        
+        $mail->IsMail();      // telling the class to use PHP's Mail()
+        $mail->AddReplyTo('nobody@yourdomain.com', 'Nobody');
+        $mail->From       = $this->config['emailsender'];
+        $mail->FromName   = $this->config['site_name'];
+        
+        foreach($to as $r) {
+            $mail->AddAddress($r['email'], $r['name']);
+        }
+        
+        $mail->Subject  = "You Have a Message!";
+        $mail->AltBody = html_entity_decode($message);
+        $mail->WordWrap = 80;
+        $mail->MsgHTML($message);
+        
+        try {
+            if ( !$mail->Send() ) {
+              $error = "Unable to send to: " . print_r($to, 1) . "<br />";
+              throw new phpmailerAppException($error);
+            }
+            return true;
+        }
+        catch (phpmailerAppException $e) {
+            $errorMsg[] = $e->errorMessage();
+        }
+        return false;
+    }
+    
+    public function evalModules($content) {
+        /*
+         * $matches contains the module info.
+         * $matches[2][0] contains the module info we need to pass
+         */
+        preg_match_all("/(\[module\])(.*?)(\[\/module\])/", $content, $matches);
+        if (count($matches) > 0) {
+            foreach ($matches[2] as $match) {
+                $mod = $match;
+                $params = '';
+                $spos = strpos($mod, '?', 0);
+                if ($spos !== false) {
+                    $params = substr($mod, $spos, strlen($mod));
+                    $mod = str_replace($params, '', $mod);
+                }
+                $parts = explode("/", $mod);
+                $module = (isset($parts[0]) && !empty($parts[0])) ? $parts[0]:'';
+                $action = (isset($parts[1]) && !empty($parts[1])) ? $parts[1]:'';
+                if (!empty($module)) {
+                    // run the module here..
+                    $moduleOutput = $this->runModule($module, $action, $params);
+                    // now replace module
+                    $content = str_replace("[module]".$match."[/module]", $moduleOutput, $content);
+                }
+            }
+        }
+        return $content;
+    }
+    /*
+     * $module is the module name
+     * $action is the module function you would like to access
+     * $params is a key=>val pair (example: ?id=5&name=Jeff)
+     *
+     * to use the params, it is suggested that you pass the params to the class when
+     * initializing it. (example: $module = new Module($moduleParams);) and then
+     * set them to a variable such as $classParams
+     */
+    public function runModule($module, $action='', $params=''){
+        $etomite = $this;
+        require_once(absolute_base_path . 'modules/module.php');
+        $moduleClass = new module; // start the module for basic function
+        $moduleOutput = '';
+        ob_start();
+        if (!isset($action) || empty($action) && (isset($_REQUEST['action']) && !empty($_REQUEST['action']))) {
+            $action = $_REQUEST['action'];
+        }
+        if(file_exists(absolute_base_path . 'modules/' . $module . "/" . $module . ".php")) {
+            $tempParams = str_replace("?", "", $params);
+            $splitter = strpos($tempParams, "&amp;")>0 ? "&amp;" : "&";
+            $tempParams = explode($splitter, $tempParams);
+            $moduleParams = array();
+            foreach ($tempParams as $p) {
+                $pPart = explode("=", $p);
+                $moduleParams[$pPart[0]] = $pPart[1];
+            }
+            require_once (absolute_base_path . 'modules/' . $module . "/" . $module . ".php");
+            $moduleOutput = ob_get_clean();
+        }
+        return $moduleOutput;
+    }
+    
+    public function buildAdminModuleMenu() {
+        // grab modules list
+        $xmlUrl = absolute_base_path . "modules/modules.xml"; // XML feed file/URL
+        $xmlStr = file_get_contents($xmlUrl);
+        $xmlObj = simplexml_load_string($xmlStr);
+        $arrXml = objectsIntoArray($xmlObj);
+        $output = '<ul>';
+        foreach($arrXml as $key=>$val) {
+            if ($val['active'] == 'true') {
+                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"".$key."\");' href='javascript:;'>" . $val['name'] . "</a></li>";
+            }
+        }
+        $output .= "</ul>";
+        return $output;
+    }
+    
+    public function checkManagerLogin() {
+        if(!$this->userLoggedIn()) {
+            echo "<script>window.top.location.href='".MANAGER_URL."';</script>";
+            exit(0);
+        }
+    }
+    
+    public function formatTVOutput($value, $output='text', $opts) {
+        if (empty($value)) { return ""; }
+        
+        switch($output) {
+            case 'text':
+            default:
+                return $value;
+                break;
+            case 'image':
+                return "<img src='".$value."' ".$opts." />";
+                break;
+            case 'link':
+                return "<a href='".$value."' ".$opts.">".$value."</a>";
+                break;
+            case 'date':
+                return $value; // to do later
+                break;
+        }
+        return "";
+    }
+
 /***************************************************************************************/
 /* END: Etomite API functions
 /***************************************************************************************/
 
 // End of etomite class.
 }
+
+class phpmailerAppException extends Exception {
+    public function errorMessage() {
+        $errorMsg = '<strong>' . $this->getMessage() . "</strong><br />";
+        return $errorMsg;
+    }
+}
+
 ?>

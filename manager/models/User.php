@@ -4,7 +4,7 @@ if (!defined(CONFIG_LOADED)) {
     include('includes/bootstrap.php');
 }
 
-class User extends etomiteExtender {
+class User extends etomite {
     public $lastId = false;
     public $errors;
     

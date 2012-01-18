@@ -11,6 +11,10 @@ body {
   padding:0;
 }
 
+#loginPage {
+    background: #FFF url(../images/raven_wind.png) no-repeat center bottom;
+}
+
 #tocText {
   float:right;
   margin: 5px 10px;

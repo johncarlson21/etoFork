@@ -13,7 +13,7 @@ class ActionServer extends Ajax {
     }
     
     public function loadWelcome() {
-        $etomite = new etomiteExtender();
+        $etomite = new etomite();
         $_lang = $etomite->_lang;
         include('views/welcome.phtml');
     }
@@ -23,7 +23,7 @@ class ActionServer extends Ajax {
             'username',
             'password'
         ));
-        $etomite = new etomiteExtender();
+        $etomite = new etomite();
         $username = $_REQUEST['username']; // this gets escaped in the function
         $password = $_REQUEST['password']; // this gets escaped in the function
         
@@ -36,7 +36,7 @@ class ActionServer extends Ajax {
     }
     
     public function getDocTree() {
-        $etomite = new etomiteExtender();
+        $etomite = new etomite();
         $documents = $etomite->generateDocTree();
         echo json_encode($documents);
         exit(0);
@@ -172,7 +172,7 @@ class ActionServer extends Ajax {
     }
     
     public function loadSystemInfo() { // need to fix
-        $etomite = new etomiteExtender();
+        $etomite = new etomite();
         include('views/system_info.phtml');
     }
     
@@ -194,12 +194,12 @@ class ActionServer extends Ajax {
     }
     
     public function loadHelp() { // need to fix
-        $etomite = new etomiteExtender();
+        $etomite = new etomite();
         include_once('views/help.phtml');
     }
     
     public function loadAbout() { // need to fix
-        $etomite = new etomiteExtender();
+        $etomite = new etomite();
         include_once('views/about.phtml');
     }
     
@@ -260,7 +260,7 @@ class ActionServer extends Ajax {
     public function createSection() {
         $this->validateRequest('name','description','section_type');
         $Resource = new Resource();
-        if ($Resource->createSection($_REQUEST['name'], $_REQUEST['descriptoin'], $_REQUEST['section_type'])) {
+        if ($Resource->createSection($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['section_type'])) {
             $this->respond(true, 'created');
         } else {
             $this->respond(false, 'not created');
@@ -410,8 +410,26 @@ class ActionServer extends Ajax {
     
     public function manageModule() {
         $this->validateRequest(array('mod'));
-        $System = new System();
-        $System->manageModule();
+        /*$System = new System();
+        $System->manageModule();*/
+        //require_once(absolute_base_path . 'modules/module.php');
+        //$moduleClass = new module; // start the module for basic function
+        
+        if(isset($_REQUEST['mod']) && !empty($_REQUEST['mod']) && file_exists(absolute_base_path . "modules/" . $_REQUEST['mod'])){
+            if(!isset($_REQUEST['moduleAction'])) {
+                $_REQUEST['moduleAction'] = 'adminView';
+            }
+            $module = $_REQUEST['mod'];
+            // load module config
+            $xmlUrl = "../modules/" . $module . "/" . $module . ".xml"; // XML feed file/URL
+            $xmlStr = file_get_contents($xmlUrl);
+            $xmlObj = simplexml_load_string($xmlStr);
+            $arrXml = objectsIntoArray($xmlObj);
+            $var_name = $module . "Config";
+            ${$var_name} = $arrXml; //simplexml_load_string($xmlStr);
+            // load module
+            require_once (absolute_base_path . 'modules/' . $module . "/" . $module . "_admin.php");
+        }
     }
     
     public function showVisitorStats() {

@@ -1,10 +1,10 @@
 <?php
 if (!defined(CONFIG_LOADED)) {
     define("IN_ETOMITE_SYSTEM", true);
-    include('includes/bootstrap.php');
+    include_once('includes/bootstrap.php');
 }
 
-class System extends etomiteExtender {
+class System extends etomite {
     var $settingsFields;
     
     public function __construct() {

@@ -5,7 +5,7 @@ if (!defined(CONFIG_LOADED)) {
 }
 
 
-class Resource extends etomiteExtender {
+class Resource extends etomite {
     public $lastId = false;
     
     public function __construct() {

@@ -15,7 +15,7 @@
 error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
 ini_set('log_errors', 1);
-ini_set('error_log', '/tmp/etofork.errors');
+ini_set('error_log', $_SERVER['DOCUMENT_ROOT'].'/tmp/etofork.errors');
 ini_set('display_errors', 1);
 ini_set('track_errors', 'On');
 ini_set('ignore_repeated_errors','On');

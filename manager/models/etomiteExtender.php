@@ -27,14 +27,14 @@ class etomiteExtender extends etomite {
     public $documentTVs = array();
     public $parseAgain = true;
     
-    function __construct(){
-        $this->dbConfig['host'] = $GLOBALS['database_server'];
+    public function __construct(){
+        /*$this->dbConfig['host'] = $GLOBALS['database_server'];
         $this->dbConfig['dbase'] = $GLOBALS['dbase'];
         $this->dbConfig['user'] = $GLOBALS['database_user'];
         $this->dbConfig['pass'] = $GLOBALS['database_password'];
         $this->dbConfig['table_prefix'] = $GLOBALS['table_prefix'];
         $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];
-        $this->_lang = $GLOBALS['_lang'];
+        $this->_lang = $GLOBALS['_lang'];*/
 
         $this->runStandalone();
     }

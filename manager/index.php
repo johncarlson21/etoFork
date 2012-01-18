@@ -54,7 +54,7 @@ include_once("./models/etomite.class.php");
 
 startCMSSession();
 
-$etomite = new etomiteExtender;
+$etomite = new etomite;
 
 if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 1) {
     $etomite->userLogout();

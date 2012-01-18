@@ -4,7 +4,7 @@ if (!defined(CONFIG_LOADED)) {
     include('includes/bootstrap.php');
 }
 
-class Content extends etomiteExtender {
+class Content extends etomite {
     
     var $id;
     
