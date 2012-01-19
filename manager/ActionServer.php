@@ -408,30 +408,6 @@ class ActionServer extends Ajax {
         }
     }
     
-    public function manageModule() {
-        $this->validateRequest(array('mod'));
-        /*$System = new System();
-        $System->manageModule();*/
-        //require_once(absolute_base_path . 'modules/module.php');
-        //$moduleClass = new module; // start the module for basic function
-        
-        if(isset($_REQUEST['mod']) && !empty($_REQUEST['mod']) && file_exists(absolute_base_path . "modules/" . $_REQUEST['mod'])){
-            if(!isset($_REQUEST['moduleAction'])) {
-                $_REQUEST['moduleAction'] = 'adminView';
-            }
-            $module = $_REQUEST['mod'];
-            // load module config
-            $xmlUrl = "../modules/" . $module . "/" . $module . ".xml"; // XML feed file/URL
-            $xmlStr = file_get_contents($xmlUrl);
-            $xmlObj = simplexml_load_string($xmlStr);
-            $arrXml = objectsIntoArray($xmlObj);
-            $var_name = $module . "Config";
-            ${$var_name} = $arrXml; //simplexml_load_string($xmlStr);
-            // load module
-            require_once (absolute_base_path . 'modules/' . $module . "/" . $module . "_admin.php");
-        }
-    }
-    
     public function showVisitorStats() {
         $System = new System();
         $System->showVisitorStats();

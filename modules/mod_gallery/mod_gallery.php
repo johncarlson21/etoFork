@@ -1,8 +1,7 @@
 <?php
 
-class mod_gallery extends module {
+class mod_gallery extends etomite {
     var $classParams = array();
-    var $etomite;
     var $moduleConfig; // main var passed from module xml file for basic config info
     var $thumbnail_widths = array(120,207,800); // 120 = thumb, 212 = slide for front (height will be 266 and use the zc=C crop function), 640 = full image size
     var $slideWidth = 207; // should be the same as the second thumbnail_width size
@@ -26,10 +25,10 @@ class mod_gallery extends module {
     
     // show the gallery
     public function index() {
-        $this->etomite->setJSCSS('<script type="text/javascript" src="/manager/frames/scriptaculous/prototype.js" ></script>');
-        $this->etomite->setJSCSS('<script type="text/javascript" src="/manager/frames/scriptaculous/scriptaculous.js" ></script>');
-        $this->etomite->setJSCSS("<link rel='stylesheet' href='/assets/js/lightbox/lightbox.css' type='text/css' media='screen' />");
-        $this->etomite->setJSCSS("<script type='text/javascript' src='/assets/js/lightbox/lightbox-pt-1.6-compat.js'></script>");
+        $this->setJSCSS('<script type="text/javascript" src="/manager/frames/scriptaculous/prototype.js" ></script>');
+        $this->setJSCSS('<script type="text/javascript" src="/manager/frames/scriptaculous/scriptaculous.js" ></script>');
+        $this->setJSCSS("<link rel='stylesheet' href='/assets/js/lightbox/lightbox.css' type='text/css' media='screen' />");
+        $this->setJSCSS("<script type='text/javascript' src='/assets/js/lightbox/lightbox-pt-1.6-compat.js'></script>");
         $dir = $this->dir;
         $www = $this->www;
         $orig = "original/"; // original image dir
@@ -45,7 +44,7 @@ class mod_gallery extends module {
         
         // check db for gallery images
         
-        if($result = $this->etomite->getIntTableRows($fields="*",$from="831gallery_items",$where='galId='.$galId,$sort='gal_order',$dir='ASC')){
+        if($result = $this->getIntTableRows($fields="*",$from="831gallery_items",$where='galId='.$galId,$sort='gal_order',$dir='ASC')){
         	
         	$z=1;
         	$output .= "<table width='100%' cellpadding='5' class='gallery-table'>\n";

@@ -2,7 +2,7 @@
 /* the module_admin.php file must extend the main System class
  * this allows the module to take on the system vars (to access the etomite functions)
  * actions can be called to the ActionServer.php file in a _GET format like this:
- * domain.com/manager/modules/module.php?action=manageModule&mod=module_name&moduleAction=hello&param1=xxx&param2=xxx
+ * domain.com/modules/module.php?action=manageModule&mod=module_name&moduleAction=hello&param1=xxx&param2=xxx
  * this can be done with JS by using your own ajax calls, and then sending the response to Etomite.loadPane(response);
  * to load the content in the pane
  */
@@ -10,9 +10,11 @@
 class mod_test_admin extends etomite {
     
     var $moduleConfig; // main var passed from module xml file for basic config info
+    var $moduleDir; // used for includes
     
     public function __construct() {
         parent::__construct();
+        $this->moduleDir = dirname(__FILE__);
     }
     
     public function adminView() { // this is the default admin view page.

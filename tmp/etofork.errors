@@ -3220,3 +3220,189 @@ The Management
 [19-Jan-2012 11:32:59] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening '/home/jcwebsol/public_html/etofork/modules/manager/models/etomite.class.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/jcwebsol/public_html/etofork/manager/includes/bootstrap.php on line 26
 [19-Jan-2012 11:33:42] PHP Warning:  include_once(/home/jcwebsol/public_html/etofork/modules/manager/models/etomite.class.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/manager/includes/bootstrap.php on line 28
 [19-Jan-2012 11:33:42] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening '/home/jcwebsol/public_html/etofork/modules/manager/models/etomite.class.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/jcwebsol/public_html/etofork/manager/includes/bootstrap.php on line 28
+[19-Jan-2012 13:17:48] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:17:48] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:17:48] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:17:48] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199' AND entry='1'
+[19-Jan-2012 13:17:48] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999' AND entry='1'
+[19-Jan-2012 13:17:48] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE entry='1'
+[19-Jan-2012 13:17:48] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:17:48] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:17:48] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:17:48] SELECT id, pagetitle, description FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.deleted=0 AND (`jcwebsol_etofork`.etomite_site_content.editedby=1 OR `jcwebsol_etofork`.etomite_site_content.createdby=1) ORDER BY editedon DESC LIMIT 10;
+[19-Jan-2012 13:17:48] SELECT * FROM `jcwebsol_etofork`.etomite_active_users WHERE `jcwebsol_etofork`.etomite_active_users.lasthit > '1326999468' ORDER BY username ASC
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=0  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=1  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=10  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=7  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=8  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=2  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=11  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=9  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:17:51] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=5  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:24:48] PHP Parse error:  syntax error, unexpected '(', expecting ',' or ';' in /home/jcwebsol/public_html/etofork/modules/mod_test/mod_test_admin.php on line 13
+[19-Jan-2012 13:25:39] INSERT INTO `jcwebsol_etofork`.etomite_log_access(visitor, document, timestamp, hour, weekday, referer, entry) VALUES('-1288155704', '11', '1327001139', '13', '4', '-226132139', '1')
+[19-Jan-2012 13:25:39] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_visitors WHERE id='-1288155704'
+[19-Jan-2012 13:25:39] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_user_agents WHERE id='1442954914'
+[19-Jan-2012 13:25:39] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_operating_systems WHERE id='57747299'
+[19-Jan-2012 13:25:39] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_hosts WHERE id='245956457'
+[19-Jan-2012 13:25:39] REPLACE INTO `jcwebsol_etofork`.etomite_log_referers(id, data) VALUES('-226132139', 'Internal')
+[19-Jan-2012 13:25:40] SELECT today, month FROM `jcwebsol_etofork`.etomite_log_totals LIMIT 1
+[19-Jan-2012 13:25:40] UPDATE `jcwebsol_etofork`.etomite_log_totals SET today='2012-01-19', piDay=0, viDay=0, visDay=0
+[19-Jan-2012 13:25:40] UPDATE `jcwebsol_etofork`.etomite_log_totals SET piDay=piDay+1, piMonth=piMonth+1, piAll=piAll+1
+[19-Jan-2012 13:25:40] UPDATE `jcwebsol_etofork`.etomite_log_totals SET viDay=viDay+1, viMonth=viMonth+1, viAll=viAll+1
+[19-Jan-2012 13:25:40] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:25:40] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1327039199'
+[19-Jan-2012 13:25:40] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:25:40] UPDATE `jcwebsol_etofork`.etomite_log_totals SET visDay=1, visMonth=3, visAll=11
+[19-Jan-2012 13:25:40] SELECT * FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.id = '11';
+[19-Jan-2012 13:25:40] SELECT tvv.*, tv.field_name, tv.output_type, tv.opts, tvt.template_id FROM `jcwebsol_etofork`.etomite_site_content_tv_val tvv LEFT JOIN `jcwebsol_etofork`.etomite_template_variables tv ON tvv.tv_id=tv.tv_id LEFT JOIN `jcwebsol_etofork`.etomite_template_variable_templates tvt ON tvt.tv_id=tv.tv_id WHERE tvv.doc_id=11 AND tvt.template_id=1
+[19-Jan-2012 13:25:40] SELECT id, pagetitle, description, alias, parent FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.id=2 AND `jcwebsol_etofork`.etomite_site_content.published=1 AND `jcwebsol_etofork`.etomite_site_content.deleted=0
+[19-Jan-2012 13:25:40] SELECT * FROM `jcwebsol_etofork`.etomite_site_content WHERE id=1  ;
+[19-Jan-2012 13:25:40] SELECT id, pagetitle, description, parent, alias FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=0 AND `jcwebsol_etofork`.etomite_site_content.published=1 AND `jcwebsol_etofork`.etomite_site_content.deleted=0 AND `jcwebsol_etofork`.etomite_site_content.showinmenu=1 ORDER BY menuindex ASC ;
+[19-Jan-2012 13:26:28] INSERT INTO `jcwebsol_etofork`.etomite_log_access(visitor, document, timestamp, hour, weekday, referer, entry) VALUES('-1288155704', '11', '1327001188', '13', '4', '-226132139', '0')
+[19-Jan-2012 13:26:28] REPLACE INTO `jcwebsol_etofork`.etomite_log_referers(id, data) VALUES('-226132139', 'Internal')
+[19-Jan-2012 13:26:28] SELECT today, month FROM `jcwebsol_etofork`.etomite_log_totals LIMIT 1
+[19-Jan-2012 13:26:28] UPDATE `jcwebsol_etofork`.etomite_log_totals SET piDay=piDay+1, piMonth=piMonth+1, piAll=piAll+1
+[19-Jan-2012 13:26:28] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:26:28] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1327039199'
+[19-Jan-2012 13:26:28] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:26:28] UPDATE `jcwebsol_etofork`.etomite_log_totals SET visDay=1, visMonth=3, visAll=11
+[19-Jan-2012 13:26:28] SELECT * FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.id = '11';
+[19-Jan-2012 13:26:28] SELECT tvv.*, tv.field_name, tv.output_type, tv.opts, tvt.template_id FROM `jcwebsol_etofork`.etomite_site_content_tv_val tvv LEFT JOIN `jcwebsol_etofork`.etomite_template_variables tv ON tvv.tv_id=tv.tv_id LEFT JOIN `jcwebsol_etofork`.etomite_template_variable_templates tvt ON tvt.tv_id=tv.tv_id WHERE tvv.doc_id=11 AND tvt.template_id=1
+[19-Jan-2012 13:26:28] SELECT id, pagetitle, description, alias, parent FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.id=2 AND `jcwebsol_etofork`.etomite_site_content.published=1 AND `jcwebsol_etofork`.etomite_site_content.deleted=0
+[19-Jan-2012 13:26:28] SELECT * FROM `jcwebsol_etofork`.etomite_site_content WHERE id=1  ;
+[19-Jan-2012 13:26:28] SELECT id, pagetitle, description, parent, alias FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=0 AND `jcwebsol_etofork`.etomite_site_content.published=1 AND `jcwebsol_etofork`.etomite_site_content.deleted=0 AND `jcwebsol_etofork`.etomite_site_content.showinmenu=1 ORDER BY menuindex ASC ;
+[19-Jan-2012 13:31:25] PHP Warning:  include_once(includes/bootstrap.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/manager/models/System.php on line 4
+[19-Jan-2012 13:31:25] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening 'includes/bootstrap.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/jcwebsol/public_html/etofork/manager/models/System.php on line 4
+[19-Jan-2012 13:31:25] PHP Fatal error:  Call to undefined method mod_gallery_admin::checkLogin() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/mod_gallery_admin.php on line 38
+[19-Jan-2012 13:35:11] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries  ORDER BY name ASC ;
+[19-Jan-2012 13:35:14] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:35:14] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:35:17] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:35:17] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:35:17] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:35:17] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199' AND entry='1'
+[19-Jan-2012 13:35:17] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999' AND entry='1'
+[19-Jan-2012 13:35:17] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE entry='1'
+[19-Jan-2012 13:35:17] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:35:17] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:35:17] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:35:17] SELECT id, pagetitle, description FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.deleted=0 AND (`jcwebsol_etofork`.etomite_site_content.editedby=1 OR `jcwebsol_etofork`.etomite_site_content.createdby=1) ORDER BY editedon DESC LIMIT 10;
+[19-Jan-2012 13:35:18] SELECT * FROM `jcwebsol_etofork`.etomite_active_users WHERE `jcwebsol_etofork`.etomite_active_users.lasthit > '1327000517' ORDER BY username ASC
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=0  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=1  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=10  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=7  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=8  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=2  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=11  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=9  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:35:24] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=5  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:14] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:48:14] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:48:14] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:48:14] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199' AND entry='1'
+[19-Jan-2012 13:48:14] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999' AND entry='1'
+[19-Jan-2012 13:48:14] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE entry='1'
+[19-Jan-2012 13:48:14] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:48:14] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:48:14] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:48:14] SELECT id, pagetitle, description FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.deleted=0 AND (`jcwebsol_etofork`.etomite_site_content.editedby=1 OR `jcwebsol_etofork`.etomite_site_content.createdby=1) ORDER BY editedon DESC LIMIT 10;
+[19-Jan-2012 13:48:14] SELECT * FROM `jcwebsol_etofork`.etomite_active_users WHERE `jcwebsol_etofork`.etomite_active_users.lasthit > '1327001294' ORDER BY username ASC
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=0  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=1  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=10  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=7  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=8  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=2  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=11  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=9  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:17] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=5  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:48:18] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries  ORDER BY name ASC ;
+[19-Jan-2012 13:48:20] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:48:20] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:48:23] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1  ;
+[19-Jan-2012 13:48:38] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:48:38] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:48:38] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:48:38] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199' AND entry='1'
+[19-Jan-2012 13:48:38] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999' AND entry='1'
+[19-Jan-2012 13:48:38] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE entry='1'
+[19-Jan-2012 13:48:38] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:48:38] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:48:38] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:48:38] SELECT id, pagetitle, description FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.deleted=0 AND (`jcwebsol_etofork`.etomite_site_content.editedby=1 OR `jcwebsol_etofork`.etomite_site_content.createdby=1) ORDER BY editedon DESC LIMIT 10;
+[19-Jan-2012 13:48:38] SELECT * FROM `jcwebsol_etofork`.etomite_active_users WHERE `jcwebsol_etofork`.etomite_active_users.lasthit > '1327001318' ORDER BY username ASC
+[19-Jan-2012 13:49:46] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:49:46] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:49:46] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:49:46] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199' AND entry='1'
+[19-Jan-2012 13:49:46] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999' AND entry='1'
+[19-Jan-2012 13:49:46] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE entry='1'
+[19-Jan-2012 13:49:46] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:49:46] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:49:46] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:49:46] SELECT id, pagetitle, description FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.deleted=0 AND (`jcwebsol_etofork`.etomite_site_content.editedby=1 OR `jcwebsol_etofork`.etomite_site_content.createdby=1) ORDER BY editedon DESC LIMIT 10;
+[19-Jan-2012 13:49:46] SELECT * FROM `jcwebsol_etofork`.etomite_active_users WHERE `jcwebsol_etofork`.etomite_active_users.lasthit > '1327001386' ORDER BY username ASC
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=0  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=1  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=10  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=7  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=8  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=2  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=11  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=9  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:48] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=5  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:49:50] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries  ORDER BY name ASC ;
+[19-Jan-2012 13:49:55] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:49:55] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:49:57] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1  ;
+[19-Jan-2012 13:50:05] PHP Fatal error:  Call to undefined method module::editItem() in /home/jcwebsol/public_html/etofork/modules/module.php on line 81
+[19-Jan-2012 13:50:43] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries  ORDER BY name ASC ;
+[19-Jan-2012 13:50:46] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:50:46] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:50:47] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1  ;
+[19-Jan-2012 13:50:52] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1  ;
+[19-Jan-2012 13:51:04] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1  ;
+[19-Jan-2012 13:51:14] PHP Fatal error:  Call to undefined method mod_gallery_admin::validateRequest() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/mod_gallery_admin.php on line 252
+[19-Jan-2012 13:52:23] UPDATE `jcwebsol_etofork`.etomite_831gallery_items SET `title`='a little bee new',`description`='this is a nice little bee new description',`slide`=1 WHERE id=1  ;
+[19-Jan-2012 13:52:23] PHP Fatal error:  Call to undefined method mod_gallery_admin::respond() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/mod_gallery_admin.php on line 257
+[19-Jan-2012 13:52:55] UPDATE `jcwebsol_etofork`.etomite_831gallery_items SET `title`='a little bee new',`description`='this is a nice little bee new description',`slide`=1 WHERE id=1  ;
+[19-Jan-2012 13:52:57] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:52:57] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:55:35] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:55:35] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:55:35] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:55:35] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199' AND entry='1'
+[19-Jan-2012 13:55:35] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999' AND entry='1'
+[19-Jan-2012 13:55:35] SELECT COUNT(*) FROM `jcwebsol_etofork`.etomite_log_access WHERE entry='1'
+[19-Jan-2012 13:55:35] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1326952800' AND timestamp < '1327039199'
+[19-Jan-2012 13:55:35] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access WHERE timestamp > '1325397600' AND timestamp < '1328075999'
+[19-Jan-2012 13:55:35] SELECT COUNT(DISTINCT(visitor)) FROM `jcwebsol_etofork`.etomite_log_access
+[19-Jan-2012 13:55:35] SELECT id, pagetitle, description FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.deleted=0 AND (`jcwebsol_etofork`.etomite_site_content.editedby=1 OR `jcwebsol_etofork`.etomite_site_content.createdby=1) ORDER BY editedon DESC LIMIT 10;
+[19-Jan-2012 13:55:35] SELECT * FROM `jcwebsol_etofork`.etomite_active_users WHERE `jcwebsol_etofork`.etomite_active_users.lasthit > '1327001735' ORDER BY username ASC
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=0  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=1  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=10  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=7  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=8  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=2  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=11  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=9  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:38] SELECT id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu FROM `jcwebsol_etofork`.etomite_site_content WHERE `jcwebsol_etofork`.etomite_site_content.parent=5  ORDER BY menuindex ASC ;
+[19-Jan-2012 13:55:40] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries  ORDER BY name ASC ;
+[19-Jan-2012 13:55:42] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:55:42] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:55:44] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1  ;
+[19-Jan-2012 13:55:55] UPDATE `jcwebsol_etofork`.etomite_831gallery_items SET `title`='a little bee',`description`='this is a nice little bee new',`slide`=1 WHERE id=1  ;
+[19-Jan-2012 13:55:56] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:55:56] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:57:29] PHP Fatal error:  Call to undefined method ActionServer::manageModule() in /home/jcwebsol/public_html/etofork/manager/ActionServer.php on line 452
+[19-Jan-2012 13:58:45] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries  ORDER BY name ASC ;
+[19-Jan-2012 13:58:48] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:58:48] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;
+[19-Jan-2012 13:58:50] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1  ;
+[19-Jan-2012 13:58:50] DELETE FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE id=1 LIMIT 1
+[19-Jan-2012 13:58:52] SELECT * FROM `jcwebsol_etofork`.etomite_831galleries WHERE id=1  ;
+[19-Jan-2012 13:58:52] SELECT * FROM `jcwebsol_etofork`.etomite_831gallery_items WHERE galId=1 ORDER BY gal_order ASC ;

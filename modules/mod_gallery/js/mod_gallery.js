@@ -9,10 +9,10 @@ function editItem(id, galId) {
         position: 'top',
         resizable: false,
         open: function() {
-            $('#editDialog').load('index.php', {
-                a: 'module',
+            $('#editDialog').load('../modules/module.php', {
+                action: 'manageModule',
                 mod: 'mod_gallery',
-                action: 'editItem',
+                moduleAction: 'editItem',
                 itemId: id
             },
             function(response, status, xhr){
@@ -28,12 +28,12 @@ function editItem(id, galId) {
                     var item_slide = $('#item_slide').is(':checked') ? 1 : 0;
                     if(item_title==""){ alert("Title must not be empty"); return;}
                     $.ajax({
-                        url: 'index.php',
+                        url: '../modules/module.php',
                         dataType: 'json',
                         data: {
-                            a: 'module',
+                            action: 'manageModule',
                             mod: 'mod_gallery',
-                            action: 'editItem',
+                            moduleAction: 'editItem',
                             itemId: id,
                             edit: true,
                             title: item_title,
@@ -45,8 +45,10 @@ function editItem(id, galId) {
                                 alert(json.message);
                                 return;
                             }
-                            alert("Item saved!");
-                            window.location="index.php?a=module&mod=mod_gallery&action=listGalleryItems&galId=" + galId;
+                            Etomite.moduleActionCall('../modules/module.php', 'action=manageModule&mod=mod_gallery&moduleAction=listGalleryItems&galId=' + galId);
+                            $('#editDialog').dialog('close');
+                            $('#editDialog').dialog('destroy');
+                            $('#editDialog').remove();
                         }
                     });
                 });
@@ -60,7 +62,7 @@ function deleteItem(id, galId) {
     var is_sure = confirm("Are you sure that you want to delete this item?");
     if(is_sure) {
         $.ajax({
-            url: 'ActionServer.php',
+            url: '../modules/module.php',
             dataType: 'json',
             data: {
                 action: 'manageModule',
@@ -74,7 +76,7 @@ function deleteItem(id, galId) {
                     return false;
                 }
                 alert("Item removed!");
-                Etomite.moduleActionCall('', "action=manageModule&mod=mod_gallery&moduleAction=listGalleryItems&galId=" + galId);
+                Etomite.moduleActionCall('../modules/module.php', "action=manageModule&mod=mod_gallery&moduleAction=listGalleryItems&galId=" + galId);
             }
         });
     } else {

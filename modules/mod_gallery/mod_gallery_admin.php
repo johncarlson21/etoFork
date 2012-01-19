@@ -6,9 +6,9 @@
  * for layout. This can be done in a view/view_file.phtml file or
  * directly in the functions below.
  */
+define("IN_ETOMITE_SYSTEM", true);
 
-class mod_gallery_admin extends System {
-    var $etomite;
+class mod_gallery_admin extends etomite {
     var $moduleDir;
     var $ajaxClass;
     var $moduleConfig; // main var passed from module xml file for basic config info
@@ -28,6 +28,7 @@ class mod_gallery_admin extends System {
     var $slideFlag = true;
     
     public function __construct($config=null) {
+        parent::__construct();
         if (!empty($config) && $config != null) {
             $this->moduleConfig = $config;
         }
@@ -35,7 +36,7 @@ class mod_gallery_admin extends System {
         $this->dir = absolute_base_path . "assets/gallery/";
         $this->www = www_base_path . "assets/gallery/";
         $this->ajaxClass = new Ajax(); // setup the ajax functions to use
-        $this->checkLogin();
+        $this->checkManagerLogin();
     }
     
     public function adminView() { // this is the default admin view page.
@@ -51,16 +52,16 @@ class mod_gallery_admin extends System {
 				if(isset($_POST['item_'.$id.'_order']) && !empty($_POST['item_'.$id.'_order'])){
 					$order = $_POST['item_'.$id.'_order'];
 				}
-				$result = $this->etomite->updIntTableRows($fields=array('gal_order'=>$order),$into="831gallery_items",$where='id='.$id);
+				$result = $this->updIntTableRows($fields=array('gal_order'=>$order),$into="831gallery_items",$where='id='.$id);
 			}
 		
 		}
         $galId = $_REQUEST['galId'];
-        $g = $this->etomite->getIntTableRows($fields="*", $from="831galleries",$where="id=".$galId);
+        $g = $this->getIntTableRows($fields="*", $from="831galleries",$where="id=".$galId);
         $output = '';
         if (count($g)>0) {
             $gallery = $g[0];
-            $items = $this->etomite->getIntTableRows($fields="*",$from="831gallery_items",$where="galId=".$galId,$sort='gal_order',$dir='ASC');
+            $items = $this->getIntTableRows($fields="*",$from="831gallery_items",$where="galId=".$galId,$sort='gal_order',$dir='ASC');
             include_once $this->moduleDir.'/views/gallery_item_list.phtml';
         } else {
             echo "<h2>Sorry that is not a valid gallery!</h2>";
@@ -68,7 +69,7 @@ class mod_gallery_admin extends System {
     }
     
     public function listGalleries() {
-        $galleries = $this->etomite->getIntTableRows($fields="*",$from="831galleries",$where="",$sort='name',$dir='ASC');
+        $galleries = $this->getIntTableRows($fields="*",$from="831galleries",$where="",$sort='name',$dir='ASC');
         include_once $this->moduleDir.'/views/galleries_list.phtml';
     }
     
@@ -78,7 +79,7 @@ class mod_gallery_admin extends System {
         if(isset($_POST['submit'])){
             // need to create a new gallery
             if(isset($_REQUEST['name']) && !empty($_REQUEST['name'])) {
-                if($this->etomite->putIntTableRow(array('name'=>$_REQUEST['name'], 'description'=>$_REQUEST['description']), $into="831galleries")){
+                if($this->putIntTableRow(array('name'=>$_REQUEST['name'], 'description'=>$_REQUEST['description']), $into="831galleries")){
                     $success = "<div class='success'>Gallery Created</div>";
                 } else {
                     $error = "<div class='error'>There was an error creating your gallery</div>";
@@ -93,7 +94,7 @@ class mod_gallery_admin extends System {
         if (empty($galId)){
             echo "<h2>Sorry that is not a valid gallery<h2>";
         } else {
-            $g = $this->etomite->getIntTableRows($fields="*", $from="831galleries",$where="id=".$galId);
+            $g = $this->getIntTableRows($fields="*", $from="831galleries",$where="id=".$galId);
             $gallery = $g[0];
             include_once 'views/upload_items.phtml';
         }
@@ -123,17 +124,17 @@ class mod_gallery_admin extends System {
     
     public function processItems(){
         $galId = (int) $_REQUEST['galId'];
-        $g = $this->etomite->getIntTableRows($fields="*", $from="831galleries",$where="id=".$galId);
+        $g = $this->getIntTableRows($fields="*", $from="831galleries",$where="id=".$galId);
         $gallery = $g[0];
         $dir = $this->dir;
-        $orig = $this->etomite->orig;
-        $thumbnail_widths = $this->etomite->thumbnail_widths;
+        $orig = $this->orig;
+        $thumbnail_widths = $this->thumbnail_widths;
         $thumbs = $this->thumbs;
         $slides = $this->slides;
         $full = $this->full;
-        $www = $this->etomite->www;
-        $slide_height = $this->etomite->slide_height;
-        $slideFlag = $this->etomite->slideFlag;
+        $www = $this->www;
+        $slide_height = $this->slide_height;
+        $slideFlag = $this->slideFlag;
         
         $output = '';
         // CREATE GALLERY ITEMS
@@ -195,8 +196,8 @@ class mod_gallery_admin extends System {
                     if ($phpThumb->GenerateThumbnail()) {
                         $output_size_x = ImageSX($phpThumb->gdimg_output);
                         $output_size_y = ImageSY($phpThumb->gdimg_output);
-                        if ($output_filename || $this->etomite->capture_raw_data) {
-                            if ($this->etomite->capture_raw_data && $phpThumb->RenderOutput()) {
+                        if ($output_filename || $this->capture_raw_data) {
+                            if ($this->capture_raw_data && $phpThumb->RenderOutput()) {
                             // RenderOutput renders the thumbnail data to $phpThumb->outputImageData, not to a file or the browser
                             } elseif ($phpThumb->RenderToFile($output_filename)) {
                             // do something on success
@@ -205,10 +206,10 @@ class mod_gallery_admin extends System {
                                 if($z==1){
                                 // check for slide flag
                                 if($slideFlag){ $sf = '1'; }else{ $sf = '0'; }
-                                if($result = $this->etomite->putIntTableRow($fields=array('fn'=>$fn,'slide'=>$sf,'galId'=>$galId),$into="831gallery_items")){
+                                if($result = $this->putIntTableRow($fields=array('fn'=>$fn,'slide'=>$sf,'galId'=>$galId),$into="831gallery_items")){
                                     // added to db
                                     // not used right now
-                                    $insId = $this->etomite->insertId();
+                                    $insId = $this->insertId();
                                     if(!in_array($insId,$added)){
                                         $added[] = $insId;
                                     }
@@ -248,18 +249,18 @@ class mod_gallery_admin extends System {
         $itemId = (int) $_REQUEST['itemId'];
         if(isset($_REQUEST['edit']) && $_REQUEST['edit']=='true') {
             // lets try to edit the item
-            $this->etomite->validateRequest(array('title','itemId'));
+            $this->ajaxClass->validateRequest(array('title','itemId'));
             $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
             $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
             $slide = (isset($_REQUEST['slide']) && $_REQUEST['slide'] == 1) ? 1 : 0;
-            if($this->etomite->updIntTableRows(array('title'=>$title,'description'=>$description,'slide'=>$slide), "831gallery_items", "id=".$itemId)) {
-                $this->etomite->respond(true,"Item Saved");
+            if($this->updIntTableRows(array('title'=>$title,'description'=>$description,'slide'=>$slide), "831gallery_items", "id=".$itemId)) {
+                $this->ajaxClass->respond(true,"Item Saved");
             } else {
-                $this->etomite->respond(false,"Item not saved!");
+                $this->ajaxClass->respond(false,"Item not saved!");
             }
         }
         // get item info
-        $gi = $this->etomite->getIntTableRows("*", "831gallery_items", "id=".$itemId);
+        $gi = $this->getIntTableRows("*", "831gallery_items", "id=".$itemId);
         $item = $gi[0];
         $slide_checked = '';
         if ($item['slide'] == 1) {
@@ -271,7 +272,7 @@ class mod_gallery_admin extends System {
     public function deleteItem() {
         $this->ajaxClass->validateRequest(array('itemId'));
         $itemId = (int) $_REQUEST['itemId'];
-        if($gi = $this->etomite->getIntTableRows("*", "831gallery_items", "id=".$itemId)) {
+        if($gi = $this->getIntTableRows("*", "831gallery_items", "id=".$itemId)) {
             if(count($gi)>0) {
                 $item = $gi[0];
                 if(file_exists($this->dir.$this->full.$item['fn'])) {
@@ -284,7 +285,7 @@ class mod_gallery_admin extends System {
                     @unlink($this->dir.$this->thumbs."th_".$item['fn']);
                 }
                 // now remove the item from the db
-                if($this->etomite->dbQuery("DELETE FROM ".$this->etomite->db."831gallery_items WHERE id=".$item['id']." LIMIT 1")){
+                if($this->dbQuery("DELETE FROM ".$this->db."831gallery_items WHERE id=".$item['id']." LIMIT 1")){
                     $this->ajaxClass->respond(true, "Item removed");
                 } else {
                     $this->ajaxClass->respond(false, "Item not removed!");
@@ -304,8 +305,6 @@ class mod_gallery_admin extends System {
 $action = $_REQUEST['moduleAction']; // defaults to adminView
 
 $mod_gallery_admin = new mod_gallery_admin($mod_galleryConfig);
-
-$mod_gallery_admin->etomite = $this;
 
 $mod_gallery_admin->$action();
 
