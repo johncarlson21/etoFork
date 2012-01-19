@@ -18,10 +18,10 @@ if(!file_exists($config_filename))
 include_once($config_filename);
 
 // include language file
-include_once("lang/english.inc.php");
+include_once(MANAGER_PATH . "includes/lang/english.inc.php");
 
 // include functions file
-include_once("functions.php");
+include_once(MANAGER_PATH . "includes/functions.php");
 
 include_once(MANAGER_PATH . "models/etomite.class.php");
 startCMSSession();

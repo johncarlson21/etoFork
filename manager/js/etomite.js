@@ -1150,7 +1150,7 @@ var Etomite = {
             return false;
         }
         $.ajax({
-            url: 'ActionServer.php',
+            url: '../modules/module.php',
             dataType: 'html',
             data: {
                 action: 'manageModule',
@@ -1171,7 +1171,7 @@ var Etomite = {
             return false;
         }
         $.ajax({
-            url: (url.length > 0) ? url : 'ActionServer.php',
+            url: (url.length > 0) ? url : '../modules/module.php',
             data: params,
             dataType: 'html',
             success: function(response) {

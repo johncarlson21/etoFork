@@ -37,7 +37,7 @@
         <tr>
           <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["filemanager_path_title"]; ?></b></td>
           <td>
-            <input type='text' maxlength='255' style="width: 300px;" name="filemanager_path" value="<?php echo isset($this->config['filemanager_path']) ? $this->config['filemanager_path'] : getEtomiteRoot() ; ?>">
+            <input type='text' maxlength='255' style="width: 300px;" name="filemanager_path" value="<?php echo isset($this->config['filemanager_path']) ? $this->config['filemanager_path'] : absolute_base_path ; ?>">
             <br />
           </td>
         </tr>

@@ -69,8 +69,8 @@ if ($man_pos === false) {
     $manager_path = $cwd."/";
 }
 
-define('MANAGER_PATH', $manager_path);
-define("absolute_base_path",$absolute_base_path);
+define('MANAGER_PATH', '/home/jcwebsol/public_html/etofork/manager/');
+define("absolute_base_path", '/home/jcwebsol/public_html/etofork/');
 
 // build the relative path:
 $urlPieces = explode("/", $_SERVER["PHP_SELF"]);
@@ -98,7 +98,7 @@ $relative_base_path = $ETOMITE_PAGE_BASE["relative"] = implode("/", $urlPieces);
 if ($man_pos !== false) {
     $relative_base_path = $ETOMITE_PAGE_BASE["relative"] = substr($relative_base_path, 0, $man_pos)."/";
 }
-define("relative_base_path",$relative_base_path);
+define("relative_base_path", '/');
 define("file_manager_path", str_replace("/", "", $relative_base_path));
 
 // build the www path:
