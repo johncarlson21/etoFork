@@ -49,7 +49,7 @@ ul.dropdown {
 	ul.dropdown a:link,
 	ul.dropdown a:visited	{ color: #0063dc; text-decoration: none; }
 	ul.dropdown a:hover		{ color: #0063dc; text-decoration: underline; }
-	ul.dropdown a:active	{ color: #ff0084; }
+	ul.dropdown a:active	{ color: #0063dc; }
 
 
 	/* -- level mark -- */

@@ -33,21 +33,6 @@ define('table_prefix', $table_prefix);
 define('debug', false);
 
 
-// YOU CAN ASSIGN THE DIRECTORY WHERE SESSIONS WILL BE STORED.
-// THE $sessdir VARIABLE CAN BE SET TO ANY ABSOLUTE DIRECTORY LOCATION WHERE
-// ETOMITE WILL HAVE FULL READ AND WRITE PERMISSIONS.
-// EXAMPLES WOULD BE:
-// THE ABSOLUTE PATH TO YOUR assets/cache DIRECTORY /var/www/assets/cache
-// OR $_SERVER['DOCUMENT_ROOT']."/assets/cache";
-// SUBDIRECTORIES WILL BE CREATED FOR BOTH THE FRONT END PARSER AND THE MANAGER
-// YOU WILL ALSO NEED TO SET $use_custom_sessions = true; TO ENABLE THE FEATURE
-// LEAVE BLANK TO STORE SESSIONS UNDER session.save_path
-$sessdir = ""; // no trailing slash
-
-// flag to determine whether or not to use custom session paths [true|false]
-$use_custom_sessions = false;
-
-
 // NO CHANGES REQUIRED BELOW THIS LINE UNLESS CUSTOM SESSIONS NEED TO BE MODIFIED
 
 error_reporting(E_ALL ^ E_NOTICE);
@@ -111,6 +96,20 @@ if ($man_pos !== false) {
 }
 define("www_base_path", $www_base_path);
 define("MANAGER_URL", $www_base_url);
+
+// YOU CAN ASSIGN THE DIRECTORY WHERE SESSIONS WILL BE STORED.
+// THE $sessdir VARIABLE CAN BE SET TO ANY ABSOLUTE DIRECTORY LOCATION WHERE
+// ETOMITE WILL HAVE FULL READ AND WRITE PERMISSIONS.
+// EXAMPLES WOULD BE:
+// THE ABSOLUTE PATH TO YOUR assets/cache DIRECTORY /var/www/assets/cache
+// OR $_SERVER['DOCUMENT_ROOT']."/assets/cache";
+// SUBDIRECTORIES WILL BE CREATED FOR BOTH THE FRONT END PARSER AND THE MANAGER
+// YOU WILL ALSO NEED TO SET $use_custom_sessions = true; TO ENABLE THE FEATURE
+// LEAVE BLANK TO STORE SESSIONS UNDER session.save_path
+$sessdir = ""; // no trailing slash
+
+// flag to determine whether or not to use custom session paths [true|false]
+$use_custom_sessions = false;
 
 // START: custom session handling
 

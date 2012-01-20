@@ -161,7 +161,7 @@
             ?>
                 <ul>
                     <?php foreach($tvs as $tv) {?>
-                        <li><a id="<?php echo $tv['tv_id'];?>" class="tvBtn"><strong><?php echo $tv['name']."</strong> (".$tv['field_name'].") - ".$tv['description'];?></a></li>
+                        <li><a id="<?php echo $tv['tv_id'];?>" class="tvBtn"><?php echo $tv['name']." (".$tv['field_name'].") - ".$tv['description'];?></a></li>
                     <?php }?>
                 </ul>
             <?php

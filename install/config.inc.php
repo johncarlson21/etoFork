@@ -37,6 +37,43 @@ define('table_prefix', $table_prefix);
 define('debug', false);
 
 
+
+// NO CHANGES REQUIRED BELOW THIS LINE UNLESS CUSTOM SESSIONS NEED TO BE MODIFIED
+
+error_reporting(E_ALL ^ E_NOTICE);
+
+// detect current protocol
+$protocol = (isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == "on") ? "https://" : "http://";
+
+define("absolute_base_path", '{ABSOLUTE_PATH}/');
+define('MANAGER_PATH', '{ABSOLUTE_PATH}/manager/');
+
+define("www_base_path", '{WWW_PATH}');
+define("MANAGER_URL", $protocol . '{WWW_PATH}/manager/');
+
+define("ASSETS_PATH", '{ABSOLUTE_PATH}/assets/');
+define("ASSETS_URL", $protocol . '{WWW_PATH}/assets/');
+
+define("MODULES_PATH", '{ABSOLUTE_PATH}/modules/');
+define("MODULES_URL", $protocol . '{WWW_PATH}/modules/');
+
+$relative_base_path = basepath(dirname(dirname(dirname(__FILE__))));
+
+define("relative_base_path", $relative_base_path);
+define("file_manager_path", str_replace("/", "", $relative_base_path));
+
+// create an installation specific site id and session name
+$site_id = str_replace("`","",$dbase)."_" . $table_prefix;
+
+// determine the proper session suffix
+if(IN_ETOMITE_PARSER == "true"){
+  $site_sessionname = $site_id . "web";
+}elseif(IN_ETOMITE_SYSTEM == "true"){
+  $site_sessionname = $site_id . "mgr";
+}else{
+  $site_sessionname = $site_id . "web";
+}
+
 // YOU CAN ASSIGN THE DIRECTORY WHERE SESSIONS WILL BE STORED.
 // THE $sessdir VARIABLE CAN BE SET TO ANY ABSOLUTE DIRECTORY LOCATION WHERE
 // ETOMITE WILL HAVE FULL READ AND WRITE PERMISSIONS.
@@ -50,71 +87,6 @@ $sessdir = ""; // no trailing slash
 
 // flag to determine whether or not to use custom session paths [true|false]
 $use_custom_sessions = false;
-
-
-// NO CHANGES REQUIRED BELOW THIS LINE UNLESS CUSTOM SESSIONS NEED TO BE MODIFIED
-
-error_reporting(E_ALL ^ E_NOTICE);
-
-// detect current protocol
-$protocol = (isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == "on") ? "https://" : "http://";
-
-// build the absolute file path and manager path:
-//$cwd = (substr(PHP_OS, 0, 3) == "WIN") ? str_replace(chr(92),"/",strtolower(getcwd())) : getcwd();
-$cwd = (substr(PHP_OSS, 0, 3) == "WIN") ? str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']))) : getcwd();
-$man_pos = strpos($cwd, "/manager"); // check if we are somewhere in the manager
-
-
-if ($man_pos === false) {
-    $absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = $cwd."/";
-    $manager_path = $cwd."/manager/";
-} else {
-    $absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = substr($cwd,0, $man_pos)."/";
-    $manager_path = $cwd."/";
-}
-
-define('MANAGER_PATH', $manager_path);
-define("absolute_base_path",$absolute_base_path);
-
-// build the relative path:
-$urlPieces = explode("/", $_SERVER["PHP_SELF"]);
-
-// create an installation specific site id and session name
-$site_id = str_replace("`","",$dbase)."_" . $table_prefix;
-
-
-// determine the proper session suffix
-if(IN_ETOMITE_PARSER == "true")
-{
-  $site_sessionname = $site_id . "web";
-}
-elseif(IN_ETOMITE_SYSTEM == "true")
-{
-  $site_sessionname = $site_id . "mgr";
-}
-else
-{
-  $site_sessionname = $site_id . "web";
-}
-
-$urlFilename = array_pop($urlPieces);
-$relative_base_path = $ETOMITE_PAGE_BASE["relative"] = implode("/", $urlPieces);
-if ($man_pos !== false) {
-    $relative_base_path = $ETOMITE_PAGE_BASE["relative"] = substr($relative_base_path, 0, $man_pos)."/";
-}
-define("relative_base_path",$relative_base_path);
-define("file_manager_path", str_replace("/", "", $relative_base_path));
-
-// build the www path:
-$www_base_path = $ETOMITE_PAGE_BASE["www"] = $protocol.$_SERVER["HTTP_HOST"].$ETOMITE_PAGE_BASE["relative"]."/";
-if ($man_pos !== false) {
-    $www_base_url = $www_base_path;
-    $www_base_path = $ETOMITE_PAGE_BASE["www"] = substr($www_base_path, 0, $man_pos)."/";
-} else {
-    $www_base_url = $www_base_url."/manager/";
-}
-define("www_base_path", $www_base_path);
-define("MANAGER_URL", $www_base_url);
 
 // START: custom session handling
 
