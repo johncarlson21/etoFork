@@ -48,7 +48,7 @@ $protocol = (isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == "on") 
 define("absolute_base_path", '{ABSOLUTE_PATH}/');
 define('MANAGER_PATH', '{ABSOLUTE_PATH}/manager/');
 
-define("www_base_path", '{WWW_PATH}');
+define("www_base_path", $protocol . '{WWW_PATH}/');
 define("MANAGER_URL", $protocol . '{WWW_PATH}/manager/');
 
 define("ASSETS_PATH", '{ABSOLUTE_PATH}/assets/');
@@ -57,7 +57,7 @@ define("ASSETS_URL", $protocol . '{WWW_PATH}/assets/');
 define("MODULES_PATH", '{ABSOLUTE_PATH}/modules/');
 define("MODULES_URL", $protocol . '{WWW_PATH}/modules/');
 
-$relative_base_path = basepath(dirname(dirname(dirname(__FILE__))));
+$relative_base_path = basename(dirname(dirname(dirname(__FILE__))));
 
 define("relative_base_path", $relative_base_path);
 define("file_manager_path", str_replace("/", "", $relative_base_path));

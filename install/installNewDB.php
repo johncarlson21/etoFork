@@ -169,12 +169,13 @@ $contents = fread($handle, filesize($filename));
 fclose($handle);
 
 // perform global search and replace of tags in the SQL
-$urlPieces = explode("/", $_SERVER["PHP_SELF"]);
+$self = str_replace("/install", "", $_SERVER["PHP_SELF"]);
+$urlPieces = explode("/", $self);
 $urlFilename = array_pop($urlPieces); // revmove first empty array element
 $www = $_SERVER['HTTP_HOST'];
-$www_url = $www . (isset($urlFilename[0]) && !empty($urlFilename[0])) ? $urlFilename[0] : '';
+$www_url = $www . implode("/", $urlPieces);
 
-$search = array('{HOST}','{USER}','{PASS}','{DBASE}','{PREFIX}','{ABSOLUTE_PATH}','{WWW_URL}');
+$search = array('{HOST}','{USER}','{PASS}','{DBASE}','{PREFIX}','{ABSOLUTE_PATH}','{WWW_PATH}');
 $replace = array($host,$name,$pass,$db,$table_prefix,dirname(dirname(__FILE__)),$www_url);
 $configString = str_replace($search,$replace,$contents);
 
