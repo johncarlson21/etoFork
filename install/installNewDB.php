@@ -174,9 +174,10 @@ $urlPieces = explode("/", $self);
 $urlFilename = array_pop($urlPieces); // revmove first empty array element
 $www = $_SERVER['HTTP_HOST'];
 $www_url = $www . implode("/", $urlPieces);
+$relative_path = implode("/", $urlPieces);
 
-$search = array('{HOST}','{USER}','{PASS}','{DBASE}','{PREFIX}','{ABSOLUTE_PATH}','{WWW_PATH}');
-$replace = array($host,$name,$pass,$db,$table_prefix,dirname(dirname(__FILE__)),$www_url);
+$search = array('{HOST}','{USER}','{PASS}','{DBASE}','{PREFIX}','{ABSOLUTE_PATH}','{WWW_PATH}','{RELATIVE_PATH}');
+$replace = array($host,$name,$pass,$db,$table_prefix,dirname(dirname(__FILE__)),$www_url,);
 $configString = str_replace($search,$replace,$contents);
 
 // open config.inc.php

@@ -43,7 +43,9 @@ include("../manager/includes/version.inc.php");
       <p><b>Please choose your installation type:</b></p>
 
       <p><a href="installStart.php?installationType=full" title="Perform Full Install Now">New installation (Full)</a> - Includes an assortment of sample resources to demonstrate how Etomite can be implemented.</p>
-	  <p>This installation has updates/extensions to the core to allow for zend framework like urls, versioning ( documents, snippets and chunks), meta information on documents, sections for snippets and chunks to organize them, and the phpFire library.</p>
+	  <p>This installation has updates/extensions to the core to allow for zend framework like urls, versioning ( documents, snippets and chunks), meta information on documents, sections for snippets and chunks to organize them, and Template Variables.</p>
+      
+      <p><a href="repairConfig.php" title="Repair site configuration file">Repair Configuration File</a> - repair your config file after moving your site to a new server!</p>
 
     </td>
   </tr>

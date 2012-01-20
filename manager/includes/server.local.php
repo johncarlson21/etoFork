@@ -40,62 +40,34 @@ error_reporting(E_ALL ^ E_NOTICE);
 // detect current protocol
 $protocol = (isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == "on") ? "https://" : "http://";
 
-// build the absolute file path and manager path:
-//$cwd = (substr(PHP_OS, 0, 3) == "WIN") ? str_replace(chr(92),"/",strtolower(getcwd())) : getcwd();
-$cwd = (substr(PHP_OSS, 0, 3) == "WIN") ? str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']))) : getcwd();
-$man_pos = strpos($cwd, "/manager"); // check if we are somewhere in the manager
-
-
-if ($man_pos === false) {
-    $absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = $cwd."/";
-    $manager_path = $cwd."/manager/";
-} else {
-    $absolute_base_path = $ETOMITE_PAGE_BASE["absolute"] = substr($cwd,0, $man_pos)."/";
-    $manager_path = $cwd."/";
-}
-
-define('MANAGER_PATH', '/home/jcwebsol/public_html/etofork/manager/');
 define("absolute_base_path", '/home/jcwebsol/public_html/etofork/');
+define('MANAGER_PATH', '/home/jcwebsol/public_html/etofork/manager/');
 
-// build the relative path:
-$urlPieces = explode("/", $_SERVER["PHP_SELF"]);
+define("www_base_path", $protocol . 'etofork.jc-websolutions.com/');
+define("MANAGER_URL", $protocol . 'etofork.jc-websolutions.com/manager/');
+
+define("ASSETS_PATH", '/home/jcwebsol/public_html/etofork/assets/');
+define("ASSETS_URL", $protocol . 'etofork.jc-websolutions.com/assets/');
+
+define("MODULES_PATH", '/home/jcwebsol/public_html/etofork/modules/');
+define("MODULES_URL", $protocol . 'etofork.jc-websolutions.com/modules/');
+
+$relative_base_path = "/";
+
+define("relative_base_path", $relative_base_path);
+define("file_manager_path", str_replace("/", "", $relative_base_path));
 
 // create an installation specific site id and session name
 $site_id = str_replace("`","",$dbase)."_" . $table_prefix;
 
-
 // determine the proper session suffix
-if(IN_ETOMITE_PARSER == "true")
-{
+if(IN_ETOMITE_PARSER == "true"){
   $site_sessionname = $site_id . "web";
-}
-elseif(IN_ETOMITE_SYSTEM == "true")
-{
+}elseif(IN_ETOMITE_SYSTEM == "true"){
   $site_sessionname = $site_id . "mgr";
-}
-else
-{
+}else{
   $site_sessionname = $site_id . "web";
 }
-
-$urlFilename = array_pop($urlPieces);
-$relative_base_path = $ETOMITE_PAGE_BASE["relative"] = implode("/", $urlPieces);
-if ($man_pos !== false) {
-    $relative_base_path = $ETOMITE_PAGE_BASE["relative"] = substr($relative_base_path, 0, $man_pos)."/";
-}
-define("relative_base_path", '/');
-define("file_manager_path", str_replace("/", "", $relative_base_path));
-
-// build the www path:
-$www_base_path = $ETOMITE_PAGE_BASE["www"] = $protocol.$_SERVER["HTTP_HOST"].$ETOMITE_PAGE_BASE["relative"]."/";
-if ($man_pos !== false) {
-    $www_base_url = $www_base_path;
-    $www_base_path = $ETOMITE_PAGE_BASE["www"] = substr($www_base_path, 0, $man_pos)."/";
-} else {
-    $www_base_url = $www_base_url."/manager/";
-}
-define("www_base_path", $www_base_path);
-define("MANAGER_URL", $www_base_url);
 
 // YOU CAN ASSIGN THE DIRECTORY WHERE SESSIONS WILL BE STORED.
 // THE $sessdir VARIABLE CAN BE SET TO ANY ABSOLUTE DIRECTORY LOCATION WHERE

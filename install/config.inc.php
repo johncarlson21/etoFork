@@ -57,7 +57,7 @@ define("ASSETS_URL", $protocol . '{WWW_PATH}/assets/');
 define("MODULES_PATH", '{ABSOLUTE_PATH}/modules/');
 define("MODULES_URL", $protocol . '{WWW_PATH}/modules/');
 
-$relative_base_path = basename(dirname(dirname(dirname(__FILE__))));
+$relative_base_path = '{RELATIVE_PATH}/';
 
 define("relative_base_path", $relative_base_path);
 define("file_manager_path", str_replace("/", "", $relative_base_path));
