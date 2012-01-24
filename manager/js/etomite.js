@@ -1188,6 +1188,57 @@ var Etomite = {
         });
     },
     
+    installModule: function() {
+        spin();
+        $.ajax({
+            url: '../modules/module.php',
+            dataType: 'html',
+            data: {
+                action: 'installModule'
+            },
+            success: function(response) {
+                if (response === null) {
+                    Etomite.errorDialog('There was an error trying to start install process!', 'Error!');
+                } else {
+                    Etomite.loadPane(response);
+                    $('.install-module-btn').click(function() {
+                        if ($('#module_name').val() === null || $('#module_name').val() == '') {
+                            alert("Module name must not be empty!");
+                            return false;
+                        }
+                        Etomite.runModuleInstall($('#module_name').val());
+                    });
+                }
+            }
+        });
+        setTimeout(function() {
+            spin(false);
+        },1000);
+    },
+    
+    runModuleInstall: function(module) {
+        if (module === null || module == '') {
+            alert('Module name must not be empty!');
+            return false;
+        }
+        $.ajax({
+            url: '../modules/module.php',
+            dataType: 'json',
+            data: {
+                action: 'runModuleInstall',
+                module: module
+            },
+            success: function(json) {
+                if(json === null || json.succeeded !== true) {
+                    Etomite.errorDialog('There was an error installing your module!');
+                    return false;
+                } else {
+                    Etomite.notify("Module Installed"); // need to also maybe do a re-direct to module list
+                }
+            }
+        });
+    },
+    
     showVisitorStats: function(params) { // params = url params: scope=total&start=xxxxxx
         $.ajax({
             url: 'ActionServer.php?action=showVisitorStats&' + params,

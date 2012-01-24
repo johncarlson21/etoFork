@@ -67,6 +67,7 @@
         <?php   if($_SESSION['permissions']['export_html']==1) { ?>
             <li><a onclick="this.blur();" href="index.php?a=83" target="main"><?php echo $_lang["export_site"]; ?></a></li>
         <?php } ?>
+            <li><a onclick="this.blur(); Etomite.installModule();" href="javascript:;"><?php echo $_lang["modules_install_new"]; ?></a></li>
         </ul>
     </li>
     <?php } ?>

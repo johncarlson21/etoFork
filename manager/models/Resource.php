@@ -1,8 +1,10 @@
 <?php
-if (!defined(CONFIG_LOADED)) {
+if (!defined('CONFIG_LOADED')) {
     define("IN_ETOMITE_SYSTEM", true);
     include('includes/bootstrap.php');
 }
+
+define('DS', DIRECTORY_SEPARATOR);
 
 
 class Resource extends etomite {
@@ -182,6 +184,22 @@ class Resource extends etomite {
         }
     }
     
+    public function sectionExists($name, $type) {
+        $section = $this->getIntTableRows('*', 'site_section', 'name="'.$name.'" AND section_type="'.$type.'"');
+        if(count($section) > 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function getSection($name, $type) {
+        $section = $this->getIntTableRows('*', 'site_section', 'name="'.$name.'" AND section_type="'.$type.'"');
+        if(count($section) > 0) {
+            return $section[0];
+        }
+        return false;
+    }
+    
     public function createSection($name, $description, $type) {
         if ($this->putIntTableRow(array('name'=>$name,'description'=>$description,'section_type'=>$type), 'site_section')){
             return true;
@@ -293,6 +311,29 @@ class Resource extends etomite {
             }
         }
         return false;
+    }
+    
+    // removes files and non-empty directories
+    public function rrmdir($dir) {
+      if (is_dir($dir)) {
+        $files = scandir($dir);
+        foreach ($files as $file)
+        if ($file != "." && $file != "..") $this->rrmdir($dir."/".$file);
+        rmdir($dir);
+      }
+      else if (file_exists($dir)) unlink($dir);
+    }
+    
+    // copies files and non-empty directories
+    public function rcopy($src, $dst) {
+      //if (file_exists($dst)) rrmdir($dst);
+      if (is_dir($src)) {
+        mkdir($dst);
+        $files = scandir($src);
+        foreach ($files as $file)
+        if ($file != "." && $file != "..") $this->rcopy($src."/".$file, $dst."/".$file);
+      }
+      else if (file_exists($src)) copy($src, $dst);
     }
     
 }

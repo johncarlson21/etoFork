@@ -76,9 +76,9 @@ class etomite {
         $this->db = $this->dbConfig['dbase'].".".$this->dbConfig['table_prefix'];
         $this->_lang = $GLOBALS['_lang'];
         // convert variables initially calculated in config.inc.php into config variables
-        $this->config['absolute_base_path'] = $GLOBALS['absolute_base_path'];
-        $this->config['relative_base_path'] = $GLOBALS['relative_base_path'];
-        $this->config['www_base_path'] = $GLOBALS['www_base_path'];
+        $this->config['absolute_base_path'] = absolute_base_path;
+        $this->config['relative_base_path'] = relative_base_path;
+        $this->config['www_base_path'] = www_base_path;
         $this->dbConnect();
         // get the settings
         $this->getSettings();
@@ -750,9 +750,9 @@ class etomite {
     set_error_handler(array($this,"phpError"));
 
     // convert variables initially calculated in config.inc.php into config variables
-    $this->config['absolute_base_path'] = $GLOBALS['absolute_base_path'];
-    $this->config['relative_base_path'] = $GLOBALS['relative_base_path'];
-    $this->config['www_base_path'] = $GLOBALS['www_base_path'];
+    $this->config['absolute_base_path'] = absolute_base_path;
+    $this->config['relative_base_path'] = relative_base_path;
+    $this->config['www_base_path'] = www_base_path;
 
     // get the settings
     $this->getSettings();

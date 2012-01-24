@@ -1,5 +1,5 @@
 <?php
-if (!defined(CONFIG_LOADED)) {
+if (!defined('CONFIG_LOADED')) {
     define("IN_ETOMITE_SYSTEM", true);
     include('includes/bootstrap.php');
 }
