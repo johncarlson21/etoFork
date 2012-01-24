@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>File Manager</title>
+
+		<!-- jQuery and jQuery UI (REQUIRED) -->
+		<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/smoothness/jquery-ui.css">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+
+		<!-- elFinder CSS (REQUIRED) -->
+		<link rel="stylesheet" href="css/common.css"      type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/dialog.css"      type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/toolbar.css"     type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/navbar.css"      type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/statusbar.css"   type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/contextmenu.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/cwd.css"         type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/quicklook.css"   type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/commands.css"    type="text/css" media="screen" charset="utf-8">
+    
+    <link rel="stylesheet" href="css/theme.css"       type="text/css" media="screen" charset="utf-8">
+    
+    <!-- elfinder core -->
+    <script src="js/elFinder.js"           type="text/javascript" charset="utf-8"></script>
+    <script src="js/elFinder.version.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/jquery.elfinder.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/elFinder.resources.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/elFinder.options.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/elFinder.history.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/elFinder.command.js"   type="text/javascript" charset="utf-8"></script>
+    
+    <!-- elfinder ui -->
+    <script src="js/ui/overlay.js"       type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/workzone.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/navbar.js"        type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/dialog.js"        type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/tree.js"          type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/cwd.js"           type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/toolbar.js"       type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/button.js"        type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/uploadButton.js"  type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/viewbutton.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/searchbutton.js"  type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/sortbutton.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/panel.js"         type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/contextmenu.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/path.js"          type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/stat.js"          type="text/javascript" charset="utf-8"></script>
+    <script src="js/ui/places.js"        type="text/javascript" charset="utf-8"></script>
+    
+    <!-- elfinder commands -->
+    <script src="js/commands/back.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/forward.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/reload.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/up.js"        type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/home.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/copy.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/cut.js"       type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/paste.js"     type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/open.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/rm.js"        type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/info.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/duplicate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/rename.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/help.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/getfile.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/mkdir.js"     type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/mkfile.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/upload.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/download.js"  type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/edit.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/quicklook.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/quicklook.plugins.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/extract.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/archive.js"   type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/search.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/view.js"      type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/resize.js"    type="text/javascript" charset="utf-8"></script>
+    <script src="js/commands/sort.js"      type="text/javascript" charset="utf-8"></script> 
+
+    <!-- elfinder dialog -->
+    <script src="js/jquery.dialogelfinder.js"     type="text/javascript" charset="utf-8"></script>
+
+    <!-- elfinder 1.x connector API support -->
+    <script src="js/proxy/elFinderSupportVer1.js" type="text/javascript" charset="utf-8"></script>
+		<!-- elFinder translation (OPTIONAL) -->
+		<script type="text/javascript" src="js/i18n/elfinder.en.js"></script>
+
+		<!-- TinyMCE Popup class (REQUIRED) -->
+        <script type="text/javascript" src="../tinymce/jscripts/tiny_mce/tiny_mce_popup.js"></script>
+        
+        <script type="text/javascript">
+          var FileBrowserDialogue = {
+            init: function() {
+              // Here goes your code for setting your custom things onLoad.
+            },
+            mySubmit: function (URL) {
+              var win = tinyMCEPopup.getWindowArg('window');
+        
+              // pass selected file path to TinyMCE
+              win.document.getElementById(tinyMCEPopup.getWindowArg('input')).value = URL;
+        
+              // are we an image browser?
+              if (typeof(win.ImageDialog) != 'undefined') {
+                // update image dimensions
+                if (win.ImageDialog.getImageData) {
+                  win.ImageDialog.getImageData();
+                }
+                // update preview if necessary
+                if (win.ImageDialog.showPreviewImage) {
+                  win.ImageDialog.showPreviewImage(URL);
+                }
+              }
+        
+              // close popup window
+              tinyMCEPopup.close();
+            }
+          }
+        
+          tinyMCEPopup.onInit.add(FileBrowserDialogue.init, FileBrowserDialogue);
+        
+          $().ready(function() {
+            var elf = $('#elfinder').elfinder({
+              // set your elFinder options here
+              url: 'php/connector.php',  // connector URL
+              height: 430,
+              contextmenu : {
+                  // navbarfolder menu
+                  navbar :
+                    ['open', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'info'],
+                  // current directory menu
+                  cwd    :
+                    ['reload', 'back', '|', 'upload', 'mkdir', 'mkfile', 'paste', '|', 'info'],
+                  // current directory file menu
+                  files  :
+                    ['getfile', '|','open', 'quicklook', '|', 'download', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'edit', 'rename', 'resize', '|', 'archive', 'extract', '|', 'info']
+                  },
+              customData : {token : '427820038402jfkals89802', inManager : 'true'},
+              commands : [
+                         'open', 'reload', 'home', 'up', 'back', 'forward', 'getfile', 'quicklook',
+                         'download', 'rm', 'duplicate', 'rename', 'mkdir', 'mkfile', 'upload', 'copy',
+                         'cut', 'paste', 'edit', 'resize', 'extract', 'archive', 'search', 'info', 'view', 'help'
+                     ],
+              getFileCallback: function(url) { // editor callback
+                path = url.path;
+                FileBrowserDialogue.mySubmit(path); // pass selected file path to TinyMCE 
+              }
+            }).elfinder('instance');      
+          });
+        </script>
+	</head>
+	<body>
+
+		<!-- Element where elFinder will be created (REQUIRED) -->
+		<div id="elfinder"></div>
+
+	</body>
+</html>
