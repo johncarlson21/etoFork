@@ -26,13 +26,31 @@ function setupTiny(el) {
       //external_link_list_url : "example_data/example_link_list.js",
       //external_image_list_url : "example_data/example_image_list.js",
       //flash_external_list_url : "example_data/example_flash_list.js",
-      file_browser_callback : 'fileBrowserCallBack',
+      file_browser_callback : 'elFinderBrowser',
       theme_advanced_resize_horizontal : false,
       theme_advanced_resizing : true,
       //init_instance_callback : resizeEditorBox,
       skin: "o2k7",
       skin_variant: 'silver'
     });
+}
+
+function elFinderBrowser (field_name, url, type, win) {
+    var elfinder_url = Etomite.db_url + 'manager/lib/elfinder2_0/elfinder.html';    // use an absolute path!
+    tinyMCE.activeEditor.windowManager.open({
+      file: elfinder_url,
+      title: 'File Manager',
+      width: 900,  
+      height: 450,
+      resizable: 'yes',
+      inline: 'yes',    // This parameter only has an effect if you use the inlinepopups plugin!
+      popup_css: false, // Disable TinyMCE's default popup CSS
+      close_previous: 'no'
+        }, {
+          window: win,
+          input: field_name
+        });
+    return false;
 }
 
 /*function fileBrowserCallBack(field_name, url, type, win) {

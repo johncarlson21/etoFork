@@ -45,9 +45,9 @@
 <?php $rel = (empty($strip_base_href)) ? "false" : "true"; ?>
 <script type="text/javascript">
 $(document).ready(function(){
-    Etomite.EtoRoot = "<?php echo $ETOMITE_PAGE_BASE['www']; ?>";
-    Etomite.rel = "<?php echo $rel ?>";
-    Etomite.db_url = "<?php echo $ETOMITE_PAGE_BASE['relative']; ?>";
+    Etomite.EtoRoot = "<?php echo absolute_base_path; ?>";
+    Etomite.rel = "<?php echo relative_base_path ?>";
+    Etomite.db_url = "<?php echo www_base_path ?>";
     Etomite.cssPath = "<?php echo $cssPath; ?>";
     Etomite.dateFormat = "<?php echo $etomite->config['date_format']; ?>";
     Etomite.timeFormat = "<?php echo $etomite->config['$time_format']; ?>";
