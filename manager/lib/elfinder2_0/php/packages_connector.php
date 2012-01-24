@@ -26,22 +26,22 @@ include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'elFinderVolumeLocalFileSyste
  * @return bool
  **/
 function access($attr, $path, $data, $volume) {
-	return strpos(basename($path), '.') === 0   // if file/folder begins with '.' (dot)
-		? !($attr == 'read' || $attr == 'write')  // set read+write to false, other (locked+hidden) set to true
-		: ($attr == 'read' || $attr == 'write');  // else set read+write to true, locked+hidden to false
+    return strpos(basename($path), '.') === 0   // if file/folder begins with '.' (dot)
+        ? !($attr == 'read' || $attr == 'write')  // set read+write to false, other (locked+hidden) set to true
+        : ($attr == 'read' || $attr == 'write');  // else set read+write to true, locked+hidden to false
 }
 
 $opts = array(
-	// 'debug' => true,
-	'roots' => array(
-		array(
-			'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-			'path'          => '../../../../assets/',         // path to files (REQUIRED)
-			'URL'           => dirname($_SERVER['PHP_SELF']) . '/../../../../assets/', // URL to files (REQUIRED)
-			'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
-		    'imgLib' => 'gd'
-		)
-	)
+    // 'debug' => true,
+    'roots' => array(
+        array(
+            'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
+            'path'          => '../../../../tmp/packages/',         // path to files (REQUIRED)
+            'URL'           => dirname($_SERVER['PHP_SELF']) . '/../../../../tmp/packages/', // URL to files (REQUIRED)
+            'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
+            'imgLib' => 'gd'
+        )
+    )
 );
 
 // run elFinder

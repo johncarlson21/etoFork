@@ -1208,6 +1208,30 @@ var Etomite = {
                         }
                         Etomite.runModuleInstall($('#module_name').val());
                     });
+                    // load the file manager up to the modules directory
+                    var elf = $('#fileManager').elfinder({
+                        lang: 'en',             // language (OPTIONAL)
+                        url : './lib/elfinder2_0/php/packages_connector.php',  // connector URL (REQUIRED)
+                        height: 500,
+                        docked: true,
+                        contextmenu : {
+                         // navbarfolder menu
+                         navbar :
+                           ['open', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'info'],
+                         // current directory menu
+                         cwd    :
+                           ['reload', 'back', '|', 'upload', 'mkdir', 'mkfile', 'paste', '|', 'info'],
+                         // current directory file menu
+                         files  :
+                           ['getfile', '|','open', 'quicklook', '|', 'download', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'edit', 'rename', 'resize', '|', 'archive', 'extract', '|', 'info']
+                         },
+                         customData : {token : '427820038402jfkals89802', inManager : 'true'},
+                         commands : [
+                                    'open', 'reload', 'home', 'up', 'back', 'forward', 'getfile', 'quicklook',
+                                    'download', 'rm', 'duplicate', 'rename', 'mkdir', 'mkfile', 'upload', 'copy',
+                                    'cut', 'paste', 'edit', 'resize', 'extract', 'archive', 'search', 'info', 'view', 'help'
+                                ]
+                    }).elfinder('instance');
                 }
             }
         });
