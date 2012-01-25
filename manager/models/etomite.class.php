@@ -2846,17 +2846,15 @@ title='$siteName'>$siteName</a></h2>
     
     public function buildAdminModuleMenu() {
         // grab modules list
-        $xmlUrl = absolute_base_path . "modules/modules.xml"; // XML feed file/URL
-        $xmlStr = file_get_contents($xmlUrl);
-        $xmlObj = simplexml_load_string($xmlStr);
-        $arrXml = objectsIntoArray($xmlObj);
-        $output = '<ul>';
-        foreach($arrXml as $key=>$val) {
-            if ($val['active'] == 'true') {
-                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"".$key."\");' href='javascript:;'>" . $val['name'] . "</a></li>";
+        $modules = $this->getIntTableRows('*', 'modules', 'active=1 AND admin_menu=1', 'name', 'ASC');
+        $output = '';
+        if (count($modules) > 0) {
+            $output = '<ul>';
+            foreach($modules as $module) {
+                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"".$module['key']."\");' href='javascript:;'>" . $module['name'] . "</a></li>";
             }
+            $output .= "</ul>";
         }
-        $output .= "</ul>";
         return $output;
     }
     

@@ -664,6 +664,7 @@ $_lang["which_doc_editor_title"] = "Document editor to use:";
 $_lang["tiny_css_path_title"] = "Path to CSS file:";
 $_lang["tiny_css_selectors_title"] = "CSS selectors:";
 $_lang["manage_modules"] = "Manage Modules";
+$_lang["modules_list"] = "Module List";
 $_lang["modules_already_installed"] = "Installed modules";
 $_lang["modules_install_new"] = "Install new module";
 $_lang["module_install_info"] = "Items installed by this module";

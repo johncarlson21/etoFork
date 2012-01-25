@@ -1,9 +1,22 @@
-<div class="header">Install a Module</div>
-<div class="content">
-    <p>This form installs a new module to the system.<br />The module must be in the /tmp/packages folder and be in the format of a .tar file<br />
-    The packages folder must be writable by the system, the module file and the /modules folder.<br />
-    <p>Use the file manager below to upload your module file or use normal FTP to upload the file.</p>
-    <p>Enter the name of the module in the text box below to install a new module! (The name entered here is the first part of the package file. example: mod_test.tar, you would enter mod_test)</p>
-    <p><input type="text" name="module" id="module_name" value="" /> &nbsp; <a href="#" class="install-module-btn button">Install</a></p>
-    <div id="fileManager"></div>
+<div class="header"><?php echo $etomite->_lang['manage_modules']; ?></div>
+<div id="module-manager-tabs">
+    <ul>
+        <li><a href="#module-list"><?php echo $etomite->_lang['modules_list']; ?></a></li>
+        <li><a href="#install-module"><?php echo $etomite->_lang["modules_install_new"]; ?></a></li>
+    </ul>
+    <div id="module-list"><?php $this->listModules();?></div>
+    <div id="install-module">
+        <p>This form installs a new module to the system.</p>
+        <p>The module must be in the /tmp/packages folder and be in the format of a .tar or a .zip file</p>
+        <p>The packages folder must be writable by the system, the module file and the /modules folder.<br />
+        <p>Use the file manager below to upload your module file or use normal FTP to upload the file.</p>
+        <p>&nbsp;</p>
+        <p>Enter the name of the module in the text box below to install a new module! (The name entered here is the first part of the package file. example: mod_test.tar, you would enter mod_test)</p>
+        <p><strong>Module:</strong> <input type="text" name="module" id="module_name" value="" /> &nbsp; <a href="#" class="install-module-btn button">Install</a></p>
+        <p>&nbsp;</p>
+        <div id="fileManager"></div>
+    </div>
 </div>
+<script type="text/javascript">
+	$('#module-manager-tabs').tabs();
+</script>

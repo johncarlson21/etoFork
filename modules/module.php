@@ -73,11 +73,28 @@ class module {
     }
     
     public function listModules() {
-        
+        $etomite = new etomite();
+        $modules = $etomite->getIntTableRows('*', 'modules');
+        if (count($modules) > 0) {
+            echo "<table width='100%' cellpadding='7' cellspacing='0' border='0'>";
+            echo "<tr><th>Module Name</th><th>Description</th><th>Author</th><th>Version</th><th style='text-align:center;'>Active</th><th style='text-align:center;'>Menu Item</th></tr>";
+            foreach($modules as $module) {
+                echo "<tr>";
+                echo "<td>".ucwords($module['name'])."</td><td>".stripslashes($module['description'])."</td><td>" .
+                    $module['author']."</td><td>".$module['version']."</td>";
+                echo "<td align='center'>".($module['active'] == 1 ? "Yes":"NO")."</td>";
+                echo "<td align='center'>".($module['admin_menu'] == 1 ? "Yes":"NO")."</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p>Sorry but you have no modules installed! Use the \"Install Modules\" tab to add modules!</p>";
+        }
     }
     
     public function installModule() {
         // form to ask for the module name basically the first part of the .tgz file
+        $etomite = new etomite();
         include_once(MANAGER_PATH . 'views/install_module.phtml');
     }
     
@@ -87,15 +104,33 @@ class module {
         // first try to extract the module
         include_once(MANAGER_PATH . 'lib/easyarchives/EasyArchive.class.php');
         $arch = new archive;
-        if (!$arch->extract(absolute_base_path . 'tmp/packages/'.$module.'.tar', absolute_base_path . 'tmp/packages/')) {
-            $this->respond(false, 'There was an error extracting the module!');
+        $ext = '';
+        // check for either tar or zip file
+        if (file_exists(absolute_base_path . 'tmp/packages/'.$module.'.tar')) {
+            if (!$arch->extract(absolute_base_path . 'tmp/packages/'.$module.'.tar', absolute_base_path . 'tmp/packages/')) {
+                $this->respond(false, 'There was an error extracting the module!');
+            }
+            $ext = ".tar";
+        } elseif (file_exists(absolute_base_path . 'tmp/packages/'.$module.'.zip')) {
+            if (!$arch->extract(absolute_base_path . 'tmp/packages/'.$module.'.zip', absolute_base_path . 'tmp/packages/')) {
+                $this->respond(false, 'There was an error extracting the module!');
+            }
+            $ext = ".zip";
+        } else {
+            $this->respond(false, "<p>No package file found!</p><p>Make sure your file has an extension of either .tar or .zip</p>");
         }
         // run the install of the file (moving them and running the creation of sections of snippets)
         $Resource = new Resource();
+        $admin_menu = false;
+        $version = "0.0";
+        $module_description = '';
+        $module_name = $module;
+        $author = "";
         if (file_exists(absolute_base_path . 'tmp/packages/'.$module.'/install.php')) {
             include_once(absolute_base_path . 'tmp/packages/'.$module.'/install.php');
             $snSectionId = 1; // set to default section
             $chSectionId = 2; // set to default section
+            
             if (isset($module_name) && isset($resources)) {
                 // don't create sections unless we have resources for them
                 // create new sections for snippets and chunks
@@ -147,12 +182,15 @@ class module {
             
         } // end if for install script
         
+        // add module to the modules table
+        $result = $Resource->putIntTableRow(array('name'=>$module_name, 'description'=>$module_description, 'version'=>$version, 'author'=>$author, 'admin_menu'=>($admin_menu) ? 1:0, 'active'=>1, 'key'=>$module_key), 'modules');
+        
         // move folder to modules folder
         $Resource->rcopy(absolute_base_path . 'tmp/packages/' . $module . "/", absolute_base_path . 'modules/' . $module);
         // remove tmp module directory
         $Resource->rrmdir(absolute_base_path . 'tmp/packages/' . $module . "/");
         // remove package file
-        @unlink(absolute_base_path . 'tmp/packages/' . $module . ".tar");
+        @unlink(absolute_base_path . 'tmp/packages/' . $module . $ext);
         
         $this->respond(true, 'Module Installed!');
     }

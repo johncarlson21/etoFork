@@ -54,6 +54,12 @@ class ActionServer extends Ajax {
         }
     }
     
+    public function reloadModuleNav() {
+        $etomite = new etomite();
+        echo $etomite->buildAdminModuleMenu();
+        exit(0);
+    }
+    
     public function checkAlias() {
         $Content = new Content();
         $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");

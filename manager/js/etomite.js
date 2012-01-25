@@ -1258,6 +1258,22 @@ var Etomite = {
                     return false;
                 } else {
                     Etomite.notify("Module Installed"); // need to also maybe do a re-direct to module list
+                    $('#moduleNav').click();
+                    Etomite.reloadModuleNav();
+                }
+            }
+        });
+    },
+    
+    reloadModuleNav: function() {
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: { action: 'reloadModuleNav'},
+            success: function(response) {
+                if (response !== null) {
+                    $('#module-nav-list ul').remove();
+                    $('#module-nav-list').append(response);
                 }
             }
         });
