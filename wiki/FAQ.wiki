@@ -13,6 +13,6 @@ Yes, but it would need to be done manually because there are a lot of changes to
 
 If you can use Etomite you can use etoFork
 
-*What are Template Variables AKA (tvs)*
+*What are Template Variables aka (tvs)*
 
 Template variables are user defined variables for documents. For instance, lets say you want to have a specific chunk of text on a document, but each document will have different text, now you just create a text template variable assign it to your template and now every document that uses that template will have a new text box for entering the text, and you call it in your template just like you call other document variables so just like you would use *[`*pagetitle*`]* you would use *[`*tvname*`]*. Currently there are: Text, Textarea, Select, Checkbox, Radio button, and File, and the output types are: Text, Image, Link and Date (all these options are not fully functional yet)
