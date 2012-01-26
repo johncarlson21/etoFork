@@ -2,4 +2,17 @@
 _Questions & Answers (what you should know)_
 
 *Is etoFork Etomite CMS*
-Yes and No! First off, it is built from [http://etomite.com Etomite]
+
+Yes and No! First off, it is built from [http://etomite.com Etomite], a wonderful and great CMS, that I've used for over 5 years now. The main difference is the Manager of etoFork and the additions of features such as Template Variables, Modules and other functions.
+
+*Can I move my Etomite site to etoFork*
+
+Yes, but it would need to be done manually because there are a lot of changes to the database. I'm hoping in time to make an upgrade option in the installer to upgrade from Etomite 1.x to etoFork.
+
+*Is it easy to use*
+
+If you can use Etomite you can use etoFork
+
+*What are Template Variables AKA (tvs)*
+
+Template variables are user defined variables for documents. For instance, lets say you want to have a specific chunk of text on a document, but each document will have different text, now you just create a text template variable assign it to your template and now every document that uses that template will have a new text box for entering the text, and you call it in your template just like you call other document variables so just like you would use [*pagetitle*] you would use [*tvname*]
