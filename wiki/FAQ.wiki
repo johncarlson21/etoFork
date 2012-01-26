@@ -1,0 +1,5 @@
+=Frequently Asked Questions=
+_Questions & Answers (what you should know)_
+
+*Is etoFork Etomite CMS*
+Yes and No! First off, it is built from [http://etomite.com Etomite]
