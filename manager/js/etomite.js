@@ -1254,10 +1254,10 @@ var Etomite = {
             },
             success: function(json) {
                 if(json === null || json.succeeded !== true) {
-                    Etomite.errorDialog('There was an error installing your module!');
+                    Etomite.errorDialog(json.message, 'Error!');
                     return false;
                 } else {
-                    Etomite.notify("Module Installed"); // need to also maybe do a re-direct to module list
+                    Etomite.notify(json.message); // need to also maybe do a re-direct to module list
                     $('#moduleNav').click();
                     Etomite.reloadModuleNav();
                 }

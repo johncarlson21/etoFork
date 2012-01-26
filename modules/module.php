@@ -92,6 +92,53 @@ class module {
         }
     }
     
+    public function moduleExists($module) {
+        $etomite = new etomite();
+        $modules = $etomite->getIntTableRows('*', 'modules', '`key`="'.$module.'"');
+        
+        if (count($modules) > 0) {
+            return $modules[0];
+        }
+        return false;
+    }
+    
+    public function removeModule($id) {
+        $etomite = new Resource();
+        $modules = $etomite->getIntTableRows('*', 'modules', 'id='.$id);
+        $snippets = array();
+        $chunks = array();
+        if (count($modules) > 0) {
+            $module = $modules[0];
+            // remove module from db
+            $result = $etomite->dbQuery("DELETE FROM ".$etomite->db."modules WHERE id=".$id);
+            // remove snippets and chunks if needed
+            if (!empty($module['resources'])) {
+                $resources = explode("|", $module['resources']);
+                $snR = isset($resources[0]) ? explode(":", $resources[0]) : '';
+                $snippets = isset($snR[1]) ? explode(",", $snR[1]) : array();
+                $chR = isset($resources[1]) ? explode(":", $resources[1]) : '';
+                $chunks = isset($chR[1]) ? explode(",", $chR[1]) : array();
+            }
+            if (count($snippets) > 0) {
+                foreach($snippets as $snippet) {
+                    if ($s = $etomite->getResourceFromName($snippet, 'snippet')) {
+                        $etomite->deleteResource($s['id'], 'snippet');
+                    }
+                }
+            }
+            if (count($chunks) > 0) {
+                foreach($chunks as $chunk) {
+                    if ($c = $etomite->getResourceFromName($chunk, 'chunk')) {
+                        $etomite->deleteResource($c['id'], 'chunk');
+                    }
+                }
+            }
+            // remove old module directory
+            $etomite->rrmdir(absolute_base_path . 'modules/' . $module['key'] . "/");
+        }
+        return false;
+    }
+    
     public function installModule() {
         // form to ask for the module name basically the first part of the .tgz file
         $etomite = new etomite();
@@ -126,10 +173,27 @@ class module {
         $module_description = '';
         $module_name = $module;
         $author = "";
+        $updating = false;
+        
         if (file_exists(absolute_base_path . 'tmp/packages/'.$module.'/install.php')) {
             include_once(absolute_base_path . 'tmp/packages/'.$module.'/install.php');
+            // check for old module
+            $oldModule = $this->moduleExists($module_key);
+            if ($oldModule) {
+                // check version
+                if ($version > $oldModule['version']) {
+                    $updating = true;
+                    $this->removeModule($oldModule['id']); // remove old module and resources (snippets, chunks and module folder)
+                } else {
+                    $Resource->rrmdir(absolute_base_path . 'tmp/packages/' . $module . "/");
+                    $this->respond(false, '<p>Module already installed!</p><p>The version you are trying to install is either the same or an older version.</p>');
+                }
+            }
+            
             $snSectionId = 1; // set to default section
             $chSectionId = 2; // set to default section
+            $snippets = array();
+            $chunks = array();
             
             if (isset($module_name) && isset($resources)) {
                 // don't create sections unless we have resources for them
@@ -154,6 +218,7 @@ class module {
                                 'snippet'=>$snCode,
                                 'section'=>$snSectionId
                             ), 'site_snippets');
+                            $snippets[] = $snippet['name'];
                         }
                     }
                 }// end if for snippets
@@ -175,24 +240,42 @@ class module {
                                 'snippet'=>$chCode,
                                 'section'=>$chSectionId
                             ), 'site_htmlsnippets');
+                            $chunks[] = $chunk['name'];
                         }
                     }
                 }// end if for chunks
             }// end check for module name and resources
             
-        } // end if for install script
+            // add module to the modules table
+            // build resources data
+            $module_resources = '';
+            if (count($snippets) > 0) {
+                $module_resources .= "snippets:" . implode(",", $snippets);
+            }
+            if (count($chunks) > 0) {
+                if (!empty($module_resources)) {
+                    $module_resources .= "|";
+                }
+                $module_resources .= "chunks:" . implode(",", $chunks);
+            }
+            $result = $Resource->putIntTableRow(array('name'=>$module_name, 'description'=>$module_description, 'version'=>$version, 'author'=>$author, 'admin_menu'=>($admin_menu) ? 1:0, 'active'=>1, 'key'=>$module_key, 'resources'=>$module_resources), 'modules');
+            
+            // move folder to modules folder
+            $Resource->rcopy(absolute_base_path . 'tmp/packages/' . $module . "/", absolute_base_path . 'modules/' . $module);
+            // remove tmp module directory
+            $Resource->rrmdir(absolute_base_path . 'tmp/packages/' . $module . "/");
+            // remove package file
+            @unlink(absolute_base_path . 'tmp/packages/' . $module . $ext);
+            if ($updating) {
+                $this->respond(true, 'Module Updated');
+            } else {
+                $this->respond(true, 'Module Installed!');
+            }
+            
+        } else {
+            $this->respond(false, "<p>This package does not contain an install.php file! This is required!</p>");
+        }// end if for install script
         
-        // add module to the modules table
-        $result = $Resource->putIntTableRow(array('name'=>$module_name, 'description'=>$module_description, 'version'=>$version, 'author'=>$author, 'admin_menu'=>($admin_menu) ? 1:0, 'active'=>1, 'key'=>$module_key), 'modules');
-        
-        // move folder to modules folder
-        $Resource->rcopy(absolute_base_path . 'tmp/packages/' . $module . "/", absolute_base_path . 'modules/' . $module);
-        // remove tmp module directory
-        $Resource->rrmdir(absolute_base_path . 'tmp/packages/' . $module . "/");
-        // remove package file
-        @unlink(absolute_base_path . 'tmp/packages/' . $module . $ext);
-        
-        $this->respond(true, 'Module Installed!');
     }
 
 }
