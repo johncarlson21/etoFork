@@ -1111,7 +1111,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}template_variables` (
   `required` char(1) NOT NULL default '0',
   `output_type` enum('text','image','link','date') NOT NULL,
   PRIMARY KEY  (`tv_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1124,7 +1124,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}template_variable_templates` (
   `template_id` int(11) NOT NULL,
   `tv_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1138,6 +1138,23 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_content_tv_val` (
   `tv_id` int(11) NOT NULL,
   `tv_value` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `etomite_modules`
+--
+
+CREATE TABLE IF NOT EXISTS `{PREFIX}modules` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `version` varchar(5) NOT NULL,
+  `author` varchar(250) NOT NULL,
+  `active` char(1) NOT NULL default '0',
+  `admin_menu` char(1) NOT NULL default '0',
+  `key` varchar(50) NOT NULL,
+  `resources` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
