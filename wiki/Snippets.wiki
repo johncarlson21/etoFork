@@ -1,0 +1,52 @@
+#summary Snippet - php code for your site
+<wiki:toc max_depth="1" />
+=Snippets=
+_*What are they?*_
+----
+Snippets are pieces of PHP code that you create in the manager and use in your documents or templates. Snippets return content like a function.
+
+The etomite class is also passed to snippets so you can use the api or use config variables, for example.
+
+*Example*
+
+{{{
+<?php
+
+$html = "Hello World";
+
+return $html;
+
+}
+
+?>
+}}}
+
+_Notice the *return $html;*_
+
+Snippets can be simple or complex and can call other snippets to run other code. You can also use chunks in the output of your snippet.
+
+*Example*
+
+{{{
+<?php
+
+$html = "This is a {{form}} that will output the form html code is in the chunk named form";
+
+return $html;
+
+?>
+}}}
+
+*Example with an etomite class call*
+
+{{{
+<?php
+
+$docId = $etomite->documentIdentifier;
+
+$html = "<p>This document ID is: ".$docId."</p>";
+
+return $html;
+
+?>
+}}}
