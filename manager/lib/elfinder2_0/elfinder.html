@@ -144,7 +144,7 @@
                          'cut', 'paste', 'edit', 'resize', 'extract', 'archive', 'search', 'info', 'view', 'help'
                      ],
               getFileCallback: function(url) { // editor callback
-                path = url.path;
+                path = url; //url.path;
                 FileBrowserDialogue.mySubmit(path); // pass selected file path to TinyMCE 
               }
             }).elfinder('instance');      

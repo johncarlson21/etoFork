@@ -53,39 +53,6 @@ function elFinderBrowser (field_name, url, type, win) {
     return false;
 }
 
-/*function fileBrowserCallBack(field_name, url, type, win) {
-return; // Nothing installed so we just return
-// This is where you insert your custom filebrowser logic
-alert("Filebrowser callback: field_name: " + field_name + ", url: " + url + ", type: " + type);
-// Insert new URL, this would normaly be done in a popup
-win.document.forms[0].elements[field_name].value = "someurl.htm";
-}*/
-
-function fileBrowserCallBack(field_name, url, type, win) {
-  
-      var connector = Etomite.EtoRoot + "media/etoFileBrowser/files.static.action.php";
-  
-      my_field = field_name;
-      my_win = win;
-  
-      tinyMCE.activeEditor.windowManager.open({
-          file : connector,
-          title : "File Browser",
-  width : 700,
-  height : 450,
-  close_previous : "yes",
-      scrollbars : true
-  }, {
-      window : win,
-      input : field_name,
-      scrollbars : "yes"
-  /*resizable : "yes",
-  scrollbars : "yes",
-  editor_id : tinyMCE.selectedInstance.editorId*/
-      });
-      return false;
-}
-
 function bindContextMenu(node, span) {
     // Add context menu to this node:
     $(span).contextMenu({menu: "myMenu"}, function(action, el, pos) {

@@ -244,8 +244,10 @@ $opts = array(
 		
 		array(
 			'driver'     => 'LocalFileSystem',
-			'path'       => '../../../../assets/',
-			'URL'        => dirname($_SERVER['PHP_SELF']) . '/../../../../assets/',
+			//'path'       => '../../../../assets/',
+			'path' => absolute_base_path . 'assets/',
+			//'URL'        => dirname($_SERVER['PHP_SELF']) . '/../../../../assets/',
+			'URL' => relative_base_path . 'assets/',
 			// 'alias'      => 'File system',
 			'mimeDetect' => 'internal',
 			'tmbPath'    => '.tmb',

@@ -830,16 +830,50 @@ var Etomite = {
         }
     },
     
-    sfBrowserWindow: function(element) {
-        $.sfb({
-            select: function(aFiles) {
-                if(aFiles !== null && aFiles.length > 0) {
-                    var fn = aFiles[0].file.replace(/\.\.\//gi,"");
-                    $('#'+element).val("/" + fn); // we only accept 1 file name
-                }   
-            },
-            swfupload: true
+    elFinderWindow: function(element) {
+        $('<div id="elfinder"></div>').appendTo('#mainContent');
+        $('#elfinder').dialog({
+            autoOpen: true,
+            width: 800,
+            height: 440,
+            position: 'center',
+            resizable: false,
+            closeOnEscape: false,
+            title: "File Manager",
+            close: function() {
+                $(this).dialog('destroy');
+                $('#elfinder').remove();
+            }
         });
+        var elf = $('#elfinder').elfinder({
+            // set your elFinder options here
+            url: 'lib/elfinder2_0/php/connector.php',  // connector URL
+            height: 430,
+            contextmenu : {
+                // navbarfolder menu
+                navbar :
+                  ['open', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'info'],
+                // current directory menu
+                cwd    :
+                  ['reload', 'back', '|', 'upload', 'mkdir', 'mkfile', 'paste', '|', 'info'],
+                // current directory file menu
+                files  :
+                  ['getfile', '|','open', 'quicklook', '|', 'download', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'edit', 'rename', 'resize', '|', 'archive', 'extract', '|', 'info']
+                },
+            customData : {token : '427820038402jfkals89802', inManager : 'true'},
+            commands : [
+                       'open', 'reload', 'home', 'up', 'back', 'forward', 'getfile', 'quicklook',
+                       'download', 'rm', 'duplicate', 'rename', 'mkdir', 'mkfile', 'upload', 'copy',
+                       'cut', 'paste', 'edit', 'resize', 'extract', 'archive', 'search', 'info', 'view', 'help'
+                   ],
+            getFileCallback: function(url) { // editor callback
+              path = url;
+              $('#'+element).val(path); // pass selected file path to element
+              $('#elfinder').dialog('close');
+              $('#elfinder').dialog('destroy');
+              $('#elfinder').remove();
+            }
+          }).elfinder('instance');
     },
     
     editUser: function(uid) {

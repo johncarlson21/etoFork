@@ -244,8 +244,8 @@ $opts = array(
 		
 		array(
 			'driver'     => 'LocalFileSystem',
-			'path'       => '../../../../tmp/packages/',
-			'URL'        => dirname($_SERVER['PHP_SELF']) . '/../../../../tmp/packages/',
+			'path'       => absolute_base_path . 'tmp/packages/',
+			'URL'        => relative_base_path . 'tmp/packages/',
 			// 'alias'      => 'File system',
 			'mimeDetect' => 'internal',
 			'tmbPath'    => '.tmb',

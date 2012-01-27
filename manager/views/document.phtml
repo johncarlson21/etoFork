@@ -40,7 +40,7 @@ if($id && count($content)>0) {
     <div class="ui-layout-content">
     <?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){?>
     <div id="docContent">
-        <textarea rows="10" cols="60" name="taContent" id="taContent" style="width:100%"><?php echo isset($content['content']) ? $content['content'] : ""; ?></textarea>
+        <textarea rows="10" cols="60" name="taContent" id="taContent" style="width:100%"><?php echo isset($content['content']) ? stripslashes($content['content']) : ""; ?></textarea>
     </div>
     <?php } ?>
     <div id="identification">
@@ -424,7 +424,7 @@ if($id && count($content)>0) {
                             echo '<td>';
                             $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
                             echo "<input style='width:200px;margin-right:15px;' type='text' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$val."' />";
-                            echo "<a href='javascript:;' id='fileBrowser' class='button' onclick='Etomite.sfBrowserWindow(\"".$tv['field_name']."\");'>Browse</a>";
+                            echo "<a href='javascript:;' id='fileBrowser' class='button' onclick='Etomite.elFinderWindow(\"".$tv['field_name']."\");'>Browse</a>";
                             echo '</td>';
                             echo '</tr>';
                             break;
