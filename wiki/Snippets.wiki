@@ -1,6 +1,7 @@
 #summary Snippet - php code for your site
-#sidebar TableOfContents
+*Table of contents*
 <wiki:toc max_depth="1" />
+----
 =Snippets=
 _*What are they?*_
 ----
