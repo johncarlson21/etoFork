@@ -151,7 +151,7 @@
     </div>
     <div id="recent">
         <?php
-        $sql = "SELECT id, pagetitle, description FROM ".$etomite->db."site_content WHERE ".$etomite->db."site_content.deleted=0 AND (".$etomite->db."site_content.editedby=".$_SESSION['internalKey']." OR ".$etomite->db."site_content.createdby=".$_SESSION['internalKey'].") ORDER BY editedon DESC LIMIT ".$etomite->config['top_howmany'].";";
+        $sql = "SELECT id, pagetitle, description, type FROM ".$etomite->db."site_content WHERE ".$etomite->db."site_content.deleted=0 AND (".$etomite->db."site_content.editedby=".$_SESSION['internalKey']." OR ".$etomite->db."site_content.createdby=".$_SESSION['internalKey'].") ORDER BY editedon DESC LIMIT ".$etomite->config['top_howmany'].";";
         $rs = $etomite->dbQuery($sql);
         $limit = $etomite->recordCount($rs);
         $activity = ($limit<1) ? $_lang["no_activity_message"] : $_lang["activity_message"];
@@ -165,13 +165,10 @@
                 if($i == 0) $syncid = $content['id'];
             ?>
                 <tr style="padding:0; height:auto; margin:0; padding:0; border:none; ">
-                    <td style="vertical-align:top;">
-                    <img src="images/misc/li.gif">
-                    </td>
                     <td style="text-align:right; vertical-align:top; margin:0; padding:0 4px 0 4px; border:none;">
                     <?php echo $content['id']; ?>
                     </td>
-                    <td style="vertical-align:top;"><a href='index.php?a=3&id=<?php echo $content['id']; ?>'><?php echo $content['pagetitle']; ?></a>
+                    <td style="vertical-align:top;"><a href='javascript:;' onclick="Etomite.editDocument('<?php echo $content['id'];?>', '', <?php echo ($content['type'] == 'reference') ? "'true'" : "''";?>);"><?php echo $content['pagetitle']; ?></a>
                     <span style="vertical-align:top;">&nbsp;-&nbsp;<?php echo $content['description']!='' ? $content['description'] : ''; ?></span>
                     </td>
                 </tr>

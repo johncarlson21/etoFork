@@ -49,7 +49,7 @@ else
               </thead>
               <tbody>
         <?php
-        $sql = "SELECT id, pagetitle, editedby, editedon FROM ".$etomite->db."site_content WHERE ".$etomite->db."site_content.deleted=0 ORDER BY editedon DESC LIMIT 20";
+        $sql = "SELECT id, pagetitle, editedby, editedon, type FROM ".$etomite->db."site_content WHERE ".$etomite->db."site_content.deleted=0 ORDER BY editedon DESC LIMIT 20";
         $rs = $etomite->dbQuery($sql);
         $limit = $etomite->recordCount($rs);
         if($limit < 1)
@@ -67,7 +67,7 @@ else
         
             $user = $etomite->fetchRow($rs2);
             $bgcolor = ($i % 2) ? 'odd' : 'even';
-            echo "<tr class=\"$bgcolor\"><td>".$content['id']."</td><td><a href='javascript:;' onclick='Etomite.editDocument('".$content['id']."');'>".$content['pagetitle']."</a></td><td>".$user['username']."</td><td>".strftime($etomite->config['date_format']." @ ".$etomite->config['time_format'], $content['editedon']+$etomite->config['server_offset_time'])."</td></tr>";
+            echo "<tr class=\"$bgcolor\"><td>".$content['id']."</td><td><a href='javascript:;' onclick=\"Etomite.editDocument('".$content['id']."', '', ".(($content['type']=='reference') ? "'true'":"''").");\">".$content['pagetitle']."</a></td><td>".$user['username']."</td><td>".strftime($etomite->config['date_format']." @ ".$etomite->config['time_format'], $content['editedon']+$etomite->config['server_offset_time'])."</td></tr>";
           }
         }
         ?>

@@ -47,7 +47,7 @@ button {
   cursor:pointer;
 }
 
-a, a:active, a:visited, a:link { text-decoration:none; color:#0058B0; }
+a, a:active, a:visited, a:link { text-decoration:none; color:#0058B0; cursor: pointer; }
 a:hover { color:#000; text-decoration:underline; }
 a img { border:0; }
 
@@ -931,6 +931,6 @@ ul.dropdown li ul li a:hover {
     
 }
 
-#mainContent ul li {
-    
+#mainContent .ui-tabs-panel ul li {
+    padding: 5px;
 }
