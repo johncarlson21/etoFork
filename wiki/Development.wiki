@@ -15,7 +15,7 @@ Templates can be a combination of HTML elements (html, js, css) for your site, b
 
 Snippets are PHP code for your site, to create dynamic content
 
-==[Chunks Chunks}==
+==[Chunks Chunks]==
 
 Chunks are HTML content that can be re-used through out your site and within snippets
 
@@ -26,4 +26,3 @@ TVs are extra attributes for your document, that are attached to specific templa
 ==[Modules M0odules]==
 
 Modules are PHP code packages that are stored in the file system rather than creating them in the manager.
-
