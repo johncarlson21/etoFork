@@ -18,24 +18,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}active_users` (
   PRIMARY KEY  (`internalKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Contains data about active users.';
 
-
---
--- Table structure for table `{PREFIX}cron_log`
---
-
-CREATE TABLE IF NOT EXISTS `{PREFIX}cron_log` (
-  `id` int(11) NOT NULL auto_increment,
-  `date_ran` datetime NOT NULL,
-  `errors` text NOT NULL,
-  `msg` text NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `{PREFIX}cron_log`
---
-
-
 -- --------------------------------------------------------
 
 --
