@@ -1,0 +1,14 @@
+#summary etoFork - General Info
+
+=etoFork=
+----
+
+*etoFork* is a fork of [http://www.etomite.com Etomite] CMS v 1.x. There is a lot of Etomite code that is original, and a lot that I've changed. The manager has been re-built to remove frames and allow new functionality.
+
+Thanks to Ralph over at Etomite for helping out with some of the code and ideas.
+
+Modules, Template Variables and document attributes have been added. Versions of documents is also another highlight as well as Zend Framework style urls
+
+All though it is functional at the moment, there is no release as of yet and some functionality is not finished
+
+Current Code should not be used in a production environment. 
