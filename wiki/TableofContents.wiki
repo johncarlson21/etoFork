@@ -4,6 +4,8 @@
 ----
 * [TableofContents Table of Contents]
  * [General General Information]
+ * [Install Install]
+  * [UpdateFromEtomit Move from Etomite 1.x]
  * [Development Development]
   * [Templates Templates]
   * [Snippets Snippets]
