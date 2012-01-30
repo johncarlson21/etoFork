@@ -1,0 +1,29 @@
+#summary Making your site work with some extras
+
+=Development=
+----
+
+*etoFork* can be used to make a simple static site with just basic HTML, Javascript and CSS, but what if you need something special. Maybe you need to be able to put a menu on a specific page, or you want a different template for a specific page.
+
+This is where Templates, Snippets, Chunks Template Variables (tvs) and Modules come in handy.
+
+==[Templates Templates]==
+
+Templates can be a combination of HTML elements (html, js, css) for your site, but can be used for multiple documents. 
+
+==[Snippets Snippets]==
+
+Snippets are PHP code for your site, to create dynamic content
+
+==[Chunks Chunks}==
+
+Chunks are HTML content that can be re-used through out your site and within snippets
+
+==[TemplateVariables Template Variables]==
+
+TVs are extra attributes for your document, that are attached to specific templates
+
+==[Modules M0odules]==
+
+Modules are PHP code packages that are stored in the file system rather than creating them in the manager.
+
