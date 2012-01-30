@@ -1,0 +1,23 @@
+#summary Install on an Etomie v1.x install
+
+=Upgrade from Etomite v1.x=
+
+ # rename your manager folder, example: manager_old
+ # copy all files from the etoFork package to the server and overwrite files
+ # copy your old config.inc.php file to manager/includes folder
+ # set config.inc.php to writeable 777
+ # point your browser to youretoinstall.com/install
+ # click on Repair Configuration file
+ # use phpMyAdmin or another sql manager to import the install/sql/from_1.1sql file
+
+You should now be able to go to the new manager
+
+_*Make sure to check your configuration in the manager and clear the cache*_
+
+_*Also at this time, you must use phpMyAdmin or another sql manager to set your chunks and snippets to the default sections*_
+
+For Snippets set section = 1
+For Chunks set section = 2
+
+We will be making it later so that sections are not based on snippets or chunks, they will all be used the same way so that if you make a section called "Menu", you will be able to choose it for snippets and chunks. This will also be added to modules and template variables later on.
+
