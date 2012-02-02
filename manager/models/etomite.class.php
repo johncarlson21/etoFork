@@ -696,7 +696,7 @@ class etomite {
       if(!empty($currentSnippetParams)) {
         $tempSnippetParams = str_replace("?", "", $currentSnippetParams);
         $splitter = strpos($tempSnippetParams, "&amp;")>0 ? "&amp;" : "&";
-        $tempSnippetParams = split($splitter, $tempSnippetParams);
+        $tempSnippetParams = explode($splitter, $tempSnippetParams);
 
         for($x=0; $x<count($tempSnippetParams); $x++) {
           $parameterTemp = explode("=", $tempSnippetParams[$x],2);
@@ -2559,13 +2559,13 @@ title='$siteName'>$siteName</a></h2>
             $meta = '';
             foreach($this->_meta as $key=>$val){
                 if($key == 'title'){
-                    $content = eregi_replace("<title[^>]*>.*</title>","",$content);
+                    $content = preg_replace("/(<title>.+?)+(<\/title>)/i","",$content);
                     if(!empty($this->config['site_name'])){
                         $val = $this->config['site_name']." - ".$val;
                     }
                     $meta .= "<title>".htmlspecialchars($val)."</title>\n";
                 }else{
-                    $content = eregi_replace("<meta name=\"".$key."\"[^>]*>","",$content);
+                    $content = preg_replace("/<meta name=\"".$key."\"[^>]*>/i","",$content);
                     $meta .= "<meta name='".$key."' content='".htmlspecialchars($val)."' />\n";
                 }
             }

@@ -19,8 +19,6 @@ header("Pragma: no-cache");
 $INCPATH = ini_get("include_path").PATH_SEPARATOR.dirname(__FILE__)."/includes/".PATH_SEPARATOR.dirname(__FILE__)."/models/";
 ini_set("include_path", $INCPATH);
 
-@set_magic_quotes_runtime(0);
-
 // define various system constant values
 if(!defined("ENT_COMPAT")) define("ENT_COMPAT", 2);
 if(!defined("ENT_NOQUOTES")) define("ENT_NOQUOTES", 0);
@@ -30,7 +28,7 @@ if(!defined("IN_ETOMITE_SYSTEM")) define("IN_ETOMITE_SYSTEM", "true");
 // set the document_root
 if(!isset($_SERVER["DOCUMENT_ROOT"]) || empty($_SERVER["DOCUMENT_ROOT"]))
 {
-  $_SERVER["DOCUMENT_ROOT"] = str_replace($_SERVER["PATH_INFO"], "", ereg_replace("[\][\]", "/", $_SERVER["PATH_TRANSLATED"]))."/";
+  $_SERVER["DOCUMENT_ROOT"] = str_replace($_SERVER["PATH_INFO"], "", preg_replace("[\][\]", "/", $_SERVER["PATH_TRANSLATED"]))."/";
 }
 // include language file
 $_lang = array();

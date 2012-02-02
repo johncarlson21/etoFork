@@ -47,15 +47,15 @@ class User extends etomite {
     
     public function saveUser() {
         $id = (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false;
-        $username = (isset($_REQUEST['username']) && !empty($_REQUEST['username'])) ? mysql_escape_string($_REQUEST['username']) : '';
-        $fullname = (isset($_REQUEST['fullname']) && !empty($_REQUEST['fullname'])) ? mysql_escape_string($_REQUEST['fullname']) : '';
-        $email = (isset($_REQUEST['email']) && !empty($_REQUEST['email'])) ? mysql_escape_string($_REQUEST['email']) : '';
-        $phone = (isset($_REQUEST['phone']) && !empty($_REQUEST['phone'])) ? mysql_escape_string($_REQUEST['phone']) : '';
-        $mobilephone = (isset($_REQUEST['mobilephone']) && !empty($_REQUEST['mobilephone'])) ? mysql_escape_string($_REQUEST['mobilephone']) : '';
+        $username = (isset($_REQUEST['username']) && !empty($_REQUEST['username'])) ? mysql_real_escape_string($_REQUEST['username']) : '';
+        $fullname = (isset($_REQUEST['fullname']) && !empty($_REQUEST['fullname'])) ? mysql_real_escape_string($_REQUEST['fullname']) : '';
+        $email = (isset($_REQUEST['email']) && !empty($_REQUEST['email'])) ? mysql_real_escape_string($_REQUEST['email']) : '';
+        $phone = (isset($_REQUEST['phone']) && !empty($_REQUEST['phone'])) ? mysql_real_escape_string($_REQUEST['phone']) : '';
+        $mobilephone = (isset($_REQUEST['mobilephone']) && !empty($_REQUEST['mobilephone'])) ? mysql_real_escape_string($_REQUEST['mobilephone']) : '';
         $role = (isset($_REQUEST['role']) && !empty($_REQUEST['role'])) ? (int)$_REQUEST['role'] : '';
         $blocked = (isset($_REQUEST['blocked']) && !empty($_REQUEST['blocked'])) ? (int)$_REQUEST['blocked'] : 0;
         $mailmessages = (isset($_REQUEST['mailmessages']) && !empty($_REQUEST['mailmessages'])) ? (int)$_REQUEST['mailmessages'] : 0;
-        $password = (isset($_REQUEST['password']) && !empty($_REQUEST['password'])) ? mysql_escape_string($_REQUEST['password']) : '';
+        $password = (isset($_REQUEST['password']) && !empty($_REQUEST['password'])) ? mysql_real_escape_string($_REQUEST['password']) : '';
         $usergroups = (isset($_REQUEST['usergroups']) && !empty($_REQUEST['usergroups'])) ? $_REQUEST['usergroups'] : array();
         $mu_data = array(
             'username' => $username

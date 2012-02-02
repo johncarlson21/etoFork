@@ -4,14 +4,15 @@
 # You must be running on Apache mod_rewrite to use this.
 # Remember, you must rename this file to .htaccess
 #
-SetOutputFilter DEFLATE
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4\.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
-Header append Vary User-Agent env=!dont-vary
-php_flag zlib.output_compression on
+<ifModule mod_deflate.c>
+    SetOutputFilter DEFLATE
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+</ifModule>
 
+php_flag zlib.output_compression on
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
