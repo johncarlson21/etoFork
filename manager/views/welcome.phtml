@@ -9,7 +9,7 @@
         <li><a href="#config-check"><span><?php echo $_lang["configcheck_title"]; ?></span></a></li>
     </ul>
     <div id="welcome">
-    <table border="0" cellpadding="5" wdith="100%">
+    <table border="0" cellpadding="5" width="100%">
           <tr>
             <td width="10%" align="right">
               <img src='./images/misc/etofork_logo.png' alt='<?php echo $_lang["etomite_slogan"]; ?>' />
@@ -110,8 +110,8 @@
     
         <tr>
           <td colspan="2">
-            <i><a href="index.php?a=10"><img src="images/icons/messages.gif" align="absmiddle" border=0>
-            </a>&nbsp;<?php printf($_lang["welcome_messages"], $_SESSION['nrtotalmessages'], $_SESSION['nrnewmessages']); ?></i>
+            <i><a href="index.php?a=10"><img src="images/icons/messages.gif" border="0" />
+            </a>&nbsp;<?php printf($_lang["welcome_messages"], $_SESSION['nrtotalmessages'], isset($_SESSION['nrnewmessages']) ? $_SESSION['nrnewmessages'] : 0); ?></i>
           </td>
         </tr>
     
@@ -242,7 +242,7 @@
     $limit = $etomite->recordCount($rs);
     if($limit < 1)
     {
-      echo "No active users found.<br />";
+      echo "<tr><td colspan='5'>No active users found.</td></tr>";
     }
     else
     {

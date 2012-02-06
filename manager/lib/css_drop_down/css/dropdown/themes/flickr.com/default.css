@@ -44,6 +44,7 @@ ul.dropdown {
 	ul.dropdown li.hover,
 	ul.dropdown li:hover {
 	 color: #0063dc;
+	 background-color: #FFF;
 	}
 
 	ul.dropdown a:link,
