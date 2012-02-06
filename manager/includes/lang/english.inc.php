@@ -106,8 +106,8 @@ $_lang["show_tree"] = "Show tree";
 $_lang["confirm_remove_locks"] = "Users sometimes close their browser while editing documents, templates, snippets or parsers, possibly leaving the item they were editing in locked state. By pressing OK you can remove ALL locks currently in place.\\n\\nProceed?";
 $_lang["welcome_title"] = "Welcome to Etomite";
 $_lang["welcome_message"] = "Welcome to Etomite! To start, select a document from the tree to
- the left of the screen, or choose a menu option from the main menu. Suggestions, comments or compliments are always welcome at the <a href='http://www.etomite.com/forums/' target='_blank'>Etomite
- Forums</a>.<p>We hope you enjoy using Etomite,<br />The Etomite Development Team"; // Returned 0614
+ the left of the screen, or choose a menu option from the main menu. Suggestions, comments or compliments are always welcome at the <a href='http://www.etomite.com/forums/' rel='external'>Etomite
+ Forums</a>.<p>We hope you enjoy using Etomite,<br />The Etomite Development Team</p>"; // Returned 0614
 $_lang["welcome_messages"] = "Your inbox contains <b>%d</b> message(s), of which <b>%s</b> are unread.";
 $_lang["activity_title"] = "Recent documents";
 $_lang["activity_message"] = "This list shows the last documents you created or edited:";

@@ -3,7 +3,7 @@
     <li><a onclick="this.blur();" href="./"><?php echo $_lang["home"]; ?></a></li>
     <li class="dir"><span><?php echo $_lang["site"]; ?></span>
         <ul>
-            <li><a onclick="this.blur();" href="../?z=manprev" target="_blank"><?php echo $_lang["launch_site"]; ?></a></li>
+            <li><a onclick="this.blur();" href="../?z=manprev" rel="external"><?php echo $_lang["launch_site"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.syncSite();" href="javascript:;"><?php echo $_lang["refresh_site"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('showSiteSchedule');" href="javascript:;"><?php echo $_lang["site_schedule"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.showVisitorStats();" href="javascript:;"><?php echo $_lang["visitor_stats"]; ?></a></li>
@@ -65,7 +65,7 @@
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('manageFiles');" href="javascript:;"><?php echo $_lang["manage_files"]; ?></a></li>
         <?php } ?>
         <?php   if($_SESSION['permissions']['export_html']==1) { ?>
-            <li><a onclick="this.blur();" href="index.php?a=83" target="main"><?php echo $_lang["export_site"]; ?></a></li>
+            <li><a onclick="this.blur();" href="index.php?a=83"><?php echo $_lang["export_site"]; ?></a></li>
         <?php } ?>
             <li><a id="moduleNav" onclick="this.blur(); Etomite.installModule();" href="javascript:;"><?php echo $_lang["manage_modules"]; ?></a></li>
         </ul>
@@ -80,5 +80,5 @@
         </ul>
     </li>
     <?php } ?>
-    <li><a onclick="this.blur();" href="?logout=1" target="_top"><?php echo $_lang["logout"]; ?></a></li>
+    <li><a onclick="this.blur();" href="?logout=1"><?php echo $_lang["logout"]; ?></a></li>
 </ul>

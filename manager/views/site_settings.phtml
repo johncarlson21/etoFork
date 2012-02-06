@@ -110,8 +110,13 @@
         <tr>
           <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["charset_title"]; ?></b></td>
           <td>
+          <?php
+          $etomite_charset = $this->config['etomite_charset'];
+          ?>
             <select name="etomite_charset" size="1" class="inputBox">
-              <?php include(MANAGER_PATH."includes/charsets.php"); ?>
+              <?php
+              include(MANAGER_PATH."includes/charsets.php");
+              ?>
             </select>
           </td>
         </tr>

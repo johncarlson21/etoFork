@@ -11,12 +11,12 @@
     <div id="welcome">
     <table border="0" cellpadding="5" width="100%">
           <tr>
-            <td width="10%" align="right">
+            <td style="width:10%;" align="right">
               <img src='./images/misc/etofork_logo.png' alt='<?php echo $_lang["etomite_slogan"]; ?>' />
               <p>&nbsp;</p>
           </td>
           <td valign="top">
-            <p><b><?php echo $_lang["welcome_title"]; ?></b><br /><?php echo $_lang["welcome_message"]; ?></p>
+            <p><b><?php echo $_lang["welcome_title"]; ?></b></p><?php echo $_lang["welcome_message"]; ?>
     
     <?php
     if($etomite->config['track_visitors'] == 1)
@@ -110,7 +110,7 @@
     
         <tr>
           <td colspan="2">
-            <i><a href="index.php?a=10"><img src="images/icons/messages.gif" border="0" />
+            <i><a href="index.php?a=10"><img src="images/icons/messages.gif" alt="Messages" />
             </a>&nbsp;<?php printf($_lang["welcome_messages"], $_SESSION['nrtotalmessages'], isset($_SESSION['nrnewmessages']) ? $_SESSION['nrnewmessages'] : 0); ?></i>
           </td>
         </tr>
@@ -118,13 +118,13 @@
     <?php } ?>
     
       </table>
-      <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#000000">
+      <table width="100%" border="0" cellspacing="1" cellpadding="3" style="background-color: #000;">
       <thead>
         <tr>
-          <td width="25%">&nbsp;</td>
-          <td align="right" width="25%"><?php echo $_lang['visitors']; ?></td>
-          <td align="right" width="25%"><?php echo $_lang['visits']; ?></td>
-          <td align="right" width="25%"><?php echo $_lang['page_impressions']; ?></td>
+          <td style="width:25%;">&nbsp;</td>
+          <td align="right" style="width:25%;"><?php echo $_lang['visitors']; ?></td>
+          <td align="right" style="width:25%;"><?php echo $_lang['visits']; ?></td>
+          <td align="right" style="width:25%;"><?php echo $_lang['page_impressions']; ?></td>
         </tr>
       </thead>
       <tbody>
@@ -181,8 +181,8 @@
         <br />
         <table border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="150"><?php echo $_lang["yourinfo_username"]; ?></td>
-            <td width="20">&nbsp;</td>
+            <td style="width:150px;"><?php echo $_lang["yourinfo_username"]; ?></td>
+            <td style="width:20px;">&nbsp;</td>
             <td><b><?php echo $_SESSION['shortname']; ?></b></td>
           </tr>
           <tr>

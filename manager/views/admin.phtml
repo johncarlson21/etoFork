@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Etomite</title>
-<meta http-equiv="content-type" content="text/html; charset=<?php echo $etomite_charset; ?>" />
+<meta http-equiv="content-type" content="text/html; charset=<?php echo $etomite->config['etomite_charset']; ?>" />
 <meta name="robots" content="noindex, nofollow" />
 <link type="text/css" href="./css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <link type="text/css" href="./css/complex.css" rel="stylesheet" />
@@ -125,6 +125,7 @@
 <script type="text/javascript" src="./lib/editarea/edit_area_full.js"></script>
 <?php $rel = (empty($strip_base_href)) ? "false" : "true"; ?>
 <script type="text/javascript">
+<!--//
 $(document).ready(function(){
     Etomite.EtoRoot = "<?php echo absolute_base_path; ?>";
     Etomite.rel = "<?php echo relative_base_path ?>";
@@ -141,7 +142,6 @@ $(document).ready(function(){
     Etomite.outerLayout.addPinBtn( westSelector +" .pin-button", "west");
     Etomite.outerLayout.allowOverflow('north');
 });
-//setInterval("Etomite.checkLogin()", 5000);
 
 var layoutSettings_Outer = {
     name: "outerLayout" // NO FUNCTIONAL USE, but could be used by custom code to 'identify' a layout
@@ -199,6 +199,7 @@ var layoutSettings_Outer = {
     ,   minHeight:              200
     }
 };
+//-->
 </script>
 </head>
 <body>
@@ -212,7 +213,7 @@ var layoutSettings_Outer = {
     <?php include_once('welcome.phtml');?>
 </div>
 <div class="ui-layout-north">
-    <div class="header" style="text-align:left; line-height: 29px; font-size:14px; font-style:italic; color:#333; font-weight: normal;"><img style="padding-left:10px;" src="./images/misc/etofork_logo_sm.png" border="0" align="left" /><?php echo $etomite->config['full_appname'];?></div>
+    <div class="header" style="text-align:left; line-height: 29px; font-size:14px; font-style:italic; color:#333; font-weight: normal;"><img style="padding-left:10px;float: left; border:none;" src="./images/misc/etofork_logo_sm.png" alt="etoFork CMS" /><?php echo $etomite->config['full_appname'];?></div>
     <div class="content"><?php include_once('admin_nav.phtml');?></div>
 </div>
 <!-- Definition of context menu -->
@@ -220,7 +221,7 @@ var layoutSettings_Outer = {
     <li class="header"></li>
     <li class="preview"><a href="#preview">Preview</a></li>
     <li class="edit"><a href="#edit">Edit</a></li>
-    <li class="move"><a href="#move">Change Parent Document</a>
+    <li class="move"><a href="#move">Change Parent Document</a></li>
     <li class="createDoc separator"><a href="#createDoc">Create Document Here</a></li>
     <li class="createLink"><a href="#createLink">Create Weblink Here</a></li>
     <li class="publish separator"><a href="#publish">Publish Docuement</a></li>
