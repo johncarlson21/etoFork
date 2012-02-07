@@ -1807,7 +1807,7 @@ title='$siteName'>$siteName</a></h2>
   public function dbQuery($query) {
     // function to query the database
     // check the connection and create it if necessary
-    error_log($query);
+    //error_log($query);
     if(empty($this->rs)) {
       $this->dbConnect();
     }
