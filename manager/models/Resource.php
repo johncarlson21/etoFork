@@ -4,9 +4,6 @@ if (!defined('CONFIG_LOADED')) {
     include('includes/bootstrap.php');
 }
 
-define('DS', DIRECTORY_SEPARATOR);
-
-
 class Resource extends etomite {
     public $lastId = false;
     
@@ -340,11 +337,11 @@ class Resource extends etomite {
     public function rrmdir($dir) {
       if (is_dir($dir)) {
         $files = scandir($dir);
-        foreach ($files as $file)
-        if ($file != "." && $file != "..") {
-            $this->rrmdir($dir."/".$file);
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                $this->rrmdir($dir."/".$file);
+            }
         }
-        
         @rmdir($dir);
       } else if (file_exists($dir)) {
           @unlink($dir);
@@ -357,9 +354,10 @@ class Resource extends etomite {
       if (is_dir($src)) {
         @mkdir($dst);
         $files = scandir($src);
-        foreach ($files as $file)
-        if ($file != "." && $file != "..") {
-            $this->rcopy($src."/".$file, $dst."/".$file);
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                $this->rcopy($src."/".$file, $dst."/".$file);
+            }
         }
       } else if (file_exists($src)) {
           @copy($src, $dst);

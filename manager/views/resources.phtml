@@ -55,7 +55,7 @@
             ?>
             <h3><a href="#"><?php echo $rowS['name']." - ".$rowS['description']; ?></a></h3>
             <div>
-            <?
+            <?php
             // start snippets
                   $sql = "select name, id, description, locked from ".$this->db."site_snippets where section=".$rowS['id']." order by name";
                   $rs = $this->dbQuery($sql);
