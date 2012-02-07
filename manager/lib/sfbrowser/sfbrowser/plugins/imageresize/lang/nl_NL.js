@@ -1,1 +1,0 @@
-jQuery.sfbrowser.addLang({"cancel":"Annuleer","resize":"Verschaal","dragMe":"Sleep mij","scale":"Schaal","width":"Breedte","height":"Hoogte","crop":"Uitsnede","imgResize":"Verschaal afbeelding"});
