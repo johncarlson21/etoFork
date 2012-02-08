@@ -478,7 +478,7 @@ a.doSomethingButton:visited {
   border-color: #999 #ddd #ddd #999;
 }
 
-#documentTitle {
+/*#documentTitle {
   font-weight: 900;
   margin:.5em;
   padding: 0.6em 0.6em 0.6em 55px;
@@ -487,7 +487,7 @@ a.doSomethingButton:visited {
   font-size: 1.2em;
   color: #532C00;
   border-width: 0 2px 2px 0;
-}
+}*/
 .docTitleButtons{
    padding-right: 1em;
 }
@@ -890,6 +890,20 @@ a#generatePasswordBtn.button {
 .action-btns {
     margin: 10px;
     text-align: right;
+    float: right;
+}
+
+#documentTitle {
+    float: left;
+    font-size: 25px;
+    font-style: italic;
+    margin: 10px;
+    color: #333;
+}
+
+#head-actions {
+    background-color: #EDEDED;
+    border-bottom: #999 solid 2px;
 }
 
 #loginPage .button {
@@ -933,4 +947,8 @@ ul.dropdown li ul li a:hover {
 
 #mainContent .ui-tabs-panel ul li {
     padding: 5px;
+}
+
+.clear {
+    clear: both;
 }

@@ -9,12 +9,15 @@
     Create Weblink
     <?php }?>
 </div>
-<div class="action-btns">
-    <a href="javascript:;" id="saveDocument" class="button">Save</a>
-    <a href="javascript:;" id="deleteDocument" class="button">Delete</a>
-    <a href="javascript:;" id="cancelDocument" class="button">Cancel</a>
+<div id="head-actions">
+    <div id="documentTitle"><span id="docTitle"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']) : "Un-Saved"; ?></span></div>
+    <div class="action-btns">
+        <a href="javascript:;" id="saveDocument" class="button">Save</a>
+        <a href="javascript:;" id="deleteDocument" class="button">Delete</a>
+        <a href="javascript:;" id="cancelDocument" class="button">Cancel</a>
+    </div>
+    <div class="clear"></div>
 </div>
-
 <?php
 $cssPath = !empty($tiny_css_path) ? $tiny_css_path : "";
 $cssSelectors = !empty($tiny_css_selectors) ? $tiny_css_selectors : "theme_advanced_styles";
@@ -521,4 +524,7 @@ if($id && count($content)>0) {
 
 <script type="text/javascript">
     $('#doc-tabs').tabs();
+    $('#pagetitle').keyup(function() {
+        $('#docTitle').text($('#pagetitle').val());
+    });
 </script>
