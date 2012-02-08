@@ -18,6 +18,7 @@
     </div>
     <div class="clear"></div>
 </div>
+<div class='content'>
 <?php
 $cssPath = !empty($tiny_css_path) ? $tiny_css_path : "";
 $cssSelectors = !empty($tiny_css_selectors) ? $tiny_css_selectors : "theme_advanced_styles";
@@ -32,28 +33,20 @@ if($id && count($content)>0) {
 ?>
 <div id="doc-tabs">
     <ul>
-        <?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){?>
-        <li><a href="#docContent"><?php echo $this->_lang['document_content']; ?></a></li>
-        <?php } ?>
-        <li><a href="#identification"><?php echo $this->_lang['document_identification']; ?></a></li>
-        <li><a href="#publishing"><?php echo $this->_lang['document_opt']; ?></a></li>
+        <li><a href="#identification"><?php echo $this->_lang['document']; ?></a></li>
+        <li><a href="#publishing"><?php echo $this->_lang['document_settings']; ?></a></li>
         <li><a href="#templateVars"><?php echo $this->_lang['template_var_tab']; ?></a></li>
         <li><a href="#prev-versions"><?php echo $this->_lang['document_previous_versions']; ?></a></li>
     </ul>
     <div class="ui-layout-content">
-    <?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){?>
-    <div id="docContent">
-        <textarea rows="10" cols="60" name="taContent" id="taContent" style="width:100%"><?php echo isset($content['content']) ? stripslashes($content['content']) : ""; ?></textarea>
-    </div>
-    <?php } ?>
     <div id="identification">
         <?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ echo $this->_lang['weblink_message']; } ?>
-        <table width="600" border="0" cellspacing="0" cellpadding="0">
+        <table width="50%" style="min-width: 415px;" align="left" border="0" cellspacing="0" cellpadding="0">
           <tr style="height: 24px;">
             <td style="width:150px; text-align:left;">
               <span class='warning'><?php echo $this->_lang['document_title']; ?></span></td>
             <td>
-              <input name="pagetitle" id="pagetitle" type="text" maxlength="100" value="<?php echo isset($content['pagetitle']) ? $content['pagetitle'] : ''; ?>" class="inputBox" style="width:300px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+              <input name="pagetitle" id="pagetitle" type="text" maxlength="100" value="<?php echo isset($content['pagetitle']) ? $content['pagetitle'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
             </td>
           </tr>
           <tr style="height: 24px;">
@@ -61,19 +54,19 @@ if($id && count($content)>0) {
               <span class='warning'><?php echo $this->_lang['long_title']; ?></span>
             </td>
             <td>
-              <input name="setitle" id="setitle" type="text" maxlength="120" value="<?php echo isset($content['longtitle']) ? $content['longtitle'] : ''; ?>" class="inputBox" style="width:300px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_long_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+              <input name="setitle" id="setitle" type="text" maxlength="120" value="<?php echo isset($content['longtitle']) ? $content['longtitle'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_long_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
             </td>
           </tr>
           <tr style="height: 24px;">
             <td><span class='warning'><?php echo $this->_lang['document_description']; ?></span></td>
             <td>
-              <input name="description" id="description" type="text" maxlength="255" value="<?php echo isset($content['description']) ? $content['description'] : ''; ?>" class="inputBox" style="width:300px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+              <input name="description" id="description" type="text" maxlength="255" value="<?php echo isset($content['description']) ? $content['description'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
             </td>
           </tr>
           <tr style="height: 24px;">
             <td><span class='warning'><?php echo $this->_lang['document_alias']; ?></span></td>
             <td>
-              <input id="alias" name="alias" type="text" maxlength="100" value="<?php echo isset($content['alias']) ? $content['alias'] : ''; ?>" class="inputBox" style="width:300px;">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_alias_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+              <input id="alias" name="alias" type="text" maxlength="100" value="<?php echo isset($content['alias']) ? $content['alias'] : ''; ?>" class="inputBox" style="width:200px;">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_alias_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
               <div id="aliasUniqueMessage" style="padding-left:7px;color:red;font-weight:bold;display:none;"><?php echo $this->_lang['alias_exists']; ?></div><div id="aliasUniqueMessageResponse" style="padding-left:7px;color:green;font-weight:bold;display:none;"></div>
             </td>
           </tr>
@@ -83,7 +76,7 @@ if($id && count($content)>0) {
           <tr style="height: 24px;">
             <td><span class='warning'><?php echo $this->_lang['weblink']; ?></span></td>
             <td>
-              <input name="taContent" id="taContent" type="text" maxlength="255" value="<?php echo isset($content['content']) ? $content['content'] : 'http://'; ?>" class="inputBox" style="width:300px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_weblink_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+              <input name="taContent" id="taContent" type="text" maxlength="255" value="<?php echo isset($content['content']) ? $content['content'] : 'http://'; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_weblink_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
             </td>
           </tr>
     
@@ -114,23 +107,23 @@ if($id && count($content)>0) {
             </td>
           </tr>
         </table>
-        <table width="600" border="0" cellspacing="0" cellpadding="0">
+        <table width="50%" style="min-width: 415px;" align="right" border="0" cellspacing="0" cellpadding="0">
             <tr style="height: 24px;">
                 <td width="150"><span class='warning'><?php echo $this->_lang['document_meta_title']; ?></span></td>
-                <td><input name="meta_title" id="meta_title" type="text" maxlength="255" value="<?php echo isset($content['meta_title']) ? $content['meta_title'] : ''; ?>" class="inputBox" style="width:300px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
+                <td><input name="meta_title" id="meta_title" type="text" maxlength="255" value="<?php echo isset($content['meta_title']) ? $content['meta_title'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
             </tr>
             <tr style="height: 24px;">
                 <td width="150"><span class='warning'><?php echo $this->_lang['document_meta_description']; ?></span></td>
-                <td><input name="meta_description" id="meta_description" type="text" maxlength="255" value="<?php echo isset($content['meta_description']) ? $content['meta_description'] : ''; ?>" class="inputBox" style="width:300px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
+                <td><input name="meta_description" id="meta_description" type="text" maxlength="255" value="<?php echo isset($content['meta_description']) ? $content['meta_description'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
             </tr>
             <tr style="height: 24px;">
                 <td width="150"><span class='warning'><?php echo $this->_lang['document_meta_keywords']; ?></span></td>
-                <td><input name="meta_keywords" id="meta_keywords" type="text" maxlength="255" value="<?php echo isset($content['meta_keywords']) ? $content['meta_keywords'] : ''; ?>" class="inputBox" style="width:300px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_keywords_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
+                <td><input name="meta_keywords" id="meta_keywords" type="text" maxlength="255" value="<?php echo isset($content['meta_keywords']) ? $content['meta_keywords'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_keywords_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
             </tr>
         </table>
     </div>
     <div id="publishing">
-        <table width="600" border="0" cellspacing="0" cellpadding="0">
+        <table width="50%" align="left" style="min-width: 415px;" border="0" cellspacing="0" cellpadding="0">
           <tr style="height: 24px;">
             <td width="150"><span class='warning'><?php echo $this->_lang['document_opt_folder']; ?></span></td>
             <td>
@@ -225,7 +218,8 @@ if($id && count($content)>0) {
               <input name="menuindex" id="menuindex" type="text" maxlength="5" value="<?php echo isset($content['menuindex']) ? $content['menuindex'] : ''; ?>" class="inputBox" style="width:40px; text-align:right;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_menu_index_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
             </td>
           </tr>
-    
+        </table>
+        <table width="50%" align="right" style="min-width: 415px;" border="0" cellspacing="0" cellpadding="0">
           <tr style="height: 24px;">
             <td><span class='warning'><?php echo $this->_lang['page_data_searchable']; ?></span></td>
             <td>
@@ -520,6 +514,16 @@ if($id && count($content)>0) {
         ?>
     </div>
     </div>
+</div>
+
+<?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){?>
+<div style="overflow: visible; margin: 10px; border: #999 solid 1px;">
+    <div class='header'><?php echo $this->_lang['document_content']; ?></div>
+    <div id="docContent">
+        <textarea rows="10" cols="60" name="taContent" id="taContent" style="width:100%"><?php echo isset($content['content']) ? stripslashes($content['content']) : ""; ?></textarea>
+    </div>
+</div>
+<?php } ?>
 </div>
 
 <script type="text/javascript">

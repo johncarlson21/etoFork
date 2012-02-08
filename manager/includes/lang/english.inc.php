@@ -224,6 +224,7 @@ $_lang['actioncomplete'] = "<b>Action was completed successfully!</b><br /> - Pl
 $_lang['confirm_preview'] = "This preview function only shows the last saved version of the page without the changes that you are currently making. Select Ok to preview this document in a new browser window or select Cancel to continue editing.";
 $_lang['edit_document_title'] = "Create/ edit document";
 $_lang['document_identification'] = "Identification";
+$_lang['document_settings'] = "Settings";
 $_lang['document_meta_tags'] = "Meta Tags";
 $_lang['document_meta_title'] = "Meta Title";
 $_lang['document_meta_description'] = "Meta Description";
