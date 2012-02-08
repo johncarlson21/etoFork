@@ -2822,8 +2822,6 @@ title='$siteName'>$siteName</a></h2>
      */
     public function runModule($module, $action='', $params=''){
         $etomite = $this;
-        require_once(absolute_base_path . 'modules/module.php');
-        $moduleClass = new module; // start the module for basic function
         $moduleOutput = '';
         ob_start();
         if (!isset($action) || empty($action) && (isset($_REQUEST['action']) && !empty($_REQUEST['action']))) {

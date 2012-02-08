@@ -18,11 +18,6 @@ if(!is_writable("../assets/images/")) {
   $warnings[] = array($_lang['configcheck_images']);
 }
 
-if(count($_lang)!=$length_eng_lang) {
-  $warningspresent = 1;
-  $warnings[] = array($_lang['configcheck_lang_difference']);
-}
-
 // clear file info cache
 clearstatcache();
 
@@ -40,9 +35,6 @@ for($i=0;$i<count($warnings);$i++) {
       break;
     case $_lang['configcheck_images'] :
       $warnings[$i][1] = $_lang['configcheck_images_msg'];
-      break;
-    case $_lang['configcheck_lang_difference'] :
-      $warnings[$i][1] = $_lang['configcheck_lang_difference_msg'];
       break;
     default :
       $warnings[$i][1] = $_lang['configcheck_default_msg'];

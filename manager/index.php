@@ -33,7 +33,7 @@ if(!isset($_SERVER["DOCUMENT_ROOT"]) || empty($_SERVER["DOCUMENT_ROOT"]))
 // include language file
 $_lang = array();
 include_once("./includes/lang/english.inc.php");
-$length_eng_lang = count($_lang);
+
 // include_once config file
 $config_filename = "./includes/config.inc.php";
 if(!file_exists($config_filename))
