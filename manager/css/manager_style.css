@@ -890,7 +890,6 @@ a#generatePasswordBtn.button {
 .action-btns {
     margin: 10px;
     text-align: right;
-    float: right;
 }
 
 #documentTitle {
@@ -904,6 +903,10 @@ a#generatePasswordBtn.button {
 #head-actions {
     background-color: #EDEDED;
     border-bottom: #999 solid 2px;
+}
+
+#head-actions .action-btns {
+    float: right;
 }
 
 #loginPage .button {
