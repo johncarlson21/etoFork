@@ -879,4 +879,6 @@ $_lang["template_var_tab"] = "Manage Template Variables";
 $_lang["template_var_title"] = "Template Variables";
 $_lang["create_template_var"] = "New Template Variable";
 $_lang["template_var_tab_msg"] = "Template Variables are variables created for documents based on the template chosen.";
+$_lang["manage_categories"] = "Manage Categories";
+$_lang["category_management_msg"] = "Categories allow you to organize your resources. Empty Categories will not show in the Resource list."
 ?>

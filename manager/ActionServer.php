@@ -264,9 +264,9 @@ class ActionServer extends Ajax {
     }
     
     public function createSection() {
-        $this->validateRequest('name','description','section_type');
+        $this->validateRequest('name','description');
         $Resource = new Resource();
-        if ($Resource->createSection($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['section_type'])) {
+        if ($Resource->createSection($_REQUEST['name'], $_REQUEST['description'])) {
             $this->respond(true, 'created');
         } else {
             $this->respond(false, 'not created');

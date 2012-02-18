@@ -726,6 +726,7 @@ h1, h2, h3, h4 {
     border-left: none;
     border-right: none;
     border-bottom: #AAA solid 1px;
+    min-width: 800px;
 }
 
 /* css for timepicker */

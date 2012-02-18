@@ -2878,7 +2878,10 @@ title='$siteName'>$siteName</a></h2>
                 return "<a href='".$value."' ".$opts.">".$value."</a>";
                 break;
             case 'date':
-                return $value; // to do later
+                if (!empty($opts)) {
+                    $format = $opts;
+                }
+                return !empty($value) ? date($format, $value) : ''; // to do later
                 break;
         }
         return "";

@@ -200,11 +200,11 @@ class module {
                 // create new sections for snippets and chunks
                 // create new snippets and chunks
                 if (isset($resources['snippets']) && count($resources['snippets']) > 0){
-                    if (!$Resource->sectionExists($module_name, 'snippet')) {
-                        $Resource->createSection($module_name, 'Module: '.$module_name.' snippet section', 'snippet');
+                    if (!$Resource->sectionExists($module_name)) {
+                        $Resource->createSection($module_name, 'Module: '.$module_name.' category');
                         $snSectionId = $Resource->insertId();
                     } else {
-                        $section = $Resource->getSection($module_name, 'snippet');
+                        $section = $Resource->getSection($module_name);
                         $snSectionId = $section['id'];
                     }
                     // create any snippets
@@ -223,11 +223,11 @@ class module {
                     }
                 }// end if for snippets
                 if (isset($resources['chunks']) && count($resources['chunks']) > 0){
-                    if (!$Resource->sectionExists($module_name, 'chunk')) {
-                        $Resource->createSection($module_name, 'Module: '.$module_name.' chunk section', 'chunk');
+                    if (!$Resource->sectionExists($module_name)) {
+                        $Resource->createSection($module_name, 'Module: '.$module_name.' category');
                         $chSectionId = $Resource->insertId();
                     } else {
-                        $section = $Resource->getSection($module_name, 'chunk');
+                        $section = $Resource->getSection($module_name);
                         $chSectionId = $section['id'];
                     }
                     foreach($resources['chunks'] as $chunk) {

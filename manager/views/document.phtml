@@ -425,6 +425,18 @@ if($id && count($content)>0) {
                             echo '</td>';
                             echo '</tr>';
                             break;
+                        case 'date':
+                            echo '<tr>';
+                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                            echo '<td>';
+                            $val = (isset($cValue) && !empty($cValue)) ? date('Y-m-d @ h:i a', $cValue):$tv['default_val'];
+                            echo "<input type='text' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$val."' />";
+                            echo "<script type=\"text/javascript\">
+                        $('#".$tv['field_name']."').datetimepicker({dateFormat: 'yy-mm-dd', separator: ' @ ', ampm: true, showOn: \"both\", buttonImage: \"./images/icons/cal.gif\", buttonImageOnly: true});
+                    </script>";
+                            echo '</td>';
+                            echo '</tr>';
+                            break;
                     }
                 }
             }

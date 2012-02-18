@@ -204,8 +204,8 @@ class Resource extends etomite {
         return false;
     }
     
-    public function sectionExists($name, $type) {
-        $section = $this->getIntTableRows('*', 'site_section', 'name="'.$name.'" AND section_type="'.$type.'"');
+    public function sectionExists($name) {
+        $section = $this->getIntTableRows('*', 'site_section', 'name="'.$name.'"');
         if(count($section) > 0) {
             return true;
         }
@@ -213,15 +213,15 @@ class Resource extends etomite {
     }
     
     public function getSection($name, $type) {
-        $section = $this->getIntTableRows('*', 'site_section', 'name="'.$name.'" AND section_type="'.$type.'"');
+        $section = $this->getIntTableRows('*', 'site_section', 'name="'.$name.'"');
         if(count($section) > 0) {
             return $section[0];
         }
         return false;
     }
     
-    public function createSection($name, $description, $type) {
-        if ($this->putIntTableRow(array('name'=>$name,'description'=>$description,'section_type'=>$type), 'site_section')){
+    public function createSection($name, $description) {
+        if ($this->putIntTableRow(array('name'=>$name,'description'=>$description), 'site_section')){
             return true;
         }
         return false;
@@ -240,15 +240,21 @@ class Resource extends etomite {
         if(empty($docId) || count($templateVars) < 0) { return; }
         // delete all vars first
         $this->dbQuery("DELETE FROM ".$this->db."site_content_tv_val WHERE doc_id=".$docId);
+        //print_r($templateVars);
         foreach($templateVars as $t) {
             if ($tv = $this->getTVFromFieldName($t['name'])) {
-                $result = $this->putIntTableRow(array('doc_id'=>$docId,'tv_id'=>$tv['tv_id'],'tv_value'=>$t['value']), 'site_content_tv_val');
+                if ($tv['type'] != 'date') {
+                    $result = $this->putIntTableRow(array('doc_id'=>$docId,'tv_id'=>$tv['tv_id'],'tv_value'=>$t['value']), 'site_content_tv_val');
+                } else {
+                    $val = !empty($t['value']) ? strtotime(str_replace(" @ ", "", $t['value'])) : '';
+                    $result = $this->putIntTableRow(array('doc_id'=>$docId,'tv_id'=>$tv['tv_id'],'tv_value'=>$val), 'site_content_tv_val');
+                }
             }
         }
     }
     
     public function editTV() {
-        $tvTypes = array('text','textarea','select','checkbox','radio','file');
+        $tvTypes = array('text','textarea','select','checkbox','radio','file','date');
         $tvOTypes = array('text','image','link','date');
         $templates = $this->getIntTableRows('*','site_templates');
         $id = (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false;

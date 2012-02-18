@@ -670,16 +670,13 @@ var Etomite = {
         });
     },
     
-    createSection: function(rType) {
-        if (rType ===null || rType == '') {
-            return false;
-        }
+    createSection: function() {
         $('<div id="sectionForm"></div>').appendTo('body');
-        $('#sectionForm').html('<p><strong>Section Name:</strong> <input type="text" id="sectionName" /></p>' +
+        $('#sectionForm').html('<p><strong>Category Name:</strong> <input type="text" id="sectionName" /></p>' +
                 '<p><strong>Description:</strong> <input type="text" maxchars="100" id="sectionDescription" /></p>');
         $('#sectionForm').dialog({
             autoOpen: true,
-            title: 'Create New Resource Section',
+            title: 'Create New Resource Category',
             minWidth: 200,
             minHeight: 200,
             position: 'center',
@@ -696,14 +693,13 @@ var Etomite = {
                         data: {
                             action: 'createSection',
                             name: sectionName,
-                            description: sectionDescription,
-                            section_type: rType
+                            description: sectionDescription
                         },
                         success: function(json) {
                             if(json === null || json.succeeded !== true) {
-                                Etomite.errorDialog('Error creating resource section!', 'Error');
+                                Etomite.errorDialog('Error creating resource category!', 'Error');
                             } else {
-                                Etomite.notify('New Resource Section Created!');
+                                Etomite.notify('New Resource Category Created!');
                                 Etomite.loadPaneFromAction('loadResourcesView');
                             }
                             $('#sectionForm').dialog('close');

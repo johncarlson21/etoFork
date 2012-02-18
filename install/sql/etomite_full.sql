@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_htmlsnippets` (
   `description` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'Chunk',
   `snippet` mediumtext character set utf8 collate utf8_unicode_ci NOT NULL,
   `locked` tinyint(4) NOT NULL default '0',
-  `section` int(11) NOT NULL COMMENT 'id from section table',
+  `section` int(11)  NOT NULL default '0' COMMENT 'id from section table',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Contains the site''s chunks.' AUTO_INCREMENT=33 ;
 
@@ -450,7 +450,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_htmlsnippets_versions` (
   `description` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'Chunk',
   `snippet` mediumtext character set utf8 collate utf8_unicode_ci NOT NULL,
   `locked` tinyint(4) NOT NULL default '0',
-  `section` int(11) NOT NULL COMMENT 'id from section table',
+  `section` int(11)  NOT NULL default '0' COMMENT 'id from section table',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Contains the site''s chunks.' AUTO_INCREMENT=1 ;
 
@@ -464,7 +464,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_section` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(150) NOT NULL,
   `description` varchar(250) NOT NULL,
-  `section_type` enum('snippet','chunk') NOT NULL,
   `sort_order` char(2) NOT NULL default '1',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='table for snippet and chunk sections' AUTO_INCREMENT=3 ;
@@ -472,14 +471,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_section` (
 --
 -- Dumping data for table `{PREFIX}site_section`
 --
-
-INSERT INTO `{PREFIX}site_section` (`id`, `name`, `description`, `section_type`, `sort_order`) VALUES (1, 'Default', 'Default section for un-organized snippets', 'snippet', '0');
-
-INSERT INTO `{PREFIX}site_section` (`id`, `name`, `description`, `section_type`, `sort_order`) VALUES (2, 'Default', 'Default section for un-organized chunks', 'chunk', '0');
-
-INSERT INTO `{PREFIX}site_section` (`id`, `name`, `description`, `section_type`, `sort_order`) VALUES
-(3, '831 Gallery', '', 'snippet', '1'),
-(4, '831 Gallery', '', 'chunk', '1');
 
 -- --------------------------------------------------------
 
@@ -493,7 +484,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_snippets` (
   `description` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'Snippet',
   `snippet` mediumtext character set utf8 collate utf8_unicode_ci NOT NULL,
   `locked` tinyint(4) NOT NULL default '0',
-  `section` int(11) NOT NULL COMMENT 'id from section table',
+  `section` int(11)  NOT NULL default '0' COMMENT 'id from section table',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 PACK_KEYS=0 COMMENT='Contains the site''s snippets.' AUTO_INCREMENT=112 ;
 
@@ -510,7 +501,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_snippets_versions` (
   `description` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default 'Snippet',
   `snippet` mediumtext character set utf8 collate utf8_unicode_ci NOT NULL,
   `locked` tinyint(4) NOT NULL default '0',
-  `section` int(11) NOT NULL COMMENT 'id from section table',
+  `section` int(11)  NOT NULL default '0' COMMENT 'id from section table',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=0 COMMENT='Contains the site''s snippets.' AUTO_INCREMENT=1 ;
 
@@ -1084,7 +1075,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}template_variables` (
   `field_name` varchar(50) NOT NULL,
   `name` varchar(150) NOT NULL,
   `description` varchar(250) NOT NULL,
-  `type` enum('checkbox','radio','text','textarea','select','file') NOT NULL,
+  `type` enum('checkbox','radio','text','textarea','select','file','date') NOT NULL,
   `opts` text NOT NULL,
   `field_size` tinyint(3) NOT NULL,
   `field_max_size` tinyint(3) NOT NULL,

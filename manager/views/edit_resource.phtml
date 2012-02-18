@@ -21,10 +21,10 @@
         </tr>
         <?php if ($type != 'template') { ?>
         <tr>
-            <td width="200"><span class="warning">Resource Section</span></td>
-            <td>&nbsp;&nbsp; <select name="section" id="section">
+            <td width="200"><span class="warning">Resource Category</span></td>
+            <td>&nbsp;&nbsp; <select name="section" id="section"><option value="0">--No Category--</option>
                 <?php
-                $sqlS = "select * from ".$this->db."site_section where section_type='".$type."' order by sort_order,name ASC";
+                $sqlS = "select * from ".$this->db."site_section order by sort_order,name ASC";
         		$rsS = $this->dbQuery($sqlS);
         		$limitS = $this->recordCount($rsS);
         		if($limitS>0){

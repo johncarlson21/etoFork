@@ -4,7 +4,8 @@
         <li><a href="#templates"><?php echo $this->_lang['manage_templates']; ?></a></li>
         <li><a href="#snippets"><?php echo $this->_lang['manage_snippets']; ?></a></li>
         <li><a href="#chunks"><?php echo $this->_lang['manage_htmlsnippets']; ?></a></li>
-        <li><a href="#templateVars"><?php echo $this->_lang['template_var_tab'];?></a></li>
+        <li><a href="#templateVars"><?php echo $this->_lang['template_var_tab']; ?></a></li>
+        <li><a href="#categories"><?php echo $this->_lang['manage_categories']; ?></a></li>
     </ul>
     <div id="templates">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTemplate" class="button">New Template</a></div>
@@ -37,12 +38,12 @@
     </div>
     
     <div id="snippets">
-        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newSnippet" class="button">New Snippet</a><a href="javascript:;" id="newSnippetSection" class="button">New Section</a></div>
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newSnippet" class="button">New Snippet</a></div>
         <p><?php echo $this->_lang['snippet_management_msg']; ?></p>
         <div id="snippet-accordion">
         <?php
             // modified 2010-04-22 by John Carlson to add section function and organizaion of snippets
-            $sqlS = "select * from ".$this->db."site_section where section_type='snippet' order by sort_order DESC,name ASC";
+            $sqlS = "select * from ".$this->db."site_section order by sort_order DESC,name ASC";
             $rsS = $this->dbQuery($sqlS);
             $limitS = $this->recordCount($rsS);
             if($limitS<1){
@@ -53,11 +54,44 @@
                 
                 // build box
             ?>
-            <h3><a href="#"><?php echo $rowS['name']." - ".$rowS['description']; ?></a></h3>
-            <div>
+            
             <?php
             // start snippets
                   $sql = "select name, id, description, locked from ".$this->db."site_snippets where section=".$rowS['id']." order by name";
+                  $rs = $this->dbQuery($sql);
+                  $limit = $this->recordCount($rs);
+                  if($limit<1){
+                    echo $_lang['no_results'];
+                  }else {
+                  ?>
+                  <h3><a href="#"><?php echo $rowS['name']." - ".$rowS['description']; ?></a></h3>
+            <div>
+                  <?php
+                  echo "<ul>";
+                  for($i=0; $i<$limit; $i++) {
+                    $row = $this->fetchRow($rs);
+                ?>
+                
+                    <li><a id="<?php echo $row['id'];?>" class="snippetBtn">
+                        <?php echo $row['name']; ?>
+                      </a>
+                      <?php echo $row['description']!='' ? ' - '.$row['description'] : '' ; ?>
+                      <?php echo $row['locked']==1 ? ' <i><small>('.$_lang['snippet_locked_message'].')</small></i>' : "" ; ?>
+                    </li>
+        
+        <?php
+            
+                    } // end for for snippets
+                    echo "</ul></div>";
+                  }// end if for limit
+                    // end snippets
+          }// end for for sections
+          
+        ?>
+            <h3><a href="#">Un-categorized</a></h3>
+            <div>
+                <?php
+                $sql = "select name, id, description, locked from ".$this->db."site_snippets where section<1 order by name";
                   $rs = $this->dbQuery($sql);
                   $limit = $this->recordCount($rs);
                   if($limit<1){
@@ -75,21 +109,16 @@
                       <?php echo $row['locked']==1 ? ' <i><small>('.$_lang['snippet_locked_message'].')</small></i>' : "" ; ?>
                     </li>
         
-        <?php
+                  <?php
             
                     } // end for for snippets
-                    echo "</ul></div>";
-                    
-                    // end snippets
-          }// end for for sections
-        ?>
+                    echo "</ul>";
+                  ?>
+              </div>
         </div>
         <script type="text/javascript">
             $('#newSnippet').click(function() {
                 Etomite.editResource('snippet');
-            });
-            $('#newSnippetSection').click(function() {
-                Etomite.createSection('snippet');
             });
             $('.snippetBtn').click(function() {
                 Etomite.editResource('snippet', $(this).attr('id'));
@@ -99,12 +128,12 @@
     </div>
     
     <div id="chunks">
-        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newChunk" class="button">New Chunk</a><a href="javascript:;" id="newChunkSection" class="button">New Section</a></div>
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newChunk" class="button">New Chunk</a></div>
         <p><?php echo $this->_lang['htmlsnippet_management_msg']; ?></p>
         <div id="chunk-accordion">
         <?php
             // modified 2010-04-22 by John Carlson to add section function and organizaion of snippets
-            $sqlS = "select * from ".$this->db."site_section where section_type='chunk' order by sort_order DESC,name ASC";
+            $sqlS = "select * from ".$this->db."site_section order by sort_order DESC,name ASC";
             $rsS = $this->dbQuery($sqlS);
             $limitS = $this->recordCount($rsS);
             if($limitS<1){
@@ -115,8 +144,7 @@
                 
                 // build box
             ?>
-            <h3><a href="#"><?php echo $rowS['name']." - ".$rowS['description']; ?></a></h3>
-            <div>
+            
         <?php
             // start chunks
             $sql = "select name, id, description, locked from ".$this->db."site_htmlsnippets where section=".$rowS['id']." order by name";
@@ -124,7 +152,11 @@
             $limit = $this->recordCount($rs);
             if($limit<1){
               echo $_lang['no_results'];
-            }
+            } else {
+            ?>
+            <h3><a href="#"><?php echo $rowS['name']." - ".$rowS['description']; ?></a></h3>
+            <div>
+            <?php
             echo "<ul>";
             for($i=0; $i<$limit; $i++) {
               $row = $this->fetchRow($rs);
@@ -136,15 +168,40 @@
         <?php
             } // end for for chunks
             echo "</ul></div>";
+            }// end if for limit
           }// end for for sections
         ?>
+            <h3><a href="#">Un-categorized</a></h3>
+            <div>
+                <?php
+                $sql = "select name, id, description, locked from ".$this->db."site_htmlsnippets where section<1 order by name";
+                  $rs = $this->dbQuery($sql);
+                  $limit = $this->recordCount($rs);
+                  if($limit<1){
+                    echo $_lang['no_results'];
+                  }
+                  echo "<ul>";
+                  for($i=0; $i<$limit; $i++) {
+                    $row = $this->fetchRow($rs);
+                ?>
+                
+                    <li><a id="<?php echo $row['id'];?>" class="chunkBtn">
+                        <?php echo $row['name']; ?>
+                      </a>
+                      <?php echo $row['description']!='' ? ' - '.$row['description'] : '' ; ?>
+                      <?php echo $row['locked']==1 ? ' <i><small>('.$_lang['snippet_locked_message'].')</small></i>' : "" ; ?>
+                    </li>
+        
+                  <?php
+            
+                    } // end for for snippets
+                    echo "</ul>";
+                  ?>
+              </div>
         </div>
         <script type="text/javascript">
             $('#newChunk').click(function() {
                 Etomite.editResource('chunk');
-            });
-            $('#newChunkSection').click(function() {
-                Etomite.createSection('chunk');
             });
             $('.chunkBtn').click(function() {
                 Etomite.editResource('chunk', $(this).attr('id'));
@@ -176,6 +233,35 @@
             $('.tvBtn').click(function() {
                 Etomite.editTV($(this).attr('id'));
             });
+        </script>
+    </div>
+    <div id="categories">
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newCategory" class="button">New Category</a></div>
+        <p><?php echo $this->_lang['category_management_msg']; ?></p>
+        <?php
+            $sql = "select name, id, description from ".$this->db."site_section order by name ASC";
+            $rs = $this->dbQuery($sql);
+            $limit = $this->recordCount($rs);
+            if($limit<1){
+              echo "<p>".$this->_lang['no_results']."</p>";
+            } else {
+                echo "<ul>";
+                for($i=0; $i<$limit; $i++) {
+                    $row = $this->fetchRow($rs);
+                    $id = strval($row['id']);
+        ?>
+        <li><a id="<?php echo $row['id'];?>" class="categoryBtn"><?php echo $row['name']; ?></a> (<?php echo $row['id']; ?>)<?php echo $row['description']!='' ? ' - '.$row['description'] : '' ; ?></li>
+        <?php
+                }// end for
+            }// end else for limit
+        ?>
+        <script type="text/javascript">
+            $('#newCategory').click(function() {
+                Etomite.createSection();
+            });
+            /*$('.categoryBtn').click(function() {
+                Etomite.editResource('template', $(this).attr('id'));
+            });*/
         </script>
     </div>
 </div>
