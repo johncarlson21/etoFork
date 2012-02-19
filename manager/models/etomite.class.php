@@ -382,7 +382,7 @@ class etomite {
     $output = $this->documentContent;
 
     // check for non-cached snippet output
-    if(strpos($output, '[!')>-1) {
+    if(strpos($output, '[!')>-1 || strpos($output, '[module')>-1) {
       $output = str_replace('[!', '[[', $output);
       $output = str_replace('!]', ']]', $output);
 
@@ -2788,7 +2788,10 @@ title='$siteName'>$siteName</a></h2>
          * $matches contains the module info.
          * $matches[2][0] contains the module info we need to pass
          */
-        preg_match_all("/(\[module\])(.*?)(\[\/module\])/", $content, $matches);
+        $matchCount = preg_match_all("/(\[module\])(.*?)(\[\/module\])/", $content, $matches);
+		
+		if($matchCount) $this->parseAgain = true;
+		
         if (count($matches) > 0) {
             foreach ($matches[2] as $match) {
                 $mod = $match;
@@ -2837,6 +2840,12 @@ title='$siteName'>$siteName</a></h2>
                 $moduleParams[$pPart[0]] = $pPart[1];
             }
             require_once (absolute_base_path . 'modules/' . $module . "/" . $module . ".php");
+            $action = (isset($action) && !empty($action)) ? $action : 'index'; // defaults to adminView
+
+            $modClass = new $module($moduleParams);
+            
+            $modClass->$action();
+            
             $moduleOutput = ob_get_clean();
         }
         return $moduleOutput;
