@@ -76,6 +76,8 @@ var Etomite = {
         });
         /* end login page */
         
+        $.ajaxSetup({ type: 'POST' });
+        
         if (Etomite.inAdmin == true) {
             Etomite.loadDocTree();
         }
