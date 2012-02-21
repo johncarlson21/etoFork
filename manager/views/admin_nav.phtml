@@ -3,7 +3,7 @@
     <li><a onclick="this.blur();" href="./"><?php echo $_lang["home"]; ?></a></li>
     <li class="dir"><span><?php echo $_lang["site"]; ?></span>
         <ul>
-            <li><a onclick="this.blur();" href="../?z=manprev" rel="external"><?php echo $_lang["launch_site"]; ?></a></li>
+            <li><a onclick="this.blur();" target="_blank" href="<?php echo www_base_path; ?>?z=manprev" rel="external"><?php echo $_lang["launch_site"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.syncSite();" href="javascript:;"><?php echo $_lang["refresh_site"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('showSiteSchedule');" href="javascript:;"><?php echo $_lang["site_schedule"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.showVisitorStats();" href="javascript:;"><?php echo $_lang["visitor_stats"]; ?></a></li>
