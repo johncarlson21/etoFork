@@ -303,7 +303,7 @@ class Resource extends etomite {
                     // delete all of them first
                     $delR = $this->dbQuery('DELETE FROM '.$this->db.'template_variable_templates WHERE tv_id='.$id);
                     foreach ($templates as $tpl) {
-                        $this->putIntTableRow(array('template_id'=>$tpl['id'],'tv_id'=>$id),'template_variable_templates');
+                        $this->putIntTableRow(array('template_id'=>$tpl,'tv_id'=>$id),'template_variable_templates');
                     }
                 }
                 return true;
@@ -313,7 +313,7 @@ class Resource extends etomite {
                 $tv_id = $this->insertId();
                 if(!empty($templates) && count($templates) > 0) {
                     foreach ($templates as $tpl) {
-                        $this->putIntTableRow(array('template_id'=>$tpl['id'],'tv_id'=>$tv_id),'template_variable_templates');
+                        $this->putIntTableRow(array('template_id'=>$tpl,'tv_id'=>$tv_id),'template_variable_templates');
                     }
                 }
                 return true;
