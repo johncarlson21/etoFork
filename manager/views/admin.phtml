@@ -14,7 +14,9 @@
 <script type="text/javascript" src="./js/complex.js"></script>
 <script type="text/javascript" src="./js/etomite.js"></script>
 <script type="text/javascript" src="./js/functions.js"></script>
-<script type="text/javascript" src="./lib/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+<!-- tiny mce // will be moved to a module later -->
+<!-- <script type="text/javascript" src="./lib/tinymce/jscripts/tiny_mce/tiny_mce.js"></script> -->
+<!-- end tiny mce -->
 <script type="text/javascript" src="./js/spin.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
 <link href="./css/manager_style.css" media="screen" rel="stylesheet" type="text/css" />
@@ -201,6 +203,7 @@ var layoutSettings_Outer = {
 };
 //-->
 </script>
+<?php $etomite->runSystemEvent("OnBeforeManagerHeadEnd"); ?>
 </head>
 <body>
 <div class="ui-layout-west">

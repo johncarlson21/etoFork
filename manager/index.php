@@ -50,6 +50,9 @@ include_once("./includes/functions.php");
 
 include_once("./models/etomite.class.php");
 
+include_once("./lib/Mobile_Detect.php");
+$detect = new Mobile_Detect();
+
 startCMSSession();
 
 $etomite = new etomite;
@@ -65,7 +68,11 @@ header('Content-Type: text/html; charset='.$etomite->config['etomite_charset']);
 
 if(!$etomite->userLoggedIn()){
     // show login form and exit
-    include_once("views/login.phtml");
+    if ($detect->isMobile()) {
+        include_once("views/mobile_login.phtml");
+    } else {
+        include_once("views/login.phtml");
+    }
     exit;
 }
 
@@ -74,6 +81,9 @@ if(!isset($_SESSION['validated']))
   echo "Not Logged In!";
   exit;
 }
-
-include_once('views/admin.phtml');
+if ($detect->isMobile()) {
+    include_once('views/mobile_admin.phtml');
+} else {
+    include_once('views/admin.phtml');
+}
 ?>

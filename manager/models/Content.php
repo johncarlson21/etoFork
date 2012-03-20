@@ -76,6 +76,7 @@ class Content extends etomite {
         }
         
         include_once('views/document.phtml');
+        $this->runSystemEvent('OnAfterDocumentFormLoad');
     }
     
     public function checkAlias($alias, $id=false) {

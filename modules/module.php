@@ -133,6 +133,8 @@ class module {
                     }
                 }
             }
+            // delete system events
+            $etomite->dbQuery("DELETE FROM ".$etomite->db."system_events WHERE module_name='".$module['key']."'");
             // remove old module directory
             $etomite->rrmdir(absolute_base_path . 'modules/' . $module['key'] . "/");
         }
@@ -245,6 +247,15 @@ class module {
                     }
                 }// end if for chunks
             }// end check for module name and resources
+            if (isset($events) && count($events) > 0) {
+                foreach ($events as $ev) {
+                    $result = $Resource->putIntTableRow(array(
+                        'event_name' => $ev['event_name'],
+                        'module_name' => $module_key,
+                        'method_name' => $ev['method_name']
+                    ), 'system_events');
+                }
+            }// end for system events
             
             // add module to the modules table
             // build resources data

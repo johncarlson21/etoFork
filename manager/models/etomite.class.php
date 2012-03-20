@@ -1517,6 +1517,7 @@ title='$siteName'>$siteName</a></h2>
       if(!is_array($value))
       {
         $chunk = str_replace($prefix.$key.$suffix, $value, $chunk);
+        ${$key} = !empty($value) ? $value:"";
       }
       else
       {
@@ -1530,6 +1531,7 @@ title='$siteName'>$siteName</a></h2>
             foreach($row as $loopKey => $loopValue)
             {
               $loopTemp = str_replace($prefix.$loopKey.$suffix, $loopValue, $loopTemp);
+              ${$loopKey} = !empty($loopValue) ? $loopValue:"";
             }
             $loopData .= $loopTemp;
           }
@@ -1537,6 +1539,11 @@ title='$siteName'>$siteName</a></h2>
         }
       }
     }
+    ob_start();
+	$chunk = '?'.'>'.$chunk.'<'.'?';
+	eval($chunk);
+	$chunk = ob_get_contents();
+	ob_end_clean();
     return $chunk;
   }
 
@@ -2842,7 +2849,7 @@ title='$siteName'>$siteName</a></h2>
             require_once (absolute_base_path . 'modules/' . $module . "/" . $module . ".php");
             $action = (isset($action) && !empty($action)) ? $action : 'index'; // defaults to adminView
 
-            $modClass = new $module($moduleParams);
+            $modClass = new $module($moduleParams, $etomite);
             
             $modClass->$action();
             
@@ -2894,6 +2901,18 @@ title='$siteName'>$siteName</a></h2>
                 break;
         }
         return "";
+    }
+    
+    public function runSystemEvent($event_name=false) {
+        if ($event_name) {
+            $events = $this->getIntTableRows("*", "system_events", "event_name='".$event_name."'");
+            if (count($events) > 0) {
+                foreach ($events as $e) {
+                    echo $this->runModule($e['module_name'], $e['method_name']);
+                }
+            }
+        }
+        return;
     }
 
 /***************************************************************************************/

@@ -1,4 +1,4 @@
-function setupTiny(el) {
+/*function setupTiny(el) {
     tinyMCE.init({
       auto_reset_designmode : true,
       document_base_url : Etomite.db_url,
@@ -33,7 +33,7 @@ function setupTiny(el) {
       skin: "o2k7",
       skin_variant: 'silver'
     });
-}
+}*/
 
 function elFinderBrowser (field_name, url, type, win) {
     var elfinder_url = Etomite.db_url + 'manager/lib/elfinder2_0/elfinder.html';    // use an absolute path!

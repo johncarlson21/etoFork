@@ -146,6 +146,8 @@ class Resource extends etomite {
                     unset($orig['id']);
                     $this->putIntTableRow($orig, $type_table."_versions");
                 }
+                $System = new System();
+                $System->syncEtoCache();
                 return true;
             }
             return false;

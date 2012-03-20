@@ -89,8 +89,13 @@ if($id && count($content)>0) {
     <?php
             if (isset($_REQUEST['pid']) && !empty($_REQUEST['pid']) && !isset($content['parent'])) {
                 $parentDoc = $this->getDocument($_REQUEST['pid']);
-                $parentname = $parentDoc['pagetitle'];
-                $parentId = 0;
+                if (count($parentDoc) > 0) {
+                    $parentname = $parentDoc['pagetitle'];
+                    $parentId = $parentDoc['id'];
+                } else {
+                    $parentname = $this->config['site_name'];
+                    $parentId = 0;
+                }
             } else {
                 if($parentDoc = $this->getDocument($content['parent'])) {
                     $parentname = $parentDoc['pagetitle'];

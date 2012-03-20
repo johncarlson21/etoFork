@@ -1,6 +1,7 @@
 
 var Etomite = {
     inAdmin: true,
+    isMobile: false,
     outerLayout: null,
     db_url: '',
     rel: '',
@@ -51,7 +52,12 @@ var Etomite = {
                     if ((json === null) || (json.succeeded !== true)) {
                         $('.error').text('Error: ' + json.message).show();
                     } else {
-                        Etomite.notify('Logging you in. Please Wait');
+                        if (Etomite.isMobile) {
+                            $('.success').css({color:'#62A624'});
+                            $('.success').text('Logging you in!');
+                        } else {
+                            Etomite.notify('Logging you in. Please Wait');
+                        }
                         setTimeout(function(){window.location.reload();},1000);
                     }
                 }
@@ -263,13 +269,13 @@ var Etomite = {
                     setTimeout(function() {
                         spin(false);
                         if(weblink == false){
-                            setupTiny("taContent");
+                            //setupTiny("taContent");
                         }
                     }, 1000);
                     
-                    $('#saveDocument').click(function(){
+                    $('#saveDocument').click(saveDocHandler); /*function(){
                         Etomite.saveDocument();
-                    });
+                    });*/
                     $('#deleteDocument').click(function(){
                         Etomite.updateDocProperty('deleted', '1', docId);
                     });
@@ -328,12 +334,15 @@ var Etomite = {
             var docId = '';
             if($('#docId').length > 0){
                 docId = $('#docId').val();
+            } else {
+                docId = '';
             }
             if ($('#type').val() == 'reference') {
                 var tinyContent = $('#taContent').val();
             } else {
-                var ed = tinyMCE.get('taContent');
-                var tinyContent = ed.getContent();
+                /*var ed = tinyMCE.get('taContent');
+                var tinyContent = ed.getContent();*/
+                var tinyContent = $('#taContent').val();
             }
             
             // get tvs
@@ -960,15 +969,15 @@ var Etomite = {
         
         var error = '';
         if (uname === null || uname == '') {
-            error =+ "User Name is required!<br />";
+            error += "User Name is required!<br />";
         }
         
         if (fname === null || fname == '') {
-            error =+ "Name is required!<br />";
+            error += "Name is required!<br />";
         }
         
         if (em === null || em == '') {
-            error =+ "Email is required!<br />";
+            error += "Email is required!<br />";
         }
         
         if (newpw.length > 0) {
@@ -1422,8 +1431,8 @@ var Etomite = {
         $('#notification').css({zIndex:3000, backgroundImage: 'url(images/popup_background.png)'});
         setTimeout(function() {
             $('#notification').fadeOut('slow', function() {
-                $('#notification').remove();
             });
+            $('#notification').remove();
         }, 2000);
     },
     
@@ -1459,6 +1468,10 @@ var Etomite = {
     }
     
 }// end etomite var
+
+var saveDocHandler = function() {
+    Etomite.saveDocument();
+};
 
 /* extend jquery to add the spin (spinner function) */
 $.fn.spin = function(opts) {
