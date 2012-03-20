@@ -1131,3 +1131,15 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}modules` (
   `resources` text NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Table structure for table `etomite_system_events`
+--
+
+CREATE TABLE IF NOT EXISTS `{PREFIX}system_events` (
+  `id` int(11) NOT NULL auto_increment,
+  `event_name` varchar(50) NOT NULL,
+  `module_name` varchar(100) NOT NULL,
+  `method_name` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
