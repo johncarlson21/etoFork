@@ -77,8 +77,8 @@ class System extends etomite {
         if (count($this->settingsFields) > 0) {
             foreach($this->settingsFields as $field) {
                 $value = '';
-                if (isset($_GET[$field])) {
-                    $value = is_numeric($_GET[$field]) ? (int) $_GET[$field] : mysql_real_escape_string($_GET[$field]);
+                if (isset($_REQUEST[$field])) {
+                    $value = is_numeric($_REQUEST[$field]) ? (int) $_REQUEST[$field] : mysql_real_escape_string($_REQUEST[$field]);
                     if (!$this->updIntTableRows(array('setting_value'=>$value), 'system_settings', 'setting_name="'.$field.'"')) {
                         return false; // there was an error
                     }

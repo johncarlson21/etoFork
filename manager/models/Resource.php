@@ -214,7 +214,7 @@ class Resource extends etomite {
         return false;
     }
     
-    public function getSection($name, $type) {
+    public function getSection($name) {
         $section = $this->getIntTableRows('*', 'site_section', 'name="'.$name.'"');
         if(count($section) > 0) {
             return $section[0];
