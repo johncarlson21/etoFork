@@ -45,9 +45,10 @@ if (isset($_POST['submit']) && $_POST['repair'] == 1){
     fclose($handle);
     
     // perform global search and replace of tags in the SQL
-    $self = str_replace("/install", "", $_SERVER["PHP_SELF"]);
+    $self = str_replace("/install/", "", $_SERVER["PHP_SELF"]);
+    $self = str_replace(basename(__FILE__), "", $self);
     $urlPieces = explode("/", $self);
-    $urlFilename = array_pop($urlPieces); // revmove first empty array element
+    
     $www = $_SERVER['HTTP_HOST'];
     $www_url = $www . implode("/", $urlPieces);
     $relative_path = implode("/", $urlPieces);
