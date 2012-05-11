@@ -14,6 +14,7 @@ $_lang["password"] = "Password";
 $_lang["remember_username"] = "Remember me";
 $_lang["login_button"] = "Login";
 $_lang["home"] = "Home";
+$_lang["dashboard"] = "Dashboard";
 $_lang["my_etomite"] = "My Etomite";
 $_lang["my_preferences"] = "Preferences";
 $_lang["site"] = "Site";

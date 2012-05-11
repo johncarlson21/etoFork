@@ -11,8 +11,10 @@ body.topFrame {
 
 ul.dropdown {
     background-image: none;
-    width: 980px;
+    /*width: 980px;*/
     white-space: nowrap;
+    height: 25px;
+    min-width: 1400px;
 }
 
 ul.dropdown li a,
