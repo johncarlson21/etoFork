@@ -1,7 +1,9 @@
 <div class="header"><?php echo $header_text; ?></div>
 <div class="action-btns">
+    <?php if($this->checkUserRole('edit_'.$type, $_SESSION['internalKey'])) {?>
     <a href="javascript:;" id="saveResource" class="button">Save</a>
-    <?php if ($id && !empty($id)) {?>
+    <?php } ?>
+    <?php if ($id && !empty($id) && $this->checkUserRole('delete_'.$type, $_SESSION['internalKey'])) {?>
     <a href="javascript:;" id="deleteResource" class="button">Delete</a>
     <?php } ?>
     <a href="javascript:;" id="cancelResource" class="button">Cancel</a>

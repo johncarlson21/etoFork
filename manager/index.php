@@ -30,6 +30,22 @@ if(!isset($_SERVER["DOCUMENT_ROOT"]) || empty($_SERVER["DOCUMENT_ROOT"]))
 {
   $_SERVER["DOCUMENT_ROOT"] = str_replace($_SERVER["PATH_INFO"], "", preg_replace("[\][\]", "/", $_SERVER["PATH_TRANSLATED"]))."/";
 }
+
+$resourcePermsArr = array(
+    'new_template',
+    'edit_template',
+    'save_template',
+    'delete_template',
+    'edit_snippet',
+    'new_snippet',
+    'save_snippet',
+    'delete_snippet',
+    'new_chunk',
+    'save_chunk',
+    'edit_chunk',
+    'delete_chunk'
+);
+
 // include language file
 $_lang = array();
 include_once("./includes/lang/english.inc.php");

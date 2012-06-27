@@ -1,7 +1,9 @@
 <div class="header">Edit Template Variable</div>
 <div class="action-btns">
+    <?php if ($this->checkUserRole('edit_tv', $_SESSION['internalKey'])) {?>
     <a href="javascript:;" id="saveTV" class="button">Save</a>
-    <?php if ($id && !empty($id)) {?>
+    <?php } ?>
+    <?php if ($id && !empty($id) && $this->checkUserRole('delete_tv', $_SESSION['internalKey'])) {?>
     <a href="javascript:;" id="deleteTV" class="button">Delete</a>
     <?php } ?>
     <a href="javascript:;" id="cancelTV" class="button">Cancel</a>

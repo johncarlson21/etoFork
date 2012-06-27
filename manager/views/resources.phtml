@@ -1,14 +1,23 @@
 <div class="header"><?php echo $this->_lang['resource_management']; ?></div>
 <div id="resource-tabs">
     <ul>
+        <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey']) || $this->checkUserRole('edit_template', $_SESSION['internalKey'])) { ?>
         <li><a href="#templates"><?php echo $this->_lang['manage_templates']; ?></a></li>
+        <?php }?>
+        <?php if ($this->checkUserRole('new_snippet', $_SESSION['internalKey']) || $this->checkUserRole('edit_snippet', $_SESSION['internalKey'])) { ?>
         <li><a href="#snippets"><?php echo $this->_lang['manage_snippets']; ?></a></li>
+        <?php } ?>
+        <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey']) || $this->checkUserRole('edit_chunk', $_SESSION['internalKey'])) { ?>
         <li><a href="#chunks"><?php echo $this->_lang['manage_htmlsnippets']; ?></a></li>
+        <?php } ?>
         <li><a href="#templateVars"><?php echo $this->_lang['template_var_tab']; ?></a></li>
         <li><a href="#categories"><?php echo $this->_lang['manage_categories']; ?></a></li>
     </ul>
+    <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey']) || $this->checkUserRole('edit_template', $_SESSION['internalKey'])) { ?>
     <div id="templates">
+        <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey'])) { ?>
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTemplate" class="button">New Template</a></div>
+        <?php } ?>
         <p><?php echo $this->_lang['template_management_msg']; ?></p>
         <?php
             $sql = "select templatename, id, description, locked from ".$this->db."site_templates order by templatename";
@@ -28,17 +37,24 @@
             }// end else for limit
         ?>
         <script type="text/javascript">
+            <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey'])) { ?>
             $('#newTemplate').click(function() {
                 Etomite.editResource('template');
             });
+            <?php } ?>
+            <?php if ($this->checkUserRole('edit_template', $_SESSION['internalKey'])) { ?>
             $('.templateBtn').click(function() {
                 Etomite.editResource('template', $(this).attr('id'));
             });
+            <?php } ?>
         </script>
     </div>
-    
+    <?php } ?>
+    <?php if ($this->checkUserRole('new_snippet', $_SESSION['internalKey']) || $this->checkUserRole('edit_snippet', $_SESSION['internalKey'])) { ?>
     <div id="snippets">
+        <?php if ($this->checkUserRole('new_snippet', $_SESSION['internalKey'])) { ?>
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newSnippet" class="button">New Snippet</a></div>
+        <?php } ?>
         <p><?php echo $this->_lang['snippet_management_msg']; ?></p>
         <div id="snippet-accordion">
         <?php
@@ -117,18 +133,25 @@
               </div>
         </div>
         <script type="text/javascript">
+            <?php if ($this->checkUserRole('new_snippet', $_SESSION['internalKey'])) { ?>
             $('#newSnippet').click(function() {
                 Etomite.editResource('snippet');
             });
+            <?php } ?>
+            <?php if ($this->checkUserRole('edit_snippet', $_SESSION['internalKey'])) { ?>
             $('.snippetBtn').click(function() {
                 Etomite.editResource('snippet', $(this).attr('id'));
             });
+            <?php } ?>
             $('#snippet-accordion').accordion({fillSpace: true, clearStyle: true});
         </script>
     </div>
-    
+    <?php } ?>
+    <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey']) || $this->checkUserRole('edit_chunk', $_SESSION['internalKey'])) { ?>
     <div id="chunks">
+        <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey'])) { ?>
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newChunk" class="button">New Chunk</a></div>
+        <?php } ?>
         <p><?php echo $this->_lang['htmlsnippet_management_msg']; ?></p>
         <div id="chunk-accordion">
         <?php
@@ -200,15 +223,21 @@
               </div>
         </div>
         <script type="text/javascript">
+            <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey'])) { ?>
             $('#newChunk').click(function() {
                 Etomite.editResource('chunk');
             });
+            <?php } ?>
+            <?php if ($this->checkUserRole('edit_chunk', $_SESSION['internalKey'])) { ?>
             $('.chunkBtn').click(function() {
                 Etomite.editResource('chunk', $(this).attr('id'));
             });
+            <?php } ?>
             $('#chunk-accordion').accordion({fillSpace: true, clearStyle: true});
         </script>
     </div>
+    <?php } ?>
+    <?php if ($this->checkUserRole('new_tv', $_SESSION['internalKey']) || $this->checkUserRole('edit_tv', $_SESSION['internalKey'])) { ?>
     <div id="templateVars">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTv" class="button"><?php echo $this->_lang['create_template_var'];?></a></div>
         <p><?php echo $this->_lang['template_var_tab_msg'];?></p>
@@ -227,14 +256,19 @@
             }
         ?>
         <script type="text/javascript">
+            <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey'])) { ?>
             $('#newTv').click(function() {
                 Etomite.editTV();
             });
+            <?php } ?>
+            <?php if ($this->checkUserRole('edit_chunk', $_SESSION['internalKey'])) { ?>
             $('.tvBtn').click(function() {
                 Etomite.editTV($(this).attr('id'));
             });
+            <?php } ?>
         </script>
     </div>
+    <?php } ?>
     <div id="categories">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newCategory" class="button">New Category</a></div>
         <p><?php echo $this->_lang['category_management_msg']; ?></p>

@@ -12,8 +12,12 @@
 <div id="head-actions">
     <div id="documentTitle"><span id="docTitle"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']) : "Un-Saved"; ?></span></div>
     <div class="action-btns">
+        <?php if ($this->checkUserRole('edit_document', $_SESSION['internalKey']) || $this->checkUserRole('save_document', $_SESSION['internalKey'])) {?>
         <a href="javascript:;" id="saveDocument" class="button">Save</a>
+        <?php } ?>
+        <?php if ($this->checkUserRole('delete_document', $_SESSION['internalKey'])) {?>
         <a href="javascript:;" id="deleteDocument" class="button">Delete</a>
+        <?php } ?>
         <a href="javascript:;" id="cancelDocument" class="button">Cancel</a>
     </div>
     <div class="clear"></div>

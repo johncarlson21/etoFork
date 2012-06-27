@@ -4,7 +4,9 @@
     <li class="dir"><span><?php echo $_lang["site"]; ?></span>
         <ul>
             <li><a onclick="this.blur();" target="_blank" href="<?php echo www_base_path; ?>?z=manprev" rel="external"><?php echo $_lang["launch_site"]; ?></a></li>
+            <?php if ($_SESSION['permissions']['empty_cache'] == 1) { ?>
             <li><a onclick="this.blur(); Etomite.syncSite();" href="javascript:;"><?php echo $_lang["refresh_site"]; ?></a></li>
+            <?php } ?>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('showSiteSchedule');" href="javascript:;"><?php echo $_lang["site_schedule"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.showVisitorStats();" href="javascript:;"><?php echo $_lang["visitor_stats"]; ?></a></li>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('showOnlineVisitors');" href="javascript:;"><?php echo $_lang["visitor_stats_online"]; ?></a></li>
@@ -36,13 +38,20 @@
         <?php if($_SESSION['permissions']['edit_user']==1) { ?>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadUsersView');" href="javascript:;"><?php echo $_lang["user_management_title"]; ?></a></li>
         <?php } ?>
-        <?php if($_SESSION['permissions']['access_permissions']==1) { ?>
+        <?php /*if($_SESSION['permissions']['access_permissions']==1) { ?>
             <li><a onclick="this.blur();" href="javascript:;"><?php echo $_lang["access_permissions"]; ?></a></li>
-        <?php } ?>
+        <?php }*/ ?>
         </ul>
     </li>
-    <?php } ?>
-    <?php if($_SESSION['permissions']['new_template']==1 || $_SESSION['permissions']['edit_template']==1 || $_SESSION['permissions']['new_snippet']==1 || $_SESSION['permissions']['edit_snippet']==1) { ?>
+    <?php }
+        $allow_resource = false;
+        foreach ($resourcePermsArr as $perm) {
+            if ($etomite->checkUserRole($perm, $_SESSION['internalKey'])) {
+                $allow_resource = true;
+            }
+        }
+    ?>
+    <?php if($allow_resource) { ?>
     <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadResourcesView');" href="javascript:;"><?php echo $_lang["resource_management"]; ?></a></li>
     <?php } ?>
     <li id="module-nav-list" class="dir"><span><?php echo $_lang['module_management']; ?></span>

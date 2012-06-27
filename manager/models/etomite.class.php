@@ -1929,8 +1929,9 @@ title='$siteName'>$siteName</a></h2>
       $sql = "INSERT INTO $tbl SET ";
       foreach($fields as $key=>$value) {
         $sql .= "`".$key."`=";
-        if (is_numeric($value)) $sql .= $value.",";
-        else $sql .= "'".$value."',";
+        //if (is_numeric($value)) $sql .= $value.",";
+        //else
+        $sql .= "'".$value."',";
       }
       $sql = rtrim($sql,",");
       $sql .= ";";
@@ -1963,8 +1964,9 @@ title='$siteName'>$siteName</a></h2>
       $sql = "UPDATE $tbl SET ";
       foreach($fields as $key=>$value) {
         $sql .= "`".$key."`=";
-        if (is_numeric($value)) $sql .= $value.",";
-        else $sql .= "'".$value."',";
+        //if (is_numeric($value)) $sql .= $value.",";
+        //else
+        $sql .= "'".$value."',";
       }
       $sql = rtrim($sql,",");
       $sql .= " $where $sort $limit;";
@@ -2028,8 +2030,9 @@ title='$siteName'>$siteName</a></h2>
       $sql = "INSERT INTO $tbl SET ";
       foreach($fields as $key=>$value) {
         $sql .= "`".$key."`=";
-        if (is_numeric($value)) $sql .= $value.",";
-        else $sql .= "'".$value."',";
+        //if (is_numeric($value)) $sql .= $value.",";
+        //else
+        $sql .= "'".$value."',";
       }
       $sql = rtrim($sql,",");
       $result = $this->dbQuery($sql);
@@ -2058,8 +2061,9 @@ title='$siteName'>$siteName</a></h2>
       $sql = "UPDATE $tbl SET ";
       foreach($fields as $key=>$value) {
         $sql .= "`".$key."`=";
-        if (is_numeric($value)) $sql .= $value.",";
-        else $sql .= "'".$value."',";
+        //if (is_numeric($value)) $sql .= $value.",";
+        //else
+        $sql .= "'".$value."',";
       }
       $sql = rtrim($sql,",");
       $sql .= " $where $sort $limit;";
@@ -2257,15 +2261,18 @@ title='$siteName'>$siteName</a></h2>
   //  $user = user id or internalKey
   //  $id = id of document in question
   //  because user permissions are stored in the session data the users role is not required
-  // Returns error on fialure.
+  // Returns error on failure.
     if(($this->config['use_udperms'] == 0) || ($_SESSION['role'] == 1)) return true;
     if($user == "") $user = $_SESSION['internalKey']; // Modified 2006-08-04 Ralph
-    if($id == "") $id = $this->documentIdentifier;
-    if($user == "" || $id == "" || $_SESSION['role'] == "") return false;
+    if($user == "" || !is_numeric($user) || $user < 1) return false;
+    // no need for document, because there is a check permissions function
+    //if($id == "") $id = $this->documentIdentifier;
+    // changed and moved up
+    //if($user == "" || $id == "" || $_SESSION['role'] == "") return false;
     if(($action != "") && ($_SESSION['permissions'][$action] != 1)) return false;
-    if(($document == 0) && ($this->config['udperms_allowroot'] == 1)) return true;
+    //if(($document == 0) && ($this->config['udperms_allowroot'] == 1)) return true;
 
-    if($_SESSION['permissions'][$action] == 1) {
+    if(isset($_SESSION['permissions'][$action]) && $_SESSION['permissions'][$action] == 1) {
       return true;
     } else {
       return false;
@@ -2404,10 +2411,17 @@ title='$siteName'>$siteName</a></h2>
         session_unset();
         return false;
     }
-
+    // changing this to reflect only given permissions
     $sql="SELECT * FROM ".$this->db."user_roles where id=".$row['role'].";";
     $rs = $this->dbQuery($sql);
     $row = $this->fetchRow($rs);
+    $tmpRow = array();
+    foreach($row as $key => $val) {
+        if ($val ==1 ) {
+            $tmpRow[$key] = 1;
+        }
+    }
+    $row = $tmpRow;
     $_SESSION['permissions'] = $row;
     $_SESSION['frames'] = 0;
     $_SESSION['validated'] = 1;

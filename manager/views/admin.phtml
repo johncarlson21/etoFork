@@ -223,24 +223,38 @@ var layoutSettings_Outer = {
 <ul id="myMenu" class="contextMenu">
     <li class="header"></li>
     <li class="preview"><a href="#preview">Preview</a></li>
+    <?php if ($etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
     <li class="edit"><a href="#edit">Edit</a></li>
     <li class="move"><a href="#move">Change Parent Document</a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('new_document', $_SESSION['internalKey'])) {?>
     <li class="createDoc separator"><a href="#createDoc">Create Document Here</a></li>
     <li class="createLink"><a href="#createLink">Create Weblink Here</a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
     <li class="publish separator"><a href="#publish">Publish Docuement</a></li>
     <li class="unpublish"><a href="#unpublish">Un-publish Docuement</a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('delete_document', $_SESSION['internalKey'])) {?>
     <li class="delete separator"><a href="#delete">Delete</a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
     <li class="undelete"><a href="#undelete">Undelete</a></li>
     <li class="showinmenu separator"><a href="#showinmenu">Show in menus</a></li>
     <li class="hideinmenu"><a href="#hideinmenu">Hide in menus</a></li>
+    <?php } ?>
 </ul>
 <!-- Definition of context menu -->
 <ul id="myRootMenu" class="contextMenu">
     <li class="header"></li>
+    <?php if ($etomite->checkUserRole('new_document', $_SESSION['internalKey'])) {?>
     <li class="createDoc"><a href="#createDoc">Create Document Here</a></li>
     <li class="createLink"><a href="#createLink">Create Weblink Here</a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('delete_document', $_SESSION['internalKey']) && $etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
     <li class="purgeDocs separator"><a href="#purgeDocs">Purge Deleted Documents</a></li>
     <li class="refreshTree"><a href="#refreshTree">Refresh Document Tree</a></li>
+    <?php } ?>
 </ul>
 <div id="spinner" style="display:none;"></div>
 <div id="debug-output">

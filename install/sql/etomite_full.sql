@@ -641,6 +641,9 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}user_roles` (
   `edit_chunk` int(1) NOT NULL default '0',
   `delete_chunk` int(1) NOT NULL default '0',
   `export_html` int(1) NOT NULL default '0',
+  `new_tv` int(1) NOT NULL default '0',
+  `edit_tv` int(1) NOT NULL default '0',
+  `delete_tv` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Contains information describing the Etomite user roles.' AUTO_INCREMENT=3 ;
 
@@ -705,7 +708,7 @@ INSERT INTO `{PREFIX}manager_users` VALUES (1, '{ADMIN}', MD5('{ADMINPASS}'));
 
 INSERT INTO `{PREFIX}user_attributes` VALUES (1, 1, 'Administration account', 1, 'Your email goes here', '', '', 0, 0, 0, {TIMESTAMP}, {TIMESTAMP}, 0, '', '', '', '', '', 0);
 
-INSERT INTO `{PREFIX}user_roles` VALUES(1, 'Administrator', 'Site administrators have full access to all functions', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0);
+INSERT INTO `{PREFIX}user_roles` VALUES(1, 'Administrator', 'Site administrators have full access to all functions', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1);
 
 --
 -- Dumping data for table `{PREFIX}system_settings`
