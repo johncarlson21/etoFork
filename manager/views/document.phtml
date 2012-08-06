@@ -541,7 +541,7 @@ if($id && count($content)>0) {
 <div style="overflow: visible; margin: 10px; border: #999 solid 1px;">
     <div class='header'><?php echo $this->_lang['document_content']; ?></div>
     <div id="docContent">
-        <textarea rows="10" cols="60" name="taContent" id="taContent" style="width:100%"><?php echo isset($content['content']) ? stripslashes($content['content']) : ""; ?></textarea>
+        <textarea rows="10" cols="60" name="taContent" id="taContent" style="height:400px; width:100%"><?php echo isset($content['content']) ? stripslashes($content['content']) : ""; ?></textarea>
     </div>
 </div>
 <?php } ?>
