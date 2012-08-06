@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>elFinder 2.0</title>
+
+		<!-- jQuery and jQuery UI (REQUIRED) -->
+		<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+
+		<!-- elFinder CSS (REQUIRED) -->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/elfinder.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/theme.css">
+
+		<!-- elFinder JS (REQUIRED) -->
+		<script type="text/javascript" src="js/elfinder.min.js"></script>
+
+			<!-- TinyMCE Popup class (REQUIRED) -->
+	        <script type="text/javascript" src="../tinymce/jscripts/tiny_mce/tiny_mce_popup.js"></script>
+	        
+	        <script type="text/javascript">
+	          var FileBrowserDialogue = {
+	            init: function() {
+	              // Here goes your code for setting your custom things onLoad.
+	            },
+	            mySubmit: function (URL) {
+	              var win = tinyMCEPopup.getWindowArg('window');
+	        
+	              // pass selected file path to TinyMCE
+	              win.document.getElementById(tinyMCEPopup.getWindowArg('input')).value = URL;
+	        
+	              // are we an image browser?
+	              if (typeof(win.ImageDialog) != 'undefined') {
+	                // update image dimensions
+	                if (win.ImageDialog.getImageData) {
+	                  win.ImageDialog.getImageData();
+	                }
+	                // update preview if necessary
+	                if (win.ImageDialog.showPreviewImage) {
+	                  win.ImageDialog.showPreviewImage(URL);
+	                }
+	              }
+	        
+	              // close popup window
+	              tinyMCEPopup.close();
+	            }
+	          }
+	        
+	          tinyMCEPopup.onInit.add(FileBrowserDialogue.init, FileBrowserDialogue);
+	        
+	          $().ready(function() {
+	            var elf = $('#elfinder').elfinder({
+	              // set your elFinder options here
+	              url: 'php/connector.php',  // connector URL
+	              height: 430,
+	              contextmenu : {
+	                  // navbarfolder menu
+	                  navbar :
+	                    ['open', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'info'],
+	                  // current directory menu
+	                  cwd    :
+	                    ['reload', 'back', '|', 'upload', 'mkdir', 'mkfile', 'paste', '|', 'info'],
+	                  // current directory file menu
+	                  files  :
+	                    ['getfile', '|','open', 'quicklook', '|', 'download', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'edit', 'rename', 'resize', '|', 'archive', 'extract', '|', 'info']
+	                  },
+	              customData : {token : '427820038402jfkals89802', inManager : 'true'},
+	              commands : [
+	                         'open', 'reload', 'home', 'up', 'back', 'forward', 'getfile', 'quicklook',
+	                         'download', 'rm', 'duplicate', 'rename', 'mkdir', 'mkfile', 'upload', 'copy',
+	                         'cut', 'paste', 'edit', 'resize', 'extract', 'archive', 'search', 'info', 'view', 'help'
+	                     ],
+	              getFileCallback: function(url) { // editor callback
+	                path = url; //url.path;
+	                FileBrowserDialogue.mySubmit(path); // pass selected file path to TinyMCE 
+	              }
+	            }).elfinder('instance');      
+	          });
+			
+		</script>
+	</head>
+	<body>
+
+		<!-- Element where elFinder will be created (REQUIRED) -->
+		<div id="elfinder"></div>
+
+	</body>
+</html>
