@@ -46,10 +46,6 @@ $resourcePermsArr = array(
     'delete_chunk'
 );
 
-// include language file
-$_lang = array();
-include_once("./includes/lang/english.inc.php");
-
 // include_once config file
 $config_filename = "./includes/config.inc.php";
 if(!file_exists($config_filename))
@@ -72,6 +68,10 @@ include_once("./models/etomite.class.php");
 startCMSSession();
 
 $etomite = new etomite;
+
+// include language file
+$_lang = array();
+include_once("./includes/lang/".$etomite->config['manager_language'].".inc.php");
 
 if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 1) {
     $etomite->userLogout();
