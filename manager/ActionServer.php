@@ -28,9 +28,9 @@ class ActionServer extends Ajax {
         $password = $_REQUEST['password']; // this gets escaped in the function
         
         if ($etomite->userLogin($username,$password)) {
-            $this->respond(true,"User Logged In");
+            $this->respond(true,$etomite->_lang['user_logged_in']);
         } else {
-            $this->respond(false, "Username and Password did not match!");
+            $this->respond(false, $etomite->_lang['username_password_no_match']);
         }
         
     }
@@ -48,9 +48,9 @@ class ActionServer extends Ajax {
         }
         $Content = new Content();
         if ($Content->saveTree($_REQUEST['tree'])) {
-            $this->respond(true, 'Tree Saved');
+            $this->respond(true, $Content->_lang['save_tree']);
         } else {
-            $this->respond(false, 'There was an error saving the tree');
+            $this->respond(false, $Content->_lang['save_tree_error']);
         }
     }
     
@@ -65,14 +65,14 @@ class ActionServer extends Ajax {
         $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");
         foreach($against as $a) {
             if (strpos($_REQUEST['alias'], $a) !== false) {
-                $this->respond(false, 'Alias cannot contain &quot;'.$a.'&quot;');
+                $this->respond(false, $etomite->_lang['alias_error_start'].$a.$etomite->_lang['alias_error_end']);
             }
         }
         $good = $Content->checkAlias($_REQUEST['alias'], (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false);
         if ($good) {
-            $this->respond(true, 'That is a good alias!');
+            $this->respond(true, $Content->_lang['alias_good']);
         } else {
-            $this->respond(false, 'Alias already exists!');
+            $this->respond(false, $Content->_lang['alias_exists']);
         }
     }
     
@@ -146,9 +146,9 @@ class ActionServer extends Ajax {
         );
         $Content = new Content();
         if($Content->saveDocument($data)) {
-            $this->respond(true, 'Document Saved!');
+            $this->respond(true, $Content->_lang['document_saved']);
         } else {
-            $this->respond(false, 'Document not saved!');
+            $this->respond(false, $Content->_lang['document_not_saved']);
         }
     }
     
@@ -156,9 +156,9 @@ class ActionServer extends Ajax {
         $this->validateRequest(array('propName', 'propVal', 'id'));
         $Content = new Content();
         if ($Content->updateDocProperty($_REQUEST['id'], $_REQUEST['propName'], $_REQUEST['propVal'])) {
-            $this->respond(true, 'Property updated');
+            $this->respond(true, $Content->_lang['property_updated']);
         } else {
-            $this->respond(false, 'Property not updated');
+            $this->respond(false, $Content->_lang['property_not_updated']);
         }
     }
     
@@ -171,9 +171,9 @@ class ActionServer extends Ajax {
     public function purgeDocuments() {
         $Content = new Content();
         if ($Content->purgeDocuments()) {
-            $this->respond(true, 'Documents Purged');
+            $this->respond(true, $Content->_lang['documents_purged']);
         } else {
-            $this->respond(false, 'There was an error removing all the documents!');
+            $this->respond(false, $Content->_lang['documents_purged_error']);
         }
     }
     
@@ -185,9 +185,9 @@ class ActionServer extends Ajax {
     public function removeLocks() {
         $System = new System();
         if ($System->removeLocks()) {
-            $this->respond(true, 'Locks removed!');
+            $this->respond(true, $System->_lang['locks_removed']);
         } else {
-            $this->respond(false, 'There was an error removing locks!');
+            $this->respond(false, $System->_lang['locks_removed_error']);
         }
     }
     
@@ -230,9 +230,9 @@ class ActionServer extends Ajax {
             if ($Resource->lastId && $Resource->lastId > 0) {
                 $params = array('id'=>$Resource->lastId);
             }
-            $this->respond(true, 'Resource Saved!', $params);
+            $this->respond(true, $Resource->_lang['resource_saved'], $params);
         } else {
-            $this->respond(false, 'Resource not saved!');
+            $this->respond(false, $Resource->_lang['resource_not_saved']);
         }
     }
     
@@ -240,9 +240,9 @@ class ActionServer extends Ajax {
         $this->validateRequest(array('id','type'));
         $Resource = new Resource();
         if ($Resource->deleteResource((int)$_REQUEST['id'], $_REQUEST['type'])) {
-            $this->respond(true, 'Resource Deleted');
+            $this->respond(true, $Resource->_lang['resource_deleted']);
         } else {
-            $this->respond(false, 'Resource not deleted!');
+            $this->respond(false, $Resource->_lang['resource_not_deleted']);
         }
     }
     
