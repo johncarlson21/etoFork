@@ -2411,6 +2411,9 @@ title='$siteName'>$siteName</a></h2>
         session_unset();
         return false;
     }
+    
+    $oldrow = $row;
+    
     // changing this to reflect only given permissions
     $sql="SELECT * FROM ".$this->db."user_roles where id=".$row['role'].";";
     $rs = $this->dbQuery($sql);
@@ -2430,6 +2433,12 @@ title='$siteName'>$siteName</a></h2>
       $url = $this->makeURL($id,$alias);
     }
     $this->sendRedirect($url);*/
+    
+    // need to update last login
+    
+    $sql = "UPDATE ".$this->db."user_attributes SET lastlogin='".$oldrow['thislogin']."', thislogin='".time()."' where internalKey=".$oldrow['internalKey'].";";
+    $rs = $this->dbQuery($sql);
+    
     return true;
   }
 

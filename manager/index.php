@@ -77,6 +77,11 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 1) {
     $etomite->userLogout();
 }
 
+$etomite->printable = "Printable Page"; // Name of Printable Page template
+// the following settings are for blocking search bot page hit logging
+$etomite->useblockLogging = true;
+$etomite->blockLogging = "/(google|bot|msn|slurp|spider|agent|validat|miner|walk|crawl|robozilla|search|combine|theophrastus|larbin|dmoz)/i";
+
 // send the charset header
 header('Content-Type: text/html; charset='.$etomite->config['etomite_charset']);
 
