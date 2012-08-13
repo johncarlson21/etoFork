@@ -68,7 +68,7 @@
             <li><a onclick="this.blur(); Etomite.removeLocks();" href="javascript:;"><?php echo $_lang["remove_locks"]; ?></a></li>
         <?php } ?>
         <?php if($_SESSION['permissions']['logs']==1) { ?>
-            <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadAuditTrail');" href="javascript:;"><?php echo $_lang["view_logging"]; ?></a></li>
+            <!-- <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadAuditTrail');" href="javascript:;"><?php echo $_lang["view_logging"]; ?></a></li> -->
         <?php } ?>
         <?php if($_SESSION['permissions']['file_manager']==1) { ?>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('manageFiles');" href="javascript:;"><?php echo $_lang["manage_files"]; ?></a></li>

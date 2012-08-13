@@ -5,7 +5,7 @@
         <li><a href="#roles"><?php echo $this->_lang['role_management_title']; ?></a></li>
     </ul>
     <div id="manage-users">
-        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newUser" class="button">New User</a></div>
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newUser" class="button"><?php echo $this->_lang['new_user']; ?></a></div>
         <p class="menuHeader"><?php echo $this->_lang['user_management_msg']; ?></p>
         <?php
           $sql = "select username, id from ".$this->db."manager_users order by username";

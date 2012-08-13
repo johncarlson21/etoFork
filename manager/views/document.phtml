@@ -1,24 +1,24 @@
 <div class="header">
-    <?php if($id && !$reference){?>
-    Edit Document
-    <?php }elseif($id && $reference){?>
-    Edit Weblink
-    <?php }elseif(!$id && !$reference){?>
-    Create Document
-    <?php }elseif(!$id && $reference){?>
-    Create Weblink
-    <?php }?>
+    <?php if($id && !$reference){
+        echo $this->_lang["edit_document"];
+    }elseif($id && $reference){
+        echo $this->_lang["edit_weblink"];
+    }elseif(!$id && !$reference){
+        echo $this->_lang["create_document"];
+    }elseif(!$id && $reference){
+        echo $this->_lang["create_weblink"];
+    }?>
 </div>
 <div id="head-actions">
-    <div id="documentTitle"><span id="docTitle"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']) : "Un-Saved"; ?></span></div>
+    <div id="documentTitle"><span id="docTitle"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']) : $this->_lang["un_saved"]; ?></span></div>
     <div class="action-btns">
         <?php if ($this->checkUserRole('edit_document', $_SESSION['internalKey']) || $this->checkUserRole('save_document', $_SESSION['internalKey'])) {?>
-        <a href="javascript:;" id="saveDocument" class="button">Save</a>
+        <a href="javascript:;" id="saveDocument" class="button"><?php echo $this->_lang["save"]; ?></a>
         <?php } ?>
         <?php if ($this->checkUserRole('delete_document', $_SESSION['internalKey'])) {?>
-        <a href="javascript:;" id="deleteDocument" class="button">Delete</a>
+        <a href="javascript:;" id="deleteDocument" class="button"><?php echo $this->_lang["delete"]; ?></a>
         <?php } ?>
-        <a href="javascript:;" id="cancelDocument" class="button">Cancel</a>
+        <a href="javascript:;" id="cancelDocument" class="button"><?php echo $this->_lang["cancel"]; ?></a>
     </div>
     <div class="clear"></div>
 </div>
@@ -498,21 +498,21 @@ if($id && count($content)>0) {
                                 }
                             ?>
                             </td>
-                            <td nowrap="nowrap"><a href="#" onclick="$('#doc_<?php echo $r['id'];?>').toggle(); return false;">View Info</a> <a href="index.php?a=5&revid=<?php echo $r['id']; ?>&id=<?php echo $content['id'];?>&mode=999" onclick="return revert();">Revert</a>
+                            <td nowrap="nowrap"><a href="#" onclick="$('#doc_<?php echo $r['id'];?>').toggle(); return false;"><?php echo $this->_lang['view_info']?></a> <a href="index.php?a=5&revid=<?php echo $r['id']; ?>&id=<?php echo $content['id'];?>&mode=999" onclick="return revert();"><?php echo $this->_lang['revert']; ?></a>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3">
                             <div id="doc_<?php echo $r['id'];?>" style="display:none;">
                                 <div style="border:#000 solid 1px;padding:5px;">
-                                    <p><strong>Page Title: </strong><?php echo $r['pagetitle']; ?></p>
-                                    <p><strong>Long Title: </strong><?php echo $r['longtitle']; ?></p>
-                                    <p><strong>Description: </strong><?php echo $r['description']; ?></p>
-                                    <p><strong>Alias: </strong><?php echo $r['alias']; ?></p>
-                                    <p><strong>Meta Title: </strong><?php echo $r['meta_title']; ?></p>
-                                    <p><strong>Meta Description: </strong><?php echo $r['meta_description']; ?></p>
-                                    <p><strong>Meta Keywords: </strong><?php echo $r['meta_keywords']; ?></p>
-                                    <p><strong>Content: </strong><br /><blockquote><?php echo $r['content']; ?></blockquote></p>
+                                    <p><strong><?php echo $this->_lang["document_title"]; ?>: </strong><?php echo $r['pagetitle']; ?></p>
+                                    <p><strong><?php echo $this->_lang["long_title"]; ?>: </strong><?php echo $r['longtitle']; ?></p>
+                                    <p><strong><?php echo $this->_lang["document_description"]; ?>: </strong><?php echo $r['description']; ?></p>
+                                    <p><strong><?php echo $this->_lang["document_alias"]; ?>: </strong><?php echo $r['alias']; ?></p>
+                                    <p><strong><?php echo $this->_lang["document_meta_title"]; ?>: </strong><?php echo $r['meta_title']; ?></p>
+                                    <p><strong><?php echo $this->_lang["document_meta_description"]; ?>: </strong><?php echo $r['meta_description']; ?></p>
+                                    <p><strong><?php echo $this->_lang["document_meta_keywords"]; ?>: </strong><?php echo $r['meta_keywords']; ?></p>
+                                    <p><strong><?php echo $this->_lang["document_content"]; ?>: </strong><br /><blockquote><?php echo $r['content']; ?></blockquote></p>
                                 </div>
                             </div>
                             </td>

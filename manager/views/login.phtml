@@ -25,7 +25,7 @@ $(document).ready(function(){
 </style>
 </head>
 <body id="loginPage">
-    <div class="header"><?php echo $etomite->config['full_appname'];?> - Administration Login</div>
+    <div class="header"><?php echo $etomite->config['full_appname'];?> - <?php echo $_lang["administration_login"]; ?></div>
     <div class="wrapper" id="mainContent">
         <div class="login-box">
             <div class="login-info">
@@ -36,12 +36,12 @@ $(document).ready(function(){
             <div class="input-form">
                 <div class="error"></div>
                 <div class="input-box">
-                    <label>Username:</label>
+                    <label><?php echo $this->_lang["username"]; ?>:</label>
                     <input type="text" name="username" id="username" value="" />
                     <div style="clear:both;"></div>
                 </div>
                 <div class="input-box">
-                    <label>Password:</label>
+                    <label><?php echo $this->_lang["password"]; ?>:</label>
                     <input type="password" name="password" id="password" />
                     <div style="clear:both"></div>
                 </div>
@@ -50,8 +50,8 @@ $(document).ready(function(){
             </div>
         </div>
         <div class="login-copy-terms">
-            <div class="copy"><strong>Etomite is &copy; and &trade; of The Etomite Project.</strong></div>
-            <div class="terms"><input type="checkbox" id="licenseOK" name="licenseOK" checked='checked' tabindex="6" /> &nbsp; <em>&quot;I agree to use Etomite in Accordance with the GPL.&quot;</em></div>
+            <div class="copy"><strong><?php echo $_lang["copy_msg"]; ?></strong></div>
+            <div class="terms"><input type="checkbox" id="licenseOK" name="licenseOK" checked='checked' tabindex="6" /> &nbsp; <em><?php echo $_lang["terms_msg"]; ?></em></div>
         </div>
     </div>
 </body>

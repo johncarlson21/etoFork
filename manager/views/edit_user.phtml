@@ -4,11 +4,11 @@
     } ?>
 </div>
 <div class="action-btns">
-    <a href="javascript:;" id="saveUser" class="button">Save</a>
+    <a href="javascript:;" id="saveUser" class="button"><?php echo $this->_lang["save"]; ?></a>
     <?php if ($id && !empty($id)) {?>
-    <a href="javascript:;" id="deleteUser" class="button">Delete</a>
+    <a href="javascript:;" id="deleteUser" class="button"><?php echo $this->_lang["delete"]; ?></a>
     <?php } ?>
-    <a href="javascript:;" id="cancelUser" class="button">Cancel</a>
+    <a href="javascript:;" id="cancelUser" class="button"><?php echo $this->_lang["cancel"]; ?></a>
 </div>
 <div id="user-tabs">
     <ul>
@@ -39,12 +39,12 @@
                    <input style="float: left;" name="newpasswordcheck" id="newpasswordcheck" type="checkbox" onclick="$('#passwordBlock').toggle()">
                     <div style="display:none; float:left;" id="passwordBlock">
                         <input class="inputBox" name="newpassword" id="newpassword" type="text" />
-                        <a href="javascript:;" id="generatePasswordBtn" class="button">Generate Password</a>
+                        <a href="javascript:;" id="generatePasswordBtn" class="button"><?php echo $this->_lang["generate_password"]; ?></a>
                     </div>
                <?php
                } else {
                ?>
-                <input class="inputBox" name="newpassword" id="newpassword" type="text" /> <a href="javascript:;" id="generatePasswordBtn" class="button">Generate Password</a>
+                <input class="inputBox" name="newpassword" id="newpassword" type="text" /> <a href="javascript:;" id="generatePasswordBtn" class="button"><?php echo $this->_lang["generate_password"]; ?></a>
                <?php } ?>
                
             </td>

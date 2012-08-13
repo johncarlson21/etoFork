@@ -6,13 +6,8 @@
     </ul>
     <div id="module-list"><?php $this->listModules();?></div>
     <div id="install-module">
-        <p>This form installs a new module to the system.</p>
-        <p>The module must be in the /tmp/packages folder and be in the format of a .tar or a .zip file</p>
-        <p>The packages folder must be writable by the system, the module file and the /modules folder.<br />
-        <p>Use the file manager below to upload your module file or use normal FTP to upload the file.</p>
-        <p>&nbsp;</p>
-        <p>Enter the name of the module in the text box below to install a new module! (The name entered here is the first part of the package file. example: mod_test.tar, you would enter mod_test)</p>
-        <p><strong>Module:</strong> <input type="text" name="module" id="module_name" value="" /> &nbsp; <a href="#" class="install-module-btn button">Install</a></p>
+        <?php echo $this->_lang["module_install_msg"]; ?>
+        <p><strong><?php echo $this->_lang["module"]; ?>:</strong> <input type="text" name="module" id="module_name" value="" /> &nbsp; <a href="#" class="install-module-btn button"><?php echo $this->_lang["install"]; ?></a></p>
         <p>&nbsp;</p>
         <div id="fileManager"></div>
     </div>

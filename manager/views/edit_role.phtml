@@ -2,11 +2,11 @@
 <div class="content" id="editRole">
     <form id="editRoleForm">
     <div class="action-btns">
-        <a href="javascript:;" id="saveRole" class="button">Save</a>
+        <a href="javascript:;" id="saveRole" class="button"><?php echo $this->_lang["save"]; ?></a>
         <?php if ($id && !empty($id)) {?>
-        <a href="javascript:;" id="deleteRole" class="button">Delete</a>
+        <a href="javascript:;" id="deleteRole" class="button"><?php echo $this->_lang["delete"]; ?></a>
         <?php } ?>
-        <a href="javascript:;" id="cancelRole" class="button">Cancel</a>
+        <a href="javascript:;" id="cancelRole" class="button"><?php echo $this->_lang["cancel"]; ?></a>
     </div>
     <p>&nbsp;</p>
     <input type="hidden" name="id" id="id" value="<?php echo isset($roledata['id']) ? (int)$roledata['id'] : ''; ?>" />

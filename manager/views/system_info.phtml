@@ -28,7 +28,7 @@ else
   $newversiontext = $etomite->_lang['sys_info_version_no_connect'];
 }
 ?>
-<div class="header">System Information</div>
+<div class="header"><?php echo $etomite->_lang['system_information']; ?></div>
 <div id="systemInfoTabs">
     <ul>
         <li><a href="#recentDocs"><?php echo $etomite->_lang["activity_title"]; ?></a></li>
@@ -198,7 +198,7 @@ else
             ?>
             
               <tr>
-              <td valign="top"><b>Totals:</b></td>
+              <td valign="top"><b><?php echo $etomite->_lang['sys_info_totals']; ?>:</b></td>
               <td colspan="2">&nbsp;</td>
               <td align="right" valign="top"><?php echo $totaloverhead>0 ? "<b style='color:#990033'>".nicesize($totaloverhead)."</b><br>(".number_format($totaloverhead)." B)" : "-"; ?></td>
               <td colspan="2">&nbsp;</td>

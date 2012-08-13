@@ -16,7 +16,7 @@
     <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey']) || $this->checkUserRole('edit_template', $_SESSION['internalKey'])) { ?>
     <div id="templates">
         <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey'])) { ?>
-        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTemplate" class="button">New Template</a></div>
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTemplate" class="button"><?php echo $this->_lang['new_template']; ?></a></div>
         <?php } ?>
         <p><?php echo $this->_lang['template_management_msg']; ?></p>
         <?php
@@ -53,7 +53,7 @@
     <?php if ($this->checkUserRole('new_snippet', $_SESSION['internalKey']) || $this->checkUserRole('edit_snippet', $_SESSION['internalKey'])) { ?>
     <div id="snippets">
         <?php if ($this->checkUserRole('new_snippet', $_SESSION['internalKey'])) { ?>
-        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newSnippet" class="button">New Snippet</a></div>
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newSnippet" class="button"><?php echo $this->_lang['new_snippet']; ?></a></div>
         <?php } ?>
         <p><?php echo $this->_lang['snippet_management_msg']; ?></p>
         <div id="snippet-accordion">
@@ -104,7 +104,7 @@
           }// end for for sections
           
         ?>
-            <h3><a href="#">Un-categorized</a></h3>
+            <h3><a href="#"><?php echo $this->_lang['un_categorized']; ?></a></h3>
             <div>
                 <?php
                 $sql = "select name, id, description, locked from ".$this->db."site_snippets where section<1 order by name";
@@ -150,7 +150,7 @@
     <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey']) || $this->checkUserRole('edit_chunk', $_SESSION['internalKey'])) { ?>
     <div id="chunks">
         <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey'])) { ?>
-        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newChunk" class="button">New Chunk</a></div>
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newChunk" class="button"><?php echo $this->_lang["new_htmlsnippet"]; ?></a></div>
         <?php } ?>
         <p><?php echo $this->_lang['htmlsnippet_management_msg']; ?></p>
         <div id="chunk-accordion">
@@ -194,7 +194,7 @@
             }// end if for limit
           }// end for for sections
         ?>
-            <h3><a href="#">Un-categorized</a></h3>
+            <h3><a href="#"><?php echo $this->_lang['un_categorized']; ?></a></h3>
             <div>
                 <?php
                 $sql = "select name, id, description, locked from ".$this->db."site_htmlsnippets where section<1 order by name";
@@ -252,7 +252,7 @@
                 </ul>
             <?php
             } else {
-                echo "<p><em>Currently no Template Variables!</em></p>";
+                echo "<p><em>".$this->_lang['no_template_vars']."</em></p>";
             }
         ?>
         <script type="text/javascript">
@@ -270,7 +270,7 @@
     </div>
     <?php } ?>
     <div id="categories">
-        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newCategory" class="button">New Category</a></div>
+        <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newCategory" class="button"><?php echo $this->_lang["create_category"]; ?></a></div>
         <p><?php echo $this->_lang['category_management_msg']; ?></p>
         <?php
             $sql = "select name, id, description from ".$this->db."site_section order by name ASC";

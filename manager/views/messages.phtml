@@ -15,7 +15,7 @@
       $rs = $this->dbQuery($sql);
       $limit = $this->recordCount($rs);
       if($limit!=1) {
-        echo "Wrong number of messages returned!";
+        echo $this->_lang["wrong_msg_returned"];
       } else {
         $message=$this->fetchRow($rs);
         if($message['recipient'] != $_SESSION['internalKey'] && $message['sender'] != $_SESSION['internalKey']) {
@@ -315,7 +315,7 @@
         $rs = $this->dbQuery($sql);
         $limit = $this->recordCount($rs);
         if($limit!=1) {
-          echo "Wrong number of messages returned!";
+          echo $this->_lang["wrong_msg_returned"];
         } else {
           $message=$this->fetchRow($rs);
           //if($message['recipient']!=$_SESSION['internalKey']) {
@@ -378,7 +378,7 @@
           $rs = $this->dbQuery($sql);
           ?>
           <select name="user" class="inputBox" style="width:150px">
-            <option value="">Select a User</option>
+            <option value=""><?php echo $this->_lang["select_user"]; ?></option>
           <?php
             while ($row = $this->fetchRow($rs)) {
           ?>
@@ -393,7 +393,7 @@
           $rs = $this->dbQuery($sql);
           ?>
           <select name="group" class="inputBox" style="width:150px">
-            <option value="">Select a group</option>
+            <option value=""><?php echo $this->_lang["select_group"]; ?></option>
           <?php
           while ($row = $this->fetchRow($rs)) {
             ?>
