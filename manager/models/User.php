@@ -210,9 +210,8 @@ class User extends etomite {
         if($message == "") $message = "(no message)";
         $postdate = time();
         
-        $footerInfo = "<hr /><p>&nbsp;</p><p>Login to the <a href='".MANAGER_URL."'>MANAGER</a> to view this message</p>" .
-            "<p>If the link above doesn't work, copy and past this link: ".MANAGER_URL." into your browser!</p>" .
-        	"<p align='center'><strong><em>Do not reply to this message, it will go nowhere!</em></strong></p>";
+        $footerInfo = $this->_lang['send_my_msg1']." <a href='".MANAGER_URL."'>".$this->_lang['manager']."</a> ". $this->_lang['send_my_msg2'] .
+            $this->_lang['send_my_msg3']." ".MANAGER_URL." ". $this->_lang['send_my_msg4'] . $this->_lang['send_my_msg5'];
         
         if($sendto == 'u') {
           if($userid == 0) {
@@ -244,8 +243,8 @@ class User extends etomite {
           $curUser = $this->getUser($_SESSION['internalKey']);
           $user = $this->getUser($userid);
           if($user['mailmessages'] == 1) {
-              $message = "<p><strong>User:</strong> ".$curUser['fullname']." has sent you a message</p>".
-                  "<p><strong>Subject:</strong> ".$subject."</p><p><strong>Message:</strong></p>".$message.$footerInfo;
+              $message = "<p><strong>".$this->_lang['user'].":</strong> ".$curUser['fullname']." ".$this->_lang['send_my_msg6']."</p>".
+                  "<p><strong>".$this->_lang['message_subject'].":</strong> ".$subject."</p><p><strong>".$this->_lang['message_message'].":</strong></p>".$message.$footerInfo;
               $to = array(array('email'=>$user['email'], 'name'=>$user['fullname']));
               $this->sendMessageToUser($to, $message);
           }
@@ -277,8 +276,8 @@ class User extends etomite {
               // send mail if nessesary
               $user = $this->getUser($row['internalKey']);
               if($user['mailmessages'] == 1) {
-                  $sendmessage = "<p><strong>User:</strong> ".$curUser['fullname']." has sent you a message</p>".
-                      "<p><strong>Subject:</strong> ".$subject."</p><p><strong>Message:</strong></p>".$message.$footerInfo;
+                  $sendmessage = "<p><strong>".$this->_lang['user'].":</strong> ".$curUser['fullname']." ".$this->_lang['send_my_msg6']."</p>".
+                      "<p><strong>".$this->_lang['message_subject'].":</strong> ".$subject."</p><p><strong>".$this->_lang['message_message'].":</strong></p>".$message.$footerInfo;
                   $to = array(array('email'=>$user['email'], 'name'=>$user['fullname']));
                   $this->sendMessageToUser($to, $sendmessage);
               }
@@ -321,8 +320,8 @@ class User extends etomite {
               // send mail if nessesary
               $user = $this->getUser($row['id']);
               if($user['mailmessages'] == 1) {
-                  $sendmessage = "<p><strong>User:</strong> ".$curUser['fullname']." has sent you a message</p>".
-                      "<p><strong>Subject:</strong> ".$subject."</p><p><strong>Message:</strong></p>".$message.$footerInfo;
+                  $sendmessage = "<p><strong>".$this->_lang["user"].":</strong> ".$curUser['fullname']." ".$this->_lang['send_my_msg6']."</p>".
+                      "<p><strong>".$this->_lang['message_subject'].":</strong> ".$subject."</p><p><strong>".$this->_lang['message_message'].":</strong></p>".$message.$footerInfo;
                   $to = array(array('email'=>$user['email'], 'name'=>$user['fullname']));
                   $this->sendMessageToUser($to, $sendmessage);
               }

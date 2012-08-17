@@ -45,7 +45,7 @@ class Content extends etomite {
     public function manageDocument($id=false, $reference=false) {
         if ($id && is_numeric($id)) {
             if(!$content = $this->getDocument($id)) {
-                echo "<h2>That is not a valid document!</h2>";
+                echo $this->_lang["document_not_valid"];
             }
             // make sure to set the reference
             if($content['type']=='reference'){

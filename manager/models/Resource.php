@@ -85,7 +85,7 @@ class Resource extends etomite {
                     $header_text .= "&nbsp;-&nbsp;".$resource['name'];
                 }
             } else {
-                return "<h2>That is not a valid resource!</h2>";
+                return $this->_lang['resource_not_valid'];
             }
         } else {
             $resource = array();

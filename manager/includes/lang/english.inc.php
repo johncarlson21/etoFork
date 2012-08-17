@@ -946,4 +946,47 @@ $_lang['resource_saved'] = "Resource Saved!";
 $_lang['resource_not_saved'] = "Resource not Saved!";
 $_lang['resource_deleted'] = "Resource Deleted!";
 $_lang['resource_not_deleted'] = "Resource not Deleted!";
+$_lang["resource_name_error_start"] = "Resource name cannot contain &quot;";
+$_lang["resource_name_error_end"] = "&quot;";
+$_lang["resource_name_good"] = "That is a good resource name!";
+$_lang["resource_name_exists"] = "Resource Name already exists!";
+$_lang["created"] = "Created";
+$_lang["not_created"] = "Not Created";
+$_lang["tv_saved"] = "TV Saved";
+$_lang["tv_not_saved"] = "TV Not Saved";
+$_lang["tv_removed_msg"] = "Template Variable Removed";
+$_lang["tv_not_removed_msg"] = "Template Variable Was Not Removed";
+$_lang["username_error_start"] = "Username cannot contain &quot;";
+$_lang["username_error_end"] = "&quot;";
+$_lang["username_good"] = "That is a good user name!";
+$_lang["username_exists"] = "That username is not available!";
+$_lang["user_deleted"] = "User was Deleted";
+$_lang["user_not_deleted"] = "User was Not Deleted";
+$_lang["failed_login_reset"] = "Failed Logins Reset";
+$_lang["failed_login_not_reset"] = "Failed Logins Not Reset";
+$_lang["password_changed"] = "Password Changed!";
+$_lang["password_not_changed"] "Password Was Not Changed!";
+$_lang["role_saved"] = "Role Saved!";
+$_lang["role_not_saved"] = "Role Was Not Saved";
+$_lang["settings_saved"] = "Settings Saved";
+$_lang["settings_not_saved"] = "Settings Were Not Saved";
+$_lang["msg_sent"] = "Message Sent";
+$_lang["msg_sent_error"] = "There was an error sending the message! Please try again!";
+$_lang["msg_deleted"] = "Message Deleted";
+$_lang["msg_not_deleted"] = "Message was not removed!";
+$_lang["document_not_valid"] = "<h2>That is not a valid document!</h2>";
+$_lang["resource_not_valie"] = "<h2>That is not a valid resource!</h2>";
+$_lang["saving2"] = "saving";
+$_lang["send_my_msg1"] = "<hr /><p>&nbsp;</p><p>Login to the";
+$_lang['send_my_msg2'] = "to view this message</p>";
+$_lang['send_my_msg3'] = "<p>If the link above doesn't work, copy and past this link:";
+$_lang['send_my_msg4'] = "into your browser!</p>";
+$_lang['send_my_msg5'] = "<p align='center'><strong><em>Do not reply to this message, it will go nowhere!</em></strong></p>";
+$_lang['send_my_msg6'] = "has sent you a message";
+$_lang['user'] = "User";
+
+
+
+$_lang['manager'] = "Manager";
+
 ?>

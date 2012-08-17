@@ -82,7 +82,7 @@ class System extends etomite {
                     if (!$this->updIntTableRows(array('setting_value'=>$value), 'system_settings', 'setting_name="'.$field.'"')) {
                         return false; // there was an error
                     }
-                    $output .= "saving: ".$field." = ".$value."\n";
+                    $output .= $this->_lang['saving2'].": ".$field." = ".$value."\n";
                 }
             }
             $this->syncEtoCache();

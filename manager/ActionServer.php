@@ -252,14 +252,14 @@ class ActionServer extends Ajax {
         $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");
         foreach($against as $a) {
             if (strpos($_REQUEST['name'], $a) !== false) {
-                $this->respond(false, 'Resource name cannot contain &quot;'.$a.'&quot;');
+                $this->respond(false, $Resource->_lang['resource_name_error_start'.$a.$Resource->_lang['resource_name_error_end']);
             }
         }
         $good = $Resource->checkResourceName($_REQUEST['name'], $_REQUEST['type'], (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false);
         if ($good) {
-            $this->respond(true, 'That is a good resource name!');
+            $this->respond(true, $Resource->_lang["resource_name_good"]);
         } else {
-            $this->respond(false, 'Resource Name already exists!');
+            $this->respond(false, $Resource->_lang["resource_name_exists"]);
         }
     }
     
@@ -267,9 +267,9 @@ class ActionServer extends Ajax {
         $this->validateRequest('name','description');
         $Resource = new Resource();
         if ($Resource->createSection($_REQUEST['name'], $_REQUEST['description'])) {
-            $this->respond(true, 'created');
+            $this->respond(true, $Resource->_lang['created']);
         } else {
-            $this->respond(false, 'not created');
+            $this->respond(false, $Resource->_lang["not_created"]);
         }
     }
     
@@ -282,9 +282,9 @@ class ActionServer extends Ajax {
         $this->validateRequest('name','field_name','templates');
         $Resource = new Resource();
         if ($Resource->saveTV()) {
-            $this->respond(true, 'TV Saved!');
+            $this->respond(true, $Resource->_lang["tv_saved"]);
         } else {
-            $this->respond(false, 'TV not saved!');
+            $this->respond(false, $Resource->_lang['tv_not_saved']);
         }
     }
     
@@ -292,9 +292,9 @@ class ActionServer extends Ajax {
         $this->validateRequest('tv_id');
         $Resource = new Resource();
         if ($Resource->deleteTV($_REQUEST['tv_id'])) {
-            $this->respond(true, 'Template Variable Removed!');
+            $this->respond(true, $Resource->_lang['tv_removed_msg']);
         } else {
-            $this->respond(false, 'Template Variable was not removed!');
+            $this->respond(false, $Resource->_lang['tv_not_removed_msg']);
         }
     }
     
@@ -314,14 +314,14 @@ class ActionServer extends Ajax {
         $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");
         foreach($against as $a) {
             if (strpos($_REQUEST['username'], $a) !== false) {
-                $this->respond(false, 'Username cannot contain &quot;'.$a.'&quot;');
+                $this->respond(false, $User->_lang['username_error_start'].$a.$User->_lang['username_error_start']);
             }
         }
         $good = $User->checkUsername($_REQUEST['username'], (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false);
         if ($good) {
-            $this->respond(true, 'That is a good user name!');
+            $this->respond(true, $User->_lang['username_good']);
         } else {
-            $this->respond(false, 'That username is not available!');
+            $this->respond(false, $User->_lang['username_exists']);
         }
     }
     
@@ -338,9 +338,9 @@ class ActionServer extends Ajax {
             if ($User->lastId && $User->lastId > 0) {
                 $params = array('id'=>$User->lastId);
             }
-            $this->respond(true, 'created', $params);
+            $this->respond(true, $User->_lang['created'], $params);
         } else {
-            $this->respond(false, 'not created');
+            $this->respond(false, $User->_lang['not_created']);
         }
         
     }
@@ -349,9 +349,9 @@ class ActionServer extends Ajax {
         $this->validateRequest(array('id'));
         $User = new User();
         if ($User->deleteUser((int)$_REQUEST['id'])) {
-            $this->respond(true, 'user deleted');
+            $this->respond(true, $User->_lang['user_deleted']);
         } else {
-            $this->respond(false, 'User not deleted!');
+            $this->respond(false, $User->_lang['user_not_deleted']);
         }
     }
     
@@ -359,9 +359,9 @@ class ActionServer extends Ajax {
         $this->validateRequest(array('id'));
         $User = new User();
         if ($User->resetUserFailed((int)$_REQUEST['id'])) {
-            $this->respond(true, 'failed login reset');
+            $this->respond(true, $User->_lang["failed_login_reset"]);
         } else {
-            $this->respond(false, 'not reset');
+            $this->respond(false, $User->_lang["failed_login_not_reset"]);
         }
     }
     
@@ -369,9 +369,9 @@ class ActionServer extends Ajax {
         $this->validateRequest(array('password'));
         $User = new User();
         if ($User->changeUserPassword($_REQUEST['password'])) {
-            $this->respond(true, 'Password Changed!');
+            $this->respond(true, $User->_lang["password_changed"]);
         } else {
-            $this->respond(false, 'Error Changing Password!');
+            $this->respond(false, $User->_lang["password_not_changed"]);
         }
     }
     
@@ -384,9 +384,9 @@ class ActionServer extends Ajax {
         $this->validateRequest(array('name')); // name is required
         $User = new User();
         if ($User->saveRole()) {
-            $this->respond(true, 'Role Saved');
+            $this->respond(true, $User->_lang["roled_saved"]);
         } else {
-            $this->respond(false, 'Role not saved!');
+            $this->respond(false, $User->_lang["roled_not_saved"]);
         }
     }
     
@@ -408,9 +408,9 @@ class ActionServer extends Ajax {
     public function saveSiteSettings() {
         $System = new System();
         if ($System->saveSiteSettings()) {
-            $this->respond(true, 'Settings Saved!');
+            $this->respond(true, $System->_lang["settings_saved"]);
         } else {
-            $this->respond(false, 'Settings not saved!');
+            $this->respond(false, $System->_lang["settings_not_saved"]);
         }
     }
     
@@ -433,9 +433,9 @@ class ActionServer extends Ajax {
         $this->validateRequest(array('sendto','user'));
         $User = new User();
         if ($User->sendMyMessage()) {
-            $this->respond(true, 'Message Sent');
+            $this->respond(true, $User->_lang['msg_sent']);
         } else {
-            $this->respond(false, 'There was an error sending the message! Please try again!');
+            $this->respond(false, $User->_lang['msg_sent_error']);
         }
     }
     
@@ -443,9 +443,9 @@ class ActionServer extends Ajax {
         $this->validateRequest('id');
         $User = new User();
         if ($User->deleteMyMessage($_REQUEST['id'], $_SESSION['internalKey'])) {
-            $this->respond(true, 'Message Deleted');
+            $this->respond(true, $User->_lang["msg_deleted"]);
         } else {
-            $this->respond(false, 'Message was not removed!');
+            $this->respond(false, $User->_lang["msg_not_deleted"]);
         }
     }
 
