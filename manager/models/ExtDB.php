@@ -1,4 +1,12 @@
-<?
+<?php
+/**************************************************************************
+etoFork Content Management System
+Copyright (c) 2011 All Rights Reserved
+John Carlson - <johncarlson21@gmail.com>
+Extended Database Class - adds extra functionality to database calls
+such as joins.
+
+/**************************************************************************/
 
 class ExtDB {
 

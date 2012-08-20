@@ -1,5 +1,18 @@
 <?php
 /**************************************************************************
+etoFork Content Management System
+Copyright (c) 2011 All Rights Reserved
+John Carlson - <johncarlson21@gmail.com>
+
+Please see other info below as to what etoFork was derived from.
+
+etoFork is a fork of Etomite Content Management System. It has quite a few
+updates to the main functionality but uses some of the original code from
+etomite.
+
+/**************************************************************************/
+
+/**************************************************************************
 Etomite Content Management System
 Copyright (c) 2003 - 2007, The Etomite Project. All Rights Reserved.
 

@@ -965,7 +965,7 @@ $_lang["user_not_deleted"] = "User was Not Deleted";
 $_lang["failed_login_reset"] = "Failed Logins Reset";
 $_lang["failed_login_not_reset"] = "Failed Logins Not Reset";
 $_lang["password_changed"] = "Password Changed!";
-$_lang["password_not_changed"] "Password Was Not Changed!";
+$_lang["password_not_changed"] = "Password Was Not Changed!";
 $_lang["role_saved"] = "Role Saved!";
 $_lang["role_not_saved"] = "Role Was Not Saved";
 $_lang["settings_saved"] = "Settings Saved";
@@ -984,9 +984,6 @@ $_lang['send_my_msg4'] = "into your browser!</p>";
 $_lang['send_my_msg5'] = "<p align='center'><strong><em>Do not reply to this message, it will go nowhere!</em></strong></p>";
 $_lang['send_my_msg6'] = "has sent you a message";
 $_lang['user'] = "User";
-
-
-
 $_lang['manager'] = "Manager";
 
 ?>

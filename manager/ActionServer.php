@@ -252,7 +252,7 @@ class ActionServer extends Ajax {
         $against = array(" ","'",'"',"&","@","!","#","$","%","^","*","(",")","+","=");
         foreach($against as $a) {
             if (strpos($_REQUEST['name'], $a) !== false) {
-                $this->respond(false, $Resource->_lang['resource_name_error_start'.$a.$Resource->_lang['resource_name_error_end']);
+                $this->respond(false, $Resource->_lang['resource_name_error_start'].$a.$Resource->_lang['resource_name_error_end']);
             }
         }
         $good = $Resource->checkResourceName($_REQUEST['name'], $_REQUEST['type'], (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false);

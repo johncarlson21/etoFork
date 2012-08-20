@@ -1,4 +1,11 @@
 <?php
+/**************************************************************************
+ etoFork Content Management System
+Copyright (c) 2011 All Rights Reserved
+John Carlson - <johncarlson21@gmail.com>
+System Model - handles calls pertaining main system functionality
+
+/**************************************************************************/
 if (!defined('CONFIG_LOADED')) {
     define("IN_ETOMITE_SYSTEM", true);
     include_once('includes/bootstrap.php');
