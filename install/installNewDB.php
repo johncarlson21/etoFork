@@ -7,65 +7,68 @@ session_start();
 // the SQL file to import
 $sqlFile = "sql/".$_SESSION['sqlFile'];
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Etomite &raquo; Install</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <style type="text/css">
-    @import url('../assets/site/style.css');
-    ul li { margin-top: 7px; }
-    .ok { color : green; font-weight: bold; }
-    .notok { color : red; font-weight: bold; }
-    .labelHolder {
-      width : 180px;
-      float : left;
-      font-weight: bold;
-    }
-  </style>
+<title>etoFork - Installation</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<link type="text/css" href="../manager/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link href="../manager/css/manager_style.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../manager/js/etomite.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    Etomite.inAdmin = false;
+    Etomite.init();
+});
+</script>
+<style type="text/css">
+.error {
+    font-size: 11px;
+    color: #F00;
+    text-align: center;
+    font-weight: bold;
+}
+</style>
+<style type="text/css">
+.ok { color:green; }
+.notok { color:red; }
+.labelHolder {
+    width : 210px;
+    display : inline-block;
+    font-weight: bold;
+}
+</style>
+<script type="text/javascript" src="extLinks.js"> </script>
 </head>
-
-<body>
-<table border="0" cellpadding="0" cellspacing="0" class="mainTable">
-  <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite</span></td>
-    <td align="right"><span class="headers">Installation</span></td>
-  </tr>
-  <tr class="fancyRow2">
-    <td colspan="2" class="border-top-bottom smallText" align="right">&nbsp;</td>
-  </tr>
-  <tr align="left" valign="top">
-    <td colspan="2"><table width="100%"  border="0" cellspacing="0" cellpadding="1">
-      <tr align="left" valign="top">
-        <td class="pad" id="content" colspan="2">
-
+<body id="installPage">
+    <div class="header">etoFork - Installation</div>
+    <div class="wrapper" id="mainContent">
+        <div class="login-box" style="margin: 20px 0;">
+            <div class="login-info">
+                <div class="eto-logo"><img src='../manager/images/misc/etofork_logo.png' alt='<?php echo $release; ?>' title='<?php echo $release; ?>' /></div>
+                <div class="eto-login-msg"></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="eto-install-msg">
 <?php
-// define the page footer that all sections will use
-$pageFooter = <<<PAGEFOOTER
-        </td>
-      </tr>
-     </table>
-    </td>
-  </tr>
-  <tr class="fancyRow2">
-    <td class="border-top-bottom smallText">&nbsp;</td>
-    <td class="border-top-bottom smallText" align="right">&nbsp;</td>
-  </tr>
-</table>
-</body>
-</html>
-PAGEFOOTER;
 
 if(!isset($_POST['licenseOK']) || empty($_POST['licenseOK']))
 {
   echo "<p>You need to agree to the license before proceeding with the setup!</p>";
-  echo $pageFooter;
+?>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<?php
   exit;
 }
 
-echo "<h1>Etomite setup will now attempt to setup the database</h1>";
+echo "<h2>Etomite setup will now attempt to setup the database</h2>";
 
 $create = false;
 $errors = 0;
@@ -216,6 +219,9 @@ else
 
 // installation completed successfully
 echo "<p>Installation was successful! You can now log into the <a href=\"../manager/\"><b><u>Etomite manager</u></b></a>. First thing you need to do is to update and save the Etomite configuration. Etomite will ask you to do so once you've logged in.</p><p>Please make sure you CHMOD the config.inc.php file so it is not writeable by anyone other than yourself... Also, don't forget to remove the installer folder, as it is no longer needed.</p>";
-echo $pageFooter;
-
 ?>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
