@@ -94,8 +94,8 @@ function ableButton() {
 </script>
             <div>
             <form action="installNewDB.php" method="post">
-                <td class="border-top-bottom" style="padding:0px"><input type="checkbox" id="licenseOK" name="licenseOK" onClick="ableButton()" /><label for="licenseOK">I agree to the terms set out in this license.</label></td>
-                <td class="border-top-bottom smallText" align="right" style="padding:0px"><input type="submit" id="submit" value="Proceed" disabled="disabled" class="button" style="border: 0px;" /></td>
+                <input type="checkbox" id="licenseOK" name="licenseOKA" onClick="ableButton()" /><label for="licenseOK">I agree to the terms set out in this license.</label>
+                <input type="submit" id="submit" value="Proceed" disabled="disabled" class="button" style="float: none;" />
             </form>
             </div>
             </div>
