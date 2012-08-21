@@ -770,7 +770,13 @@ h1, h2, h3, h4 {
     width: 550px;
 }
 
-#loginPage .header {
+#installPage .wrapper {
+    margin: 0 auto;
+    width: 750px;
+}
+
+#loginPage .header,
+#installPage .header {
     background: #80ade5 url(../images/80ade5_40x100_textures_04_highlight_hard_100.png) 0 50% repeat-x;
     border-bottom: 1px solid #777;
     font-weight: bold;
@@ -787,17 +793,20 @@ h1, h2, h3, h4 {
     margin: 0 auto;
 }
 
-#loginPage .eto-logo {
+#loginPage .eto-logo,
+#installPage .eto-logo {
     float: left;
     width: 200px;
 }
 
-#loginPage .eto-login-msg {
+#loginPage .eto-login-msg,
+#installPage .eto-login-msg {
     float: right;
     width: 300px;
 }
 
 #loginPage .login-box,
+#installPage .login-box,
 #loginPage .login-copy-terms {
     margin: 100px 0 0 0;
     border: #777 solid 1px;
@@ -955,4 +964,14 @@ ul.dropdown li ul li a:hover {
 
 .clear {
     clear: both;
+}
+
+#installPage .new-install-btn,
+#installPage .repair-btn {
+    float: none;
+}
+
+.login-box blockquote {
+    border: #dedede solid 1px;
+    padding: 10px;
 }

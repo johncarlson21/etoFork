@@ -9,41 +9,53 @@ session_start();
 $_SESSION['sqlFile'] = $_GET['sqlFile'];
 include("../manager/includes/version.inc.php");
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Etomite &raquo; Install</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style type="text/css">
-      @import url('../assets/site/style.css');
-      .ok { color:green; }
-      .notok { color:red; }
-      .labelHolder {
-        width : 180px;
-        float : left;
-        font-weight: bold;
-      }
-    </style>
-  <script type="text/javascript" src="extLinks.js"> </script>
+<title>etoFork - Installation</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<link type="text/css" href="../manager/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link href="../manager/css/manager_style.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../manager/js/etomite.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    Etomite.inAdmin = false;
+    Etomite.init();
+});
+</script>
+<style type="text/css">
+.error {
+    font-size: 11px;
+    color: #F00;
+    text-align: center;
+    font-weight: bold;
+}
+</style>
+<style type="text/css">
+.ok { color:green; }
+.notok { color:red; }
+.labelHolder {
+    width : 180px;
+    display : inline-block;
+    font-weight: bold;
+}
+</style>
+<script type="text/javascript" src="extLinks.js"> </script>
 </head>
-
-<body>
-<table border="0" cellpadding="0" cellspacing="0" class="mainTable">
-  <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?></span></td>
-    <td align="right"><span class="headers">New Installation</span></td>
-  </tr>
-  <tr class="fancyRow2">
-    <td colspan="2" class="border-top-bottom smallText" align="right">&nbsp;</td>
-  </tr>
-  <tr align="left" valign="top">
-    <td colspan="2">
-      <table width="100%"  border="0" cellspacing="0" cellpadding="1">
-        <tr align="left" valign="top">
-          <td class="pad" id="content" colspan="2">
-            <h1>New Installation Setup</h1>
+<body id="installPage">
+    <div class="header">etoFork - New Installation</div>
+    <div class="wrapper" id="mainContent">
+        <div class="login-box" style="margin: 20px 0;">
+            <div class="login-info">
+                <div class="eto-logo"><img src='../manager/images/misc/etofork_logo.png' alt='<?php echo $release; ?>' title='<?php echo $release; ?>' /></div>
+                <div class="eto-login-msg"></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="eto-install-msg">
+            <h2>New Installation Setup</h2>
             <p>Etomite setup has carried out a number of checks to see if everything's ready to start the setup.<br />
 <?php
 
@@ -73,6 +85,24 @@ if($_SESSION['session_test']!=1 ) {
   echo "<span class='ok'>OK!</span>";
 }
 
+echo "</b><br />Checking if <span class='mono'>assets/</span> directory exists:<b> ";
+
+if(!file_exists("../assets")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
+}
+
+echo "</b><br />Checking if <span class='mono'>assets</span> directory is writable:<b> ";
+
+if(!is_writable("../assets")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
+}
+
 echo "</b><br />Checking if <span class='mono'>assets/cache</span> directory exists:<b> ";
 
 if(!file_exists("../assets/cache")) {
@@ -91,7 +121,7 @@ if(!is_writable("../assets/cache")) {
   echo "<span class='ok'>OK!</span>";
 }
 
-echo "</b><br />Checking if <span class='mono'>assets/images</span> directory exists:<b> ";
+/*echo "</b><br />Checking if <span class='mono'>assets/images</span> directory exists:<b> ";
 
 if(!file_exists("../assets/images")) {
   echo "<span class='notok'>Failed!</span>";
@@ -111,6 +141,7 @@ if(!is_writable("../assets/images")) {
 
 echo "</b><br />Checking if <span class='mono'>assets/export</span> directory exists:<b> ";
 
+
 if(!file_exists("../assets/export")) {
   echo "<span class='notok'>Failed!</span>";
   $errors += 1;
@@ -125,6 +156,61 @@ if(!is_writable("../assets/export")) {
   $errors += 1;
 } else {
   echo "<span class='ok'>OK!</span>";
+}
+*/
+
+echo "</b><br />Checking if <span class='mono'>modules/</span> directory exists:<b> ";
+
+if(!file_exists("../modules")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
+}
+
+echo "</b><br />Checking if <span class='mono'>modules/</span> directory is writable:<b> ";
+
+if(!is_writable("../modules")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
+}
+
+echo "</b><br />Checking if <span class='mono'>tmp/</span> directory exists:<b> ";
+
+if(!file_exists("../tmp")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
+}
+
+echo "</b><br />Checking if <span class='mono'>tmp/</span> directory is writable:<b> ";
+
+if(!is_writable("../tmp")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
+}
+
+echo "</b><br />Checking if <span class='mono'>tmp/packages</span> directory exists:<b> ";
+
+if(!file_exists("../tmp/packages")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
+}
+
+echo "</b><br />Checking if <span class='mono'>tmp/packages</span> directory is writable:<b> ";
+
+if(!is_writable("../tmp/packages")) {
+    echo "<span class='notok'>Failed!</span>";
+    $errors += 1;
+} else {
+    echo "<span class='ok'>OK!</span>";
 }
 
 echo "</b><br />Checking if <span class='mono'>manager/includes/config.inc.php</span> file exists:<b> ";
@@ -157,16 +243,9 @@ if($errors>0) {
 
 <p>Unfortunately, Etomite setup cannot continue at the moment, due to the above <?php echo $errors > 1 ? $errors." " : "" ; ?>error<?php echo $errors > 1 ? "s" : "" ; ?>. Please correct the error<?php echo $errors > 1 ? "s" : "" ; ?>, and try again. If you need help figuring out how to fix the problem<?php echo $errors > 1 ? "s" : "" ; ?>, please read the documentation in the  <a class="external" href="http://docs.etomite.com/installation.html" target="_blank">Etomite Documentation</a>, or visit the  <a class="external" href="http://www.etomite.com/forums" target="_blank">Etomite Forums</a>.</p>
 <br />
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr class="fancyRow2">
-    <td class="border-top-bottom smallText">&nbsp;</td>
-    <td class="border-top-bottom smallText" align="right">&nbsp;</td>
-  </tr>
-</table>
+          </div>
+        </div>
+    </div>
 </body>
 </html>
 <?php
@@ -222,15 +301,8 @@ exit;
                 <span class="labelHolder"><label for="cmspasswordconfirm">Confirm password:</label></span><input type="password" id="cmspasswordconfirm" name="cmspasswordconfirm" style="width:200px" value="" /></p>
                 <p><input type="submit" value="Setup Etomite!" /></p>
               </form>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr class="fancyRow2">
-    <td class="border-top-bottom smallText">&nbsp;</td>
-    <td class="border-top-bottom smallText" align="right">&nbsp;</td>
-  </tr>
-</table>
+          </div>
+        </div>
+    </div>
 </body>
 </html>
