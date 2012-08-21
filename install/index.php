@@ -38,7 +38,7 @@ $(document).ready(function(){
 .ok { color:green; }
 .notok { color:red; }
 .labelHolder {
-    width : 180px;
+    width : 210px;
     display : inline-block;
     font-weight: bold;
 }
