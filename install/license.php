@@ -3,49 +3,54 @@ session_start();
 foreach($_POST as $key => $val) {
 	$_SESSION[$key] = $val;
 }
-
-
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>Etomite &raquo; Install</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <style type="text/css">
-             @import url('../assets/site/style.css');
-
-		 ul li { margin-top: 7px; }
-
-		.ok {
-			color : green;
-		}
-
-		.notok {
-			color : red;
-		}
-
-		.labelHolder {
-			width : 180px;
-			float : left;
-			font-weight: bold;
-		}
-        </style>
+<title>etoFork - Installation</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<link type="text/css" href="../manager/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link href="../manager/css/manager_style.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../manager/js/etomite.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    Etomite.inAdmin = false;
+    Etomite.init();
+});
+</script>
+<style type="text/css">
+.error {
+    font-size: 11px;
+    color: #F00;
+    text-align: center;
+    font-weight: bold;
+}
+</style>
+<style type="text/css">
+.ok { color:green; }
+.notok { color:red; }
+.labelHolder {
+    width : 210px;
+    display : inline-block;
+    font-weight: bold;
+}
+ul li { margin-top: 7px; }
+</style>
+<script type="text/javascript" src="extLinks.js"> </script>
 </head>
-
-<body>
-<table border="0" cellpadding="0" cellspacing="0" class="mainTable">
-  <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/media/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite</span></td>
-    <td align="right"><span class="headers">Installation</span></td>
-  </tr>
-  <tr class="fancyRow2">
-    <td colspan="2" class="border-top-bottom smallText" align="right">&nbsp;</td>
-  </tr>
-  <tr align="left" valign="top">
-    <td colspan="2"><table width="100%"  border="0" cellspacing="0" cellpadding="1">
-      <tr align="left" valign="top">
-        <td class="pad" id="content" colspan="2">
+<body id="installPage">
+    <div class="header">etoFork - Installation</div>
+    <div class="wrapper" id="mainContent">
+        <div class="login-box" style="margin: 20px 0;">
+            <div class="login-info">
+                <div class="eto-logo"><img src='../manager/images/misc/etofork_logo.png' alt='<?php echo $release; ?>' title='<?php echo $release; ?>' /></div>
+                <div class="eto-login-msg"></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="eto-install-msg">
 
 <p>
 Usage of this software is subject to the GPL license. To help you understand what the GPL licence is and how it affects your ability to use the software, we have provided the following summary:
@@ -86,19 +91,15 @@ function ableButton() {
 	}
 
 }
-
-
 </script>
-		</td>
-      </tr>
-    </table></td>
-  </tr>
-  <tr class="fancyRow2">
-  	<form action="installNewDB.php" method="post">
-		<td class="border-top-bottom" style="padding:0px"><input type="checkbox" id="licenseOK" name="licenseOK" onClick="ableButton()" /><label for="licenseOK">I agree to the terms set out in this license.</label></td>
-		<td class="border-top-bottom smallText" align="right" style="padding:0px"><input type="submit" id="submit" value="Proceed" disabled="disabled" class="button" style="border: 0px;" /></td>
-	</form>
-  </tr>
-</table>
+            <div>
+            <form action="installNewDB.php" method="post">
+                <td class="border-top-bottom" style="padding:0px"><input type="checkbox" id="licenseOK" name="licenseOK" onClick="ableButton()" /><label for="licenseOK">I agree to the terms set out in this license.</label></td>
+                <td class="border-top-bottom smallText" align="right" style="padding:0px"><input type="submit" id="submit" value="Proceed" disabled="disabled" class="button" style="border: 0px;" /></td>
+            </form>
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
