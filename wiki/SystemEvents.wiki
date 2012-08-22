@@ -1,0 +1,11 @@
+#summary One-sentence summary of this page.
+
+=System Events=
+---
+
+System events are used through out the code to inject other code into the code or page.
+
+*Current Events:*
+
+  *  OnBeforeManagerHeadEnd
+  *  OnAfterDocumentFormLoad
