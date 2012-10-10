@@ -398,7 +398,7 @@ var Etomite = {
                 }
             });
         } else {
-            Etomite.errorDialog('That alias already exists!', 'Error')
+            Etomite.errorDialog(eLang.alias_exists, 'Error'); //'That alias already exists!' 
         }
         
     },

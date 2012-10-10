@@ -140,6 +140,8 @@ class Content extends etomite {
         }
         if ($id) { // update document
             $orig_doc = $this->getDocument($id);
+            $data['editedby'] = $_SESSION['internalKey'];
+            $data['editedon'] = time();
             if ($result = $this->updIntTableRows($data, 'site_content', 'id=' . $id)) {
                 // save version
                 $orig_doc['orig_id'] = $id;

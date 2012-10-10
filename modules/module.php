@@ -62,9 +62,12 @@ class module {
             $module = $_REQUEST['mod'];
             // load module config
             $xmlUrl = $module . "/" . $module . ".xml"; // XML feed file/URL
-            $xmlStr = file_get_contents($xmlUrl);
-            $xmlObj = simplexml_load_string($xmlStr);
-            $arrXml = objectsIntoArray($xmlObj);
+            $arrXml = array();
+            if (file_exists($xmlUrl)) {
+                $xmlStr = file_get_contents($xmlUrl);
+                $xmlObj = simplexml_load_string($xmlStr);
+                $arrXml = objectsIntoArray($xmlObj);
+            }
             $var_name = $module . "Config";
             ${$var_name} = $arrXml; //simplexml_load_string($xmlStr);
             // load module

@@ -72,6 +72,7 @@ $etomite = new etomite;
 // include language file
 $_lang = array();
 include_once("./includes/lang/".$etomite->config['manager_language'].".inc.php");
+$etomite->_lang = $_lang;
 
 if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 1) {
     $etomite->userLogout();

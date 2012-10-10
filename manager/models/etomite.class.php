@@ -2628,6 +2628,23 @@ title='$siteName'>$siteName</a></h2>
         return $content;
     }
     
+    public function langToJS() {
+        $output = "<script language='javascript'>";
+        $l = array();
+        foreach($this->_lang as $key => $val) {
+            if(is_array($val)) {
+                $l[$key] = $val;
+            } else {
+                $l[$key] = urlencode($val);
+                $l[$key] = htmlentities($val, ENT_QUOTES);
+                $l[$key] = nl2br($val);
+                $l[$key] = str_replace("\\n", "<br />", $l[$key]);
+            }
+        }
+        $output .= "var eLang = ".json_encode($l).";"; //, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE
+        $output .= "</script>";
+        return $output;
+    }
     
     public function setDefaultBreadCrumb(){
         $sep = $this->bcSep;
@@ -2939,6 +2956,10 @@ title='$siteName'>$siteName</a></h2>
         return "";
     }
     
+    /* Run system events that are put in different areas of code to run modules or parts of modules
+     * Current system events: OnBeforeManagerHeadEnd, OnAfterDocumentFormLoad
+     * 
+     */
     public function runSystemEvent($event_name=false) {
         if ($event_name) {
             $events = $this->getIntTableRows("*", "system_events", "event_name='".$event_name."'");
