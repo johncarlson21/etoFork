@@ -1,4 +1,4 @@
-<?
+<?php
 /**-------------------------------------------------
  | EasyZip.class V0.8 -  by Alban LOPEZ
  | Copyright (c) 2007 Alban LOPEZ
