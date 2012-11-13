@@ -239,10 +239,10 @@
               $sql = "SELECT templatename, id FROM ".$this->db."site_templates ORDER BY templatename";
               $rs = $this->dbQuery($sql);
             ?>
-            <select name="default_template" class="inputBox"".$this->db style="width:150px">
+            <select name="default_template" class="inputBox" style="width:150px">
             <?php
             while ($row = $this->fetchRow($rs)) {
-                $selectedtext = $row['id']==$default_template ? "selected='selected'" : "" ;
+                $selectedtext = $row['id']==$this->config['default_template'] ? "selected='selected'" : "" ;
             ?>
               <option value="<?php echo $row['id']; ?>" <?php echo $selectedtext; ?>><?php echo $row['templatename']; ?></option>
             <?php

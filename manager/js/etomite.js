@@ -600,7 +600,7 @@ var Etomite = {
         if (rType != 'template') {
             rSection = $('#editResource #section').val();
         }
-        var tArea = $('#editResource #resourc_editor').val();
+        var tArea = $('#editResource #resource_editor').val();
         if (Etomite.usingEAEditor) {
             tArea = editAreaLoader.getValue('resource_editor');
         }
