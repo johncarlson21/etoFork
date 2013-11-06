@@ -97,7 +97,7 @@ class module {
     
     public function moduleExists($module) {
         $etomite = new etomite();
-        $modules = $etomite->getIntTableRows('*', 'modules', '`key`="'.$module.'"');
+        $modules = $etomite->getIntTableRows('*', 'modules', '`internal_key`="'.$module.'"');
         
         if (count($modules) > 0) {
             return $modules[0];
@@ -137,9 +137,9 @@ class module {
                 }
             }
             // delete system events
-            $etomite->dbQuery("DELETE FROM ".$etomite->db."system_events WHERE module_name='".$module['key']."'");
+            $etomite->dbQuery("DELETE FROM ".$etomite->db."system_events WHERE module_name='".$module['internal_key']."'");
             // remove old module directory
-            $etomite->rrmdir(absolute_base_path . 'modules/' . $module['key'] . "/");
+            $etomite->rrmdir(absolute_base_path . 'modules/' . $module['internal_key'] . "/");
         }
         return false;
     }
@@ -272,7 +272,7 @@ class module {
                 }
                 $module_resources .= "chunks:" . implode(",", $chunks);
             }
-            $result = $Resource->putIntTableRow(array('name'=>$module_name, 'description'=>$module_description, 'version'=>$version, 'author'=>$author, 'admin_menu'=>($admin_menu) ? 1:0, 'active'=>1, 'key'=>$module_key, 'resources'=>$module_resources), 'modules');
+            $result = $Resource->putIntTableRow(array('name'=>$module_name, 'description'=>$module_description, 'version'=>$version, 'author'=>$author, 'admin_menu'=>($admin_menu) ? 1:0, 'active'=>1, 'internal_key'=>$module_key, 'resources'=>$module_resources), 'modules');
             
             // move folder to modules folder
             $Resource->rcopy(absolute_base_path . 'tmp/packages/' . $module . "/", absolute_base_path . 'modules/' . $module);

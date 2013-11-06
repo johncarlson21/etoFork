@@ -2918,7 +2918,7 @@ title='$siteName'>$siteName</a></h2>
         if (count($modules) > 0) {
             $output = '<ul>';
             foreach($modules as $module) {
-                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"".$module['key']."\");' href='javascript:;'>" . $module['name'] . "</a></li>";
+                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"".$module['internal_key']."\");' href='javascript:;'>" . $module['name'] . "</a></li>";
             }
             $output .= "</ul>";
         }

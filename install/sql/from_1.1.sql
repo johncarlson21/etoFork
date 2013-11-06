@@ -1,26 +1,4 @@
 -- Create table in target */
-CREATE TABLE `{PREFIX}831galleries`(
-    `id` int(11) NOT NULL  auto_increment , 
-    `name` varchar(150) COLLATE latin1_swedish_ci NOT NULL  , 
-    `description` varchar(250) COLLATE latin1_swedish_ci NOT NULL  , 
-    PRIMARY KEY (`id`) 
-) ENGINE=MyISAM DEFAULT CHARSET='latin1';
-
-
--- Create table in target */
-CREATE TABLE `{PREFIX}831gallery_items`(
-    `id` int(11) NOT NULL  auto_increment , 
-    `fn` varchar(250) COLLATE latin1_swedish_ci NOT NULL  , 
-    `title` varchar(250) COLLATE latin1_swedish_ci NOT NULL  , 
-    `description` text COLLATE latin1_swedish_ci NOT NULL  , 
-    `slide` char(1) COLLATE latin1_swedish_ci NOT NULL  DEFAULT '0' , 
-    `galId` int(11) NOT NULL  , 
-    `gal_order` int(11) NOT NULL  DEFAULT '999' , 
-    PRIMARY KEY (`id`) 
-) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='gallery setup by 831';
-
-
--- Create table in target */
 CREATE TABLE `{PREFIX}member_log`(
     `id` int(11) NOT NULL  auto_increment , 
     `mem_id` int(11) NOT NULL  , 
@@ -64,7 +42,7 @@ CREATE TABLE `{PREFIX}modules`(
     `author` varchar(250) COLLATE latin1_swedish_ci NOT NULL  , 
     `active` char(1) COLLATE latin1_swedish_ci NOT NULL  DEFAULT '0' , 
     `admin_menu` char(1) COLLATE latin1_swedish_ci NOT NULL  DEFAULT '0' , 
-    `key` varchar(50) COLLATE latin1_swedish_ci NOT NULL  , 
+    `internal_key` varchar(50) COLLATE latin1_swedish_ci NOT NULL  , 
     `resources` text COLLATE latin1_swedish_ci NOT NULL  , 
     PRIMARY KEY (`id`) 
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1';
@@ -254,3 +232,15 @@ CREATE TABLE `{PREFIX}web_users`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='frontend web users';
 
 INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('zend_urls', '1');
+
+--
+-- Table structure for table `{PREFIX}system_events`
+--
+
+CREATE TABLE IF NOT EXISTS `{PREFIX}system_events` (
+  `id` int(11) NOT NULL auto_increment,
+  `event_name` varchar(50) NOT NULL,
+  `module_name` varchar(100) NOT NULL,
+  `method_name` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
