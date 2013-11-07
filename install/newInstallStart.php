@@ -87,20 +87,36 @@ if($_SESSION['session_test']!=1 ) {
 
 echo "</b><br />Checking if <span class='mono'>assets/</span> directory exists:<b> ";
 
+
+
 if(!file_exists("../assets")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
+
+
 
 echo "</b><br />Checking if <span class='mono'>assets</span> directory is writable:<b> ";
 
+
+
 if(!is_writable("../assets")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
 
 echo "</b><br />Checking if <span class='mono'>assets/cache</span> directory exists:<b> ";
@@ -121,96 +137,104 @@ if(!is_writable("../assets/cache")) {
   echo "<span class='ok'>OK!</span>";
 }
 
-/*echo "</b><br />Checking if <span class='mono'>assets/images</span> directory exists:<b> ";
-
-if(!file_exists("../assets/images")) {
-  echo "<span class='notok'>Failed!</span>";
-  $errors += 1;
-} else {
-  echo "<span class='ok'>OK!</span>";
-}
-
-echo "</b><br />Checking if <span class='mono'>assets/images</span> directory is writable:<b> ";
-
-if(!is_writable("../assets/images")) {
-  echo "<span class='notok'>Failed!</span>";
-  $errors += 1;
-} else {
-  echo "<span class='ok'>OK!</span>";
-}
-
-echo "</b><br />Checking if <span class='mono'>assets/export</span> directory exists:<b> ";
-
-
-if(!file_exists("../assets/export")) {
-  echo "<span class='notok'>Failed!</span>";
-  $errors += 1;
-} else {
-  echo "<span class='ok'>OK!</span>";
-}
-
-echo "</b><br />Checking if <span class='mono'>assets/export</span> directory is writable:<b> ";
-
-if(!is_writable("../assets/export")) {
-  echo "<span class='notok'>Failed!</span>";
-  $errors += 1;
-} else {
-  echo "<span class='ok'>OK!</span>";
-}
-*/
-
 echo "</b><br />Checking if <span class='mono'>modules/</span> directory exists:<b> ";
 
 if(!file_exists("../modules")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
+
+
 
 echo "</b><br />Checking if <span class='mono'>modules/</span> directory is writable:<b> ";
 
+
+
 if(!is_writable("../modules")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
 
 echo "</b><br />Checking if <span class='mono'>tmp/</span> directory exists:<b> ";
 
+
+
 if(!file_exists("../tmp")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
+
+
 
 echo "</b><br />Checking if <span class='mono'>tmp/</span> directory is writable:<b> ";
 
+
+
 if(!is_writable("../tmp")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
 
 echo "</b><br />Checking if <span class='mono'>tmp/packages</span> directory exists:<b> ";
 
+
+
 if(!file_exists("../tmp/packages")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
+
+
 
 echo "</b><br />Checking if <span class='mono'>tmp/packages</span> directory is writable:<b> ";
 
+
+
 if(!is_writable("../tmp/packages")) {
+
     echo "<span class='notok'>Failed!</span>";
+
     $errors += 1;
+
 } else {
+
     echo "<span class='ok'>OK!</span>";
+
 }
 
 echo "</b><br />Checking if <span class='mono'>manager/includes/config.inc.php</span> file exists:<b> ";
@@ -241,7 +265,7 @@ if($errors>0) {
 
 <?php  } ?>
 
-<p>Unfortunately, Etomite setup cannot continue at the moment, due to the above <?php echo $errors > 1 ? $errors." " : "" ; ?>error<?php echo $errors > 1 ? "s" : "" ; ?>. Please correct the error<?php echo $errors > 1 ? "s" : "" ; ?>, and try again. If you need help figuring out how to fix the problem<?php echo $errors > 1 ? "s" : "" ; ?>, please read the documentation in the  <a class="external" href="http://docs.etomite.com/installation.html" target="_blank">Etomite Documentation</a>, or visit the  <a class="external" href="http://www.etomite.com/forums" target="_blank">Etomite Forums</a>.</p>
+<p>Unfortunately, etoFork setup cannot continue at the moment, due to the above <?php echo $errors > 1 ? $errors." " : "" ; ?>error<?php echo $errors > 1 ? "s" : "" ; ?>. Please correct the error<?php echo $errors > 1 ? "s" : "" ; ?>, and try again. If you need help figuring out how to fix the problem<?php echo $errors > 1 ? "s" : "" ; ?>, please read the documentation in the  <a class="external" href="http://docs.etomite.com/installation.html" target="_blank">Etomite Documentation</a>, or visit the  <a class="external" href="http://www.etomite.com/forums" target="_blank">Etomite Forums</a>.</p>
 <br />
           </div>
         </div>

@@ -5,6 +5,7 @@
 // Modified: 2007-05-03 by Ralph Dahlgren
 // Modified: 2008-04-25 [v1.0] by Ralph Dahlgren
 // Modified 2008-05-08 [v1.1] by Ralph Dahlgren
+// Modified 2013-11-06 [v2.0] by John Carlson
 
 session_start();
 $_SESSION['session_test'] = 1;
@@ -16,7 +17,7 @@ $errors = 0;
   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-  <title>Etomite &raquo; Install</title>
+  <title>etoFork - Installation</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style type="text/css">
       @import url('../assets/site/style.css');
@@ -43,8 +44,8 @@ $errors = 0;
 <body>
 <table border="0" cellpadding="0" cellspacing="0" class="mainTable">
   <tr class="fancyRow">
-    <td><span class="headers">&nbsp;<img src="../manager/media/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;Etomite <?php echo $code_name." v".$release; ?></span></td>
-    <td align="right"><span class="headers">Previous Release Upgrade</span></td>
+    <td><span class="headers">&nbsp;<img src="../manager/images/misc/dot.gif" alt="" style="margin-top: 1px;" />&nbsp;etoFork <?php echo $code_name." v".$release; ?></span></td>
+    <td align="right"><span class="headers">Etomite 1.x Upgrade</span></td>
   </tr>
   <tr class="fancyRow2">
     <td colspan="2" class="border-top-bottom smallText" align="right">&nbsp;</td>
@@ -56,7 +57,7 @@ $errors = 0;
 
           <h1>Releases Not Supported</h1>
 
-          <p>Support for Etomite releases prior to 0.6.1 (0.6 Heliades and earlier) has been dropped. Please see the file,  <a class="external" href="pre_061_notes.php" title="pre_061_notes.php"><b><u>pre_061_notes.php</u></b></a>, or the Etomite forums for information regarding older releases.</p>
+          <p>Pre Etomite 1.0 is not supported!</p>
 
           <h1>Performing System Checks</h1>
 
@@ -84,16 +85,12 @@ if($noConfig != true) {
   @include("../manager/includes/config.inc.php");
   // If config.inc.php doesn't exist or isn't complete, display installer link and die
   if(empty($database_server)
-  || strpos($database_server, "{") !== false
-  || strpos($database_server, "}") !== false
-  || strpos($database_user, "{") !== false
-  || strpos($database_user, "}") !== false
-  || strpos($database_password, "{") !== false
-  || strpos($database_password, "}") !== false
-  || strpos($dbase, "{") !== false
-  || strpos($dbase, "}") !== false
-  || strpos($table_prefix, "{") !== false
-  || strpos($table_prefix, "}") !== false)
+  || empty($database_user)
+  || empty($database_user)
+  || empty($database_password)
+  || empty($dbase)
+  || empty($table_prefix)
+  )
   {
     echo "<span class='notok'>Failed!</span>";
     $errors += 1;
@@ -106,7 +103,7 @@ if($noConfig != true) {
 if($errors > 0) {
 ?>
 
-<p>Unfortunately, the Etomite upgrade cannot continue at the moment, due to the above <?php echo $errors > 1 ? $errors." " : "" ; ?>error<?php echo $errors > 1 ? "s" : "" ; ?>. Please correct the error<?php echo $errors > 1 ? "s" : "" ; ?>, and <a href="./upgradeStart.php" title="Try Again">try again</a>. If the explanation below doesn't help, please visit the  <a class="external" href="http://www.etomite.com/forums" title="Get Help Now" target="_blank">Etomite Forums</a>.</p>
+<p>Unfortunately, the etoFork install / upgrade cannot continue at the moment, due to the above <?php echo $errors > 1 ? $errors." " : "" ; ?>error<?php echo $errors > 1 ? "s" : "" ; ?>. Please correct the error<?php echo $errors > 1 ? "s" : "" ; ?>, and <a href="./upgradeStart.php" title="Try Again">try again</a>. If the explanation below doesn't help, please visit the  <a class="external" href="http://www.etomite.com/forums" title="Get Help Now" target="_blank">Etomite Forums</a>.</p>
 
 <?php
 if($noConfig) {
@@ -146,33 +143,80 @@ if($noConfig || $notValid) {
 // everything checks out ok so we can proceed with the upgrade
 } else {
   // check the current configuration file to see if it needs to be upgraded
-  echo "<br />Checking if <span class='mono'>manager/includes/config.inc.php</span> file upgraded: ";
+  echo "<br />Checking if <span class='mono'>manager/includes/config.inc.php</span> file needs to be upgraded: ";
   include("../manager/includes/config.inc.php");
   if($config_release != $release) {
-    echo "<span class='notok'>Failed!</span> -- <a href='upgradeConfig.php' title='Fix it now'><b><u>Upgrade Now</u></b></a>";
-    $oldConfig = true;
+    // need to update the config file
+	echo "<p>Updating configuration file: ";
+	// read in the config.inc.php template
+	$filename = "./config.inc.php";
+	$handle = fopen($filename, "r");
+	$contents = fread($handle, filesize($filename));
+	fclose($handle);
+	
+	// perform global search and replace of tags in the SQL
+	$self = str_replace("/install/", "", $_SERVER["PHP_SELF"]);
+	$self = str_replace(basename(__FILE__), "", $self);
+	$urlPieces = explode("/", $self);
+	
+	$www = $_SERVER['HTTP_HOST'];
+	$www_url = $www . implode("/", $urlPieces);
+	$relative_path = implode("/", $urlPieces);
+	
+	$search = array('{HOST}','{USER}','{PASS}','{DBASE}','{PREFIX}','{ABSOLUTE_PATH}','{WWW_PATH}','{RELATIVE_PATH}');
+	$replace = array($database_server,$database_user,$database_password,$dbase,$table_prefix,dirname(dirname(__FILE__)),$www_url,$relative_path);
+	$configString = str_replace($search,$replace,$contents);
+	
+	// open config.inc.php
+	$filename = '../manager/includes/config.inc.php';
+	$configFileFailed = false;
+	if (@!$handle = fopen($filename, 'w'))
+	{
+	  $configFileFailed = true;
+	}
+	
+	// write $configString to our opened file.
+	if(@fwrite($handle, $configString) === FALSE)
+	{
+	  $configFileFailed = true;
+	}
+	@fclose($handle);
+	
+	if ($configFileFailed == true) {
+		echo "<span class='notok'>Failed!</span></p>";
+	} else {
+		echo "<span class='ok'>OK!</span></p>";
+		
+		echo "<p>Updating Database Tables:<br />";
+		
+		// load the sqlParser class and attempt to load the desired SQL file
+		include("sqlParser.class.php");
+		$sqlFile = "sql/from_1.1.sql";
+		$sqlParser = new SqlParser($database_server, $database_user, $database_password, $dbase, $table_prefix, '', '');
+		$sqlParser->connect();
+		$sqlParser->process($sqlFile);
+		$sqlParser->close();
+		
+		if($sqlParser->installFailed==true) {
+		  echo "<span class='notok'>Failed!</span> - Installation failed!</p>";
+		  $errors += 1;
+		  echo "<p>etoFork setup couldn't update the database. The last error to occur was <i>".$sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['error']."</i> during the execution of SQL statement <span class=\"mono\">".strip_tags($sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['sql'])."</span></p>";
+		  echo $pageFooter;
+		  exit;
+		}
+		else
+		{
+		  echo "<span class='ok'>OK!</span></p>";
+		}
+	}
   } else {
     echo "<span class='ok'>OK!</span>";
   }
 ?>
       <p></p>
-      <h1>Upgrade Instructions for Etomite 0.6.1 and newer</h1>
+      <h1>Upgrade from Etomite v 1.0 and newer</h1>
 
-      <p>The fact that you are reading these instructions indicates that you have already copied the new files for this release onto your server.</p>
-
-      <p>If you have not already done so, please take the time to read the <a class="external" href="README.html" title="Click to read this file now.">README</a> file. There is also a text version located in the root directory where this package was installed. Doing so could eliminate the possibility of encountering un-needed problems during your Etomite upgrade.</p>
-
-      <p>All existing installations being upgraded which had a release number prior to Etomite Prelude v1.0 will require various database updates. Once you have successfully completed the configuration file modifications listed below it is <b>mandatory</b> that you run the script, <b> <a href="v1_db_patches.php" title="Click to run this script now"><b><u>v1_db_patches.php</u></b></a></b>, before attempting to access your sites main page or entering your Etomite Manager. You can execute this script now by clicking on the script name above and, upon successful completion, you can return to this script - or you may opt to run the script independently. Attempting to run this script on a previously updated database will not result in any problems - you will simply receive messages stating an OK completion status for each item.</p>
-
-      <p>Once the above steps have been completed login to your  <a class="external" href="../manager/" title="Etomite Manager Login"><b><u>Etomite manager</u></b></a>, verify and save your Etomite Configuration, and perform a Clear site cache from the Etomite Main Menu. After these steps have been completed you should have a fully function Etomite Prelude v<?php echo $release; ?> installation.</p>
-
-      <p>Once you have completed the required tasks in the Etomite manager you can <a href="../" title="Go There Now"><b><u>Click Here</u></b></a> to see your upgraded site in action.</p>
-
-      <p><b>Good luck!</b></p>
-
-      <p><b>The Etomite CMS Project Development Team</b></p>
-
-      <p style="text-align:center;"> <a class="external" href="http://www.etomite.com" title="www.etomite.com">Etomite Website</a>&nbsp;|&nbsp; <a class="external" href="http://www.etomite.com/forums/" title="Support Forums">Etomite Support Forums</a></p>
+      <p>Everything should be updated.. please login to the <a href="../manager">manager</a>.</p>
 
 <?php } ?>
 

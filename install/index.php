@@ -66,6 +66,9 @@ $(document).ready(function(){
                 <p><a class="new-install-btn button" href="installStart.php?installationType=full" title="Perform Full Install Now">New installation (Full)</a></p><blockquote><p>Includes an assortment of sample resources to demonstrate how Etomite can be implemented.</p>
                 <p>This installation has updates/extensions to the core to allow for zend framework like urls, versioning ( documents, snippets and chunks), meta information on documents, sections for snippets and chunks to organize them, and Template Variables.</p></blockquote>
                 
+                <p><a class="upgrade-install-btn button" href="installStart.php?installationType=upgrade" title="Perform Upgrade Install From Etomite 1.x">Etomite 1.x Upgrade</a></p><blockquote><p>This install/upgrade allows you to upgrade to etoFork from Etomite 1.x.</p>
+                <p>This adds the functionality above to an Etomite 1.x install.</p></blockquote>
+                
                 <p><a class="repair-btn button" href="repairConfig.php" title="Repair site configuration file">Repair Configuration File</a></p><blockquote><p>Repair your config file after moving your site to a new server!</p></blockquote>
 
             </div>

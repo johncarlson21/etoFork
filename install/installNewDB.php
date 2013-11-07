@@ -154,7 +154,7 @@ echo "<p>Importing default site: ";
 if($sqlParser->installFailed==true) {
   echo "<span class='notok'>Failed!</span> - Installation failed!</p>";
   $errors += 1;
-  echo "<p>Etomite setup couldn't install the default site into the selected database. The last error to occur was <i>".$sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['error']."</i> during the execution of SQL statement <span class=\"mono\">".strip_tags($sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['sql'])."</span></p>";
+  echo "<p>etoFork setup couldn't install the default site into the selected database. The last error to occur was <i>".$sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['error']."</i> during the execution of SQL statement <span class=\"mono\">".strip_tags($sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['sql'])."</span></p>";
   echo $pageFooter;
   exit;
 }
@@ -181,7 +181,7 @@ $www_url = $www . implode("/", $urlPieces);
 $relative_path = implode("/", $urlPieces);
 
 $search = array('{HOST}','{USER}','{PASS}','{DBASE}','{PREFIX}','{ABSOLUTE_PATH}','{WWW_PATH}','{RELATIVE_PATH}');
-$replace = array($host,$name,$pass,$db,$table_prefix,dirname(dirname(__FILE__)),$www_url,);
+$replace = array($host,$name,$pass,$db,$table_prefix,dirname(dirname(__FILE__)),$www_url,$relative_path);
 $configString = str_replace($search,$replace,$contents);
 
 // open config.inc.php
@@ -204,11 +204,11 @@ if($configFileFailed==true)
 {
   echo "<span class='notok'>Failed!</span></p>";
   $errors += 1;
-  echo "<p>Etomite couldn't write the config file. Please copy the following into the <span class=\"mono\">manager/includes/config.inc.php</span> file:</p>
+  echo "<p>etoFork couldn't write the config file. Please copy the following into the <span class=\"mono\">manager/includes/config.inc.php</span> file:</p>
   <textarea style=\"width:400px; height:160px;\">
   $configString
   </textarea>
-  Once that's been done, you can log into Etomite by pointing your browser at yoursite/manager/.</p>";
+  Once that's been done, you can log into etoFork by pointing your browser at yoursite/manager/.</p>";
   echo $pageFooter;
   exit;
 }
@@ -218,7 +218,7 @@ else
 }
 
 // installation completed successfully
-echo "<p>Installation was successful! You can now log into the <a href=\"../manager/\"><b><u>Etomite manager</u></b></a>. First thing you need to do is to update and save the Etomite configuration. Etomite will ask you to do so once you've logged in.</p><p>Please make sure you CHMOD the config.inc.php file so it is not writeable by anyone other than yourself... Also, don't forget to remove the installer folder, as it is no longer needed.</p>";
+echo "<p>Installation was successful! You can now log into the <a href=\"../manager/\"><b><u>etoFork manager</u></b></a>. First thing you need to do is to update and save the etoFork configuration. etoFork will ask you to do so once you've logged in.</p><p>Please make sure you CHMOD the config.inc.php file so it is not writeable by anyone other than yourself... Also, don't forget to remove the installer folder, as it is no longer needed.</p>";
 ?>
             </div>
         </div>
