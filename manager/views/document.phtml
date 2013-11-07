@@ -164,9 +164,9 @@ if($id && count($content)>0) {
           <tr style="height: 24px;">
             <td><span class='warning'><?php echo $this->_lang['createdon']; ?></span></td>
             <td>
-              <table width="300" border="0" cellspacing="0" cellpadding="0">
+              <table width="" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td width="200">
+                  <td width="">
                     <input style="width:170px;" class="inputBox" id="createdon" name="createdon" type="text" value="<?php echo $content['createdon']=="0" || !isset($content['createdon']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['createdon']);?>">
                     <script type="text/javascript">
                         $('#createdon').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
@@ -185,9 +185,9 @@ if($id && count($content)>0) {
             <td>
               
     
-              <table width="300" border="0" cellspacing="0" cellpadding="0">
+              <table width="" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td width="200">
+                  <td width="">
                     <input style="width:170px;" class="inputBox" id="pub_date" name="pub_date" type="text" value="<?php echo $content['pub_date']=="0" || !isset($content['pub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['pub_date']);?>">
                     <script type="text/javascript">
                         $('#pub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
@@ -204,9 +204,9 @@ if($id && count($content)>0) {
             <td><span class='warning'><?php echo $this->_lang['page_data_unpublishdate']; ?></span></td>
             <td>
               
-              <table width="300" border="0" cellspacing="0" cellpadding="0">
+              <table width="" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td width="200">
+                  <td width="">
                     <input style="width:170px;" class="inputBox" id="unpub_date" name="unpub_date" type="text" value="<?php echo $content['unpub_date']=="0" || !isset($content['unpub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['unpub_date']);?>" />
                     <script type="text/javascript">
                         $('#unpub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});

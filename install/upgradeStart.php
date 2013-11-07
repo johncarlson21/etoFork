@@ -163,6 +163,8 @@ if($noConfig || $notValid) {
 	$www_url = $www . implode("/", $urlPieces);
 	$relative_path = implode("/", $urlPieces);
 	
+	$dbase = str_replace("`","",$dbase);
+	
 	$search = array('{HOST}','{USER}','{PASS}','{DBASE}','{PREFIX}','{ABSOLUTE_PATH}','{WWW_PATH}','{RELATIVE_PATH}');
 	$replace = array($database_server,$database_user,$database_password,$dbase,$table_prefix,dirname(dirname(__FILE__)),$www_url,$relative_path);
 	$configString = str_replace($search,$replace,$contents);
@@ -216,7 +218,9 @@ if($noConfig || $notValid) {
       <p></p>
       <h1>Upgrade from Etomite v 1.0 and newer</h1>
 
-      <p>Everything should be updated.. please login to the <a href="../manager">manager</a>.</p>
+      <p>Everything should be updated.</p>
+      <p>Once in the manager you need to clear the site cache. "Site -> Clear Cache".<br />This will reload the system configuration.</p>
+      <p>Please login to the <a href="../manager">manager</a>.</p>
 
 <?php } ?>
 

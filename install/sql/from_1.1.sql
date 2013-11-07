@@ -1,4 +1,5 @@
--- Create table in target */
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}member_log`(
     `id` int(11) NOT NULL  auto_increment , 
     `mem_id` int(11) NOT NULL  , 
@@ -12,7 +13,8 @@ CREATE TABLE `{PREFIX}member_log`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='members area log of actions';
 
 
--- Create table in target */
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}member_validation`(
     `id` int(10) NOT NULL  auto_increment , 
     `firstName` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
@@ -33,7 +35,8 @@ CREATE TABLE `{PREFIX}member_validation`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1';
 
 
--- Create table in target */
+-- Create table in target
+
 CREATE TABLE `{PREFIX}modules`(
     `id` int(11) NOT NULL  auto_increment , 
     `name` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
@@ -48,14 +51,16 @@ CREATE TABLE `{PREFIX}modules`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1';
 
 
--- Alter table in target */
-ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_title` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '' after `showinmenu`;
+-- Alter table in target 
 
-ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_description` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '' after `meta_title`;
+ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_title` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '';
 
-ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_keywords` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '' after `meta_description`;
+ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_description` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '';
 
--- Create table in target */
+ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_keywords` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '';
+
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}site_content_tv_val`(
     `id` int(11) NOT NULL  auto_increment , 
     `doc_id` int(11) NOT NULL  , 
@@ -65,7 +70,8 @@ CREATE TABLE `{PREFIX}site_content_tv_val`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1';
 
 
--- Create table in target */
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}site_content_versions`(
     `id` int(10) NOT NULL  auto_increment , 
     `versionedon` int(20) NOT NULL  DEFAULT '0' , 
@@ -105,10 +111,12 @@ CREATE TABLE `{PREFIX}site_content_versions`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='Contains the site\'s document tree versions.';
 
 
--- Alter table in target */
-ALTER TABLE `{PREFIX}site_htmlsnippets` ADD COLUMN `section` int(11)   NOT NULL COMMENT 'id from section table' after `locked`;
+-- Alter table in target 
 
--- Create table in target */
+ALTER TABLE `{PREFIX}site_htmlsnippets` ADD COLUMN `section` int(11)   NOT NULL COMMENT 'id from section table';
+
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}site_htmlsnippets_versions`(
     `id` int(10) NOT NULL  auto_increment , 
     `date_mod` datetime NOT NULL  , 
@@ -122,7 +130,8 @@ CREATE TABLE `{PREFIX}site_htmlsnippets_versions`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='Contains the site\'s chunks.';
 
 
--- Create table in target */
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}site_section`(
     `id` int(11) NOT NULL  auto_increment , 
     `name` varchar(150) COLLATE latin1_swedish_ci NOT NULL  , 
@@ -133,10 +142,12 @@ CREATE TABLE `{PREFIX}site_section`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='table for snippet and chunk sections';
 
 
--- Alter table in target */
-ALTER TABLE `{PREFIX}site_snippets` ADD COLUMN `section` int(11)   NOT NULL COMMENT 'id from section table' after `locked`;
+-- Alter table in target 
 
--- Create table in target */
+ALTER TABLE `{PREFIX}site_snippets` ADD COLUMN `section` int(11)   NOT NULL COMMENT 'id from section table';
+
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}site_snippets_versions`(
     `id` int(10) NOT NULL  auto_increment , 
     `date_mod` datetime NOT NULL  , 
@@ -150,7 +161,8 @@ CREATE TABLE `{PREFIX}site_snippets_versions`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='Contains the site\'s snippets.';
 
 
--- Create table in target */
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}template_variable_templates`(
     `id` int(11) NOT NULL  auto_increment , 
     `template_id` int(11) NOT NULL  , 
@@ -159,7 +171,8 @@ CREATE TABLE `{PREFIX}template_variable_templates`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1';
 
 
--- Create table in target */
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}template_variables`(
     `tv_id` int(11) NOT NULL  auto_increment , 
     `field_name` varchar(50) COLLATE latin1_swedish_ci NOT NULL  , 
@@ -177,21 +190,24 @@ CREATE TABLE `{PREFIX}template_variables`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1';
 
 
--- Alter table in target */
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `address` varchar(100)  COLLATE latin1_swedish_ci NOT NULL after `sessionid`;
+-- Alter table in target 
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `city` varchar(100)  COLLATE latin1_swedish_ci NOT NULL after `address`;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `address` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `state` varchar(100)  COLLATE latin1_swedish_ci NOT NULL after `city`;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `city` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `zip` varchar(100)  COLLATE latin1_swedish_ci NOT NULL after `state`;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `state` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `mailmessages` int(1)   NOT NULL DEFAULT '0' after `zip`;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `zip` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
 
--- Alter table in target */
-ALTER TABLE `{PREFIX}user_messages` CHANGE `type` `type` varchar(50)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '' after `id`;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `mailmessages` int(1)   NOT NULL DEFAULT '0';
 
--- Create table in target */
+-- Alter table in target 
+
+ALTER TABLE `{PREFIX}user_messages` CHANGE `type` `type` varchar(50)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '';
+
+-- Create table in target 
+
 CREATE TABLE `{PREFIX}web_user_roles`(
     `id` int(11) NOT NULL  auto_increment , 
     `name` varchar(150) COLLATE latin1_swedish_ci NOT NULL  , 
@@ -200,7 +216,8 @@ CREATE TABLE `{PREFIX}web_user_roles`(
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='frontend user roles';
 
 
--- Create table in target */
+-- Create table in target
+
 CREATE TABLE `{PREFIX}web_users`(
     `id` int(10) NOT NULL  auto_increment , 
     `firstName` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
