@@ -250,6 +250,8 @@ CREATE TABLE `{PREFIX}web_users`(
 
 INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('zend_urls', '1');
 
+UPDATE `{PREFIX}system_settings` SET `setting_value`='{VERSION}' WHERE `setting_name`='settings_version';
+
 --
 -- Table structure for table `{PREFIX}system_events`
 --

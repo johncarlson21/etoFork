@@ -205,10 +205,13 @@ if($noConfig || $notValid) {
 		  echo "<p>etoFork setup couldn't update the database. The last error to occur was <i>".$sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['error']."</i> during the execution of SQL statement <span class=\"mono\">".strip_tags($sqlParser->mysqlErrors[count($sqlParser->mysqlErrors)-1]['sql'])."</span></p>";
 		  echo $pageFooter;
 		  exit;
-		}
-		else
-		{
+		}else{
 		  echo "<span class='ok'>OK!</span></p>";
+		  
+		  // refresh site cache
+		  include_once('../manager/models/etomite.class.php');
+		  $etomite = new etomite;
+		  $etomite->syncsite();
 		}
 	}
   } else {

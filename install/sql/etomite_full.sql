@@ -714,7 +714,7 @@ INSERT INTO `{PREFIX}user_roles` VALUES(1, 'Administrator', 'Site administrators
 -- Dumping data for table `{PREFIX}system_settings`
 --
 
-INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('settings_version', '1.1');
+INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('settings_version', '{VERSION}');
 
 INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('date_format', '%Y-%m-%d');
 

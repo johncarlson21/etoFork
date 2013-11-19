@@ -50,6 +50,11 @@ class SqlParser
       $sql_do = str_replace('{ADMIN}', $this->adminname, $sql_do);
       $sql_do = str_replace('{ADMINPASS}', $this->adminpass, $sql_do);
       $sql_do = str_replace('{TIMESTAMP}', $timestamp, $sql_do);
+	  
+	  // get current version
+	  include_once('../manager/includes/version.inc.php');
+	  
+	  $sql_do = str_replace('{VERSION}', $small_version.$patch_level);
 
       // skip older style MySQL dump comments
       if (preg_match('/^\#/', $sql_do)) continue;
