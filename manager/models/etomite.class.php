@@ -261,13 +261,17 @@ class etomite {
     }
   }
 
-  public function syncsite() {
+  public function syncsite($cache_path=false) {
   // clears and rebuilds the site cache
   // added in 0.6.1.1
   // Modified 2008-03-17 by Ralph for improved cachePath handling
     include_once("./manager/processors/cache_sync.class.processor.php");
     $sync = new synccache();
-    $sync->setCachepath(absolute_base_path."assets/cache/");
+	if($cache_path && $cache_path !== false) {
+		$sync->setCachepath($cache_path);
+	} else {
+    	$sync->setCachepath(absolute_base_path."assets/cache/");
+	}
     $sync->setReport(false);
     $sync->emptyCache();
   }

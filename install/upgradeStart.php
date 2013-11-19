@@ -145,7 +145,6 @@ if($noConfig || $notValid) {
   // check the current configuration file to see if it needs to be upgraded
   echo "<br />Checking if <span class='mono'>manager/includes/config.inc.php</span> file needs to be upgraded: ";
   // need to overwrite the absolute_base_path before it is loaded.
-  define('absolute_base_path', dirname(dirname(__FILE__)));
   include("../manager/includes/config.inc.php");
   if($config_release != $release) {
     // need to update the config file
@@ -211,10 +210,9 @@ if($noConfig || $notValid) {
 		  echo "<span class='ok'>OK!</span></p>";
 		  
 		  // refresh site cache
-		  include("../manager/includes/config.inc.php");
 		  include_once('../manager/models/etomite.class.php');
 		  $etomite = new etomite;
-		  $etomite->syncsite();
+		  $etomite->syncsite(dirname(dirname(__FILE__)).'/assets/cache/');
 		}
 	}
   } else {
