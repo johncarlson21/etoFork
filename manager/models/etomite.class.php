@@ -265,8 +265,8 @@ class etomite {
   // clears and rebuilds the site cache
   // added in 0.6.1.1
   // Modified 2008-03-17 by Ralph for improved cachePath handling
-    include_once("./manager/processors/cache_sync.class.processor.php");
-    $sync = new synccache();
+    include_once(MANAGER_PATH . "includes/cache_sync.class.processor.php");
+    $sync = new synccache($this, $this->_lang);
 	if($cache_path && $cache_path !== false) {
 		$sync->setCachepath($cache_path);
 	} else {

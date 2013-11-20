@@ -210,6 +210,7 @@ if($noConfig || $notValid) {
 		  echo "<span class='ok'>OK!</span></p>";
 		  
 		  // refresh site cache
+		  include("../manager/includes/config.inc.php");
 		  include_once('../manager/models/etomite.class.php');
 		  $etomite = new etomite;
 		  $etomite->syncsite(dirname(dirname(__FILE__)).'/assets/cache/');
@@ -223,7 +224,8 @@ if($noConfig || $notValid) {
       <h1>Upgrade from Etomite v 1.0 and newer</h1>
 
       <p>Everything should be updated.</p>
-      <p>Once in the manager you need to clear the site cache. "Site -> Clear Cache".<br />This will reload the system configuration.</p>
+      <p>Make sure if your using FURL's that you rename the new ht.access file to .htaccess . There has been a change.</p>
+      <p>Once logged in, please re-check your configuration. Administration -> Configuration</p>
       <p>Please login to the <a href="../manager">manager</a>.</p>
 
 <?php } ?>
