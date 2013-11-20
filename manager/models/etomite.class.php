@@ -1604,6 +1604,16 @@ title='$siteName'>$siteName</a></h2>
             return false;
         }
     }
+	// returns all manager users
+	public function getUsers() {
+		$sql = "select username, id from ".$this->db."manager_users order by username";
+        $rs = $this->dbQuery($sql);
+		$users = array();
+		while($row = $this->fetchRow($rs)) {
+			$users[] = $this->getUser($row['id']);
+		}
+		return $users;
+	}
 
   public function getUserData() {
   // returns user agent related (browser) info in a $key=>$value array using the phpSniff class

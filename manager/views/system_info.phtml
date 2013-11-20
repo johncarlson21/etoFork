@@ -38,13 +38,13 @@ else
     </ul>
     <div id="recentDocs">
         <p><?php echo $etomite->_lang["sys_info_activity_message"]; ?></p>
-        <table border=0 cellpadding=0 cellspacing=0 width=100%>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" id="rdocs-tbl">
               <thead>
               <tr>
-                <td><b><?php echo $etomite->_lang['id']; ?></b></td>
-                <td><b><?php echo $etomite->_lang['document_title']; ?></b></td>
-                <td><b><?php echo $etomite->_lang["sys_info_userid"]; ?></b></td>
-                <td><b><?php echo $etomite->_lang['datechanged']; ?></b></td>
+                <th><?php echo $etomite->_lang['id']; ?></th>
+                <th><?php echo $etomite->_lang['document_title']; ?></th>
+                <th><?php echo $etomite->_lang["sys_info_userid"]; ?></th>
+                <th><?php echo $etomite->_lang['datechanged']; ?></th>
               </tr>
               </thead>
               <tbody>
@@ -67,13 +67,27 @@ else
         
             $user = $etomite->fetchRow($rs2);
             $bgcolor = ($i % 2) ? 'odd' : 'even';
-            echo "<tr class=\"$bgcolor\"><td>".$content['id']."</td><td><a href='javascript:;' onclick=\"Etomite.editDocument('".$content['id']."', '', ".(($content['type']=='reference') ? "'true'":"''").");\">".$content['pagetitle']."</a></td><td>".$user['username']."</td><td>".strftime($etomite->config['date_format']." @ ".$etomite->config['time_format'], $content['editedon']+$etomite->config['server_offset_time'])."</td></tr>";
+            //echo "<tr class=\"$bgcolor\"><td>".$content['id']."</td><td><a href='javascript:;' onclick=\"Etomite.editDocument('".$content['id']."', '', ".(($content['type']=='reference') ? "'true'":"''").");\">".$content['pagetitle']."</a></td><td>".$user['username']."</td><td>".strftime($etomite->config['date_format']." @ ".$etomite->config['time_format'], $content['editedon']+$etomite->config['server_offset_time'])."</td></tr>";
+			?>
+            <tr>
+            	<td><?php echo $content['id'];?></td>
+                <td><a href='javascript:;' onclick="Etomite.editDocument('<?php echo $content['id'];?>', '', <?php (($content['type']=='reference') ? "'true'":"''")?>);"><?php echo $content['pagetitle'];?></a></td>
+                <td><?php echo $user['username'];?></td>
+                <td><?php echo strftime($etomite->config['date_format']." @ ".$etomite->config['time_format'], $content['editedon']+$etomite->config['server_offset_time']);?></td>
+            </tr>
+            <?php
           }
         }
         ?>
         
               </tbody>
         </table>
+        <script type="text/javascript">
+			tTable = $('#rdocs-tbl').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
+        </script>
     </div>
     <div id="serverInfo">
         <p><?php echo $etomite->_lang['sys_info_eto_install_info']; ?></p>

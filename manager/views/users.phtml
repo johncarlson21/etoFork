@@ -6,24 +6,32 @@
     </ul>
     <div id="manage-users">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newUser" class="button"><?php echo $this->_lang['new_user']; ?></a></div>
-        <p class="menuHeader"><?php echo $this->_lang['user_management_msg']; ?></p>
-        <?php
-          $sql = "select username, id from ".$this->db."manager_users order by username";
-          $rs = $this->dbQuery($sql);
-          $limit = $this->recordCount($rs);
-          if($limit<1){
-            echo "The request returned no users!</div>";
-          } else {
-              echo "<ul>";
-              for($i=0; $i<$limit; $i++) {
-                $row = $this->fetchRow($rs);
+        <p class="menuHeader"><?php echo $this->_lang['user_management_msg']; ?></p><p>&nbsp;</p>
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="user-tbl">
+          <thead>
+          	<tr>
+            	<th>User ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php
+		  $users = $this->getUsers();
+		  foreach($users as $u) {
+			?>
+            <tr>
+            	<td><?php echo $u['id'];?></td>
+                <td><a id="<?php echo $u['id']; ?>" class="userEditBtn"><?php echo $u['username'];?></a></td>
+                <td><?php echo $u['fullname'];?></td>
+                <td><?php echo $u['email'];?></td>
+            </tr>
+            <?php  
+		  }
               ?>
-                <li><a id="<?php echo $row['id']; ?>" class="userEditBtn"><?php echo $row['username']; ?></a></li>
-              <?php
-              }
-              echo "</ul>";
-          }
-              ?>
+              </tbody>
+          </table>
         <script type="text/javascript">
             $('#newUser').click(function() {
                 Etomite.editUser();
@@ -31,34 +39,54 @@
             $('.userEditBtn').click(function() {
                 Etomite.editUser($(this).attr('id'));
             });
+			oTable = $('#user-tbl').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
         </script>
     </div>
     <div id="roles">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newRole" class="button">New Role</a></div>
-        <p class="menuHeader"><?php echo $this->_lang['role_management_msg']; ?></p>
+        <p class="menuHeader"><?php echo $this->_lang['role_management_msg']; ?></p><p>&nbsp;</p>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="row-tbl">
+          <thead>
+          	<tr>
+            	<th>Role ID</th>
+                <th>Role</th>
+                <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
         <?php
           $sql = "select name, id, description from ".$this->db."user_roles order by name";
           $rs = $this->dbQuery($sql);
           $limit = $this->recordCount($rs);
-          if($limit<1){
-            echo "The request returned no roles!</div>";
-          } else {
-              echo "<ul>";
+			  
               for($i=0; $i<$limit; $i++) {
                 $row = $this->fetchRow($rs);
+				?>
+                <tr>
+              <?php
                 if($row['id']==1) {
               ?>
-              <li><i><?php echo $row['name']; ?></i> - <i><?php echo $this->_lang['administrator_role_message']; ?></i></li>
+              <td><?php echo $row['id'];?></td>
+              <td><i><?php echo $row['name']; ?></i></td>
+              <td><i><?php echo $this->_lang['administrator_role_message']; ?></i></td>
               <?php
                 } else {
               ?>
-                <li><a id="<?php echo $row['id'];?>" class="editRoleBtn"><?php echo $row['name']; ?></a> - <?php echo $row['description']; ?></li>
+              	<td><?php echo $row['id'];?></td>
+                <td><a id="<?php echo $row['id'];?>" class="editRoleBtn"><?php echo $row['name']; ?></a></td>
+                <td><?php echo $row['description']; ?></td>
               <?php
                 }
+				?>
+                </tr>
+              <?php
               }
-              echo "</ul>";
-          }
               ?>
+           </tbody>
+         </table>
         <script type="text/javascript">
             $('#newRole').click(function() {
                 Etomite.editRole();
@@ -66,6 +94,10 @@
             $('.editRoleBtn').click(function() {
                 Etomite.editRole($(this).attr('id'));
             });
+			roTable = $('#row-tbl').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
         </script>
     </div>
 </div>

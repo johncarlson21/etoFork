@@ -18,24 +18,36 @@
         <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey'])) { ?>
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTemplate" class="button"><?php echo $this->_lang['new_template']; ?></a></div>
         <?php } ?>
-        <p><?php echo $this->_lang['template_management_msg']; ?></p>
+        <p class="menuHeader"><?php echo $this->_lang['template_management_msg']; ?></p><p>&nbsp;</p>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="template-tbl">
+          <thead>
+          	<tr>
+            	<th>Template ID</th>
+                <th>Template Name</th>
+                <th>Description</th>
+                <th>Locked</th>
+            </tr>
+          </thead>
+          <tbody>
         <?php
             $sql = "select templatename, id, description, locked from ".$this->db."site_templates order by templatename";
             $rs = $this->dbQuery($sql);
             $limit = $this->recordCount($rs);
-            if($limit<1){
-              echo "<p>".$this->_lang['no_results']."</p>";
-            } else {
-                echo "<ul>";
                 for($i=0; $i<$limit; $i++) {
                     $row = $this->fetchRow($rs);
                     $id = strval($row['id']);
         ?>
-        <li><a id="<?php echo $row['id'];?>" class="templateBtn"><?php echo $row['templatename']; ?></a> (<?php echo $row['id']; ?>)<?php echo $row['description']!='' ? ' - '.$row['description'] : '' ; ?><?php echo $row['locked']==1 ? ' <i><small>('.$this->_lang['template_locked_message'].')</small></i>' : "" ; ?></li>
+        	<tr>
+            	<td><?php echo $row['id'];?></td>
+                <td><a id="<?php echo $row['id'];?>" class="templateBtn"><?php echo $row['templatename']; ?></a></td>
+                <td><?php echo $row['description']!='' ? $row['description'] : '' ; ?></td>
+                <td><?php echo $row['locked']==1 ? ' <i><small>('.$this->_lang['template_locked_message'].')</small></i>' : "" ; ?></td>
+            </tr>
         <?php
                 }// end for
-            }// end else for limit
         ?>
+        	</tbody>
+          </table>
         <script type="text/javascript">
             <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey'])) { ?>
             $('#newTemplate').click(function() {
@@ -47,6 +59,10 @@
                 Etomite.editResource('template', $(this).attr('id'));
             });
             <?php } ?>
+			tTable = $('#template-tbl').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
         </script>
     </div>
     <?php } ?>
@@ -240,21 +256,36 @@
     <?php if ($this->checkUserRole('new_tv', $_SESSION['internalKey']) || $this->checkUserRole('edit_tv', $_SESSION['internalKey'])) { ?>
     <div id="templateVars">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newTv" class="button"><?php echo $this->_lang['create_template_var'];?></a></div>
-        <p><?php echo $this->_lang['template_var_tab_msg'];?></p>
+        <p class="menuHeader"><?php echo $this->_lang['template_var_tab_msg'];?></p><p>&nbsp;</p>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="display" id="tv-tbl">
+          <thead>
+          	<tr>
+            	<th>TV ID</th>
+                <th>TV Name</th>
+                <td>TV Field Name</td>
+                <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
         <?php
             $tvs = $this->getIntTableRows($fields="tv_id,field_name,name,description",$from="template_variables");
             if (count($tvs) > 0) {
             ?>
-                <ul>
                     <?php foreach($tvs as $tv) {?>
-                        <li><a id="<?php echo $tv['tv_id'];?>" class="tvBtn"><?php echo $tv['name']." (".$tv['field_name'].") - ".$tv['description'];?></a></li>
+                    	<tr>
+                        	<td><?php echo $tv['tv_id'];?></td>
+                            <td><a id="<?php echo $tv['tv_id'];?>" class="tvBtn"><?php echo $tv['name'];?></a></td>
+                            <td><?php echo $tv['field_name']; ?></td>
+                            <td><?php echo $tv['description']; ?></td>
+                        </tr>
                     <?php }?>
-                </ul>
             <?php
             } else {
-                echo "<p><em>".$this->_lang['no_template_vars']."</em></p>";
+                echo "<tr><td colspan='3'><p><em>".$this->_lang['no_template_vars']."</em></p></td></tr>";
             }
         ?>
+        	</tbody>
+          </table>
         <script type="text/javascript">
             <?php if ($this->checkUserRole('new_chunk', $_SESSION['internalKey'])) { ?>
             $('#newTv').click(function() {
@@ -266,29 +297,43 @@
                 Etomite.editTV($(this).attr('id'));
             });
             <?php } ?>
+			tvTable = $('#tv-tbl').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
         </script>
     </div>
     <?php } ?>
     <div id="categories">
         <div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newCategory" class="button"><?php echo $this->_lang["create_category"]; ?></a></div>
-        <p><?php echo $this->_lang['category_management_msg']; ?></p>
+        <p class="menuHeader"><?php echo $this->_lang['category_management_msg']; ?></p><p>&nbsp;</p>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="category-tbl">
+          <thead>
+          	<tr>
+            	<th>Category ID</th>
+                <th>Category Name</th>
+                <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
         <?php
             $sql = "select name, id, description from ".$this->db."site_section order by name ASC";
             $rs = $this->dbQuery($sql);
             $limit = $this->recordCount($rs);
-            if($limit<1){
-              echo "<p>".$this->_lang['no_results']."</p>";
-            } else {
-                echo "<ul>";
                 for($i=0; $i<$limit; $i++) {
                     $row = $this->fetchRow($rs);
                     $id = strval($row['id']);
         ?>
-        <li><a id="<?php echo $row['id'];?>" class="categoryBtn"><?php echo $row['name']; ?></a> (<?php echo $row['id']; ?>)<?php echo $row['description']!='' ? ' - '.$row['description'] : '' ; ?></li>
+        	<tr>
+            	<td><?php echo $row['id'];?></td>
+                <td><a id="<?php echo $row['id'];?>" class="categoryBtn"><?php echo $row['name']; ?></a></td>
+                <td><?php echo $row['description']!='' ? $row['description'] : '' ; ?></td>
+            </tr>
         <?php
                 }// end for
-            }// end else for limit
         ?>
+        </tbody>
+        </table>
         <script type="text/javascript">
             $('#newCategory').click(function() {
                 Etomite.createSection();
@@ -296,6 +341,10 @@
             /*$('.categoryBtn').click(function() {
                 Etomite.editResource('category', $(this).attr('id'));
             });*/
+			cTable = $('#category-tbl').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
         </script>
     </div>
 </div>
