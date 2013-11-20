@@ -69,7 +69,7 @@ $(document).ready(function(){
                 <p><a class="upgrade-install-btn button" href="installStart.php?installationType=upgrade" title="Perform Upgrade Install From Etomite 1.x">Etomite 1.x Upgrade</a></p><blockquote><p>This install/upgrade allows you to upgrade to etoFork from Etomite 1.x.</p>
                 <p>This adds the functionality above to an Etomite 1.x install.</p>
                 <p><strong><em>MAKE A BACKUP OF YOUR DATABASE!</em></strong></p>
-                <p>Once you click the upgrade button, the site will automatically update without a prompt. Once update is complete clear your site cache. ("Site -> Clear Cache")</p>
+                <p>Once you click the upgrade button, the site will update the configuration file and database without a prompt. Once update is complete, you will need to clear the site cache, which will be an option after update of configuration and database.</p>
                 </blockquote>
                 
                 <p><a class="repair-btn button" href="repairConfig.php" title="Repair site configuration file">Repair Configuration File</a></p><blockquote><p>Repair your config file after moving your site to a new server!</p></blockquote>
