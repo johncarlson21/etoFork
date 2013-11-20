@@ -272,6 +272,17 @@ class module {
                 }
                 $module_resources .= "chunks:" . implode(",", $chunks);
             }
+			
+			if (isset($db_file) && !empty($db_file) && file_exists(MODULES_PATH . $module . "/sql/" . $db_file)) {
+				// install db tables
+				include(MANAGER_PATH . "includes/sqlParser.class.php");
+				$sqlFile = MODULES_PATH . $module . "/sql/" . $db_file;
+				$sqlParser = new SqlParser($Resource->dbConfig['host'], $Resource->dbConfig['user'], $Resource->dbConfig['pass'], $Resource->db, $Resource->table_prefix, '', '');
+				$sqlParser->connect();
+				$sqlParser->process($sqlFile);
+				$sqlParser->close();
+			}
+			
             $result = $Resource->putIntTableRow(array('name'=>$module_name, 'description'=>$module_description, 'version'=>$version, 'author'=>$author, 'admin_menu'=>($admin_menu) ? 1:0, 'active'=>1, 'internal_key'=>$module_key, 'resources'=>$module_resources), 'modules');
             
             // move folder to modules folder
