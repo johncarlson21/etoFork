@@ -1301,6 +1301,9 @@ var Etomite = {
                     Etomite.notify(json.message); // need to also maybe do a re-direct to module list
                     $('#moduleNav').click();
                     Etomite.reloadModuleNav();
+					setTimeout(function() {
+                        window.location.reload(true);
+                    }, 1000);
                 }
             }
         });

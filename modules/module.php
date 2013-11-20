@@ -283,7 +283,7 @@ class module {
             if ($updating) {
                 $this->respond(true, 'Module Updated');
             } else {
-                $this->respond(true, 'Module Installed!');
+                $this->respond(true, 'Module Installed! Reloading Manager!');
             }
             
         } else {
