@@ -213,7 +213,7 @@ if($noConfig || $notValid) {
 		  include("../manager/includes/config.inc.php");
 		  include_once('../manager/models/etomite.class.php');
 		  $etomite = new etomite;
-		  $cache_path = dirname(dirname(__FILE__)).'/assets/cache/';
+		  $cache_path = '../assets/cache/';
 		  $etomite->syncsite($cache_path);
 		}
 	}
