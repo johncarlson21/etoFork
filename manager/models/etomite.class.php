@@ -75,6 +75,7 @@ class etomite {
     public $_lang = array();
     public $documentTVs = array();
     public $parseAgain = true;
+	public $moduleAction = '';
     
     public function __construct(){
         $this->runStandalone();
@@ -1384,7 +1385,8 @@ title='$siteName'>$siteName</a></h2>
                 $url .= $this->config['friendly_url_suffix'];
                 $args="&amp;".substr($args,1);
             }
-            if(empty($args) && $id != $this->config['site_start']) {
+            //if(empty($args) && $id != $this->config['site_start']) {
+			if($id != $this->config['site_start']) {
                 $url .= $this->config['friendly_url_suffix'];
             }
         }else{
@@ -2915,7 +2917,7 @@ title='$siteName'>$siteName</a></h2>
             }
             require_once (absolute_base_path . 'modules/' . $module . "/" . $module . ".php");
             $action = (isset($action) && !empty($action)) ? $action : 'index'; // defaults to adminView
-
+			$this->moduleAction = $action;
             $modClass = new $module($moduleParams, $etomite);
             
             $modClass->$action();
