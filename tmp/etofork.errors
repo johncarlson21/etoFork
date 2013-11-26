@@ -3586,3 +3586,255 @@ The Management
 [21-Nov-2013 14:11:02] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/slide_Laura.jpg) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
 [22-Nov-2013 13:20:29] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 226264876 bytes) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 2885
 [22-Nov-2013 13:21:49] PHP Parse error:  syntax error, unexpected '[', expecting T_STRING or T_VARIABLE or '{' or '$' in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 1257
+[25-Nov-2013 13:48:38] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/admin.php:30) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[25-Nov-2013 13:50:17] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/admin.php:30) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[25-Nov-2013 13:54:47] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/admin.php:30) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[25-Nov-2013 13:56:09] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/admin.php:30) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[25-Nov-2013 13:58:16] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/admin.php:30) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[25-Nov-2013 13:59:15] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/admin.php:30) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[25-Nov-2013 14:00:16] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/admin.php:30) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[25-Nov-2013 14:00:46] PHP Notice:  Undefined variable: galery in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/update_gallery_item.php on line 15
+[25-Nov-2013 14:00:46] PHP Notice:  Undefined index:  item_slide in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/update_gallery_item.php on line 26
+[25-Nov-2013 14:00:46] PHP Notice:  Undefined index:  item_video in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/update_gallery_item.php on line 27
+[25-Nov-2013 14:02:31] PHP Notice:  Undefined index:  item_video in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/update_gallery_item.php on line 27
+[25-Nov-2013 14:06:12] PHP Notice:  Undefined variable: from in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 1989
+[26-Nov-2013 08:46:05] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 08:46:05] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 08:46:35] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 08:58:08] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 08:59:56] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:00:56] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:31:12] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:31:12] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:31:17] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:31:23] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:36:19] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:36:19] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:36:20] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:51:01] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:51:01] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 09:51:02] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 10:57:22] PHP Warning:  Constants may only evaluate to scalar values in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 28
+[26-Nov-2013 10:57:22] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:04:47] PHP Warning:  Constants may only evaluate to scalar values in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 28
+[26-Nov-2013 11:04:47] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:08:02] PHP Warning:  Constants may only evaluate to scalar values in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 28
+[26-Nov-2013 11:08:02] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:11:36] PHP Warning:  Constants may only evaluate to scalar values in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 28
+[26-Nov-2013 11:11:36] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:11:36] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php:28) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 11:14:05] PHP Strict Standards:  Declaration of EtoUploadHandler::delete() should be compatible with that of UploadHandler::delete() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 30
+[26-Nov-2013 11:14:05] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:14:05] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php:30) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 11:15:59] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:15:59] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 11:17:43] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:17:43] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 11:18:38] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:18:38] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 11:19:56] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined index:  name in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 41
+[26-Nov-2013 11:19:56] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 11:19:56] request: Array
+(
+    [gal_id] => 2
+    [item_title] => john test
+    [item_description] => here you go
+    [item_url] => you
+    [item_slide] => 1
+    [etomiteLoggingCookie] => 1210500215
+    [jcwebsol_etofork_etomite_mgr] => f4ad3643d9578878df0149be248cc818
+    [jcwebsol_etofork_etomite_web] => 2195ed6468913e964b6d7313d3232a34
+)
+
+[26-Nov-2013 11:19:56] db: `jcwebsol_etofork`.etomite_
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined variable: large_width in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 97
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1086
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::FunctionIsDisabled() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.functions.php on line 448
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1153
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::CaseInsensitiveInArray() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 897
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1237
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1254
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1173
+[26-Nov-2013 11:19:56] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126111956_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1844
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::OneOfThese() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2910
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::OneOfThese() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2911
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::version_compare_replacement() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2971
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1237
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1254
+[26-Nov-2013 11:19:56] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126111956_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1844
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined variable: slide_width in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 113
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined variable: slide_height in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 114
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::CaseInsensitiveInArray() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 897
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1237
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1254
+[26-Nov-2013 11:19:56] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126111956_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1844
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::OneOfThese() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2910
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::OneOfThese() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2911
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::version_compare_replacement() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2971
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1237
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1254
+[26-Nov-2013 11:19:56] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126111956_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1844
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined variable: thumb_width in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 133
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined variable: thumb_height in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 134
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::CaseInsensitiveInArray() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 897
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1237
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1254
+[26-Nov-2013 11:19:56] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126111956_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1844
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::OneOfThese() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2910
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::OneOfThese() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2911
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::version_compare_replacement() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 2971
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1237
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::gd_version() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1254
+[26-Nov-2013 11:19:56] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126111956_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:19:56] PHP Strict Standards:  Non-static method phpthumb_functions::SafeExec() should not be called statically, assuming $this from incompatible context in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1844
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined index:  title in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 154
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined index:  description in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 155
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined index:  url in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 156
+[26-Nov-2013 11:19:56] PHP Notice:  Undefined variable: from in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 1954
+[26-Nov-2013 11:22:27] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:22:27] request: Array
+(
+    [gal_id] => 2
+    [item_title] => new multi upload
+    [item_description] => here is description
+    [item_url] => new url
+    [item_slide] => 1
+    [etomiteLoggingCookie] => 1210500215
+    [jcwebsol_etofork_etomite_mgr] => f4ad3643d9578878df0149be248cc818
+    [jcwebsol_etofork_etomite_web] => 2195ed6468913e964b6d7313d3232a34
+)
+
+[26-Nov-2013 11:22:27] db: `jcwebsol_etofork`.etomite_
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:22:27] request: Array
+(
+    [gal_id] => 2
+    [item_title] => new multi upload
+    [item_description] => here is description
+    [item_url] => new url
+    [item_slide] => 1
+    [etomiteLoggingCookie] => 1210500215
+    [jcwebsol_etofork_etomite_mgr] => f4ad3643d9578878df0149be248cc818
+    [jcwebsol_etofork_etomite_web] => 2195ed6468913e964b6d7313d3232a34
+)
+
+[26-Nov-2013 11:22:27] db: `jcwebsol_etofork`.etomite_
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:22:27] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112227_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:25:41] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:25:41] Array
+(
+    [files] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [name] => anime_bw.jpg
+                    [size] => 158835
+                    [type] => image/jpeg
+                    [url] => http://etofork.jc-websolutions.com/modules/mod_gallery/gallery/tmp/anime_bw.jpg
+                    [deleteUrl] => http://etofork.jc-websolutions.com/modules/mod_gallery/includes/jqFileUpload/server/php/?file=anime_bw.jpg
+                    [deleteType] => DELETE
+                )
+
+        )
+
+)
+
+[26-Nov-2013 11:25:41] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126112541_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:25:41] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126112541_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:25:41] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112541_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:25:41] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112541_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:25:41] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112541_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:25:41] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126112541_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:27:13] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:27:13] PHP Fatal error:  Cannot use object of type stdClass as array in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/index.php on line 41
+[26-Nov-2013 11:33:29] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:33:29] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126113329_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:33:29] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126113329_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:33:29] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113329_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:33:29] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113329_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:33:29] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113329_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:33:29] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113329_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:37:15] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:37:15] filename: 
+[26-Nov-2013 11:37:15] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126113715_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:37:15] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126113715_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:37:15] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113715_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:37:15] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113715_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:37:15] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113715_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:37:15] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126113715_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:40:46] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:40:46] stdClass Object
+(
+    [files] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [name] => icons-s14425a6f72.png
+                    [size] => 3440
+                    [type] => image/png
+                    [url] => http://etofork.jc-websolutions.com/modules/mod_gallery/gallery/tmp/icons-s14425a6f72.png
+                    [deleteUrl] => http://etofork.jc-websolutions.com/modules/mod_gallery/includes/jqFileUpload/server/php/?file=icons-s14425a6f72.png
+                    [deleteType] => DELETE
+                )
+
+        )
+
+)
+
+[26-Nov-2013 11:40:46] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126114046_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:40:46] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/tmp/20131126114046_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:40:46] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126114046_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:40:47] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126114046_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:40:47] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126114046_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:40:47] PHP Warning:  getimagesize(/home/jcwebsol/public_html/etofork/modules/mod_gallery/gallery/2/20131126114046_) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: No such file or directory in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/phpThumb/phpthumb.class.php on line 1328
+[26-Nov-2013 11:42:59] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:42:59] anime3.jpg
+[26-Nov-2013 11:44:42] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:44:42] anime3.jpg
+[26-Nov-2013 11:44:42] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:44:42] anime_bw.jpg
+[26-Nov-2013 11:44:43] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:44:43] -Air-Gear-Anime-Sumeragi-Kururu-Anime-Girls-Fresh-New-Hd-Wallpaper--.jpg
+[26-Nov-2013 11:46:41] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:46:41] IMG_2334.JPG
+[26-Nov-2013 11:46:41] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:46:41] IMG_2335.JPG
+[26-Nov-2013 11:46:43] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:46:43] IMG_2333.PNG
+[26-Nov-2013 11:49:58] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:53:18] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 11:55:00] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:02:21] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:05:20] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:05:20] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 12:05:20] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[26-Nov-2013 12:10:51] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:10:51] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 12:10:51] SELECT * FROM `jcwebsol_etofork`.etomite_site_content WHERE id=1  ;
+[26-Nov-2013 12:10:51] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[26-Nov-2013 12:11:37] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:11:37] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 1066
+[26-Nov-2013 12:11:37] SELECT * FROM `jcwebsol_etofork`.etomite_site_content WHERE id=1  ;
+[26-Nov-2013 12:11:37] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php:271) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 449
+[26-Nov-2013 12:17:09] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:17:09] SELECT * FROM `jcwebsol_etofork`.etomite_gallery WHERE gal_id='2' LIMIT 1
+[26-Nov-2013 12:23:05] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:23:05] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[26-Nov-2013 12:23:06] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
