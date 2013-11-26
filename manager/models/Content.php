@@ -1,9 +1,15 @@
 <?php
 /**************************************************************************
+
 etoFork Content Management System
+
 Copyright (c) 2011 All Rights Reserved
+
 John Carlson - <johncarlson21@gmail.com>
+
 Content Model - handles calls pertaining to the document content for the CMS
+
+
 
 /**************************************************************************/
 
@@ -15,12 +21,26 @@ if (!defined('CONFIG_LOADED')) {
 class Content extends etomite {
     
     var $id;
+	var $treeChildren = array();
     
     public function __construct($id = null) {
         if (!defined(CONFIG_LOADED)) {
             parent::__construct();
             $this->checkManagerLogin();
         }
+    }
+	
+	public function saveTreeChildren($child) {
+    	if($child) {
+    		// first add this child to the array
+    		$this->treeChildren[] = $child['key'];
+    		if(count($child['children']) > 0) {
+    			foreach($child['children'] as $c) {
+    				$this->saveTreeChildren($c);
+    			}
+    		}
+    	}
+    	return;
     }
     
     public function saveTree($data=array(), $count=0) {
@@ -39,6 +59,8 @@ class Content extends etomite {
                 }
                 
             }*/
+			$this->saveTreeChildren($data['children'][0]);
+            $data = $this->treeChildren;
             for($i=0;$i < count($data);$i++) {
                 $id = str_replace("id_", "", $data[$i]);
                 if ($id > 0) {

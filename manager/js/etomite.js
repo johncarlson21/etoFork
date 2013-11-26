@@ -211,7 +211,7 @@ var Etomite = {
             },
             onDrop: function(node, sourceNode, hitMode, ui, draggable) {
                 sourceNode.move(node, hitMode);
-                var dict = $("#docTree").dynatree("getTree").toDict();
+                /*var dict = $("#docTree").dynatree("getTree").toDict();
                 var children = dict.children;
                 var treeOrder = new Array();
                 var b = 0;
@@ -224,13 +224,13 @@ var Etomite = {
                             b++;
                         }
                     }
-                }
+                }*/
                 $.ajax({
                     url: 'ActionServer.php',
                     dataType: 'json',
                     data: {
                         action: 'saveTree',
-                        tree: treeOrder //$("#docTree").dynatree("getTree").toDict()
+                        tree: $("#docTree").dynatree("getTree").toDict() //treeOrder
                     },
                     success: function(json) {
                         if(json === null && json.succeed !== true) {
