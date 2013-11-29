@@ -270,7 +270,7 @@ if($id && count($content)>0) {
     <?php
               while ($row = $this->fetchRow($rs))
               {
-                $selectedtext = $row['id']==$this->config['default_template'] ? "selected='selected'" : "" ;
+                $selectedtext = ($row['id'] == $this->config['default_template'] && empty($content['template'])) ? "selected='selected'" : "" ;
                 if (isset($content['template']) && !empty($content['template']) && $row['id'] == $content['template']) {
                     $selectedtext = "selected='selected'";
                 }

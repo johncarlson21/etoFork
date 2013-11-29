@@ -3838,3 +3838,5 @@ The Management
 [26-Nov-2013 12:23:05] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
 [26-Nov-2013 12:23:05] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
 [26-Nov-2013 12:23:06] PHP Warning:  Wrong parameter count for clearstatcache() in /home/jcwebsol/public_html/etofork/modules/mod_gallery/includes/jqFileUpload/server/php/UploadHandler.php on line 271
+[29-Nov-2013 13:22:07] PHP Warning:  preg_match() [<a href='function.preg-match'>function.preg-match</a>]: Empty regular expression in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 582
+[29-Nov-2013 13:22:07] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php:582) in /home/jcwebsol/public_html/etofork/manager/index.php on line 87

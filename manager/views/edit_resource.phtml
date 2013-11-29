@@ -57,7 +57,7 @@
                 echo isset($resource['content']) && !empty($resource['content']) ? htmlspecialchars(stripslashes($resource['content'])) : '';
             break;
             default:
-                echo isset($resource['snippet']) && !empty($resource['snippet']) ? htmlspecialchars(stripslashes($resource['snippet'])) : '';
+                echo isset($resource['snippet']) && !empty($resource['snippet']) ? htmlspecialchars($resource['snippet']) : '';
             break;
         }
         ?></textarea>

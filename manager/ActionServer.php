@@ -141,7 +141,7 @@ class ActionServer extends Ajax {
             'showinmenu' => (isset($_REQUEST['showinmenu']) && $_REQUEST['showinmenu'] == 1) ? 1 : 0,
             'meta_title' => addslashes($_REQUEST['meta_title']),
             'meta_description' => addslashes($_REQUEST['meta_description']),
-            'meta_keywords' => addslashes($_REQUEST['meta_description']),
+            'meta_keywords' => addslashes($_REQUEST['meta_keywords']),
             'templateVars' => isset($_REQUEST['templateVars']) ? $_REQUEST['templateVars']:''
         );
         $Content = new Content();

@@ -58,9 +58,7 @@ class etomite {
     $aliases, $visitor, $entrypage, $documentListing, $dumpSnippets, $chunkCache,
     $snippetCache, $contentTypes, $dumpSQL, $queryCode, $tbl, $error404page,
     $version, $code_name, $notice, $blockLogging, $useblockLogging, $offline_page;
-  
-  // new variables for firephp
-    public $fbDBConn, $fbQueries;
+
     // new variables for the new functions and code
     public $config = array();
     public $_request = array(); // variable to hold the request/post/get from a url format of /varname/value/varname2/value2
@@ -823,13 +821,29 @@ class etomite {
     } elseif(!$this->checkSiteStatus() && $this->documentIdentifier != $this->offline_page) {
       $this->sendRedirect($this->makeURL($this->offline_page));
     }
+	
+	// check for frontend login
+	if (isset($_REQUEST['web_login']) && $_REQUEST['web_login'] == 1) {
+		$url = isset($_REQUEST['login_redirect']) && !empty($_REQUEST['login_redirect']) ? $_REQUEST['login_redirect'] : www_base_path;
+		if (isset($_REQUEST['username']) && !empty($_REQUEST['username'])
+			&& isset($_REQUEST['password']) && !empty($_REQUEST['password'])) {
+				// perform login
+				$this->userLogin($_REQUEST['username'], $_REQUEST['password'], $_REQUEST['rememberme'], $url);
+			} else {
+				$_SESSION['web_login_error'] = "Username and Password are required!";
+				$this->sendRedirect($url);
+			}
+	}
 
     // if document level authentication is required, authenticate now
     if($this->authenticates[$this->documentIdentifier]) {
       if(($this->config['use_uvperms'] && !$this->checkPermissions()) || !$_SESSION['validated']) {
         include_once(MANAGER_PATH."includes/lang/".$this->config['manager_language'].".inc.php");
         $msg = ($this->config['access_denied_message']!="") ? $this->config['access_denied_message'] : $_lang['access_permission_denied'];
-        echo $msg;
+        //echo $msg;
+		$url = rtrim(www_base_path,"/").$_SERVER['REQUEST_URI'];
+		// show frontend login and message
+		include_once('views/front_end_login.phtml');
         exit;
       }
     }
@@ -1825,15 +1839,13 @@ title='$siteName'>$siteName</a></h2>
   // function to connect to the database
     $tstart = $this->getMicroTime();
     if(@!$this->rs = mysql_connect($this->dbConfig['host'], $this->dbConfig['user'], $this->dbConfig['pass'])) {
-      $this->messageQuit("Failed to create the database connection!");
+      $this->messageQuit("Failed to create the database connection! ERROR: ".mysql_error());
     } else {
       mysql_select_db($this->dbConfig['dbase']);
       $tend = $this->getMicroTime();
       $totaltime = $tend-$tstart;
       if($this->config['dumpSQL']) {
-        //$this->queryCode .= "<fieldset style='text-align:left'><legend>Database connection</legend>".sprintf("Database connection was created in %2.4f s", $totaltime)."</fieldset><br />";
-        // change the output to firphp output.
-        $this->fbDBConn = sprintf("Database connection was created in %2.4f s", $totaltime);
+        $this->queryCode .= "<fieldset style='text-align:left'><legend>Database connection</legend>".sprintf("Database connection was created in %2.4f s", $totaltime)."</fieldset><br />";
       }
       
       $this->queryTime = $this->queryTime+$totaltime;
@@ -1849,14 +1861,13 @@ title='$siteName'>$siteName</a></h2>
     }
     $tstart = $this->getMicroTime();
     if(@!$result = mysql_query($query, $this->rs)) {
-      $this->messageQuit("Execution of a query to the database failed", $query);
+      $this->messageQuit("Execution of a query to the database failed! ERROR: ".mysql_error(), $query);
     } else {
       $tend = $this->getMicroTime();
       $totaltime = $tend-$tstart;
       $this->queryTime = $this->queryTime+$totaltime;
       if($this->config['dumpSQL']) {
-        //$this->queryCode .= "<fieldset style='text-align:left'><legend>Query ".($this->executedQueries+1)." - ".sprintf("%2.4f s", $totaltime)."</legend>".$query."</fieldset><br />";
-        $this->fbQueries[] = array($query,sprintf("%2.4f", $totaltime),NULL);
+        $this->queryCode .= "<fieldset style='text-align:left'><legend>Query ".($this->executedQueries+1)." - ".sprintf("%2.4f s", $totaltime)."</legend>".$query."</fieldset><br />";
       }
       $this->executedQueries = $this->executedQueries+1;
       if(count($result) > 0) {
@@ -2457,16 +2468,15 @@ title='$siteName'>$siteName</a></h2>
     $_SESSION['permissions'] = $row;
     $_SESSION['frames'] = 0;
     $_SESSION['validated'] = 1;
-
-    /*if($url=="") {
-      $url = $this->makeURL($id,$alias);
-    }
-    $this->sendRedirect($url);*/
-    
-    // need to update last login
+	
+	// need to update last login
     
     $sql = "UPDATE ".$this->db."user_attributes SET lastlogin='".$oldrow['thislogin']."', thislogin='".time()."' where internalKey=".$oldrow['internalKey'].";";
     $rs = $this->dbQuery($sql);
+
+    if($url!="") {
+      $this->sendRedirect($url);
+    }
     
     return true;
   }

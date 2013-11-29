@@ -1,0 +1,51 @@
+<?php
+	if (isset($_SESSION['web_login_error']) && !empty($_SESSION['web_login_error'])) {
+		$msg = "<p>".$msg."</p>";
+		
+		$error = "<p>".$_SESSION['web_login_error']."</p>";
+		unset($_SESSION['web_login_error']);
+	}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<?php echo $etomite->config['etomite_charset']; ?>" />
+<title><?php echo $this->config['site_name'];?> - <?php echo $_lang["login"]; ?></title>
+<style type="text/css">
+.error { color: #FF0000; font-weight: bold; }
+</style>
+<link href="<?php echo MANAGER_URL;?>css/manager_style.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body id="loginPage">
+<div class="header"><?php echo $this->config['site_name'];?> - <?php echo $_lang["administration_login"]; ?></div>
+<form method="post" name="web_login" action="<?php echo www_base_path;?>?web_login=1&amp;login_redirect=<?php echo urlencode($url);?>">
+	<div class="wrapper" id="mainContent">
+        <div class="login-box">
+            <div class="login-info">
+                <div class="eto-logo"><img src='<?php echo MANAGER_URL;?>images/misc/etofork_logo.png' alt='<?php echo $release; ?>' title='<?php echo $release; ?>' /></div>
+                <div class="eto-login-msg"><p><?php echo $_lang["login_message"]; ?></p><?php echo $use_captcha==1 ? "<p />".$_lang["login_captcha_message"]."</p>" : "" ; ?></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="input-form">
+                <div class="error"><?php echo $msg.$error;?></div>
+                <div class="input-box">
+                    <label><?php echo $_lang["username"]; ?>:</label>
+                    <input type="text" name="username" id="username" value="" />
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="input-box">
+                    <label><?php echo $_lang["password"]; ?>:</label>
+                    <input type="password" name="password" id="password" />
+                    <div style="clear:both"></div>
+                </div>
+                <div class="input-box">
+                	<p><input type="checkbox" name="rememberme" id="rememberme" /> Remember Me?</p>
+                </div>
+                <input type="submit" class="button" id="loginBtn" value="Login" />
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
