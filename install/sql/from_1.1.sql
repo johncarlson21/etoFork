@@ -12,29 +12,6 @@ CREATE TABLE `{PREFIX}member_log`(
     PRIMARY KEY (`id`) 
 ) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='members area log of actions';
 
-
--- Create table in target 
-
-CREATE TABLE `{PREFIX}member_validation`(
-    `id` int(10) NOT NULL  auto_increment , 
-    `firstName` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `lastName` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `userName` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `email` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `phone` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `mobilephone` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `hash` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `password` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `role` int(10) NULL  , 
-    `tstmp` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP , 
-    `address` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `city` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `state` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `zip` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    PRIMARY KEY (`id`) 
-) ENGINE=MyISAM DEFAULT CHARSET='latin1';
-
-
 -- Create table in target
 
 CREATE TABLE `{PREFIX}modules`(
@@ -205,48 +182,6 @@ ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `mailmessages` int(1)   NOT NUL
 -- Alter table in target 
 
 ALTER TABLE `{PREFIX}user_messages` CHANGE `type` `type` varchar(50)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '';
-
--- Create table in target 
-
-CREATE TABLE `{PREFIX}web_user_roles`(
-    `id` int(11) NOT NULL  auto_increment , 
-    `name` varchar(150) COLLATE latin1_swedish_ci NOT NULL  , 
-    `description` varchar(500) COLLATE latin1_swedish_ci NOT NULL  , 
-    PRIMARY KEY (`id`) 
-) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='frontend user roles';
-
-
--- Create table in target
-
-CREATE TABLE `{PREFIX}web_users`(
-    `id` int(10) NOT NULL  auto_increment , 
-    `firstName` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `lastName` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `username` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `email` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `phone` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `phone2` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `hash` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `password` varchar(100) COLLATE latin1_swedish_ci NULL  , 
-    `role` int(10) NULL  DEFAULT '1' COMMENT 'default of 1 = normal member' , 
-    `tstmp` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP , 
-    `address` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `city` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `state` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `zip` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `company_name` varchar(250) COLLATE latin1_swedish_ci NOT NULL  , 
-    `fax` varchar(100) COLLATE latin1_swedish_ci NOT NULL  , 
-    `website` varchar(250) COLLATE latin1_swedish_ci NOT NULL  , 
-    `logo` varchar(200) COLLATE latin1_swedish_ci NOT NULL  , 
-    `description` text COLLATE latin1_swedish_ci NOT NULL  , 
-    `status` char(1) COLLATE latin1_swedish_ci NOT NULL  DEFAULT '0' , 
-    `date_joined` int(11) NOT NULL  , 
-    `lastlogin` datetime NOT NULL  , 
-    `furl` varchar(250) COLLATE latin1_swedish_ci NOT NULL  COMMENT 'friendly url for dealers' , 
-    `show_contact_info` char(1) COLLATE latin1_swedish_ci NOT NULL  DEFAULT '0' , 
-    `package_id` int(11) NOT NULL  COMMENT 'package id for dealers' , 
-    PRIMARY KEY (`id`) 
-) ENGINE=MyISAM DEFAULT CHARSET='latin1' COMMENT='frontend web users';
 
 INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('zend_urls', '1');
 

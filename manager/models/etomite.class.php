@@ -822,6 +822,11 @@ class etomite {
       $this->sendRedirect($this->makeURL($this->offline_page));
     }
 	
+	// check for frontend logout
+	if (isset($_REQUEST['web_logout']) && $_REQUEST['web_logout'] == 1) {
+		$this->userLogout(www_base_path);
+	}
+	
 	// check for frontend login
 	if (isset($_REQUEST['web_login']) && $_REQUEST['web_login'] == 1) {
 		$url = isset($_REQUEST['login_redirect']) && !empty($_REQUEST['login_redirect']) ? $_REQUEST['login_redirect'] : www_base_path;
@@ -1639,183 +1644,6 @@ title='$siteName'>$siteName</a></h2>
     return $tmpArray;
   }
   
-    // frontend user functions
-    
-    public function getWebUser($internalKey){
-        // returns a $key=>$value array of information from the user_attributes table
-        // $internalKey which correlates with a documents createdby value.
-        // Uasge: There are several ways in which this function can be called.
-        //   To call this function from within a snippet you could use
-        //   $author = $etomite->getAuthorData($etomite->documentObject['createdby'])
-        //   or $author = $etomite->getAuthorData($row['createdby']) or $author = $etomite->getAuthorData($rs[$i]['createdby']).
-        //   Once the $key=>$value variable, $author, has been populated you can access the data by using code similar to
-        //   $name = $author['fullname'] or $output .= $author['email'] for example.
-        //   There is also a snippet named GetAuthorData which uses the format:
-        //   [[GetAuthorData?internalKey=[*createdby*]&field=fullname]]
-        // Last Modified: 2008-04-17 [v1.0] by Ralph A. Dahlgren
-        // * fixed to return false if user record not found
-        $tbl = $this->db."web_users";
-        $sql = "SELECT * FROM $tbl WHERE $tbl.id=".$internalKey;
-        $result = $this->dbQuery($sql);
-        $limit = $this->recordCount($result);
-        if($limit < 1) {
-          return false;
-        } else {
-          $user = $this->fetchRow($result);
-          unset($user['password'],$user['hash']);
-          return $user;
-        }
-    }
-    
-    
-    public function webUserLoggedIn() {
-        // returns an array of user details if logged in else returns false
-        // array components returned are self-explanatory
-        $userdetails = array();
-        if(isset($_SESSION['validated'])) {
-          $userdetails['loggedIn']=true;
-          $userdetails['id']=strip_tags($_SESSION['internalKey']);
-          $userdetails['username']=strip_tags($_SESSION['shortname']);
-          $userdetails['role']=(int)$_SESSION['role'];
-          // need to add more to this
-          return $userdetails;
-        } else {
-          return false;
-        }
-    }
-    
-    public function webUserLogin($username,$password,$rememberme=0,$url="",$id="",$alias="",$use_captcha=0,$captcha_code="") {
-        // Performs user login and permissions assignment
-        // And combination of the following variables can be sent
-        // Defaults to current document
-        // $url   = and fully qualified URL (no validation performed)
-        // $id    = an existing document ID (no validation performed)
-        // $alias = any document alias (no validation performed)
-        
-        // include the crypto thing
-        include_once("./manager/includes/crypt.class.inc.php");
-        
-        // include_once the error handler
-        include_once("./manager/includes/error.class.inc.php");
-        $e = new errorHandler;
-        
-        if($use_captcha==1) {
-          if($_SESSION['veriword']!=$captcha_code) {
-            unset($_SESSION['veriword']);
-            $e->setError(905);
-            $e->dumpError();
-            $newloginerror = 1;
-          }
-        }
-        unset($_SESSION['veriword']);
-        
-        $username = htmlspecialchars($username);
-        $givenPassword = htmlspecialchars($password);
-        
-        $sql = "SELECT * FROM ".$this->db."web_users WHERE ".$this->db."web_users.username REGEXP BINARY '^".$username."$'";
-        $rs = $this->dbQuery($sql);
-        $limit = $this->recordCount($rs);
-        
-        if($limit==0 || $limit>1)
-        {
-            $e->setError(900);
-            $e->dumpError();
-        }
-        
-        $row = $this->fetchRow($rs);
-        
-        $_SESSION['shortname']         = $username;
-        $_SESSION['fullname']          = $row['firstName']." ".$row['lastName'];
-        $_SESSION['email']             = $row['email'];
-        $_SESSION['phone']             = $row['phone'];
-        $_SESSION['phone2']       = $row['phone2'];
-        $_SESSION['internalKey']       = $row['id'];
-        //$_SESSION['failedlogins']      = $row['failedlogincount'];
-        $_SESSION['lastlogin']         = $row['lastlogin'];
-        $_SESSION['role']              = $row['role'];
-        //$_SESSION['nrlogins']          = $row['logincount'];
-        
-        // fix this later
-        /*
-        if($row['failedlogincount']>=$this->config['max_attempts'] && $row['blockeduntil']>time())
-        {
-            session_destroy();
-            session_unset();
-            $e->setError(902);
-            $e->dumpError();
-        }
-        
-        if($row['failedlogincount']>=$this->config['max_attempts'] && $row['blockeduntil']<time())
-        {
-          $sql = "UPDATE ".$this->db."user_attributes SET failedlogincount='0', blockeduntil='".(time()-1)."' where internalKey=".$row['internalKey'].";";
-          $rs = $this->dbQuery($sql);
-        }
-        
-        if($row['blocked']=="1")
-        {
-          session_destroy();
-          session_unset();
-          $e->setError(903);
-          $e->dumpError();
-        }
-        
-        if($row['blockeduntil']>time())
-        {
-          session_destroy();
-          session_unset();
-          $e->setError(904);
-          $e->dumpError();
-        }
-        */
-        
-        if($row['password'] != md5($givenPassword))
-        {
-            session_destroy();
-            session_unset();
-            $e->setError(901);
-            $newloginerror = 1;
-            $e->dumpError();
-        }
-        
-        $sql="SELECT * FROM ".$this->db."web_user_roles where id=".$row['role'].";";
-        $rs = $this->dbQuery($sql);
-        $row = $this->fetchRow($rs);
-        //$_SESSION['permissions'] = $row;
-        //$_SESSION['frames'] = 0;
-        $_SESSION['validated'] = 1;
-        
-        // set last login
-        $sql = "UPDATE ".$this->db."web_users SET lastlogin=NOW() WHERE id=".$_SESSION['internalKey'];
-        $rs = $this->dbQuery($sql);
-        
-        if($url=="") {
-          $url = $this->makeURL($id,$alias);
-        }
-        $this->sendRedirect($url);
-    }
-        
-    public function webUserLogout($url="",$id="",$alias="") {
-        // Use the managers logout routine to end the current session
-        // And combination of the following variables can be sent
-        // Defaults to index.php in the current directory
-        // $url   = any fully qualified URL (no validation performed)
-        // $id    = an existing document ID (no validation performed)
-        // $alias = any document alias (no validation performed)
-        if($url == "") {
-          if($alias == "") {
-            $id = ($id != "") ? $id : $this->documentIdentifier;
-            $rs = $this->getDocument($id,'alias');
-            $alias = $rs['alias'];
-          } else {
-            $id = 0;
-          }
-          $url = $this->makeURL($id,$alias);
-        }
-        if($url != "") {
-          include_once("manager/processors/logout.processor.php");
-        }
-    }
-
   public function getSiteStats() {
   // returns a single dimensional $key=>$value array of the visitor log totals
   // array $keys are  today, month, piDay, piMonth, piAll, viDay, viMonth, viAll, visDay, visMonth, visAll
@@ -2488,21 +2316,32 @@ title='$siteName'>$siteName</a></h2>
   // $url   = any fully qualified URL (no validation performed)
   // $id    = an existing document ID (no validation performed)
   // $alias = any document alias (no validation performed)
-    if($url == "") {
-      if($alias == "") {
-        $id = ($id != "") ? $id : $this->documentIdentifier;
-        $rs = $this->getDocument($id,'alias');
-        $alias = $rs['alias'];
-      } else {
-        $id = 0;
-      }
-      $url = $this->makeURL($id,$alias);
-    }
-    if($url != "") {
+  
+  	if($url != "") {
         $_SESSION = array();
         session_destroy();
-        $this->sendRedirect(MANAGER_URL);
+        $this->sendRedirect($url);
     }
+	
+	if($alias != "") {
+		/*$rs = $this->getDocument($id,'alias');
+		$alias = $rs['alias'];*/
+		$url = $this->makeURL('',$alias);
+		$_SESSION = array();
+		session_destroy();
+		$this->sendRedirect($url);
+	}
+	
+	if ($id != '') {
+		$url = $this->makeURL($id);
+		$_SESSION = array();
+		session_destroy();
+		$this->sendRedirect($url);
+	}
+	
+    $_SESSION = array();
+	session_destroy();
+	$this->sendRedirect(MANAGER_URL);
   }
 
   public function getCaptchaNumber($length, $alt='Captcha Number', $title='Security Code') {
