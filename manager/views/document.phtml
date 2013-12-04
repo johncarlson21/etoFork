@@ -318,8 +318,8 @@ if($id && count($content)>0) {
     <!-- MARKER:removed reset_createdon_date checkbox in [0615] by Ralph -->
     
           <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['require_authenticate']; ?></span></td>
-            <td>
+            <td><span class='warning'><?php echo $this->_lang['require_authenticate']; ?></span><div style="<?php echo (isset($content['authenticate']) && $content['authenticate']=='1') ? "" : 'display:none;'; ?>" class="grpLink"><a href="javascript:;" class="groupsBtn">Manage Groups</a></td>
+            <td valign="top">
               <input name="authenticate" id="authenticate" type="checkbox"<?php echo (isset($content['authenticate']) && $content['authenticate']=='1') ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['require_authenticate_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
             </td>
           </tr>
@@ -546,8 +546,53 @@ if($id && count($content)>0) {
 </div>
 <?php } ?>
 </div>
+<div id="groupsWindow" style="display:none;">
+<?php
+	$groups = $this->getGroups();
+	$docGroups = $this->getDocumentGroups($content['id']);
+	if ($groups) {
+		foreach($groups as $g) {
+			if ($docGroups && in_array($g['id'],$docGroups)) {
+				?>
+                <div class="docGroupCheck"><input type="checkbox" name="document_groups[]" id="document_groups[]" checked="checked" value="<?php echo $g['id'];?>" /><?php echo $g['name']; ?></div>
+                <?php
+			} else {
+				?>
+				<div class="docGroupCheck"><input type="checkbox" name="document_groups[]" id="document_groups[]" value="<?php echo $g['id'];?>" /><?php echo $g['name']; ?></div>
+                <?php
+			}
+		}
+	}
+?>
+</div>
 
 <script type="text/javascript">
+	$('.groupsBtn').click(function() {
+        $('#groupsWindow').dialog({
+            autoOpen: true,
+            title: 'Manage Document Groups',
+            minWidth: 200,
+            minHeight: 200,
+            position: 'center',
+            resizable: true,
+            closeOnEscape: false,
+            modal: true,
+			buttons: {
+				Done: function() {
+                    $(this).dialog('close');
+				}
+			}
+		});
+	});
+	$('#authenticate').bind('change', function(){
+		if($(this).prop('checked')) { 
+               $('.grpLink').show();
+		}
+		else { 
+			$('.grpLink').hide();
+		}
+       
+    });
     $('#doc-tabs').tabs();
     $('#pagetitle').keyup(function() {
         $('#docTitle').text($('#pagetitle').val());

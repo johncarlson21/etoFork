@@ -1,0 +1,54 @@
+<div class="header"><?php echo $this->_lang['access_permissions_user_groups']; ?></div>
+<div id="groups-tabs">
+	<ul>
+        <li><a href="#manage-groups"><?php echo $this->_lang['group_management_title']; ?></a></li>
+    </ul>
+    <div id="manage-groups">
+    	<div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newGroup" class="button"><?php echo $this->_lang['add']; ?></a></div>
+    	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="group-tbl">
+          <thead>
+          	<tr>
+            	<th>Group ID</th>
+                <th>Group Name</th>
+                <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          	<?php
+				if (count($groups) > 0) {
+					foreach($groups as $g) {
+						?>
+                        <tr>
+                        	<td><?php echo $g['id'];?></td>
+                            <td><a href="javascript:;" class="editGroupBtn" id="<?php echo $g['id'];?>" gval="<?php echo $g['name'];?>"><?php echo $g['name'];?></a></td>
+                            <td>
+                            	<a href="javascript:;" class="editGroupBtn" id="<?php echo $g['id'];?>" gval="<?php echo $g['name'];?>">Edit</a> | <a href="javascript:;" class="deleteGroupBtn" id="<?php echo $g['id'];?>">Delete</a>
+                            </td>
+                        </tr>
+                        <?php
+					}
+				}
+			?>
+          </tbody>
+        </table>
+    
+    	<script type="text/javascript">
+            $('#newGroup').click(function() {
+                Etomite.createGroup();
+            });
+            $('.editGroupBtn').click(function() {
+                Etomite.editGroup($(this).attr('id'), $(this).attr('gval'));
+            });
+			$('.deleteGroupBtn').click(function() {
+                Etomite.deleteGroup($(this).attr('id'));
+            });
+			roTable = $('#group-tbl').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
+        </script>    
+    </div>
+</div>
+<script type="text/javascript">
+    $('#groups-tabs').tabs();
+</script>

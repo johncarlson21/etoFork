@@ -38,6 +38,7 @@
         <?php if($_SESSION['permissions']['edit_user']==1) { ?>
             <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadUsersView');" href="javascript:;"><?php echo $_lang["user_management_title"]; ?></a></li>
         <?php } ?>
+        	<li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadGroupsView');" href="javascript:;"><?php echo $_lang['group_management_title']; ?></a></li>
         <?php /*if($_SESSION['permissions']['access_permissions']==1) { ?>
             <li><a onclick="this.blur();" href="javascript:;"><?php echo $_lang["access_permissions"]; ?></a></li>
         <?php }*/ ?>

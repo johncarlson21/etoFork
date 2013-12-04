@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}documentgroup_names` (
   `name` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Contains data used for access permissions.' AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='This is no longer needed' AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `{PREFIX}documentgroup_names`
@@ -46,10 +46,10 @@ INSERT INTO `{PREFIX}documentgroup_names` (`id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `{PREFIX}document_groups` (
   `id` int(10) NOT NULL auto_increment,
-  `document_group` int(10) NOT NULL default '0',
+  `member_group` int(10) NOT NULL default '0',
   `document` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Contains data used for access permissions.' AUTO_INCREMENT=83 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Groups connected to documents' AUTO_INCREMENT=83 ;
 
 --
 -- Dumping data for table `{PREFIX}document_groups`
@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}membergroup_access` (
   `membergroup` int(10) NOT NULL default '0',
   `documentgroup` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Contains data used for access permissions.' AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='This is no longer needed' AUTO_INCREMENT=2 ;
 
 
 --
@@ -258,6 +258,8 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}membergroup_names` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Contains data used for access permissions.' AUTO_INCREMENT=2 ;
+
+INSERT INTO `{PREFIX}membergroup_names` (`id`, `name`) VALUES ('1', 'Member');
 
 -- --------------------------------------------------------
 

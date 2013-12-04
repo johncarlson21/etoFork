@@ -142,7 +142,8 @@ class ActionServer extends Ajax {
             'meta_title' => addslashes($_REQUEST['meta_title']),
             'meta_description' => addslashes($_REQUEST['meta_description']),
             'meta_keywords' => addslashes($_REQUEST['meta_keywords']),
-            'templateVars' => isset($_REQUEST['templateVars']) ? $_REQUEST['templateVars']:''
+            'templateVars' => isset($_REQUEST['templateVars']) ? $_REQUEST['templateVars']:'',
+			'groups' => isset($_REQUEST['groups']) && !empty($_REQUEST['groups']) ? $_REQUEST['groups'] : ''
         );
         $Content = new Content();
         if($Content->saveDocument($data)) {
@@ -389,6 +390,38 @@ class ActionServer extends Ajax {
             $this->respond(false, $User->_lang["roled_not_saved"]);
         }
     }
+	
+	public function loadGroupsView() {
+        $User = new User();
+        $User->loadGroupsView();
+    }
+	
+	public function createGroup() {
+		$this->validateRequest(array('name'));
+		$User = new User();
+		if ($User->editGroup(false, $_REQUEST['name'])) {
+			$this->respond(true, '');
+		}
+		$this->respond(false, '');
+	}
+	
+	public function editGroup() {
+		$this->validateRequest(array('name','id'));
+		$User = new User();
+		if ($User->editGroup((int)$_REQUEST['id'], $_REQUEST['name'])) {
+			$this->respond(true, '');
+		}
+		$this->respond(false, '');
+	}
+	
+	public function deleteGroup() {
+		$this->validateRequest(array('id'));
+		$User = new User();
+		if ($User->deleteGroup((int)$_REQUEST['id'])) {
+			$this->respond(true, '');
+		}
+		$this->respond(false, '');
+	}
     
     public function syncSite() {
         $System = new System();

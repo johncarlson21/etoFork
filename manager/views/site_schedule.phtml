@@ -14,7 +14,7 @@
             echo "<p>".$this->_lang["no_pending_publish"]."</p>";
           } else {
           ?>
-            <table border="0" cellpadding="2" cellspacing="0"  class="sort-table" id="table-1" width="100%">
+            <table border="0" cellpadding="0" cellspacing="0"  class="sort-table" id="table-1" width="100%">
               <thead>
                 <tr>
                   <td><b><?php echo $this->_lang["document"]; ?></b></td>
@@ -38,6 +38,12 @@
           ?>
               </tbody>
             </table>
+            <script type="text/javascript">
+		  	ppTable = $('#table-1').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
+		  </script>
           <?php } ?>
     </div>
     <div id="un-publish-docs">
@@ -49,7 +55,7 @@
             echo "<p>".$this->_lang["no_pending_unpublish"]."</p>";
           } else {
           ?>
-            <table border="0" cellpadding="2" cellspacing="0"  class="sort-table" id="table-2" width="100%">
+            <table border="0" cellpadding="0" cellspacing="0"  class="sort-table" id="table-2" width="100%">
               <thead>
                 <tr>
                   <td><b><?php echo $this->_lang["document"]; ?></b></td>
@@ -73,6 +79,12 @@
           ?>
             </tbody>
           </table>
+          <script type="text/javascript">
+		  	upTable = $('#table-2').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
+		  </script>
           <?php } ?>
     </div>
     <div id="pending">
@@ -84,13 +96,13 @@
             echo "<p>".$this->_lang["no_pending_documents"]."</p>";
           } else {
           ?>
-            <table border="0" cellpadding="2" cellspacing="0" class="sort-table" id="table-3" width="100%">
+            <table border="0" cellpadding="0" cellspacing="0" class="sort-table" id="table-3" width="100%">
               <thead>
                 <tr>
-                  <td><b><?php echo $this->_lang["document"]; ?></b></td>
-                  <td><b><?php echo $this->_lang["id"]; ?></b></td>
-                  <td><b><?php echo $this->_lang["page_data_publishdate"]; ?></b></td>
-                  <td><b><?php echo $this->_lang["page_data_unpublishdate"]; ?></b></td>
+                  <th><b><?php echo $this->_lang["document"]; ?></b></th>
+                  <th><b><?php echo $this->_lang["id"]; ?></b></th>
+                  <th><b><?php echo $this->_lang["page_data_publishdate"]; ?></b></th>
+                  <th><b><?php echo $this->_lang["page_data_unpublishdate"]; ?></b></th>
                 </tr>
               </thead>
               <tbody>
@@ -110,6 +122,12 @@
           ?>
             </tbody>
           </table>
+          <script type="text/javascript">
+		  	pTable = $('#table-3').dataTable({
+					"bJQueryUI": true,
+					"sPaginationType": "full_numbers"
+				});
+		  </script>
           <?php } ?>
     </div>
 </div>

@@ -842,7 +842,8 @@ class etomite {
 
     // if document level authentication is required, authenticate now
     if($this->authenticates[$this->documentIdentifier]) {
-      if(($this->config['use_uvperms'] && !$this->checkPermissions()) || !$_SESSION['validated']) {
+      if(($this->config['use_uvperms'] && !$this->checkFrontPermissions()) || !$_SESSION['validated']) {
+	  //if($this->config['use_uvperms'] || !$_SESSION['validated']) {
         include_once(MANAGER_PATH."includes/lang/".$this->config['manager_language'].".inc.php");
         $msg = ($this->config['access_denied_message']!="") ? $this->config['access_denied_message'] : $_lang['access_permission_denied'];
         //echo $msg;
@@ -1625,6 +1626,23 @@ title='$siteName'>$siteName</a></h2>
             return false;
         }
     }
+	
+	public function getUserGroups($id=false) {
+		if (!$id) {
+			if (isset($_SESSION['internalKey'])) { $id = $_SESSION['internalKey']; }
+		}
+		if(!$id) { return array(); }
+		$groups = $this->getIntTableRows('*','member_groups','member='.$id);
+		if ($groups && count($groups) > 0) {
+			$gdata = array();
+			foreach($groups as $g) {
+				$gdata[] = $g['user_group'];
+			}
+			return $gdata;
+		}
+		return array();
+	}
+	
 	// returns all manager users
 	public function getUsers() {
 		$sql = "select username, id from ".$this->db."manager_users order by username";
@@ -2145,6 +2163,48 @@ title='$siteName'>$siteName</a></h2>
     } else {
       return false;
     }
+  }
+  
+  public function checkFrontPermissions($id=false) {
+	//  determines user permissions for the current document in the frontend
+	$user = $_SESSION['internalKey'];
+    $document = ($id !== false) ? $id : $this->documentIdentifier;
+    $role = $_SESSION['role'];
+	$groups = $this->getUserGroups($user);
+
+    if($_SESSION['internalKey']=="") return false;
+    if($role==1) return true;  // administrator - grant all document permissions
+    if($document==0 && $this->config['udperms_allowroot']==0) return false;
+	
+	if($this->config['use_udperms']==0
+    || $this->config['use_udperms']==""
+    || !isset($this->config['use_udperms']))
+    {
+      return true; // user document permissions aren't in use
+    }
+
+    // Added by Ralph 2006-07-07 to handle visitor permissions checks properly
+    // Modified by Randy and nalagar in [0614]
+    if($this->config['use_uvperms']==0
+    || $this->config['use_uvperms']==""
+    || !isset($this->config['use_uvperms']))
+    {
+      return true; // visitor document permissions aren't in use
+    }
+	// need to check groups against document
+	// first check if document has groups attached to it
+	$dr = $this->getIntTableRows('*','document_groups','document='.$document);
+	if ($dr && count($dr) > 0) {
+		if (empty($groups) || count($groups) == 0) { return false; }
+		$perms = $this->getIntTableRows('id','document_groups','document='.$document.' AND member_group IN ('.implode(",",$groups).')');
+		if ($perms && count($perms) > 0) {
+			return true;
+		}
+	} else {
+		// document doesn't have groups assigned to it
+		return true;
+	}
+	return false;
   }
 
   public function checkPermissions($id="")

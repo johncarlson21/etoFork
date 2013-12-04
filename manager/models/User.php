@@ -1,9 +1,15 @@
 <?php
 /**************************************************************************
+
  etoFork Content Management System
+
 Copyright (c) 2011 All Rights Reserved
+
 John Carlson - <johncarlson21@gmail.com>
+
 User Model - handles calls pertaining to users and user management
+
+
 
 /**************************************************************************/
 if (!defined('CONFIG_LOADED')) {
@@ -357,6 +363,40 @@ class User extends etomite {
         }
         return false;
     }
+	
+	public function loadGroupsView() {
+		$groups = $this->getIntTableRows('*','membergroup_names');
+		include_once('views/user_groups.phtml');	
+	}
+	
+	public function editGroup($id=false, $name=false) {
+		if ($id) {
+			if ($this->updIntTableRows(array('name'=>$name), 'membergroup_names', 'id='.$id)){
+				return true;
+			}
+		} else {
+			if ($this->putIntTableRow(array('name'=>$name), 'membergroup_names')){
+				return true;
+			}
+		}
+        return false;
+	}
+	
+	public function deleteGroup($id) {
+		// delete members from group
+		$sql = "DELETE FROM ".$this->db."member_groups WHERE user_group=".$id;
+		$mResult = $this->dbQuery($sql);
+		// delete documents from group
+		$sql = "DELETE FROM ".$this->db."document_groups WHERE member_group=".$id;
+		$dResult = $this->dbQuery($sql);
+		// delete main group
+		$sql = "DELETE FROM ".$this->db."membergroup_names WHERE id=".$id." LIMIT 1";
+		$result = $this->dbQuery($sql);
+		if ($result) {
+			return true;
+		}
+		return false;	
+	}
     
 }
 

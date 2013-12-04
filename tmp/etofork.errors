@@ -1,0 +1,397 @@
+[03-Dec-2013 13:33:09] PHP Warning:  Missing argument 1 for User::deleteGroup(), called in /home/jcwebsol/public_html/etofork/manager/ActionServer.php on line 419 and defined in /home/jcwebsol/public_html/etofork/manager/models/User.php on line 385
+[03-Dec-2013 13:33:09] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/manager/models/User.php:385) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 447
+[04-Dec-2013 09:44:13] PHP Fatal error:  Call to undefined method Content::putIntTableRows() in /home/jcwebsol/public_html/etofork/manager/models/Content.php on line 185
+[04-Dec-2013 09:45:30] PHP Fatal error:  Call to undefined method Content::putIntTableRows() in /home/jcwebsol/public_html/etofork/manager/models/Content.php on line 185
+[04-Dec-2013 10:19:48] groups
+[04-Dec-2013 10:19:48] Array
+(
+)
+
+[04-Dec-2013 10:19:48] before checking groups
+[04-Dec-2013 10:19:51] groups
+[04-Dec-2013 10:19:51] Array
+(
+)
+
+[04-Dec-2013 10:19:51] before checking groups
+[04-Dec-2013 10:20:10] grabbing groups
+[04-Dec-2013 10:20:10] groups
+[04-Dec-2013 10:20:10] Array
+(
+)
+
+[04-Dec-2013 10:20:10] before checking groups
+[04-Dec-2013 10:21:10] grabbing groups
+[04-Dec-2013 10:21:10] groups
+[04-Dec-2013 10:21:10] Array
+(
+)
+
+[04-Dec-2013 10:21:10] before checking groups
+[04-Dec-2013 10:22:21] grabbing groups
+[04-Dec-2013 10:22:21] groups
+[04-Dec-2013 10:22:21] Array
+(
+)
+
+[04-Dec-2013 10:22:21] before checking groups
+[04-Dec-2013 10:23:28] grabbing groups
+[04-Dec-2013 10:23:28] groups
+[04-Dec-2013 10:23:28] Array
+(
+)
+
+[04-Dec-2013 10:23:28] before checking groups
+[04-Dec-2013 10:23:28] id: 
+[04-Dec-2013 10:23:32] grabbing groups
+[04-Dec-2013 10:23:32] groups
+[04-Dec-2013 10:23:32] Array
+(
+)
+
+[04-Dec-2013 10:23:32] before checking groups
+[04-Dec-2013 10:23:32] id: 
+[04-Dec-2013 10:23:40] grabbing groups
+[04-Dec-2013 10:23:46] grabbing groups
+[04-Dec-2013 10:23:46] groups
+[04-Dec-2013 10:23:46] Array
+(
+)
+
+[04-Dec-2013 10:23:46] before checking groups
+[04-Dec-2013 10:23:46] id: 
+[04-Dec-2013 10:25:16] documentIdentifier: 10
+[04-Dec-2013 10:25:16] grabbing groups
+[04-Dec-2013 10:25:16] groups
+[04-Dec-2013 10:25:16] Array
+(
+)
+
+[04-Dec-2013 10:25:16] before checking groups
+[04-Dec-2013 10:25:16] id: 
+[04-Dec-2013 10:25:47] documentIdentifier: 10
+[04-Dec-2013 10:25:47] grabbing groups
+[04-Dec-2013 10:25:47] groups
+[04-Dec-2013 10:25:47] Array
+(
+)
+
+[04-Dec-2013 10:25:47] before checking groups
+[04-Dec-2013 10:25:47] id: 
+[04-Dec-2013 10:25:50] documentIdentifier: 10
+[04-Dec-2013 10:25:50] grabbing groups
+[04-Dec-2013 10:25:50] groups
+[04-Dec-2013 10:25:50] Array
+(
+)
+
+[04-Dec-2013 10:25:50] before checking groups
+[04-Dec-2013 10:25:50] id: 
+[04-Dec-2013 10:26:42] documentIdentifier: 10
+[04-Dec-2013 10:26:42] grabbing groups
+[04-Dec-2013 10:26:42] groups
+[04-Dec-2013 10:26:42] Array
+(
+)
+
+[04-Dec-2013 10:26:42] before checking groups
+[04-Dec-2013 10:26:42] id: 10
+[04-Dec-2013 10:26:42] doc groups
+[04-Dec-2013 10:26:42] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:26:42] query: document=10 AND member_group IN (Array)
+[04-Dec-2013 10:27:06] documentIdentifier: 10
+[04-Dec-2013 10:27:06] grabbing groups
+[04-Dec-2013 10:27:06] groups
+[04-Dec-2013 10:27:06] Array
+(
+)
+
+[04-Dec-2013 10:27:06] before checking groups
+[04-Dec-2013 10:27:06] id: 10
+[04-Dec-2013 10:27:06] doc groups
+[04-Dec-2013 10:27:06] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:27:06] query: document=10 AND member_group IN (Array)
+[04-Dec-2013 10:27:36] documentIdentifier: 10
+[04-Dec-2013 10:27:36] grabbing groups
+[04-Dec-2013 10:27:36] groups
+[04-Dec-2013 10:27:36] Array
+(
+)
+
+[04-Dec-2013 10:27:36] before checking groups
+[04-Dec-2013 10:27:36] id: 10
+[04-Dec-2013 10:27:36] doc groups
+[04-Dec-2013 10:27:36] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:27:36] query: document=10 AND member_group IN ()
+[04-Dec-2013 10:30:44] documentIdentifier: 10
+[04-Dec-2013 10:30:44] grabbing groups
+[04-Dec-2013 10:30:44] groups
+[04-Dec-2013 10:30:44] Array
+(
+)
+
+[04-Dec-2013 10:30:44] before checking groups
+[04-Dec-2013 10:30:44] id: 10
+[04-Dec-2013 10:30:44] doc groups
+[04-Dec-2013 10:30:44] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:30:44] query: document=10 AND member_group IN ()
+[04-Dec-2013 10:32:15] user: 4
+[04-Dec-2013 10:32:15] documentIdentifier: 10
+[04-Dec-2013 10:32:15] grabbing groups
+[04-Dec-2013 10:32:15] groups
+[04-Dec-2013 10:32:15] Array
+(
+)
+
+[04-Dec-2013 10:32:15] before checking groups
+[04-Dec-2013 10:32:15] id: 10
+[04-Dec-2013 10:32:15] doc groups
+[04-Dec-2013 10:32:15] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:32:15] query: document=10 AND member_group IN ()
+[04-Dec-2013 10:33:55] user: 4
+[04-Dec-2013 10:33:55] documentIdentifier: 10
+[04-Dec-2013 10:33:55] grabbing groups
+[04-Dec-2013 10:33:55] groups
+[04-Dec-2013 10:33:55] Array
+(
+    [0] => 3
+)
+
+[04-Dec-2013 10:33:55] before checking groups
+[04-Dec-2013 10:33:55] id: 10
+[04-Dec-2013 10:33:55] doc groups
+[04-Dec-2013 10:33:55] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:33:55] query: document=10 AND member_group IN (3)
+[04-Dec-2013 10:37:39] user: 4
+[04-Dec-2013 10:37:39] documentIdentifier: 10
+[04-Dec-2013 10:37:39] grabbing groups
+[04-Dec-2013 10:37:39] groups
+[04-Dec-2013 10:37:39] Array
+(
+    [0] => 3
+)
+
+[04-Dec-2013 10:37:39] before checking groups
+[04-Dec-2013 10:37:39] id: 10
+[04-Dec-2013 10:37:39] doc groups
+[04-Dec-2013 10:37:39] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:37:39] query: document=10 AND member_group IN (3)
+[04-Dec-2013 10:37:39] group verified
+[04-Dec-2013 10:38:07] user: 
+[04-Dec-2013 10:38:07] documentIdentifier: 10
+[04-Dec-2013 10:38:07] grabbing groups
+[04-Dec-2013 10:38:13] user: 5
+[04-Dec-2013 10:38:13] documentIdentifier: 10
+[04-Dec-2013 10:38:13] grabbing groups
+[04-Dec-2013 10:38:13] groups
+[04-Dec-2013 10:38:13] Array
+(
+)
+
+[04-Dec-2013 10:38:13] before checking groups
+[04-Dec-2013 10:38:13] id: 10
+[04-Dec-2013 10:38:13] doc groups
+[04-Dec-2013 10:38:13] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:38:13] query: document=10 AND member_group IN ()
+[04-Dec-2013 10:41:56] user: 5
+[04-Dec-2013 10:41:56] documentIdentifier: 10
+[04-Dec-2013 10:41:56] grabbing groups
+[04-Dec-2013 10:41:56] groups
+[04-Dec-2013 10:41:56] Array
+(
+)
+
+[04-Dec-2013 10:41:56] before checking groups
+[04-Dec-2013 10:41:56] id: 10
+[04-Dec-2013 10:41:56] doc groups
+[04-Dec-2013 10:41:56] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:41:56] query: document=10 AND member_group IN ()
+[04-Dec-2013 10:41:57] user: 5
+[04-Dec-2013 10:41:57] documentIdentifier: 10
+[04-Dec-2013 10:41:57] grabbing groups
+[04-Dec-2013 10:41:57] groups
+[04-Dec-2013 10:41:57] Array
+(
+)
+
+[04-Dec-2013 10:41:57] before checking groups
+[04-Dec-2013 10:41:57] id: 10
+[04-Dec-2013 10:41:57] doc groups
+[04-Dec-2013 10:41:57] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:41:57] query: document=10 AND member_group IN ()
+[04-Dec-2013 10:42:41] user: 5
+[04-Dec-2013 10:42:41] documentIdentifier: 10
+[04-Dec-2013 10:42:41] grabbing groups
+[04-Dec-2013 10:42:41] groups
+[04-Dec-2013 10:42:41] Array
+(
+)
+
+[04-Dec-2013 10:42:41] before checking groups
+[04-Dec-2013 10:42:41] id: 10
+[04-Dec-2013 10:42:41] doc groups
+[04-Dec-2013 10:42:41] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:42:41] query: document=10 AND member_group IN ()
+[04-Dec-2013 10:44:16] user: 5
+[04-Dec-2013 10:44:16] documentIdentifier: 10
+[04-Dec-2013 10:44:16] grabbing groups
+[04-Dec-2013 10:44:16] groups
+[04-Dec-2013 10:44:16] Array
+(
+)
+
+[04-Dec-2013 10:44:16] before checking groups
+[04-Dec-2013 10:44:16] id: 10
+[04-Dec-2013 10:44:16] doc groups
+[04-Dec-2013 10:44:16] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:44:26] user: 4
+[04-Dec-2013 10:44:26] documentIdentifier: 10
+[04-Dec-2013 10:44:26] grabbing groups
+[04-Dec-2013 10:44:26] groups
+[04-Dec-2013 10:44:26] Array
+(
+    [0] => 3
+)
+
+[04-Dec-2013 10:44:26] before checking groups
+[04-Dec-2013 10:44:26] id: 10
+[04-Dec-2013 10:44:26] doc groups
+[04-Dec-2013 10:44:26] Array
+(
+    [0] => Array
+        (
+            [id] => 129
+            [member_group] => 3
+            [document] => 10
+        )
+
+)
+
+[04-Dec-2013 10:44:26] query: document=10 AND member_group IN (3)
+[04-Dec-2013 10:44:26] group verified
+[04-Dec-2013 10:44:35] user: 
+[04-Dec-2013 10:44:35] documentIdentifier: 10
+[04-Dec-2013 10:44:35] grabbing groups
+[04-Dec-2013 10:44:39] user: 1
+[04-Dec-2013 10:44:39] documentIdentifier: 10
+[04-Dec-2013 10:44:39] grabbing groups

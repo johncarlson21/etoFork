@@ -132,6 +132,8 @@ class Content extends etomite {
         }
         $id = (isset($data['id']) && is_numeric($data['id']) && !empty($data['id'])) ? $data['id'] : false;
         $templateVars = isset($data['templateVars']) && !empty($data['templateVars']) ? $data['templateVars']:false;
+		$groups = isset($data['groups']) && !empty($data['groups']) ? $data['groups'] : false;
+		unset($data['groups']);
         unset($data['templateVars']);
         unset($data['id']);
         $syncsite = $data['syncsite'];
@@ -175,6 +177,14 @@ class Content extends etomite {
                     $Resource = new Resource();
                     $Resource->setTVS2Doc($templateVars, $id);
                 }
+				// delete groups first
+				$gr = $this->dbQuery('DELETE FROM '.$this->db."document_groups WHERE document=".$id);
+				if ($groups) {
+					// set groups
+					foreach($groups as $g) {
+						$this->putIntTableRow(array('document'=>$id,'member_group'=>$g),'document_groups');
+					}
+				}
                 $System = new System();
                 $System->syncEtoCache();
                 return true;
@@ -193,6 +203,12 @@ class Content extends etomite {
                     $Resource = new Resource();
                     $Resource->setTVS2Doc($templateVars, $id);
                 }
+				if ($groups) {
+					// set groups
+					foreach($groups as $g) {
+						$this->putIntTableRow(array('document'=>$id,'member_group'=>$g),'document_groups');
+					}
+				}
                 $System = new System();
                 $System->syncEtoCache();
                 return true;
@@ -283,6 +299,26 @@ class Content extends etomite {
         }
         return false;
     }
+	
+	public function getGroups() {
+		$result = $this->getIntTableRows('*','membergroup_names','','name','ASC');
+		if ($result && count($result) > 0) return $result;
+		return false;	
+	}
+	
+	public function getDocumentGroups($id=false) {
+		if ($id) {
+			$result = $this->getIntTableRows('*','document_groups','document='.$id);
+			if ($result && count($result) > 0) {
+				$groups = array();
+				foreach($result as $r) {
+					$groups[] = $r['member_group'];
+				}
+				return $groups;
+			}
+		}
+		return false;
+	}
     
 
 }

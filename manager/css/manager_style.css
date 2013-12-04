@@ -975,3 +975,9 @@ ul.dropdown li ul li a:hover {
     border: #dedede solid 1px;
     padding: 10px;
 }
+
+.docGroupCheck {
+	float: left;
+	width: 42%;
+	margin: 5px;
+}

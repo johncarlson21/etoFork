@@ -265,6 +265,10 @@ var Etomite = {
                     Etomite.errorDialog('There was an error', 'ERROR');
                     Etomite.editingDoc = false;
                 } else {
+					if ($('#groupsWindow').length > 0) {
+						$('#groupsWindow').dialog('destroy');
+						$('#groupsWindow').dialog('remove');
+					}
                     Etomite.loadPane(response);
                     setTimeout(function() {
                         spin(false);
@@ -347,6 +351,14 @@ var Etomite = {
             
             // get tvs
             var tvs = $('#templateVars form').serializeArray();
+			
+			// build the user groups
+			var document_groups = new Array();
+			$.each($("input[name^='document_groups']"), function(){
+				if ($(this).is(':checked')) {
+					document_groups.push($(this).val());
+				}
+			});
             
             $.ajax({
                 url: 'ActionServer.php',
@@ -378,7 +390,8 @@ var Etomite = {
                     meta_title: $('#meta_title').val(),
                     meta_description: $('#meta_description').val(),
                     meta_keywords: $('#meta_keywords').val(),
-                    templateVars: tvs
+                    templateVars: tvs,
+					groups: document_groups
                 },
                 success: function() {
                     setTimeout(function() {
@@ -1185,6 +1198,118 @@ var Etomite = {
             }
         });
     },
+	
+	editGroup: function(gid, gval) {
+        $('<div id="groupForm"></div>').appendTo('body');
+        $('#groupForm').html('<p><strong>Group Name:</strong> <input type="text" id="groupName" value="' + gval + '" /></p>');
+        $('#groupForm').dialog({
+            autoOpen: true,
+            title: 'Edit User Group',
+            minWidth: 200,
+            minHeight: 200,
+            position: 'center',
+            resizable: false,
+            closeOnEscape: false,
+            modal: true,
+            buttons: {
+                Update: function() {
+                    var groupName = $('#groupName').val();
+					var groupId = gid;
+                    $.ajax({
+                        url: 'ActionServer.php',
+                        dataType: 'json',
+                        data: {
+                            action: 'editGroup',
+                            name: groupName,
+							id: groupId
+                        },
+                        success: function(json) {
+                            if(json === null || json.succeeded !== true) {
+                                Etomite.errorDialog('Error updating user group!', 'Error');
+                            } else {
+                                Etomite.notify('User Group Updated!');
+                                Etomite.loadPaneFromAction('loadGroupsView');
+                            }
+                            $('#groupForm').dialog('close');
+                            $('#groupForm').remove();
+                        }
+                    });
+                },
+                Cancel: function() {
+                    $(this).dialog('close');
+                    $(this).remove();
+                }
+            }
+        });
+    },
+	
+	createGroup: function() {
+        $('<div id="groupForm"></div>').appendTo('body');
+        $('#groupForm').html('<p><strong>Group Name:</strong> <input type="text" id="groupName" /></p>');
+        $('#groupForm').dialog({
+            autoOpen: true,
+            title: 'Create New User Group',
+            minWidth: 200,
+            minHeight: 200,
+            position: 'center',
+            resizable: false,
+            closeOnEscape: false,
+            modal: true,
+            buttons: {
+                Create: function() {
+                    var groupName = $('#groupName').val();
+                    $.ajax({
+                        url: 'ActionServer.php',
+                        dataType: 'json',
+                        data: {
+                            action: 'createGroup',
+                            name: groupName
+                        },
+                        success: function(json) {
+                            if(json === null || json.succeeded !== true) {
+                                Etomite.errorDialog('Error creating user group!', 'Error');
+                            } else {
+                                Etomite.notify('New User Group Created!');
+                                Etomite.loadPaneFromAction('loadGroupsView');
+                            }
+                            $('#groupForm').dialog('close');
+                            $('#groupForm').remove();
+                        }
+                    });
+                },
+                Cancel: function() {
+                    $(this).dialog('close');
+                    $(this).remove();
+                }
+            }
+        });
+    },
+	
+	deleteGroup: function(gid) {
+		if (gid === null || gid == '') {
+            return false;
+        }
+        var is_sure = window.confirm('Are you sure you want to delete this group?\nThis will remove all User and Document connections to this group!');
+        if (is_sure) {
+            $.ajax({
+                url: 'ActionServer.php',
+                data: {
+                    action: 'deleteGroup',
+                    id: gid
+                },
+                dataType: 'json',
+                success: function(json) {
+                    if (json === null || json.succeeded !== true) {
+                        Etomite.errorDialog('There was a problem, the group did not get deleted!');
+                        return false;
+                    } else {
+                        Etomite.notify('User Group Deleted');
+                        Etomite.loadPaneFromAction('loadGroupsView');
+                    }
+                }
+            });
+        }
+	},
     
     manageModule: function(module) {
         if (module === null || module == '') {

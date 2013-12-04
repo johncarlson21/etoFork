@@ -30,6 +30,8 @@ CREATE TABLE `{PREFIX}modules`(
 
 -- Alter table in target 
 
+ALTER TABLE `{PREFIX}document_groups` CHANGE `document_group` `member_group` INT( 10 ) NOT NULL DEFAULT '0';
+
 ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_title` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '';
 
 ALTER TABLE `{PREFIX}site_content` ADD COLUMN `meta_description` varchar(255)  COLLATE utf8_unicode_ci NOT NULL DEFAULT '';

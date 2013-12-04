@@ -985,5 +985,7 @@ $_lang['send_my_msg5'] = "<p align='center'><strong><em>Do not reply to this mes
 $_lang['send_my_msg6'] = "has sent you a message";
 $_lang['user'] = "User";
 $_lang['manager'] = "Manager";
+$_lang['group'] = "Group";
+$_lang['group_management_title'] = "Manage Group";
 
 ?>
