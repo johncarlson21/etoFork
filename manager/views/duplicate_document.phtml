@@ -1,16 +1,12 @@
 <div class="header">
-    <?php if($id && !$reference){
-        echo $this->_lang["edit_document"];
-    }elseif($id && $reference){
-        echo $this->_lang["edit_weblink"];
-    }elseif(!$id && !$reference){
-        echo $this->_lang["create_document"];
-    }elseif(!$id && $reference){
-        echo $this->_lang["create_weblink"];
+    <?php if(!$reference){
+        echo $this->_lang["duplicate_document"];
+    }elseif($reference){
+        echo $this->_lang["duplicate_weblink"];
     }?>
 </div>
 <div id="head-actions">
-    <div id="documentTitle"><span id="docTitle"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']) : $this->_lang["un_saved"]; ?></span></div>
+    <div id="documentTitle"><span id="docTitle"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']." - Copy") : $this->_lang["un_saved"]; ?></span></div>
     <div class="action-btns">
         <?php if ($this->checkUserRole('edit_document', $_SESSION['internalKey']) || $this->checkUserRole('save_document', $_SESSION['internalKey'])) {?>
         <a href="javascript:;" id="saveDocument" class="button"><?php echo $this->_lang["save"]; ?></a>
@@ -31,7 +27,7 @@ $cfg['ilibs_dir'] = array('../assets/images/');
 $sep = " @ ";
 if($id && count($content)>0) {
 ?>
-<input type="hidden" name="docId" id="docId" value="<?php echo $id; ?>" />
+<input type="hidden" name="docId" id="docId" value="" />
 <?php
 }
 
@@ -51,7 +47,7 @@ if($id && count($content)>0) {
             <td style="width:150px; text-align:left;">
               <span class='warning'><?php echo $this->_lang['document_title']; ?></span></td>
             <td>
-              <input name="pagetitle" id="pagetitle" type="text" maxlength="100" value="<?php echo isset($content['pagetitle']) ? $content['pagetitle'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+              <input name="pagetitle" id="pagetitle" type="text" maxlength="100" value="<?php echo isset($content['pagetitle']) ? $content['pagetitle']." - Copy" : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
             </td>
           </tr>
           <tr style="height: 24px;">
@@ -71,7 +67,7 @@ if($id && count($content)>0) {
           <tr style="height: 24px;">
             <td><span class='warning'><?php echo $this->_lang['document_alias']; ?></span></td>
             <td>
-              <input id="alias" name="alias" type="text" maxlength="100" value="<?php echo isset($content['alias']) ? $content['alias'] : ''; ?>" class="inputBox" style="width:200px;">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_alias_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+              <input id="alias" name="alias" type="text" maxlength="100" value="<?php echo isset($content['alias']) ? $content['alias']."-copy" : ''; ?>" class="inputBox" style="width:200px;">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_alias_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
               <div id="aliasUniqueMessage" style="padding-left:7px;color:red;font-weight:bold;display:none;"><?php echo $this->_lang['alias_exists']; ?></div><div id="aliasUniqueMessageResponse" style="padding-left:7px;color:green;font-weight:bold;display:none;"></div>
             </td>
           </tr>

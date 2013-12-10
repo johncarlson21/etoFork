@@ -73,6 +73,13 @@ function bindContextMenu(node, span) {
                     Etomite.editDocument(id);
                 }
                 break;
+			case "duplicate":
+				if (node.data.weblink) {
+                    Etomite.duplicateDocument(id, 'true');
+                } else {
+                    Etomite.duplicateDocument(id);
+                }
+				break;
             case "createDoc":
                 Etomite.editDocument('', id);
                 break;

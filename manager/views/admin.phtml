@@ -148,6 +148,7 @@ var layoutSettings_Outer = {
     <li class="preview"><a href="#preview"><?php echo $_lang["preview"]; ?></a></li>
     <?php if ($etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
     <li class="edit"><a href="#edit"><?php echo $_lang["edit"]; ?></a></li>
+    <li class="duplicate"><a href="#duplicate"><?php echo $_lang['duplicate']; ?></a></li>
     <li class="move"><a href="#move"><?php echo $_lang['change_parent_document']; ?></a></li>
     <?php } ?>
     <?php if ($etomite->checkUserRole('new_document', $_SESSION['internalKey'])) {?>

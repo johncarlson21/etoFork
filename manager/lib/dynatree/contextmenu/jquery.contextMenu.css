@@ -64,6 +64,7 @@
 
 .contextMenu LI.preview A { background-image: url(images/preview.gif); }
 .contextMenu LI.move A { background-image: url(images/move.png); }
+.contextMenu LI.duplicate A { background-image: url(images/page_white_copy.png); }
 .contextMenu LI.createDoc A { background-image: url(images/newdoc.gif); }
 .contextMenu LI.createLink A { background-image: url(images/weblink.gif); }
 .contextMenu LI.publish A { background-image: url(images/item_published.gif); }

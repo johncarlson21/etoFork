@@ -987,5 +987,9 @@ $_lang['user'] = "User";
 $_lang['manager'] = "Manager";
 $_lang['group'] = "Group";
 $_lang['group_management_title'] = "Manage Group";
+$_lang['save_and_close'] = "Save &amp; Close";
+$_lang['duplicate'] = "Duplicate";
+$_lang['duplicate_document'] = "Duplicate Document";
+$_lang['duplicate_weblink'] = "Duplicate Weblink";
 
 ?>

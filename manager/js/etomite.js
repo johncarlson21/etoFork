@@ -280,6 +280,9 @@ var Etomite = {
                     $('#saveDocument').click(saveDocHandler); /*function(){
                         Etomite.saveDocument();
                     });*/
+					$('#saveCloseDocument').click(function() {
+						Etomite.saveDocument(true);
+					});
                     $('#deleteDocument').click(function(){
                         Etomite.updateDocProperty('deleted', '1', docId);
                     });
@@ -331,7 +334,7 @@ var Etomite = {
         });
     },
     
-    saveDocument: function() {
+    saveDocument: function(saveclose) {
         if(Etomite.goodAlias == true) {
             spin();
             // get the vars
@@ -399,7 +402,7 @@ var Etomite = {
                     }, 1500);
                     Etomite.notify('Document Saved');
                     $("#docTree").dynatree("getTree").reload();
-                    if ($('#docId').length > 0) {
+                    if ($('#docId').length > 0 && saveclose === null) {
                         if ($('#type').val() == 'reference') {
                             Etomite.editDocument(docId, '', 'true');
                         } else {
@@ -456,7 +459,6 @@ var Etomite = {
     },
     
     moveDocument: function(docId, parentId) {
-        // alert('moving document: '+docId+'; to parent: '+parentId);
         $('<div id="moveDocumentDialog"></div>').appendTo('#mainContent');
         $('#moveDocumentDialog').html('<p>Are you sure you want to move the document?</p>');
         $('#moveDocumentDialog').dialog({
@@ -491,6 +493,95 @@ var Etomite = {
             }
         });
     },
+	
+	duplicateDocument: function(docId, weblink) {
+		Etomite.editingDoc = true;
+        spin();
+        if (weblink != 'true' || weblink == null || weblink == '') {
+            weblink = false;
+        }
+        
+        $.ajax({
+            url: 'ActionServer.php',
+            dataType: 'html',
+            data: {
+                action: 'duplicateDocument',
+                reference: weblink,
+                id: docId
+            },
+            success: function(response) {
+                if (response === null) {
+                    Etomite.errorDialog('There was an error', 'ERROR');
+                    Etomite.editingDoc = false;
+                } else {
+					if ($('#groupsWindow').length > 0) {
+						$('#groupsWindow').dialog('destroy');
+						$('#groupsWindow').dialog('remove');
+					}
+                    Etomite.loadPane(response);
+                    setTimeout(function() {
+                        spin(false);
+                        if(weblink == false){
+                            //setupTiny("taContent");
+                        }
+                    }, 1000);
+                    
+                    $('#saveDocument').click(saveDocHandler); /*function(){
+                        Etomite.saveDocument();
+                    });*/
+					$('#saveCloseDocument').click(function() {
+						Etomite.saveDocument(true);
+					});
+                    $('#deleteDocument').click(function(){
+                        Etomite.updateDocProperty('deleted', '1', docId);
+                    });
+                    $('#cancelDocument').click(function(){
+                        var content = '';
+                        $.ajax({
+                            url: 'ActionServer.php',
+                            dataType: 'html',
+                            data: {
+                                action: 'loadWelcome'
+                            },
+                            success: function(html) {
+                                $('#mainContent').html(html);
+                            }
+                        });
+                    });
+                    $('#alias').keyup(function() {
+                        Etomite.goodAlias = true;
+                        var docId = '';
+                        if($('#docId').length > 0){
+                            docId = $('#docId').val();
+                        }
+                        if ($('#alias').val().length > 2) {
+                            $.ajax({
+                                url: 'ActionServer.php',
+                                dataType: 'json',
+                                data: { alias: $('#alias').val(), action: 'checkAlias', id: docId },
+                                success: function(json) {
+                                    if ((json === null) || (json.succeeded !== true)) {
+                                        $('#aliasUniqueMessage').html(json.message);
+                                        $('#aliasUniqueMessage').show();
+                                        $('#aliasUniqueMessageResponse').hide();
+                                        Etomite.goodAlias = false;
+                                    } else {
+                                        $('#aliasUniqueMessageResponse').html(json.message);
+                                        $('#aliasUniqueMessageResponse').show();
+                                        $('#aliasUniqueMessage').hide();
+                                        Etomite.goodAlias = true;
+                                    }
+                                }
+                            });
+                        } else {
+                            $('#aliasUniqueMessageResponse').hide();
+                            $('#aliasUniqueMessage').hide();
+                        }
+                    });
+                }
+            }
+        });
+	},
     
     purgeDocuments: function() {
         $.ajax({

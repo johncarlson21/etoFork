@@ -108,6 +108,46 @@ class Content extends etomite {
         include_once('views/document.phtml');
         $this->runSystemEvent('OnAfterDocumentFormLoad');
     }
+	
+	public function duplicateDocument($id=false, $reference=false) {
+        if ($id && is_numeric($id)) {
+            if(!$content = $this->getDocument($id)) {
+                echo $this->_lang["document_not_valid"];
+            }
+            // make sure to set the reference
+            if($content['type']=='reference'){
+                $reference = true;
+            }
+            // grab tvs for set template
+            $result = $this->dbQuery(
+                "SELECT t.* FROM ".$this->db."template_variables t" .
+                " LEFT JOIN ".$this->db."template_variable_templates tvt" .
+                " ON t.tv_id = tvt.tv_id" .
+                " WHERE tvt.template_id = ".$content['template']
+            );
+            $templateVars = array();
+            while($row = $this->fetchRow($result)) {
+                $templateVars[] = $row;
+            }
+			/* do not use this right now 
+            // now grab template vars for the document
+            $result = $this->getIntTableRows('tv_id,tv_value', 'site_content_tv_val', 'doc_id='.$content['id']);
+            if (count($result) > 0) {
+                foreach($result as $r){
+                    $content['tvs'][$r['tv_id']] = $r['tv_value'];
+                }
+            } else {
+                $content['tvs'] = array();
+            }
+			*/
+        } else {
+            $content = array();
+        }
+		// set id to false so that there are no previous versions pulled
+        $id = false;
+        include_once('views/duplicate_document.phtml');
+        $this->runSystemEvent('OnAfterDocumentFormLoad');
+    }
     
     public function checkAlias($alias, $id=false) {
         if (empty($alias)) {

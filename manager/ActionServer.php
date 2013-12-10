@@ -89,6 +89,18 @@ class ActionServer extends Ajax {
             $Content->manageDocument($id, $reference);
         }
     }
+	
+	public function duplicateDocument() {
+        $reference = false;
+        if (isset($_REQUEST['reference']) && $_REQUEST['reference']=='true') {
+            $reference = true;
+        }
+        $id = (isset($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : '';
+        $Content = new Content();
+        if (!empty($id)) {
+            $Content->duplicateDocument($id, $reference);
+        }
+    }
     
     public function saveDocument() {
         $this->validateRequest(array(
