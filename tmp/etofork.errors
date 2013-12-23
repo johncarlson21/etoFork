@@ -395,3 +395,5 @@
 [04-Dec-2013 10:44:39] user: 1
 [04-Dec-2013 10:44:39] documentIdentifier: 10
 [04-Dec-2013 10:44:39] grabbing groups
+[10-Dec-2013 11:57:45] PHP Warning:  preg_match() [<a href='function.preg-match'>function.preg-match</a>]: Empty regular expression in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 692
+[10-Dec-2013 11:57:45] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php:692) in /home/jcwebsol/public_html/etofork/manager/index.php on line 87
