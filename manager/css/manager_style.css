@@ -746,7 +746,7 @@ h1, h2, h3, h4 {
 .ui-timepicker-div td { font-size: 90%; }
 
 #mainContent .ui-layout-content {
-    overflow: auto;
+    overflow: auto !important;
     border-top: 0 !important;
     padding: 0;
 }

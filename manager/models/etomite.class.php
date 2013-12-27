@@ -1139,6 +1139,9 @@ class etomite
     }
     public function messageQuit($msg = 'unspecified error', $query = '', $is_error = true, $nr = '', $file = '', $source = '', $text = '', $line = '')
     {
+		// just log the error
+		error_log('Error:');
+		error_log($msg."\n".$query."\n".$nr."\n".$file."\n".$source."\n".$text."\n".$line);
         $this->aborting = true; // added in [v1.0] by Ralph to resolve header issues
         $pms            = "<html><head><title>Etomite " . $this->config['release'] . " " . $this->config['code_name'] . "</title>
     <style>TD, BODY { font-size: 11px; font-family:verdana; }</style>
