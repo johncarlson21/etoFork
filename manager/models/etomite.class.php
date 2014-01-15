@@ -75,6 +75,7 @@ class etomite
     public $documentTVs = array();
     public $parseAgain = true;
     public $moduleAction = '';
+	public $rsExt = ''; // fix for external db connect
 	
 	/**
 	* The class constructor
@@ -2002,7 +2003,7 @@ title='$siteName'>$siteName</a></h2>
         if (($fields == "") || ($into == "")) {
             return false;
         } else {
-            $tbl = ($this->dbConfig['table_prefix'] != '' && strpos($from, $this->dbConfig['table_prefix']) === 0 || !$addPrefix) ? $this->dbConfig['dbase'] . "." . $into : $this->db . $into;
+            $tbl = ($this->dbConfig['table_prefix'] != '' && strpos($into, $this->dbConfig['table_prefix']) === 0 || !$addPrefix) ? $this->dbConfig['dbase'] . "." . $into : $this->db . $into;
             $sql = "INSERT INTO $tbl SET ";
             foreach ($fields as $key => $value) {
                 $sql .= "`" . $key . "`=";
@@ -2033,7 +2034,7 @@ title='$siteName'>$siteName</a></h2>
             $where = ($where != "") ? "WHERE $where" : "";
             $sort  = ($sort != "") ? "ORDER BY $sort $dir" : "";
             $limit = ($limit != "") ? "LIMIT $limit" : "";
-            $tbl   = ($this->dbConfig['table_prefix'] != '' && strpos($from, $this->dbConfig['table_prefix']) === 0 || !$addPrefix) ? $this->dbConfig['dbase'] . "." . $into : $this->db . $into;
+            $tbl   = ($this->dbConfig['table_prefix'] != '' && strpos($into, $this->dbConfig['table_prefix']) === 0 || !$addPrefix) ? $this->dbConfig['dbase'] . "." . $into : $this->db . $into;
             $sql   = "UPDATE $tbl SET ";
             foreach ($fields as $key => $value) {
                 $sql .= "`" . $key . "`=";
@@ -2070,9 +2071,9 @@ title='$siteName'>$siteName</a></h2>
             $sort  = ($sort != "") ? "ORDER BY $sort $dir" : "";
             $limit = ($limit != "") ? "LIMIT $limit" : "";
             $tbl   = $dbase . "." . $from;
-            $this->dbExtConnect($host, $user, $pass, $dbase);
+            //$this->dbExtConnect($host, $user, $pass, $dbase);
             $sql    = "SELECT $fields FROM $tbl $where $sort $limit;";
-            $result = $this->dbQuery($sql);
+            $result = $this->dbExtQuery($host, $user, $pass, $dbase, $sql);
             if (!$push)
                 return $result;
             $resourceArray = array();
@@ -2099,7 +2100,7 @@ title='$siteName'>$siteName</a></h2>
         if (($host == "") || ($user == "") || ($pass == "") || ($dbase == "") || ($fields == "") || ($into == "")) {
             return false;
         } else {
-            $this->dbExtConnect($host, $user, $pass, $dbase);
+            //$this->dbExtConnect($host, $user, $pass, $dbase);
             $tbl = $dbase . "." . $into;
             $sql = "INSERT INTO $tbl SET ";
             foreach ($fields as $key => $value) {
@@ -2109,7 +2110,7 @@ title='$siteName'>$siteName</a></h2>
                 $sql .= "'" . $value . "',";
             }
             $sql    = rtrim($sql, ",");
-            $result = $this->dbQuery($sql);
+            $result = $this->dbExtQuery($host, $user, $pass, $dbase, $sql);
             return $result;
         }
     }
@@ -2127,7 +2128,7 @@ title='$siteName'>$siteName</a></h2>
         if (($fields == "") || ($into == "")) {
             return false;
         } else {
-            $this->dbExtConnect($host, $user, $pass, $dbase);
+            //$this->dbExtConnect($host, $user, $pass, $dbase);
             $tbl   = $dbase . "." . $into;
             $where = ($where != "") ? "WHERE $where" : "";
             $sort  = ($sort != "") ? "ORDER BY $sort $dir" : "";
@@ -2141,7 +2142,7 @@ title='$siteName'>$siteName</a></h2>
             }
             $sql = rtrim($sql, ",");
             $sql .= " $where $sort $limit;";
-            $result = $this->dbQuery($sql);
+            $result = $this->dbExtQuery($host, $user, $pass, $dbase, $sql);
             return $result;
         }
     }
@@ -2154,10 +2155,10 @@ title='$siteName'>$siteName</a></h2>
         // $pass = MySQL password for the external MySQL database: $pass="password"
         // $dbase = MySQL database name to which you wish to connect: $dbase="extdata"
         $tstart = $this->getMicroTime();
-        if (@!$this->rs = mysql_connect($host, $user, $pass)) {
+        if (@!$this->rsExt = mysql_connect($host, $user, $pass)) {
             $this->messageQuit("Failed to create connection to the $dbase database!");
         } else {
-            mysql_select_db($dbase);
+            mysql_select_db($dbase, $this->rsExt);
             $tend      = $this->getMicroTime();
             $totaltime = $tend - $tstart;
             if ($this->config['dumpSQL']) {
@@ -2178,7 +2179,7 @@ title='$siteName'>$siteName</a></h2>
         // Returns error on fialure.
         $tstart = $this->getMicroTime();
         $this->dbExtConnect($host, $user, $pass, $dbase);
-        if (@!$result = mysql_query($query, $this->rs)) {
+        if (@!$result = mysql_query($query, $this->rsExt)) {
             $this->messageQuit("Execution of a query to the database failed", $query);
         } else {
             $tend            = $this->getMicroTime();
@@ -2189,6 +2190,21 @@ title='$siteName'>$siteName</a></h2>
             }
             $this->executedQueries = $this->executedQueries + 1;
             return $result;
+        }
+    }
+	public function fetchExtRow($rs, $mode = 'assoc')
+    {
+        // [0614] object mode added by Ralph
+        if ($mode == 'assoc') {
+            return mysql_fetch_assoc($rs);
+        } elseif ($mode == 'num') {
+            return mysql_fetch_row($rs);
+        } elseif ($mode == 'both') {
+            return mysql_fetch_array($rs, MYSQL_BOTH);
+        } elseif ($mode == 'object') {
+            return mysql_fetch_object($rs);
+        } else {
+            $this->messageQuit("Unknown get type ($mode) specified for fetchRow - must be empty, 'assoc', 'num', 'both', or 'object'.");
         }
     }
     public function intTableExists($table)

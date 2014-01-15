@@ -23,7 +23,7 @@ class SqlParser
   function connect()
   {
     $this->conn = mysql_connect($this->host, $this->user, $this->password);
-    mysql_select_db($this->dbname, $this->conn);
+    mysql_select_db($this->dbname, $this->conn) or die('could not selet db: '.$this->dbname);
   }
 
   function process($filename)

@@ -406,3 +406,360 @@ SELECT * FROM `jcwebsol_etofork`.etomite_john_test_table   ;
 
 
 
+[03-Jan-2014 15:24:50] Error:
+[03-Jan-2014 15:24:50] Execution of a query to the database failed! ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'customer_id'])) { return ''; }
+
+$customerUrl = "[~8~]";
+$customer_id = $_GET['cu' at line 1
+INSERT INTO `jcwebsol_etofork`.etomite_site_snippets SET `name`='AddNote',`description`='Add Note to Client',`snippet`='/* add note to client */
+
+if (!isset($_GET['customer_id'])) { return ''; }
+
+$customerUrl = "[~8~]";
+$customer_id = $_GET['customer_id'];
+$output = '';
+$result = $etomite->dbQuery("SELECT * FROM ".$etomite->db."customer_data WHERE id=".$customer_id." LIMIT 1");
+
+if (!$result) { return ''; }
+$customer = $etomite->fetchRow($result);
+if (!isset($_POST['submit'])) {
+	// show form
+	$data = array(
+		'customer_id'=>$customer_id,
+		'company'=>$customer['company_name'],
+		'error'=>''
+	);
+	$output .= $etomite->parseChunk('add_note_form',$data);
+} else {
+	if (!empty($_POST['note'])) {
+		$fields = array(
+			'customer_id'=>$customer['id'],
+			'note_data'=>mysql_real_escape_string($_POST['note']),
+            'user_id'=>$_SESSION['internalKey']
+		);
+		$result = $etomite->putIntTableRow($fields, 'customer_data_notes');
+		$output .= '<div class="alert alert-success"><strong>Success!</strong> Note Added to Client!</div>';
+		$output .= "<p><a href='".$customerUrl."?customer_id=".$customer_id."' class='btn btn-primary'>&laquo; Back to Client</a></p>";
+	} else {
+		$data = array(
+			'customer_id'=>$customer_id,
+			'company'=>$customer['company_name'],
+			'error'=>'<div class="alert alert-danger"><strong>OOPS!</strong> You need to complete the form!</div>',
+			'success'=>''
+		);
+		$output .= $etomite->parseChunk('add_note_form',$data);
+	}
+}
+
+return $output;',`section`='19';
+
+
+
+
+
+[03-Jan-2014 15:30:44] Error:
+[03-Jan-2014 15:30:44] Execution of a query to the database failed! ERROR: Table 'jcwebsol_etofork.etomite_customer_data' doesn't exist
+SELECT * FROM `jcwebsol_etofork`.etomite_customer_data   ;
+
+
+
+
+
+[03-Jan-2014 15:30:44] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_crm/includes/admin.php:47) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 567
+[03-Jan-2014 15:41:32] Array
+(
+    [0] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_name` varchar(100) DEFAULT NULL,
+  `contact_phone` varchar(20) DEFAULT NULL COMMENT 'Customer Contact Phone number',
+  `contact_email` varchar(150) DEFAULT NULL,
+  `company_name` varchar(150) DEFAULT NULL,
+  `address1` varchar(150) DEFAULT NULL COMMENT 'Customer Physical Address',
+  `address2` varchar(150) DEFAULT NULL,
+  `city` varchar(150) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
+  `lat` varchar(100) DEFAULT NULL,
+  `lon` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Data Table to extend the adworks customer table'
+        )
+
+    [1] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes'
+        )
+
+)
+
+[03-Jan-2014 15:47:05] sql file: /home/jcwebsol/public_html/etofork/modules/mod_crm/sql/db_install.sql
+[03-Jan-2014 15:47:05] running sql
+[03-Jan-2014 15:47:05] CREATE TABLE IF NOT EXISTS `{PREFIX}customer_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_name` varchar(100) DEFAULT NULL,
+  `contact_phone` varchar(20) DEFAULT NULL COMMENT 'Customer Contact Phone number',
+  `contact_email` varchar(150) DEFAULT NULL,
+  `company_name` varchar(150) DEFAULT NULL,
+  `address1` varchar(150) DEFAULT NULL COMMENT 'Customer Physical Address',
+  `address2` varchar(150) DEFAULT NULL,
+  `city` varchar(150) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
+  `lat` varchar(100) DEFAULT NULL,
+  `lon` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Data Table to extend the adworks customer table';
+[03-Jan-2014 15:47:05] 
+CREATE TABLE IF NOT EXISTS `{PREFIX}customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes';
+[03-Jan-2014 15:47:05] Array
+(
+    [0] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_name` varchar(100) DEFAULT NULL,
+  `contact_phone` varchar(20) DEFAULT NULL COMMENT 'Customer Contact Phone number',
+  `contact_email` varchar(150) DEFAULT NULL,
+  `company_name` varchar(150) DEFAULT NULL,
+  `address1` varchar(150) DEFAULT NULL COMMENT 'Customer Physical Address',
+  `address2` varchar(150) DEFAULT NULL,
+  `city` varchar(150) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
+  `lat` varchar(100) DEFAULT NULL,
+  `lon` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Data Table to extend the adworks customer table'
+        )
+
+    [1] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes'
+        )
+
+)
+
+[03-Jan-2014 15:49:24] Array
+(
+    [0] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_name` varchar(100) DEFAULT NULL,
+  `contact_phone` varchar(20) DEFAULT NULL COMMENT 'Customer Contact Phone number',
+  `contact_email` varchar(150) DEFAULT NULL,
+  `company_name` varchar(150) DEFAULT NULL,
+  `address1` varchar(150) DEFAULT NULL COMMENT 'Customer Physical Address',
+  `address2` varchar(150) DEFAULT NULL,
+  `city` varchar(150) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
+  `lat` varchar(100) DEFAULT NULL,
+  `lon` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Data Table to extend the adworks customer table'
+        )
+
+    [1] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes'
+        )
+
+)
+
+[03-Jan-2014 15:53:56] dbconfig
+[03-Jan-2014 15:53:56] 1
+[03-Jan-2014 15:55:04] dbconfig
+[03-Jan-2014 15:55:04] 1
+[03-Jan-2014 15:56:26] dbconfig
+[03-Jan-2014 15:56:26] Array
+(
+    [host] => localhost
+    [dbase] => `jcwebsol_etofork`
+    [user] => jcwebsol_etofork
+    [pass] => kx3#[MDLP}%q
+    [table_prefix] => etomite_
+)
+
+[03-Jan-2014 15:58:25] Array
+(
+    [host] => localhost
+    [dbase] => `jcwebsol_etofork`
+    [user] => jcwebsol_etofork
+    [pass] => kx3#[MDLP}%q
+    [table_prefix] => etomite_
+)
+
+[03-Jan-2014 16:00:47] Array
+(
+    [0] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_name` varchar(100) DEFAULT NULL,
+  `contact_phone` varchar(20) DEFAULT NULL COMMENT 'Customer Contact Phone number',
+  `contact_email` varchar(150) DEFAULT NULL,
+  `company_name` varchar(150) DEFAULT NULL,
+  `address1` varchar(150) DEFAULT NULL COMMENT 'Customer Physical Address',
+  `address2` varchar(150) DEFAULT NULL,
+  `city` varchar(150) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
+  `lat` varchar(100) DEFAULT NULL,
+  `lon` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Data Table to extend the adworks customer table'
+        )
+
+    [1] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes'
+        )
+
+)
+
+[06-Jan-2014 07:57:54] PHP Warning:  Wrong parameter count for str_replace() in /home/jcwebsol/public_html/etofork/modules/module.php on line 289
+[06-Jan-2014 07:57:54] Array
+(
+    [0] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_name` varchar(100) DEFAULT NULL,
+  `contact_phone` varchar(20) DEFAULT NULL COMMENT 'Customer Contact Phone number',
+  `contact_email` varchar(150) DEFAULT NULL,
+  `company_name` varchar(150) DEFAULT NULL,
+  `address1` varchar(150) DEFAULT NULL COMMENT 'Customer Physical Address',
+  `address2` varchar(150) DEFAULT NULL,
+  `city` varchar(150) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
+  `lat` varchar(100) DEFAULT NULL,
+  `lon` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Data Table to extend the adworks customer table'
+        )
+
+    [1] => Array
+        (
+            [error] => No database selected
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes'
+        )
+
+)
+
+[06-Jan-2014 08:03:54] PHP Warning:  Wrong parameter count for str_replace() in /home/jcwebsol/public_html/etofork/modules/module.php on line 289
+[06-Jan-2014 08:03:54] 
+[06-Jan-2014 08:08:13] 
+[06-Jan-2014 08:08:13] Array
+(
+    [0] => Array
+        (
+            [error] => Invalid default value for 'creation_time'
+            [sql] => CREATE TABLE IF NOT EXISTS `customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes'
+        )
+
+)
+
+[06-Jan-2014 08:18:26] Array
+(
+    [0] => Array
+        (
+            [error] => You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CURRENT_DATE,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_DATE,
+  `n' at line 4
+            [sql] => CREATE TABLE IF NOT EXISTS `etomite_customer_data_notes` (
+  `id_notes` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer ID (id_Customers) from Adworks DB',
+  `creation_time` datetime NOT NULL DEFAULT CURRENT_DATE,
+  `modification_time` datetime NOT NULL DEFAULT CURRENT_DATE,
+  `note_data` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_notes`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Customer Notes'
+        )
+
+)
+
+[06-Jan-2014 09:04:21] Error:
+[06-Jan-2014 09:04:21] Execution of a query to the database failed! ERROR: Unknown column 'creation_date' in 'field list'
+INSERT INTO `jcwebsol_etofork`.etomite_customer_data_notes SET `customer_id`='1',`note_data`='just a note..',`user_id`='1',`creation_date`='2014-01-06 09:04:21';
+
+
+
+
+
+[06-Jan-2014 09:04:21] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/modules/mod_crm/includes/admin.php:47) in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 567

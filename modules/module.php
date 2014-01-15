@@ -151,6 +151,7 @@ class module {
     }
     
     public function runModuleInstall() {
+		$etomite = new etomite();
         $this->validateRequest(array('module'));
         $module = $_REQUEST['module'];
         // first try to extract the module
@@ -218,9 +219,9 @@ class module {
                         if (file_exists(absolute_base_path . 'tmp/packages/'.$module.'/resources/snippets/'.$snippet['ref'].'.php')) {
                             $snCode = @file_get_contents(absolute_base_path . 'tmp/packages/'.$module.'/resources/snippets/'.$snippet['ref'].'.php');
                             $result = $Resource->putIntTableRow(array(
-                                'name'=>$snippet['name'],
-                                'description'=>$snippet['description'],
-                                'snippet'=>$snCode,
+                                'name'=>mysql_real_escape_string($snippet['name']),
+                                'description'=>mysql_real_escape_string($snippet['description']),
+                                'snippet'=>mysql_real_escape_string($snCode),
                                 'section'=>$snSectionId
                             ), 'site_snippets');
                             $snippets[] = $snippet['name'];
@@ -240,9 +241,9 @@ class module {
                         if (file_exists(absolute_base_path . 'tmp/packages/'.$module.'/resources/chunks/'.$chunk['ref'].'.php')) {
                             $chCode = @file_get_contents(absolute_base_path . 'tmp/packages/'.$module.'/resources/chunks/'.$chunk['ref'].'.php');
                             $result = $Resource->putIntTableRow(array(
-                                'name'=>$chunk['name'],
-                                'description'=>$chunk['description'],
-                                'snippet'=>$chCode,
+                                'name'=>mysql_real_escape_string($chunk['name']),
+                                'description'=>mysql_real_escape_string($chunk['description']),
+                                'snippet'=>mysql_real_escape_string($chCode),
                                 'section'=>$chSectionId
                             ), 'site_htmlsnippets');
                             $chunks[] = $chunk['name'];
@@ -273,16 +274,6 @@ class module {
                 $module_resources .= "chunks:" . implode(",", $chunks);
             }
 			
-			if (isset($db_file) && !empty($db_file) && file_exists(MODULES_PATH . $module . "/sql/" . $db_file)) {
-				// install db tables
-				include(MANAGER_PATH . "includes/sqlParser.class.php");
-				$sqlFile = MODULES_PATH . $module . "/sql/" . $db_file;
-				$sqlParser = new SqlParser($Resource->dbConfig['host'], $Resource->dbConfig['user'], $Resource->dbConfig['pass'], $Resource->db, $Resource->table_prefix, '', '');
-				$sqlParser->connect();
-				$sqlParser->process($sqlFile);
-				$sqlParser->close();
-			}
-			
             $result = $Resource->putIntTableRow(array('name'=>$module_name, 'description'=>$module_description, 'version'=>$version, 'author'=>$author, 'admin_menu'=>($admin_menu) ? 1:0, 'active'=>1, 'internal_key'=>$module_key, 'resources'=>$module_resources), 'modules');
             
             // move folder to modules folder
@@ -291,6 +282,19 @@ class module {
             $Resource->rrmdir(absolute_base_path . 'tmp/packages/' . $module . "/");
             // remove package file
             @unlink(absolute_base_path . 'tmp/packages/' . $module . $ext);
+			if (isset($db_file) && !empty($db_file) && file_exists(MODULES_PATH . $module . "/sql/" . $db_file)) {
+				// install db tables
+				include(MANAGER_PATH . "includes/sqlParser.class.php");
+				$sqlFile = MODULES_PATH . $module . "/sql/" . $db_file;
+				$sqlParser = new SqlParser($etomite->dbConfig['host'], $etomite->dbConfig['user'], $etomite->dbConfig['pass'], str_replace("`", "", $etomite->dbConfig['dbase']), $etomite->dbConfig['table_prefix'], '', '');
+				$sqlParser->connect();
+				$sqlParser->process($sqlFile);
+				if ($sqlParser->installFailed) {
+					error_log(print_r($sqlParser->mysqlErrors,true));
+				}
+				$sqlParser->close();
+			}
+			
             if ($updating) {
                 $this->respond(true, 'Module Updated');
             } else {

@@ -171,13 +171,13 @@ CREATE TABLE `{PREFIX}template_variables`(
 
 -- Alter table in target 
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `address` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `address` varchar(100)  COLLATE latin1_swedish_ci NOT NULL default '';
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `city` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `city` varchar(100)  COLLATE latin1_swedish_ci NOT NULL default '';
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `state` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `state` varchar(100)  COLLATE latin1_swedish_ci NOT NULL default '';
 
-ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `zip` varchar(100)  COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `zip` varchar(100)  COLLATE latin1_swedish_ci NOT NULL default '';
 
 ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `mailmessages` int(1)   NOT NULL DEFAULT '0';
 
