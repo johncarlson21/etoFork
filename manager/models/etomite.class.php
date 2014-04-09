@@ -534,6 +534,8 @@ class etomite
             $output           = str_replace('!]', ']]', $output);
             $this->parseAgain = true;
             while ($this->parseAgain == true) {
+				$output           = str_replace('[!', '[[', $output);
+            	$output           = str_replace('!]', ']]', $output);
                 $this->parseCount++;
                 $this->parseAgain = false;
                 if ($this->config['dumpSnippets'] == 1) {
@@ -2818,17 +2820,21 @@ title='$siteName'>$siteName</a></h2>
         $parents = $this->getAllChildren($docId = $id, $orderby, $sortDir, $fields = 'id, type, pagetitle, alias, published, parent, isfolder, menuindex, deleted, showinmenu', '', true);
         $tree    = array();
         if ($parents && count($parents) > 0) {
-            if ($id == 0) {
+            /*if ($id == 0) {
                 $root[0]['title']    = $this->config['site_name'];
+				$root[0]['label']	 = $this->config['site_name'];
+				$root[0]['id']		 = '0';
                 $root[0]['key']      = 'id_0';
                 $root[0]['tooltip']  = "Root Site";
-                $root[0]['isfolder'] = 1;
+                $root[0]['is_folder'] = 1;
                 $root[0]['expand']   = true;
                 $root[0]['icon']     = 'globe.gif';
-            }
+            }*/
             for ($i = 0; $i < count($parents); $i++) {
                 $p                      = $parents[$i];
                 $tree[$i]['title']      = $p['pagetitle'] . " (" . $p['id'] . ")";
+				$tree[$i]['label']		= $p['pagetitle'] . " (" . $p['id'] . ")";
+				$tree[$i]['id']			= $p['id'];
                 $tree[$i]['key']        = "id_" . $p['id'];
                 $tree[$i]['docUrl']     = $this->makeUrl($p['id']);
                 $tree[$i]['tooltip']    = "Alias: " . $p['alias'] . " - Menu index: " . $p['menuindex'];
@@ -2837,7 +2843,7 @@ title='$siteName'>$siteName</a></h2>
                 $tree[$i]['deleted']    = $p['deleted'];
                 $tree[$i]['weblink']    = ($p['type'] == 'reference') ? true : false;
                 if ($p['isfolder'] == 1) {
-                    $tree[$i]['isFolder'] = true;
+                    $tree[$i]['is_folder'] = true;
                 }
                 if ($p['type'] == 'reference') {
                     if ($p['isfolder'] == 1) {
@@ -2880,12 +2886,12 @@ title='$siteName'>$siteName</a></h2>
                     }
                 }
             }
-            if ($id == 0) {
+            /*if ($id == 0) {
                 $root[0]['children'] = $tree;
                 return $root;
-            } else {
+            } else {*/
                 return $tree;
-            }
+            //}
         }
         return false;
     }
@@ -2995,9 +3001,9 @@ title='$siteName'>$siteName</a></h2>
         $modules = $this->getIntTableRows('*', 'modules', 'active=1 AND admin_menu=1', 'name', 'ASC');
         $output  = '';
         if (count($modules) > 0) {
-            $output = '<ul>';
+            $output = '<ul class="treeview-menu">';
             foreach ($modules as $module) {
-                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"" . $module['internal_key'] . "\");' href='javascript:;'>" . $module['name'] . "</a></li>";
+                $output .= "<li><a onclick='this.blur(); Etomite.manageModule(\"" . $module['internal_key'] . "\");' href='javascript:;'><i class='fa fa-angle-double-right'></i> " . $module['name'] . "</a></li>";
             }
             $output .= "</ul>";
         }

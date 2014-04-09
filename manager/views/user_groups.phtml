@@ -1,54 +1,64 @@
-<div class="header"><?php echo $this->_lang['access_permissions_user_groups']; ?></div>
-<div id="groups-tabs">
-	<ul>
-        <li><a href="#manage-groups"><?php echo $this->_lang['group_management_title']; ?></a></li>
-    </ul>
-    <div id="manage-groups">
-    	<div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newGroup" class="button"><?php echo $this->_lang['add']; ?></a></div>
-    	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="group-tbl">
-          <thead>
-          	<tr>
-            	<th>Group ID</th>
-                <th>Group Name</th>
-                <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          	<?php
-				if (count($groups) > 0) {
-					foreach($groups as $g) {
-						?>
+<section class="content-header">
+    <h1>
+        <?php echo $this->_lang['group_management_title']; ?>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-group"></i> <?php echo $this->_lang['group_management_title']; ?></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="box box-primary">
+                <div class="box-header">
+                    <i class="fa fa-group"></i>
+                    <h3 class="box-title"><?php echo $this->_lang['group_management_title']; ?></h3>
+                </div>
+                <div class="box-body">
+                	<div style="padding:5px 0;margin-bottom:10px;"><a href="javascript:;" id="newGroup" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $this->_lang['add']; ?></a></div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="group-tbl">
+                      <thead>
                         <tr>
-                        	<td><?php echo $g['id'];?></td>
-                            <td><a href="javascript:;" class="editGroupBtn" id="<?php echo $g['id'];?>" gval="<?php echo $g['name'];?>"><?php echo $g['name'];?></a></td>
-                            <td>
-                            	<a href="javascript:;" class="editGroupBtn" id="<?php echo $g['id'];?>" gval="<?php echo $g['name'];?>">Edit</a> | <a href="javascript:;" class="deleteGroupBtn" id="<?php echo $g['id'];?>">Delete</a>
-                            </td>
+                            <th>Group ID</th>
+                            <th>Group Name</th>
+                            <th>Actions</th>
                         </tr>
+                      </thead>
+                      <tbody>
                         <?php
-					}
-				}
-			?>
-          </tbody>
-        </table>
-    
-    	<script type="text/javascript">
-            $('#newGroup').click(function() {
-                Etomite.createGroup();
-            });
-            $('.editGroupBtn').click(function() {
-                Etomite.editGroup($(this).attr('id'), $(this).attr('gval'));
-            });
-			$('.deleteGroupBtn').click(function() {
-                Etomite.deleteGroup($(this).attr('id'));
-            });
-			roTable = $('#group-tbl').dataTable({
-					"bJQueryUI": true,
-					"sPaginationType": "full_numbers"
-				});
-        </script>    
-    </div>
-</div>
-<script type="text/javascript">
-    $('#groups-tabs').tabs();
-</script>
+                            if (count($groups) > 0) {
+                                foreach($groups as $g) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $g['id'];?></td>
+                                        <td><a href="javascript:;" class="editGroupBtn" id="<?php echo $g['id'];?>" gval="<?php echo $g['name'];?>"><?php echo $g['name'];?></a></td>
+                                        <td>
+                                            <a href="javascript:;" class="editGroupBtn" id="<?php echo $g['id'];?>" gval="<?php echo $g['name'];?>">Edit</a> | <a href="javascript:;" class="deleteGroupBtn" id="<?php echo $g['id'];?>">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                        ?>
+                      </tbody>
+                    </table>
+                
+                    <script type="text/javascript">
+                        $('#newGroup').click(function() {
+                            Etomite.createGroup();
+                        });
+                        $('.editGroupBtn').click(function() {
+                            Etomite.editGroup($(this).attr('id'), $(this).attr('gval'));
+                        });
+                        $('.deleteGroupBtn').click(function() {
+                            Etomite.deleteGroup($(this).attr('id'));
+                        });
+                        roTable = $('#group-tbl').dataTable({
+                                "bJQueryUI": true,
+                                "sPaginationType": "full_numbers"
+                            });
+                    </script>
+                </div>
+            </div>
+</section>

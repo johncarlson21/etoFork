@@ -1,0 +1,153 @@
+			<!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="views/img/avatar5.png" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p>Hello, <?php echo $_SESSION['shortname']; ?></p>
+
+                            <a href="./?logout=1"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>
+                    <!-- search form -->
+                    <?php /*
+					// currently not used.. but maybe later
+					<form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form> */ ?>
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+                        <li>
+                            <a href="./">
+                                <i class="fa fa-dashboard"></i> <span><?php echo $_lang["dashboard"]; ?></span>
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="javascript:;">
+                                <i class="fa fa-laptop"></i>
+                                <span><?php echo $_lang["site"]; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="<?php echo www_base_path; ?>?z=manprev" target="_blank"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["launch_site"]; ?></a></li>
+                                <?php if ($_SESSION['permissions']['empty_cache'] == 1) { ?>
+                                <li><a href="javascript:;" onClick="Etomite.syncSite();"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["refresh_site"]; ?></a></li>
+                                <?php } ?>
+                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('showSiteSchedule');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["site_schedule"]; ?></a></li>
+                                <li><a href="javascript:;" onClick="Etomite.showVisitorStats();"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["visitor_stats"]; ?></a></li>
+                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('showOnlineVisitors');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["visitor_stats_online"]; ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview active">
+                        	<a href="javascript:;">
+                            	<i class="fa fa-folder"></i>
+                                <span><?php echo $_lang["documents"]; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                        	<ul class="treeview-menu">
+                            	<li class="documents">
+                                	<?php include_once('doc_tree.phtml');?>
+                                </li>
+                            </ul>
+                        </li>
+                        <?php  if($_SESSION['permissions']['new_document']==1) { ?>
+                        <li class="treeview">
+                            <a href="javascript:;">
+                                <i class="fa fa-edit"></i> <span><?php echo $_lang["content"]; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="javascript:;" onClick="Etomite.editDocument('');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["add_document"]; ?></a></li>
+                                <li><a href="javascript:;" onClick="Etomite.editDocument('', 0, 'true');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["add_weblink"]; ?></a></li>
+                            </ul>
+                        </li>
+                        <?php } ?>
+                        <?php if($_SESSION['permissions']['new_user']==1 || $_SESSION['permissions']['edit_user']==1 || $_SESSION['permissions']['new_role']==1 || $_SESSION['permissions']['edit_role']==1 || $_SESSION['permissions']['access_permissions']==1) { ?>
+                        <li class="treeview">
+                            <a href="javascript:;">
+                                <i class="fa fa-user"></i>
+                                <span><?php echo $_lang["users"]; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('loadUsersView');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["user_management_title"]; ?></a></li>
+                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('loadGroupsView');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang['group_management_title']; ?></a></li>
+                            </ul>
+                        </li>
+                        <?php }
+                            $allow_resource = false;
+                            foreach ($resourcePermsArr as $perm) {
+                                if ($etomite->checkUserRole($perm, $_SESSION['internalKey'])) {
+                                    $allow_resource = true;
+                                }
+                            }
+                        ?>
+                        <?php if($allow_resource) { ?>
+                        <li class="hidden-xs">
+                            <a href="javascript:;" onClick="Etomite.loadPaneFromAction('loadResourcesView');">
+                                <i class="fa fa-th-list"></i> <span><?php echo $_lang["resource_management"]; ?></span></a>
+                        </li>
+                        <?php } ?>
+                        <li class="treeview hidden-xs">
+                            <a href="javascript:;">
+                                <i class="fa fa-suitcase"></i>
+                                <span><?php echo $_lang['module_management']; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <?php
+							echo $etomite->buildAdminModuleMenu();
+							?>
+                        </li>
+                        <?php if($_SESSION['permissions']['settings']==1 || $_SESSION['permissions']['edit_parser']==1 || $_SESSION['permissions']['logs']==1 || $_SESSION['permissions']['file_manager']==1 || $_SESSION['permissions']['export_html']==1) { ?>
+                        <li class="treeview">
+                            <a href="javascript:;">
+                                <i class="fa fa-gear"></i>
+                                <span><?php echo $_lang["administration"]; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                            	<?php if($_SESSION['permissions']['settings']==1) { ?>
+                                <li><a href="javascript:;" onclick="Etomite.loadPaneFromAction('showSiteSettings');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["edit_settings"]; ?></a></li>
+                                <li><a href="javascript:;" onclick="Etomite.loadPaneFromAction('loadSystemInfo');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["view_sysinfo"]; ?></a></li>
+                                <li><a href="javascript:;" onclick="Etomite.removeLocks();"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["remove_locks"]; ?></a></li>
+                                <?php } ?>
+                                <?php if($_SESSION['permissions']['logs']==1) { ?>
+                                    <!-- <li><a onclick="this.blur(); Etomite.loadPaneFromAction('loadAuditTrail');" href="javascript:;"><?php echo $_lang["view_logging"]; ?></a></li> -->
+                                <?php } ?>
+                                <?php if($_SESSION['permissions']['file_manager']==1) { ?>
+                                <li class="hidden-xs"><a href="javascript:;" onclick="Etomite.loadPaneFromAction('manageFiles');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["manage_files"]; ?></a></li>
+                                <?php } ?>
+                                <?php   if($_SESSION['permissions']['export_html']==1) { 
+								// not really used 
+								} ?>
+                                <li class="hidden-xs"><a href="javascript:;" onclick="Etomite.installModule();"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["manage_modules"]; ?></a></li>
+                            </ul>
+                        </li>
+                        <?php } ?>
+                        <?php if($_SESSION['permissions']['help']==1) { ?>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-asterisk"></i>
+                                <span><?php echo $_lang["help"]; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="javascript:;" onclick="Etomite.loadPaneFromAction('loadHelp');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["help"]; ?></a></li>
+                                <li><a href="javascript:;" onclick="Etomite.loadPaneFromAction('loadAbout');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["about"]; ?></a></li>
+                            </ul>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>

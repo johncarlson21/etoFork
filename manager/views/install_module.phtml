@@ -1,17 +1,30 @@
-<div class="header"><?php echo $etomite->_lang['manage_modules']; ?></div>
-<div id="module-manager-tabs">
-    <ul>
-        <li><a href="#module-list"><?php echo $etomite->_lang['modules_list']; ?></a></li>
-        <li><a href="#install-module"><?php echo $etomite->_lang["modules_install_new"]; ?></a></li>
-    </ul>
-    <div id="module-list"><?php $this->listModules();?></div>
-    <div id="install-module">
-        <?php echo $etomite->_lang["module_install_msg"]; ?>
-        <p><strong><?php echo $etomite->_lang["module"]; ?>:</strong> <input type="text" name="module" id="module_name" value="" /> &nbsp; <a href="#" class="install-module-btn button"><?php echo $etomite->_lang["install"]; ?></a></p>
-        <p>&nbsp;</p>
-        <div id="fileManager"></div>
+<section class="content-header">
+    <h1>
+        <?php echo $etomite->_lang['manage_modules']; ?>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-gears"></i> <?php echo $etomite->_lang['manage_modules']; ?></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="nav-tabs-custom">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#module-list" data-toggle="tab"><?php echo $etomite->_lang['modules_list']; ?></a></li>
+        	<li><a href="#install-module" data-toggle="tab"><?php echo $etomite->_lang["modules_install_new"]; ?></a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="module-list" style="position: relative;">
+            	<?php $this->listModules();?>
+            </div>
+            <div class="tab-pane" id="install-module" style="position: relative;">
+            	<?php echo $etomite->_lang["module_install_msg"]; ?>
+                <p><strong><?php echo $etomite->_lang["module"]; ?>:</strong> <input type="text" name="module" id="module_name" value="" /> &nbsp; <a href="#" class="install-module-btn button"><?php echo $etomite->_lang["install"]; ?></a></p>
+                <div id="fileManager"></div>
+            </div>
+        </div>
     </div>
-</div>
-<script type="text/javascript">
-	$('#module-manager-tabs').tabs();
-</script>
+</section>

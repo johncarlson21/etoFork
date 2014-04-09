@@ -1,261 +1,115 @@
-<div class="header">Welcome</div>
 <?php include_once("./includes/config_check.inc.php"); ?>
-<div id="welcome-tabs">
-    <ul>
-        <li><a href="#welcome"><span><?php echo $_lang["welcome_title"]; ?></span></a></li>
-        <li><a href="#recent"><span><?php echo $_lang["activity_title"]; ?></span></a></li>
-        <li><a href="#your-info"><span><?php echo $_lang["yourinfo_title"]; ?></span></a></li>
-        <li><a href="#online-users"><span><?php echo $_lang["onlineusers_title"]; ?></span></a></li>
-        <li><a href="#config-check"><span><?php echo $_lang["configcheck_title"]; ?></span></a></li>
-    </ul>
-    <div id="welcome">
-    <table border="0" cellpadding="5" width="100%">
-          <tr>
-            <td style="width:10%;" align="right">
-              <img src='./images/misc/etofork_logo.png' alt='<?php echo $_lang["etomite_slogan"]; ?>' />
-              <p>&nbsp;</p>
-          </td>
-          <td valign="top">
-            <p><b><?php echo $_lang["welcome_title"]; ?></b></p><?php echo $_lang["welcome_message"]; ?>
-    
-    <?php
-    if($etomite->config['track_visitors'] == 1)
-    {
-      $day      = date('j');
-      $month    = date('n');
-      $year     = date('Y');
-    
-      $monthStart = mktime(0,   0,  0, $month, 1, $year);
-      $monthEnd   = mktime(23, 59, 59, $month, date('t', $monthStart), $year);
-    
-      $dayStart = mktime(0,   0,  0, $month, $day, $year);
-      $dayEnd   = mktime(23, 59, 59, $month, $day, $year);
-    
-      // get page impressions for today
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$dayStart."' AND timestamp < '".$dayEnd."'";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $piDay = $tmp['COUNT(*)'];
-    
-      // get page impressions for this month
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$monthStart."' AND timestamp < '".$monthEnd."'";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $piMonth = $tmp['COUNT(*)'];
-    
-      // get page impressions for all time
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(*) FROM $tbl";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $piAll = $tmp['COUNT(*)'];
-    
-      // get visits for today
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$dayStart."' AND timestamp < '".$dayEnd."' AND entry='1'";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $viDay = $tmp['COUNT(*)'];
-    
-      // get visits for this month
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$monthStart."' AND timestamp < '".$monthEnd."' AND entry='1'";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $viMonth = $tmp['COUNT(*)'];
-    
-      // get visits for all time
-      $tbl = $etomite->db."log_access WHERE entry='1'";
-      $sql = "SELECT COUNT(*) FROM $tbl";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $viAll = $tmp['COUNT(*)'];
-    
-      // get visitors for today
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(DISTINCT(visitor)) FROM $tbl WHERE timestamp > '".$dayStart."' AND timestamp < '".$dayEnd."'";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $visDay = $tmp['COUNT(DISTINCT(visitor))'];
-    
-      // get visitors for this month
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(DISTINCT(visitor)) FROM $tbl WHERE timestamp > '".$monthStart."' AND timestamp < '".$monthEnd."'";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $visMonth = $tmp['COUNT(DISTINCT(visitor))'];
-    
-      // get visitors for all time
-      $tbl = $etomite->db."log_access";
-      $sql = "SELECT COUNT(DISTINCT(visitor)) FROM $tbl";
-      $rs = $etomite->dbQuery($sql);
-      $tmp = $etomite->fetchRow($rs);
-      $visAll = $tmp['COUNT(DISTINCT(visitor))'];
-    
-      $statMsg = $_lang['welcome_visitor_stats'];
-    }
-    else
-    {
-      $statMsg = $_lang['no_stats_message'];
-    }
-    echo '<span class="menuHeader">'.$statMsg.'</span>';
-    ?>
-    
-        </td>
-        </tr>
-    
-    <?php if($_SESSION['permissions']['messages']==1) { ?>
-    
-        <tr>
-          <td colspan="2">
-            <i><a href="index.php?a=10"><img src="images/icons/messages.gif" alt="Messages" />
-            </a>&nbsp;<?php printf($_lang["welcome_messages"], $_SESSION['nrtotalmessages'], isset($_SESSION['nrnewmessages']) ? $_SESSION['nrnewmessages'] : 0); ?></i>
-          </td>
-        </tr>
-    
-    <?php } ?>
-    
-      </table>
-      <table width="100%" border="0" cellspacing="1" cellpadding="3" style="background-color: #000;">
-      <thead>
-        <tr>
-          <td style="width:25%;">&nbsp;</td>
-          <td align="right" style="width:25%;"><?php echo $_lang['visitors']; ?></td>
-          <td align="right" style="width:25%;"><?php echo $_lang['visits']; ?></td>
-          <td align="right" style="width:25%;"><?php echo $_lang['page_impressions']; ?></td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td align="right" class='row3'><?php echo $_lang['today']; ?></td>
-          <td align="right" class='row1'><?php echo number_format($visDay); ?></td>
-          <td align="right" class='row1'><?php echo number_format($viDay); ?></td>
-          <td align="right" class='row1'><?php echo number_format($piDay); ?></td>
-        </tr>
-        <tr>
-          <td align="right" class='row3'><?php echo $_lang['this_month']; ?></td>
-          <td align="right" class='row1'><?php echo number_format($visMonth); ?></td>
-          <td align="right" class='row1'><?php echo number_format($viMonth); ?></td>
-          <td align="right" class='row1'><?php echo number_format($piMonth); ?></td>
-        </tr>
-        <tr>
-          <td align="right" class='row3'><?php echo $_lang['all_time']; ?></td>
-          <td align="right" class='row1'><?php echo number_format($visAll); ?></td>
-          <td align="right" class='row1'><?php echo number_format($viAll); ?></td>
-          <td align="right" class='row1'><?php echo number_format($piAll); ?></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
-    <div id="recent">
-        <?php
-        $sql = "SELECT id, pagetitle, description, type FROM ".$etomite->db."site_content WHERE ".$etomite->db."site_content.deleted=0 AND (".$etomite->db."site_content.editedby=".$_SESSION['internalKey']." OR ".$etomite->db."site_content.createdby=".$_SESSION['internalKey'].") ORDER BY editedon DESC LIMIT ".$etomite->config['top_howmany'].";";
-        $rs = $etomite->dbQuery($sql);
-        $limit = $etomite->recordCount($rs);
-        $activity = ($limit<1) ? $_lang["no_activity_message"] : $_lang["activity_message"];
-        ?>
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Welcome</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    </ol>
+</section>
 
-        <div class="menuHeader"><?php echo $activity; ?></div><br />
-            <ul>
-            <?php
-            for ($i = 0; $i < $limit; $i++):
-                $content = $etomite->fetchRow($rs);
-                if($i == 0) $syncid = $content['id'];
-            ?>
-                <li>(<?php echo $content['id']; ?>) <a href='javascript:;' onclick="Etomite.editDocument('<?php echo $content['id'];?>', '', <?php echo ($content['type'] == 'reference') ? "'true'" : "''";?>);"><?php echo $content['pagetitle']; ?></a>
-                    <?php echo $content['description']!='' ? '<span>&nbsp;-&nbsp;'.$content['description'].'</span>' : ''; ?>
-                </li>
-            <?php endfor; ?>
-            </ul>
+<!-- Main content -->
+<section class="content">
+	<!-- top row used for sortable-->
+    <div class="row">
+        <div class="col-xs-12 connectedSortable">
+            
+        </div><!-- /.col -->
     </div>
-    <div id="your-info">
-        <div class="menuHeader"><?php echo $_lang["yourinfo_message"]; ?></div>
-        <br />
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td style="width:150px;"><?php echo $_lang["yourinfo_username"]; ?></td>
-            <td style="width:20px;">&nbsp;</td>
-            <td><b><?php echo $_SESSION['shortname']; ?></b></td>
-          </tr>
-          <tr>
-            <td><?php echo $_lang['user_full_name']; ?></td>
-            <td>&nbsp;</td>
-            <td><b><?php echo $_SESSION['fullname']; ?></b></td>
-          </tr>
-          <!-- <tr>
-            <td><?php echo $_lang["yourinfo_role"]; ?></td>
-            <td>&nbsp;</td>
-            <td><b><?php echo $_SESSION['permissions']['name']; ?></b></td>
-          </tr>
-          <tr>
-            <td><?php echo $_lang["document_description"]; ?>:</td>
-            <td>&nbsp;</td>
-            <td><b><?php echo $_SESSION['permissions']['description']; ?></b></td>
-          </tr> -->
-          <tr>
-            <td><?php echo $_lang["yourinfo_previous_login"]; ?></td>
-            <td>&nbsp;</td>
-            <td><b><?php echo strftime($etomite->config['date_format'].' @ '.$etomite->config['time_format'], $_SESSION['lastlogin']+$server_offset_time); ?></b></td>
-          </tr>
-          <tr>
-            <td><?php echo $_lang["your_ip_address"]; ?></td>
-            <td>&nbsp;</td>
-            <td><b><?php echo $_SESSION['ip']; ?></b></td>
-          </tr>
-          <tr>
-            <td><?php echo $_lang["yourinfo_total_logins"]; ?></td>
-            <td>&nbsp;</td>
-            <td><b><?php echo $_SESSION['nrlogins']+1; ?></b></td>
-          </tr>
-        </table>
-    </div>
-    <div id="online-users">
-        <div class="menuHeader">
-          <?php echo $_lang["onlineusers_message"]."&nbsp;".strftime($etomite->config['time_format'], time()+$etomite->config['server_offset_time']); ?>
-        </div>
-        <br />
-        <table border="0" cellspacing="0" cellpadding="0" width="100%">
-          <thead>
-            <tr>
-              <td><b><?php echo $_lang["onlineusers_user"]; ?></b></td>
-              <td><b><?php echo $_lang["onlineusers_userid"]; ?></b></td>
-              <td><b><?php echo $_lang["onlineusers_ipaddress"]; ?></b></td>
-              <td><b><?php echo $_lang["onlineusers_lasthit"]; ?></b></td>
-              <td><b><?php echo $_lang["onlineusers_action"]; ?></b></td>
-            </tr>
-          </thead>
-          <tbody>
+    <!-- /.row -->
+	<div class="row">
+        <!-- Left col -->
+        <section class="col-lg-6 connectedSortable">
+        	<!-- welcome message and logs -->
+        	<div class="box box-primary">
+                <div class="box-header">
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button class="btn btn-primary btn-sm pull-right" data-widget='collapse' data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
+                    </div><!-- /. tools -->
     
-    <?php
-    $timetocheck = (time()-(60*20)); //+$etomite->config['server_offset_time'];
-    include_once("includes/actionlist.inc.php");
-    $sql = "SELECT * FROM ".$etomite->db."active_users WHERE ".$etomite->db."active_users.lasthit > '".$timetocheck."' ORDER BY username ASC";
-    $rs = $etomite->dbQuery($sql);
-    $limit = $etomite->recordCount($rs);
-    if($limit < 1)
-    {
-      echo "<tr><td colspan='5'>No active users found.</td></tr>";
-    }
-    else
-    {
-      for($i = 0; $i < $limit; $i++)
-      {
-        $activeusers = $etomite->fetchRow($rs);
-        $currentaction = getAction($activeusers['action'], $activeusers['id']);
-        echo "<tr><td><b>".$activeusers['username']."</td><td>".$activeusers['internalKey']."</td><td></b>".$activeusers['ip']."</td><td>".strftime($etomite->config['time_format'], $activeusers['lasthit']+$etomite->config['server_offset_time'])."</td><td>$currentaction</td></tr>";
-      }
-    }
-    ?>
+                    <i class="fa fa-cloud"></i>
+                    <h3 class="box-title">
+                        <?php echo $_lang["welcome_title"]; ?>
+                    </h3>
+                </div>
+                <div class="box-body">
+                <?php include_once('welcome_logs.phtml'); ?>
+                </div>
+            </div><!-- /.end box --><!-- end welcome logs -->
+            <!-- your info -->
+        	<div class="box box-success">
+                <div class="box-header">
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button class="btn btn-primary btn-sm pull-right" data-widget='collapse' data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
+                    </div><!-- /. tools -->
     
-        </tbody>
-        </table>
+                    <i class="fa fa-cloud"></i>
+                    <h3 class="box-title">
+                        <?php echo $_lang["yourinfo_title"]; ?>
+                    </h3>
+                </div>
+                <div class="box-body">
+                <?php include_once('welcome_user_info.phtml'); ?>
+                </div>
+            </div><!-- /.end box --><!-- end your info -->
+            <!-- config check -->
+        	<div class="box box-danger">
+                <div class="box-header">
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button class="btn btn-primary btn-sm pull-right" data-widget='collapse' data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
+                    </div><!-- /. tools -->
+    
+                    <i class="fa fa-cloud"></i>
+                    <h3 class="box-title">
+                        <?php echo $_lang["configcheck_title"]; ?>
+                    </h3>
+                </div>
+                <div class="box-body">
+                <?php echo $config_check_results; ?>
+                </div>
+            </div><!-- /.end box --><!-- end config check -->
+        </section><!-- /.Left col -->
+        <!-- right col-->
+        <section class="col-lg-6 connectedSortable">
+        	<!-- recent activity -->
+        	<div class="box box-warning">
+                <div class="box-header">
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button class="btn btn-primary btn-sm pull-right" data-widget='collapse' data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
+                    </div><!-- /. tools -->
+    
+                    <i class="fa fa-cloud"></i>
+                    <h3 class="box-title">
+                        <?php echo $_lang["activity_title"]; ?>
+                    </h3>
+                </div>
+                <div class="box-body">
+                <?php include_once('welcome_recent.phtml'); ?>
+                </div>
+            </div><!-- /.end box --><!-- end recent activity -->
+            <!-- online users -->
+        	<div class="box box-primary">
+                <div class="box-header">
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button class="btn btn-primary btn-sm pull-right" data-widget='collapse' data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
+                    </div><!-- /. tools -->
+    
+                    <i class="fa fa-cloud"></i>
+                    <h3 class="box-title">
+                        <?php echo $_lang["onlineusers_title"]; ?>
+                    </h3>
+                </div>
+                <div class="box-body">
+                <?php include_once('welcome_online_users.phtml'); ?>
+                </div>
+            </div><!-- /.end box --><!-- end online users -->
+            
+    	</section><!-- /.right col -->
     </div>
-    <div id="config-check">
-        <?php echo $config_check_results; ?>
-    </div>
-</div>
-<script type="text/javascript">
-    $('#welcome-tabs').tabs();
-</script>
+</section>

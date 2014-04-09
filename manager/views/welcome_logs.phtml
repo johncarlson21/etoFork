@@ -1,0 +1,125 @@
+<p><img src='./images/misc/etofork_logo.png' alt='<?php echo $_lang["etomite_slogan"]; ?>' style="float:left;margin: 0 20px 10px 0;" /><strong><?php echo $_lang["welcome_title"]; ?></strong></p><?php echo $_lang["welcome_message"]; ?>
+    
+    <?php
+    if($etomite->config['track_visitors'] == 1)
+    {
+      $day      = date('j');
+      $month    = date('n');
+      $year     = date('Y');
+    
+      $monthStart = mktime(0,   0,  0, $month, 1, $year);
+      $monthEnd   = mktime(23, 59, 59, $month, date('t', $monthStart), $year);
+    
+      $dayStart = mktime(0,   0,  0, $month, $day, $year);
+      $dayEnd   = mktime(23, 59, 59, $month, $day, $year);
+    
+      // get page impressions for today
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$dayStart."' AND timestamp < '".$dayEnd."'";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $piDay = $tmp['COUNT(*)'];
+    
+      // get page impressions for this month
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$monthStart."' AND timestamp < '".$monthEnd."'";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $piMonth = $tmp['COUNT(*)'];
+    
+      // get page impressions for all time
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(*) FROM $tbl";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $piAll = $tmp['COUNT(*)'];
+    
+      // get visits for today
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$dayStart."' AND timestamp < '".$dayEnd."' AND entry='1'";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $viDay = $tmp['COUNT(*)'];
+    
+      // get visits for this month
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(*) FROM $tbl WHERE timestamp > '".$monthStart."' AND timestamp < '".$monthEnd."' AND entry='1'";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $viMonth = $tmp['COUNT(*)'];
+    
+      // get visits for all time
+      $tbl = $etomite->db."log_access WHERE entry='1'";
+      $sql = "SELECT COUNT(*) FROM $tbl";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $viAll = $tmp['COUNT(*)'];
+    
+      // get visitors for today
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(DISTINCT(visitor)) FROM $tbl WHERE timestamp > '".$dayStart."' AND timestamp < '".$dayEnd."'";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $visDay = $tmp['COUNT(DISTINCT(visitor))'];
+    
+      // get visitors for this month
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(DISTINCT(visitor)) FROM $tbl WHERE timestamp > '".$monthStart."' AND timestamp < '".$monthEnd."'";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $visMonth = $tmp['COUNT(DISTINCT(visitor))'];
+    
+      // get visitors for all time
+      $tbl = $etomite->db."log_access";
+      $sql = "SELECT COUNT(DISTINCT(visitor)) FROM $tbl";
+      $rs = $etomite->dbQuery($sql);
+      $tmp = $etomite->fetchRow($rs);
+      $visAll = $tmp['COUNT(DISTINCT(visitor))'];
+    
+      $statMsg = $_lang['welcome_visitor_stats'];
+    }
+    else
+    {
+      $statMsg = $_lang['no_stats_message'];
+    }
+	?>
+<table border="0" cellpadding="5" width="100%">
+    <tr>
+    	<td>
+    <?php
+    echo '<span class="menuHeader">'.$statMsg.'</span>';
+    ?>
+    
+        </td>
+        </tr>
+      </table>
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th><?php echo $_lang['visitors']; ?></th>
+          <th><?php echo $_lang['visits']; ?></th>
+          <th><?php echo $_lang['page_impressions']; ?></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><?php echo $_lang['today']; ?></td>
+          <td><?php echo number_format($visDay); ?></td>
+          <td><?php echo number_format($viDay); ?></td>
+          <td><?php echo number_format($piDay); ?></td>
+        </tr>
+        <tr>
+          <td><?php echo $_lang['this_month']; ?></td>
+          <td><?php echo number_format($visMonth); ?></td>
+          <td><?php echo number_format($viMonth); ?></td>
+          <td><?php echo number_format($piMonth); ?></td>
+        </tr>
+        <tr>
+          <td><?php echo $_lang['all_time']; ?></td>
+          <td><?php echo number_format($visAll); ?></td>
+          <td><?php echo number_format($viAll); ?></td>
+          <td><?php echo number_format($piAll); ?></td>
+        </tr>
+      </tbody>
+      </table>

@@ -1,0 +1,37 @@
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="width:150px;"><?php echo $_lang["yourinfo_username"]; ?></td>
+    <td style="width:20px;">&nbsp;</td>
+    <td><b><?php echo $_SESSION['shortname']; ?></b></td>
+  </tr>
+  <tr>
+    <td><?php echo $_lang['user_full_name']; ?></td>
+    <td>&nbsp;</td>
+    <td><b><?php echo $_SESSION['fullname']; ?></b></td>
+  </tr>
+  <!-- <tr>
+    <td><?php echo $_lang["yourinfo_role"]; ?></td>
+    <td>&nbsp;</td>
+    <td><b><?php echo $_SESSION['permissions']['name']; ?></b></td>
+  </tr>
+  <tr>
+    <td><?php echo $_lang["document_description"]; ?>:</td>
+    <td>&nbsp;</td>
+    <td><b><?php echo $_SESSION['permissions']['description']; ?></b></td>
+  </tr> -->
+  <tr>
+    <td><?php echo $_lang["yourinfo_previous_login"]; ?></td>
+    <td>&nbsp;</td>
+    <td><b><?php echo strftime($etomite->config['date_format'].' @ '.$etomite->config['time_format'], $_SESSION['lastlogin']+$server_offset_time); ?></b></td>
+  </tr>
+  <tr>
+    <td><?php echo $_lang["your_ip_address"]; ?></td>
+    <td>&nbsp;</td>
+    <td><b><?php echo $_SESSION['ip']; ?></b></td>
+  </tr>
+  <tr>
+    <td><?php echo $_lang["yourinfo_total_logins"]; ?></td>
+    <td>&nbsp;</td>
+    <td><b><?php echo $_SESSION['nrlogins']+1; ?></b></td>
+  </tr>
+</table>

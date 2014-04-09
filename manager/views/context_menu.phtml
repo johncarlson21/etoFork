@@ -1,0 +1,38 @@
+<!-- Definition of context menu -->
+<ul id="myMenu" class="contextMenu">
+    <li class="header"></li>
+    <li class="preview"><a href="#preview"><?php echo $_lang["preview"]; ?></a></li>
+    <?php if ($etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
+    <li class="edit"><a href="#edit"><?php echo $_lang["edit"]; ?></a></li>
+    <li class="duplicate"><a href="#duplicate"><?php echo $_lang['duplicate']; ?></a></li>
+    <li class="move"><a href="#move"><?php echo $_lang['change_parent_document']; ?></a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('new_document', $_SESSION['internalKey'])) {?>
+    <li class="createDoc separator"><a href="#createDoc"><?php echo $_lang["create_document_here"]; ?></a></li>
+    <li class="createLink"><a href="#createLink"><?php echo $_lang["create_weblink_here"]; ?></a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
+    <li class="publish separator"><a href="#publish"><?php echo $_lang["publish_document"]; ?></a></li>
+    <li class="unpublish"><a href="#unpublish"><?php echo $_lang["unpublish_document"]?></a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('delete_document', $_SESSION['internalKey'])) {?>
+    <li class="delete separator"><a href="#delete"><?php echo $_lang["delete"]; ?></a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
+    <li class="undelete"><a href="#undelete"><?php echo $_lang["undelete"]; ?></a></li>
+    <li class="showinmenu separator"><a href="#showinmenu"><?php echo $_lang["showinmenu"]; ?></a></li>
+    <li class="hideinmenu"><a href="#hideinmenu"><?php echo $_lang["hideinmenu"]; ?></a></li>
+    <?php } ?>
+</ul>
+<!-- Definition of context menu -->
+<ul id="myRootMenu" class="contextMenu">
+    <li class="header"></li>
+    <?php if ($etomite->checkUserRole('new_document', $_SESSION['internalKey'])) {?>
+    <li class="createDoc"><a href="#createDoc"><?php echo $_lang["create_document_here"]; ?></a></li>
+    <li class="createLink"><a href="#createLink"><?php echo $_lang["create_weblink_here"]; ?></a></li>
+    <?php } ?>
+    <?php if ($etomite->checkUserRole('delete_document', $_SESSION['internalKey']) && $etomite->checkUserRole('edit_document', $_SESSION['internalKey'])) {?>
+    <li class="purgeDocs separator"><a href="#purgeDocs"><?php echo $_lang["empty_recycle_bin"]; ?></a></li>
+    <li class="refreshTree"><a href="#refreshTree"><?php echo $_lang["refresh_tree"]; ?></a></li>
+    <?php } ?>
+</ul>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $etomite->config['full_appname'];?></title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+<script type="text/javascript" src="./js/etomite.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        Etomite.EtoRoot = "<?php echo absolute_base_path; ?>";
+        Etomite.rel = "<?php echo relative_base_path ?>";
+        Etomite.db_url = "<?php echo www_base_path ?>";
+        Etomite.cssPath = "<?php echo $cssPath; ?>";
+        Etomite.dateFormat = "<?php echo $etomite->config['date_format']; ?>";
+        Etomite.timeFormat = "<?php echo $etomite->config['$time_format']; ?>";
+        Etomite.init();
+    });
+</script>
+</head>
+<body>
+    <div data-role="page" id="home">
+        <div data-role="header"><h1><?php echo $etomite->config['full_appname'];?> - Admin</h1></div>
+        <div data-role="content">
+            <p><b><?php echo $_lang["welcome_title"]; ?></b></p><?php echo $_lang["welcome_message"]; ?>
+        </div>
+        <!-- <div data-role="footer"></div> -->
+    </div>
+</body>
+</html>

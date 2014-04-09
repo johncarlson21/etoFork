@@ -1,8 +1,7 @@
-<div class="content">
-    <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#000000">
+    <table class="table">
     <thead>
       <tr>
-        <td colspan="2"><b><?php printf($this->_lang['stats_title'], $this->config['site_name'], strftime($this->config['date_format'], $startdate), strftime($this->config['date_format'], $enddate)); ?></b></td>
+        <th colspan="2"><?php printf($this->_lang['stats_title'], $this->config['site_name'], strftime($this->config['date_format'], $startdate), strftime($this->config['date_format'], $enddate)); ?></th>
       </tr>
     </thead>
     <tbody>
@@ -22,7 +21,7 @@
   </table>
 
   <p style="text-align:center;">
-    <input type="button" name='clear_visitor_logs' value="<?php echo $this->_lang['empty_visitor_logs']; ?>" onclick="if(confirm('<?php echo $this->_lang['empty_visitor_logs_confirm']; ?>')==true) document.location.href='index.php?a=56';" /> Does not currently work
+    <input type="button" class="btn btn-default" name='clear_visitor_logs' value="<?php echo $this->_lang['empty_visitor_logs']; ?>" onclick="if(confirm('<?php echo $this->_lang['empty_visitor_logs_confirm']; ?>')==true) document.location.href='index.php?a=56';" /> Does not currently work
   </p>
 
   <?php
@@ -32,10 +31,10 @@
   ?>
 
   <!-- Monthly Stats -->
-  <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#000000">
+  <table class="table-striped table">
     <thead>
       <tr>
-        <td colspan="7"><b><?php echo $this->_lang['stats_monthly_breakup']; ?></b></td>
+        <th colspan="7"><?php echo $this->_lang['stats_monthly_breakup']; ?></th>
       </tr>
     </thead>
     <tbody>
@@ -100,10 +99,10 @@
   ?>
 
   <!-- Daily Stats -->
-  <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#000000">
+  <table class="table-striped table">
     <thead>
       <tr>
-        <td colspan="7"><b><?php echo $this->_lang['stats_daily_breakup']; ?></b></td>
+        <th colspan="5"><?php echo $this->_lang['stats_daily_breakup']; ?></th>
       </tr>
     </thead>
     <tbody>
@@ -156,10 +155,10 @@
   ?>
 
   <!-- Hourly Stats -->
-  <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#000000">
+  <table class="table-striped table">
     <thead>
       <tr>
-        <td colspan="7"><b><?php echo $this->_lang['stats_hourly_breakup']; ?></b></td>
+        <td colspan="5"><b><?php echo $this->_lang['stats_hourly_breakup']; ?></b></td>
       </tr>
     </thead>
     <tbody>
@@ -210,4 +209,3 @@
   break;
 }
 ?>
-</div>

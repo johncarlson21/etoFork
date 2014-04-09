@@ -24,16 +24,12 @@ var Etomite = {
             $('.error').text('').hide();
             var uname = $('#username').val();
             var pword = $('#password').val();
-            var terms = ($('#licenseOK').is(':checked')) ? true : false;
             var error = '';
             if(uname == null || uname == "" || uname == " "){
                 error += "Username cannot be empty!\n";
             }
             if(pword == null || pword == "" || pword == " "){
                 error += "Password cannot be empty!\n";
-            }
-            if(terms == false){
-                error += "You must aggree to Etomite GPL License";
             }
             if(error != ""){
                 alert(error);
@@ -50,7 +46,7 @@ var Etomite = {
                 },
                 success: function(json) {
                     if ((json === null) || (json.succeeded !== true)) {
-                        $('.error').text('Error: ' + json.message).show();
+						$('.error').html('<i class="fa fa-ban"></i>' + json.message).show();
                     } else {
                         if (Etomite.isMobile) {
                             $('.success').css({color:'#62A624'});
@@ -85,7 +81,7 @@ var Etomite = {
         $.ajaxSetup({ type: 'POST' });
         
         if (Etomite.inAdmin == true) {
-            Etomite.loadDocTree();
+			Etomite.loadDocTree();
         }
         
     },
@@ -122,7 +118,7 @@ var Etomite = {
             success: function (content) {
                 var p = $('#mainContent');
                 p.html(content);
-                Etomite.outerLayout.initContent('center');
+                //Etomite.outerLayout.initContent('center');
                 setTimeout(function() {
                     spin(false);
                 }, 1000);
@@ -134,113 +130,268 @@ var Etomite = {
         spin();
         var p = $('#mainContent');
         p.html(content);
-        Etomite.outerLayout.initContent('center');
+        //Etomite.outerLayout.initContent('center');
         setTimeout(function() {
             spin(false);
         }, 1000);
     },
     
     loadDocTree: function() {
-        $("#docTree").dynatree({
-            initAjax: {
-                url: 'ActionServer.php',
-                data: {
-                    action: 'getDocTree'
-                }
-            },
-            imagePath: 'lib/dynatree/skin-vista/',
-            persist: true,
-            debugLevel: 0,
-            onClick: function(node, event) {
-                if (Etomite.movingDoc) {
-                    var pid = node.data.key.replace(/id_/, '');
-                    Etomite.moveDocument(Etomite.movingDocId, pid);
-                    return false;
-                }
-                if (Etomite.editingDoc && $('#parent').length > 0) {
-                    var parentname = node.data.title;
-                    var pid = node.data.key.replace(/id_/, '');
-                    if (pid == '0') { parentname += " (0)"; }
-                    $('#parent').val(pid);
-                    $('#parentName').text(parentname);
-                    return false;
-                }
-
-                // Close menu on click
-                if( $(".contextMenu:visible").length > 0 ){
-                    $(".contextMenu").hide();
-                }
-            },
-            
-            onFocus: function(node, event) {
-                
-            },
-            
-            /*Bind context menu for every node when it's DOM element is created.
-              We do it here, so we can also bind to lazy nodes, which do not
-              exist at load-time. (abeautifulsite.net menu control does not
-              support event delegation)*/
-            onCreate: function(node, span){
-                var nsp = $(span).find("a.dynatree-title");
-                if (node.data.published == '0') {
-                    nsp.addClass('unpublishedNode');
-                }
-                if (node.data.showinmenu == '0') {
-                    nsp.addClass('hiddenNode');
-                }
-                if (node.data.deleted == '1') {
-                    nsp.addClass('deletedNode');
-                }
-                if (node.data.key == "id_0") {
-                    bindRootContextMenu(node, span);
-                } else {
-                    bindContextMenu(node, span);
-                }
-            },
-        /* D'n'd, just to show it's compatible with a context menu.
-           See http://code.google.com/p/dynatree/issues/detail?id=174 */
-        dnd: {
-            preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
-            onDragStart: function(node) {
-                return true;
-            },
-            onDragEnter: function(node, sourceNode) {
-                if(node.parent !== sourceNode.parent)
-                    return false;
-                return ["before", "after"];
-            },
-            onDrop: function(node, sourceNode, hitMode, ui, draggable) {
-                sourceNode.move(node, hitMode);
-                /*var dict = $("#docTree").dynatree("getTree").toDict();
-                var children = dict.children;
-                var treeOrder = new Array();
-                var b = 0;
-                for(i=0;i < children.length;i++) {
-                    treeOrder[b] = children[i]['key'];
-                    b++;
-                    if(children[i]['children'].length > 0){
-                        for(z=0;z < children[i]['children'].length;z++){
-                            treeOrder[b] = children[i]['children'][z]['key'];
-                            b++;
-                        }
-                    }
-                }*/
-                $.ajax({
-                    url: 'ActionServer.php',
-                    dataType: 'json',
-                    data: {
-                        action: 'saveTree',
-                        tree: $("#docTree").dynatree("getTree").toDict() //treeOrder
-                    },
-                    success: function(json) {
-                        if(json === null && json.succeed !== true) {
-                            Etomite.errorDialog('Error moving document', 'Error');
-                        }
-                    }
-                });
-            }
-        }
-        });
+		$.contextMenu('destroy', '#docTree .jqtree-tree');
+		$('#docTree').tree('destroy');
+		
+		// create root context
+		$('#rootNode').contextMenu({
+			selector: 'span',
+			autoHide: true,
+			callback: function(key, options) {
+				if (Etomite.editingDoc == true || Etomite.movingDoc == true) {
+					alert('You are editing or moving a document! Please save or cancel first!');
+					return;
+				}
+				var id = $(this).attr('data-id');
+				switch( key ) {
+					case "create":
+						Etomite.editDocument('', id);
+						break;
+					case "createw":
+						Etomite.editDocument('', id, 'true');
+						break;
+					case "purge":
+						$('<div id="confirm"></div>').appendTo('body').html("<p>Are you sure you want to delete this document and all child documents?</p><p>THERE IS NO GOING BACK!</p>");
+						$('#confirm').dialog({
+							dialogClass: "no-close",
+							autoOpen: true,
+							minWidth: 200,
+							minHeight: 200,
+							position: 'center',
+							resizable: false,
+							closeOnEscape: false,
+							title: 'Alert: Purge Documents',
+							modal: true,
+							buttons: {
+								Yes: function() {
+									Etomite.purgeDocuments();
+									$(this).dialog('close');
+									$(this).dialog('destroy');
+									$('#confirm').remove();
+								},
+								No: function() {
+									$(this).dialog('close');
+									$(this).dialog('destroy');
+									$('#confirm').remove();
+								}
+							}
+						});
+						break;
+					case "refresh":
+						Etomite.loadDocTree();
+						break;
+				}
+			},
+			items: {
+				"create": {name: "Create Document Here", icon: "add"},
+				"createw": {name: "Create Weblink Here", icon: "addw"},
+				"sep1": "---------",
+				"purge": {name: "Purge Documents", icon: "purge"},
+				"refresh": {name: "Refresh Documents", icon: "refresh"}
+			},
+			events: {
+				show: function(opt) {
+					
+				}
+			}
+		});
+				
+		$('#docTree').tree({
+			dataUrl: 'ActionServer.php?action=getDocTree',
+			dragAndDrop: true,
+			autoOpen: 0,
+			onCreateLi: function(node, $li) {
+				$li.find('.jqtree-element').first().attr('data-id', node.id);
+				$li.find('.jqtree-element').first().attr('data-docurl', node.docUrl);
+				$li.find('.jqtree-element').first().attr('data-weblink', node.weblink);
+				if (node.is_folder == 1) {
+					$li.find('.jqtree-title').before('<i class="fa fa-folder-o"></i> &nbsp;');	
+				} else if (node.weblink == 'true') {
+					$li.find('.jqtree-title').before('<i class="fa fa-globe"></i> &nbsp;');
+				} else {
+					$li.find('.jqtree-title').before('<i class="fa fa-file-o"></i> &nbsp;');	
+				}
+				if (node.published == '0') {
+					$li.find('.jqtree-title').addClass('unpublishedNode');
+					$li.find('.fa').addClass('unpublishedNode');
+				}
+				if (node.showinmenu == '0') {
+					$li.find('.jqtree-title').addClass('hiddenNode');
+				}
+				if (node.deleted == '1') {
+					$li.find('.jqtree-title').addClass('deletedNode');
+				}
+				
+			}
+		});
+		
+		$('#docTree').bind(
+			'tree.click',
+			function(event) {
+				var node = event.node;
+				//event.preventDefault();
+				if (Etomite.movingDoc) {
+					var pid = node.id;
+					Etomite.moveDocument(Etomite.movingDocId, pid);
+				}
+				if (Etomite.editingDoc && $('#parent').length > 0) {
+					var parentname = node.name;
+					var pid = node.id;
+					if (pid == '0') { parentname += " (0)"; }
+					$('#parent').val(pid);
+					$('#parentName').text(parentname);
+				}
+			}
+		);
+		
+		$('#docTree').bind(
+			'tree.init',
+			function() {
+				$('#docTree .jqtree-tree').contextMenu({
+					selector: 'li div',
+					className: 'data-title',
+					autoHide: true,
+					callback: function(key, options) {
+						if (Etomite.editingDoc == true || Etomite.movingDoc == true) {
+							alert('You are editing or moving a document! Please save or cancel first!');
+							return;
+						}
+						// key is the action
+						var id = $(this).attr('data-id');
+						var docurl = $(this).attr('data-docurl');
+						var weblink = $(this).attr('data-weblink');
+						switch( key ) {
+							case "preview":
+								window.open(docurl);
+								break;
+							case "edit":
+								if (weblink == 'true') {
+									Etomite.editDocument(id, '', 'true');
+								} else {
+									Etomite.editDocument(id);
+								}
+								break;
+							case "copy":
+								if (weblink == 'true') {
+									Etomite.duplicateDocument(id, 'true');
+								} else {
+									Etomite.duplicateDocument(id);
+								}
+								break;
+							case "move":
+								Etomite.moveDocumentDialog(id);
+								Etomite.movingDoc = true;
+								Etomite.movingDocId = id;
+								break;
+							case "create":
+								Etomite.editDocument('', id);
+								break;
+							case "createw":
+								Etomite.editDocument('', id, 'true');
+								break;
+							case "publish":
+								Etomite.updateDocProperty('published', '1', id);
+								break;
+							case "unpublish":
+								Etomite.updateDocProperty('published', '0', id);
+								break;
+							case "delete":
+								$('<div id="confirm"></div>').appendTo('body').html("<p>Are you sure you want to delete this document and all child documents?</p>");
+								$('#confirm').dialog({
+									dialogClass: "no-close",
+									autoOpen: true,
+									minWidth: 200,
+									minHeight: 200,
+									position: 'center',
+									resizable: false,
+									closeOnEscape: false,
+									title: 'Alert: Delete Document',
+									modal: true,
+									buttons: {
+										Yes: function() {
+											Etomite.updateDocProperty('deleted', '1', id);
+											$(this).dialog('close');
+											$(this).dialog('destroy');
+											$('#confirm').remove();
+										},
+										No: function() {
+											$(this).dialog('close');
+											$(this).dialog('destroy');
+											$('#confirm').remove();
+										}
+									}
+								});
+								break;
+							case "undelete":
+								$('<div id="confirm"></div>').appendTo('body').html("<p>Are you sure you want to un-delete this document and all child documents?</p>");
+								$('#confirm').dialog({
+									dialogClass: "no-close",
+									autoOpen: true,
+									minWidth: 200,
+									minHeight: 200,
+									position: 'center',
+									resizable: false,
+									closeOnEscape: false,
+									title: 'Alert: Un-delete Document',
+									modal: true,
+									buttons: {
+										Yes: function() {
+											Etomite.updateDocProperty('deleted', '0', id);
+											$(this).dialog('close');
+											$(this).dialog('destroy');
+											$('#confirm').remove();
+										},
+										No: function() {
+											$(this).dialog('close');
+											$(this).dialog('destroy');
+											$('#confirm').remove();
+										}
+									}
+								});
+								break;
+							case "showmenu":
+								Etomite.updateDocProperty('showinmenu', '1', id);
+								break;
+							case "hidemenu":
+								Etomite.updateDocProperty('showinmenu', '0', id);
+								break;
+						} // end switch
+					},
+					items: {
+						"preview": {name: "Preview", icon: "preview"},
+						"edit": {name: "Edit", icon: "edit"},
+						"copy": {name: "Duplicate", icon: "copy"},
+						"move": {name: "Change Parent Document", icon: "move"},
+						"sep1": "---------",
+						"create": {name: "Create Document Here", icon: "add"},
+						"createw": {name: "Create Weblink Here", icon: "addw"},
+						"sep2": "---------",
+						"publish": {name: "Publish Document", icon: "publish"},
+						"unpublish": {name: "Un-publish Document", icon: "unpublish"},
+						"sep3": "---------",
+						"delete": {name: "Delete", icon: "delete"},
+						"undelete": {name: "Undelete", icon: "undelete"},
+						"sep4": "---------",
+						"showmenu": {name: "Show in Menus", icon: "showmenu"},
+						"hidemenu": {name: "Hide in Menus", icon: "hidemenu"}
+					},
+					events: {
+						show: function(opt) {
+							var name = $(this).find('.jqtree-title').first().text();
+							$('.data-title').attr('data-menutitle', '');
+							$('.data-title').attr('data-menutitle', name);
+						}
+					}
+				});
+			}
+		);
     },
     
     /* CONTENT */
@@ -265,7 +416,7 @@ var Etomite = {
                     Etomite.errorDialog('There was an error', 'ERROR');
                     Etomite.editingDoc = false;
                 } else {
-					if ($('#groupsWindow').length > 0) {
+					if ($('#groupsWindow').hasClass('ui-dialog-content')) {
 						$('#groupsWindow').dialog('destroy');
 						$('#groupsWindow').dialog('remove');
 					}
@@ -276,6 +427,11 @@ var Etomite = {
                             //setupTiny("taContent");
                         }
                     }, 1000);
+					
+					$("#saveDocument").unbind( "click" );
+					$("#saveCloseDocument").unbind( "click" );
+					$("#deleteDocument").unbind( "click" );
+					$("#cancelDocument").unbind( "click" );
                     
                     $('#saveDocument').click(saveDocHandler); /*function(){
                         Etomite.saveDocument();
@@ -287,6 +443,8 @@ var Etomite = {
                         Etomite.updateDocProperty('deleted', '1', docId);
                     });
                     $('#cancelDocument').click(function(){
+						Etomite.editingDoc = false;
+						Etomite.movingDoc = false;
                         var content = '';
                         $.ajax({
                             url: 'ActionServer.php',
@@ -401,8 +559,8 @@ var Etomite = {
                         spin(false);
                     }, 1500);
                     Etomite.notify('Document Saved');
-                    $("#docTree").dynatree("getTree").reload();
-                    if ($('#docId').length > 0 && saveclose === null) {
+                    Etomite.loadDocTree();
+                    if ($('#docId').length > 0 && saveclose !== true) {
                         if ($('#type').val() == 'reference') {
                             Etomite.editDocument(docId, '', 'true');
                         } else {
@@ -410,6 +568,7 @@ var Etomite = {
                         }
                     } else {
                         Etomite.loadPaneFromAction('loadWelcome');
+						Etomite.editingDoc = false;
                     }
                 }
             });
@@ -420,6 +579,8 @@ var Etomite = {
     },
     
     updateDocProperty: function(prop, pval, docId) {
+		Etomite.editingDoc = false;
+		Etomite.movingDoc = false;
         $.ajax({
             url: 'ActionServer.php',
             dataType: 'json',
@@ -434,7 +595,7 @@ var Etomite = {
                     Etomite.notify('Document was not updated!');
                 } else {
                     Etomite.notify('Document Updated!');
-                    $("#docTree").dynatree("getTree").reload();
+					Etomite.loadDocTree();
                 }
             }
         });
@@ -462,6 +623,7 @@ var Etomite = {
         $('<div id="moveDocumentDialog"></div>').appendTo('#mainContent');
         $('#moveDocumentDialog').html('<p>Are you sure you want to move the document?</p>');
         $('#moveDocumentDialog').dialog({
+			dialogClass: "no-close",
             autoOpen: true,
             minWidth: 200,
             minHeight: 200,
@@ -526,6 +688,11 @@ var Etomite = {
                         }
                     }, 1000);
                     
+					$("#saveDocument").unbind( "click" );
+					$("#saveCloseDocument").unbind( "click" );
+					$("#deleteDocument").unbind( "click" );
+					$("#cancelDocument").unbind( "click" );
+					
                     $('#saveDocument').click(saveDocHandler); /*function(){
                         Etomite.saveDocument();
                     });*/
@@ -545,6 +712,7 @@ var Etomite = {
                             },
                             success: function(html) {
                                 $('#mainContent').html(html);
+								Etomite.editingDoc = false;
                             }
                         });
                     });
@@ -592,7 +760,7 @@ var Etomite = {
                 if(json === null || json.succeeded !== true) {
                     Etomite.errorDialog(json.message, 'Error');
                 } else {
-                    $("#docTree").dynatree("getTree").reload();
+                    Etomite.loadDocTree();
                 }
             }
         });
@@ -1645,9 +1813,10 @@ var Etomite = {
     },
     
     notify: function(message) {
-        $('<div id="notification">' + message + '</div>').appendTo('body');
-        $('#notification').center(false);
-        $('#notification').css({zIndex:3000, backgroundImage: 'url(images/popup_background.png)'});
+        $('<div id="notification" class="alert alert-success"><i class="fa fa-check"></i> ' + message + '</div>').appendTo('body');
+        $('#notification').css({zIndex:30000,position:'absolute'});
+		$('#notification').position({my:'top',at:'top',of:window}); 
+		$('#notification').css({marginTop:'20px'});
         setTimeout(function() {
             $('#notification').fadeOut('slow', function() {
             });
@@ -1656,9 +1825,10 @@ var Etomite = {
     },
     
     errorDialog: function(message, dtitle) {
-        $('<div id="errorDialog"></div>').appendTo('#mainContent');
+        $('<div id="errorDialog" style="margin-top:20px;"></div>').appendTo('#mainContent');
         $('#errorDialog').html('<p>' + message + '</p>');
         $('#errorDialog').dialog({
+			dialogClass: "no-close",
             autoOpen: true,
             minWidth: 300,
             minHeight: 300,
@@ -1691,32 +1861,3 @@ var Etomite = {
 var saveDocHandler = function() {
     Etomite.saveDocument();
 };
-
-/* extend jquery to add the spin (spinner function) */
-$.fn.spin = function(opts) {
-    this.each(function() {
-      var $this = $(this),
-          data = $this.data();
-
-      if (data.spinner) {
-        data.spinner.stop();
-        delete data.spinner;
-      }
-      if (opts !== false) {
-        data.spinner = new Spinner($.extend({color: $this.css('color')}, opts)).spin(this);
-      }
-    });
-    return this;
-  };
-  
-$.fn.center = function (opt) {
-      this.css("position","absolute");
-      this.css({zIndex:3000});
-      if (opt !== false) {
-          this.css("top", (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px");
-      } else {
-          this.css("top", "0px");
-      }
-      this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
-      return this;
-  }

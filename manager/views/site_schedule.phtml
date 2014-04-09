@@ -1,136 +1,152 @@
-<div class="header"><?php echo $this->_lang['site_schedule']; ?></div>
-<div id="site-schedule-tabs">
-    <ul>
-        <li><a href="#publish-docs"><?php echo $this->_lang['publish_document']; ?></a></li>
-        <li><a href="#un-publish-docs"><?php echo $this->_lang['unpublish_document']; ?></a></li>
-        <li><a href="#pending"><?php echo $this->_lang['all_pending_documents']; ?></a></li>
-    </ul>
-    <div id="publish-docs">
-        <?php
-          $sql = "SELECT id, pagetitle, pub_date FROM ".$this->db."site_content WHERE pub_date > ".time()." ORDER BY pub_date ASC";
-          $rs = $this->dbQuery($sql);
-          $limit = $this->recordCount($rs);
-          if($limit<1) {
-            echo "<p>".$this->_lang["no_pending_publish"]."</p>";
-          } else {
-          ?>
-            <table border="0" cellpadding="0" cellspacing="0"  class="sort-table" id="table-1" width="100%">
-              <thead>
-                <tr>
-                  <td><b><?php echo $this->_lang["document"]; ?></b></td>
-                  <td><b><?php echo $this->_lang["id"]; ?></b></td>
-                  <td><b><?php echo $this->_lang["page_data_publishdate"]; ?></b></td>
-                </tr>
-              </thead>
-              <tbody>
-          <?php
-            for ($i=0;$i<$limit;$i++) {
-              $row = $this->fetchRow($rs);
-              $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
-          ?>
-              <tr <?php echo $classname; ?>>
-                <td class="cell"><?php echo $row['pagetitle'] ;?></td>
-                <td class="cell"><?php echo $row['id'] ;?></td>
-                <td class="cell"><?php echo strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['pub_date']+$this->config['server_offset_time']) ;?></td>
-              </tr>
-          <?php
-            }
-          ?>
-              </tbody>
-            </table>
-            <script type="text/javascript">
-		  	ppTable = $('#table-1').dataTable({
-					"bJQueryUI": true,
-					"sPaginationType": "full_numbers"
-				});
-		  </script>
-          <?php } ?>
+<section class="content-header">
+    <h1>
+        <?php echo $this->_lang['site_schedule']; ?>
+        <small>Welcome</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-clock-o"></i> <?php echo $this->_lang['site_schedule']; ?></li>
+    </ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+	<!-- Custom tabs (Charts with tabs)-->
+    <div class="nav-tabs-custom">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs">
+			<li class="active"><a href="#publish-docs" data-toggle="tab"><?php echo $this->_lang['publish_document']; ?></a></li>
+            <li><a href="#un-publish-docs" data-toggle="tab"><?php echo $this->_lang['unpublish_document']; ?></a></li>
+            <li><a href="#pending" data-toggle="tab"><?php echo $this->_lang['all_pending_documents']; ?></a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="publish-docs" style="position: relative;">
+            	<?php
+				  $sql = "SELECT id, pagetitle, pub_date FROM ".$this->db."site_content WHERE pub_date > ".time()." ORDER BY pub_date ASC";
+				  $rs = $this->dbQuery($sql);
+				  $limit = $this->recordCount($rs);
+				  if($limit<1) {
+					echo "<p>".$this->_lang["no_pending_publish"]."</p>";
+				  } else {
+				  ?>
+					<table class="sort-table display" id="table-1">
+					  <thead>
+						<tr>
+						  <th><?php echo $this->_lang["document"]; ?></th>
+						  <th><?php echo $this->_lang["id"]; ?></th>
+						  <th><?php echo $this->_lang["page_data_publishdate"]; ?></th>
+						</tr>
+					  </thead>
+					  <tbody>
+				  <?php
+					for ($i=0;$i<$limit;$i++) {
+					  $row = $this->fetchRow($rs);
+					  $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
+				  ?>
+					  <tr <?php echo $classname; ?>>
+						<td class="cell"><?php echo $row['pagetitle'] ;?></td>
+						<td class="cell"><?php echo $row['id'] ;?></td>
+						<td class="cell"><?php echo strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['pub_date']+$this->config['server_offset_time']) ;?></td>
+					  </tr>
+				  <?php
+					}
+				  ?>
+					  </tbody>
+					</table>
+					<script type="text/javascript">
+					ppTable = $('#table-1').dataTable({
+							"bJQueryUI": true,
+							"sPaginationType": "full_numbers"
+						});
+				  </script>
+				  <?php } ?>
+            </div><!-- end publish docs -->
+            <div class="tab-pane" id="un-publish-docs" style="position: relative;">
+            	<?php
+				  $sql = "SELECT id, pagetitle, unpub_date FROM ".$this->db."site_content WHERE unpub_date > " . time() . " ORDER BY unpub_date ASC";
+				  $rs = $this->dbQuery($sql);
+				  $limit = $this->recordCount($rs);
+				  if($limit<1) {
+					echo "<p>".$this->_lang["no_pending_unpublish"]."</p>";
+				  } else {
+				  ?>
+					<table class="sort-table display" id="table-2">
+					  <thead>
+						<tr>
+						  <th><?php echo $this->_lang["document"]; ?></th>
+						  <th><?php echo $this->_lang["id"]; ?></th>
+						  <th><?php echo $this->_lang["page_data_unpublishdate"]; ?></th>
+						</tr>
+					  </thead>
+					  <tbody>
+				  <?php
+					for ($i=0;$i<$limit;$i++) {
+					  $row = $this->fetchRow($rs);
+					  $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
+				  ?>
+					  <tr <?php echo $classname; ?>>
+						<td class="cell"><?php echo $row['pagetitle'] ;?></td>
+					  <td class="cell"><?php echo $row['id'] ;?></td>
+						<td class="cell"><?php echo strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['unpub_date']+$this->config['server_offset_time']) ;?></td>
+					  </tr>
+				  <?php
+					}
+				  ?>
+					</tbody>
+				  </table>
+				  <script type="text/javascript">
+					upTable = $('#table-2').dataTable({
+							"bJQueryUI": true,
+							"sPaginationType": "full_numbers"
+						});
+				  </script>
+				  <?php } ?>
+            </div><!-- end un-publish docs -->
+            <div class="tab-pane" id="pending" style="position: relative;">
+            	<?php
+				  $sql = "SELECT id, pagetitle, pub_date, unpub_date FROM ".$this->db."site_content WHERE pub_date > 0 OR unpub_date > 0 ORDER BY id";
+				  $rs = $this->dbQuery($sql);
+				  $limit = $this->recordCount($rs);
+				  if($limit<1) {
+					echo "<p>".$this->_lang["no_pending_documents"]."</p>";
+				  } else {
+				  ?>
+					<table class="sort-table display" id="table-3">
+					  <thead>
+						<tr>
+						  <th><?php echo $this->_lang["document"]; ?></th>
+						  <th><?php echo $this->_lang["id"]; ?></th>
+						  <th><?php echo $this->_lang["page_data_publishdate"]; ?></th>
+						  <th><?php echo $this->_lang["page_data_unpublishdate"]; ?></th>
+						</tr>
+					  </thead>
+					  <tbody>
+				  <?php
+					for ($i=0;$i<$limit;$i++) {
+					  $row = $this->fetchRow($rs);
+					  $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
+				  ?>
+					  <tr <?php echo $classname; ?>>
+						<td class="cell"><?php echo $row['pagetitle'] ;?></td>
+					  <td class="cell"><?php echo $row['id'] ;?></td>
+						<td class="cell"><?php echo $row['pub_date']==0 ? "" : strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['pub_date']+$this->config['server_offset_time']) ;?></td>
+						<td class="cell"><?php echo $row['unpub_date']==0 ? "" : strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['unpub_date']+$this->config['server_offset_time']) ;?></td>
+					  </tr>
+				  <?php
+					}
+				  ?>
+					</tbody>
+				  </table>
+				  <script type="text/javascript">
+					pTable = $('#table-3').dataTable({
+							"bJQueryUI": true,
+							"sPaginationType": "full_numbers"
+						});
+				  </script>
+				  <?php } ?>
+            </div><!-- end pending -->
+            
+        </div>
     </div>
-    <div id="un-publish-docs">
-        <?php
-          $sql = "SELECT id, pagetitle, unpub_date FROM ".$this->db."site_content WHERE unpub_date > " . time() . " ORDER BY unpub_date ASC";
-          $rs = $this->dbQuery($sql);
-          $limit = $this->recordCount($rs);
-          if($limit<1) {
-            echo "<p>".$this->_lang["no_pending_unpublish"]."</p>";
-          } else {
-          ?>
-            <table border="0" cellpadding="0" cellspacing="0"  class="sort-table" id="table-2" width="100%">
-              <thead>
-                <tr>
-                  <td><b><?php echo $this->_lang["document"]; ?></b></td>
-                  <td><b><?php echo $this->_lang["id"]; ?></b></td>
-                  <td><b><?php echo $this->_lang["page_data_unpublishdate"]; ?></b></td>
-                </tr>
-              </thead>
-              <tbody>
-          <?php
-            for ($i=0;$i<$limit;$i++) {
-              $row = $this->fetchRow($rs);
-              $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
-          ?>
-              <tr <?php echo $classname; ?>>
-                <td class="cell"><?php echo $row['pagetitle'] ;?></td>
-              <td class="cell"><?php echo $row['id'] ;?></td>
-                <td class="cell"><?php echo strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['unpub_date']+$this->config['server_offset_time']) ;?></td>
-              </tr>
-          <?php
-            }
-          ?>
-            </tbody>
-          </table>
-          <script type="text/javascript">
-		  	upTable = $('#table-2').dataTable({
-					"bJQueryUI": true,
-					"sPaginationType": "full_numbers"
-				});
-		  </script>
-          <?php } ?>
-    </div>
-    <div id="pending">
-        <?php
-          $sql = "SELECT id, pagetitle, pub_date, unpub_date FROM ".$this->db."site_content WHERE pub_date > 0 OR unpub_date > 0 ORDER BY id";
-          $rs = $this->dbQuery($sql);
-          $limit = $this->recordCount($rs);
-          if($limit<1) {
-            echo "<p>".$this->_lang["no_pending_documents"]."</p>";
-          } else {
-          ?>
-            <table border="0" cellpadding="0" cellspacing="0" class="sort-table" id="table-3" width="100%">
-              <thead>
-                <tr>
-                  <th><b><?php echo $this->_lang["document"]; ?></b></th>
-                  <th><b><?php echo $this->_lang["id"]; ?></b></th>
-                  <th><b><?php echo $this->_lang["page_data_publishdate"]; ?></b></th>
-                  <th><b><?php echo $this->_lang["page_data_unpublishdate"]; ?></b></th>
-                </tr>
-              </thead>
-              <tbody>
-          <?php
-            for ($i=0;$i<$limit;$i++) {
-              $row = $this->fetchRow($rs);
-              $classname = ($i % 2) ? 'class="even" ' : 'class="odd" ';
-          ?>
-              <tr <?php echo $classname; ?>>
-                <td class="cell"><?php echo $row['pagetitle'] ;?></td>
-              <td class="cell"><?php echo $row['id'] ;?></td>
-                <td class="cell"><?php echo $row['pub_date']==0 ? "" : strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['pub_date']+$this->config['server_offset_time']) ;?></td>
-                <td class="cell"><?php echo $row['unpub_date']==0 ? "" : strftime($this->config['date_format']." @ ".$this->config['time_format'], $row['unpub_date']+$this->config['server_offset_time']) ;?></td>
-              </tr>
-          <?php
-            }
-          ?>
-            </tbody>
-          </table>
-          <script type="text/javascript">
-		  	pTable = $('#table-3').dataTable({
-					"bJQueryUI": true,
-					"sPaginationType": "full_numbers"
-				});
-		  </script>
-          <?php } ?>
-    </div>
-</div>
-<script type="text/javascript">
-    $('#site-schedule-tabs').tabs();
-</script>
+</section>

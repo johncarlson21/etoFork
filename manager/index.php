@@ -106,6 +106,7 @@ if(!isset($_SESSION['validated']))
 /*if ($detect->isMobile()) {
     include_once('views/mobile_admin.phtml');
 } else {*/
+	// changed to reference new layout
     include_once('views/admin.phtml');
 //}
 ?>

@@ -1,0 +1,17 @@
+<?php
+$sql = "SELECT id, pagetitle, description, type FROM ".$etomite->db."site_content WHERE ".$etomite->db."site_content.deleted=0 AND (".$etomite->db."site_content.editedby=".$_SESSION['internalKey']." OR ".$etomite->db."site_content.createdby=".$_SESSION['internalKey'].") ORDER BY editedon DESC LIMIT ".$etomite->config['top_howmany'].";";
+$rs = $etomite->dbQuery($sql);
+$limit = $etomite->recordCount($rs);
+$activity = ($limit<1) ? $_lang["no_activity_message"] : $_lang["activity_message"];
+?>
+<table class="table table-striped">
+<?php
+for ($i = 0; $i < $limit; $i++):
+	$content = $etomite->fetchRow($rs);
+	if($i == 0) $syncid = $content['id'];
+?>
+	<tr><td>(<?php echo $content['id']; ?>) <a href='javascript:;' onclick="Etomite.editDocument('<?php echo $content['id'];?>', '', <?php echo ($content['type'] == 'reference') ? "'true'" : "''";?>);"><?php echo $content['pagetitle']; ?></a>
+		<?php echo $content['description']!='' ? '<span>&nbsp;-&nbsp;'.$content['description'].'</span>' : ''; ?>
+	</td></tr>
+<?php endfor; ?>
+</table>

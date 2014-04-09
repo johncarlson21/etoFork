@@ -79,7 +79,7 @@ class module {
         $etomite = new etomite();
         $modules = $etomite->getIntTableRows('*', 'modules');
         if (count($modules) > 0) {
-            echo "<table width='100%' cellpadding='7' cellspacing='0' border='0'>";
+            echo "<table width='100%' cellpadding='7' cellspacing='0' border='0' class='table-striped'>";
             echo "<tr><th>Module Name</th><th>Description</th><th>Author</th><th>Version</th><th style='text-align:center;'>Active</th><th style='text-align:center;'>Menu Item</th></tr>";
             foreach($modules as $module) {
                 echo "<tr>";

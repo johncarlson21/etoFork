@@ -1,552 +1,517 @@
-<div class="header">
-    <?php if($id && !$reference){
-        echo $this->_lang["edit_document"];
-    }elseif($id && $reference){
-        echo $this->_lang["edit_weblink"];
-    }elseif(!$id && !$reference){
-        echo $this->_lang["create_document"];
-    }elseif(!$id && $reference){
-        echo $this->_lang["create_weblink"];
-    }?>
-</div>
-<div id="head-actions">
-    <div id="documentTitle"><span id="docTitle"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']) : $this->_lang["un_saved"]; ?></span></div>
-    <div class="action-btns">
-        <?php if ($this->checkUserRole('edit_document', $_SESSION['internalKey']) || $this->checkUserRole('save_document', $_SESSION['internalKey'])) {?>
-        <a href="javascript:;" id="saveDocument" class="button"><?php echo $this->_lang["save"]; ?></a>
-        <a href="javascript:;" id="saveCloseDocument" class="button"><?php echo $this->_lang["save_and_close"]; ?></a>
-        <?php } ?>
-        <?php if ($this->checkUserRole('delete_document', $_SESSION['internalKey'])) {?>
-        <a href="javascript:;" id="deleteDocument" class="button"><?php echo $this->_lang["delete"]; ?></a>
-        <?php } ?>
-        <a href="javascript:;" id="cancelDocument" class="button"><?php echo $this->_lang["cancel"]; ?></a>
-    </div>
-    <div class="clear"></div>
-</div>
-<div class='content'>
+<section class="content-header">
+    <h1>
+        <?php if($id && !$reference){
+			echo $this->_lang["edit_document"];
+		}elseif($id && $reference){
+			echo $this->_lang["edit_weblink"];
+		}elseif(!$id && !$reference){
+			echo $this->_lang["create_document"];
+		}elseif(!$id && $reference){
+			echo $this->_lang["create_weblink"];
+		}?>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-edit"></i> 
+        	<?php if($id && !$reference){
+						echo $this->_lang["edit_document"];
+					}elseif($id && $reference){
+						echo $this->_lang["edit_weblink"];
+					}elseif(!$id && !$reference){
+						echo $this->_lang["create_document"];
+					}elseif(!$id && $reference){
+						echo $this->_lang["create_weblink"];
+					}?>
+        </li>
+    </ol>
+</section>
 <?php
 $cssPath = !empty($tiny_css_path) ? $tiny_css_path : "";
 $cssSelectors = !empty($tiny_css_selectors) ? $tiny_css_selectors : "theme_advanced_styles";
 $cfg['ilibs_dir'] = array('../assets/images/');
 $sep = " @ ";
-if($id && count($content)>0) {
 ?>
-<input type="hidden" name="docId" id="docId" value="<?php echo $id; ?>" />
-<?php
-}
-
-?>
-<div id="doc-tabs">
-    <ul>
-        <li><a href="#identification"><?php echo $this->_lang['document']; ?></a></li>
-        <li><a href="#publishing"><?php echo $this->_lang['document_settings']; ?></a></li>
-        <li><a href="#templateVars"><?php echo $this->_lang['template_var_tab']; ?></a></li>
-        <li><a href="#prev-versions"><?php echo $this->_lang['document_previous_versions']; ?></a></li>
-    </ul>
-    <div class="ui-layout-content">
-    <div id="identification">
-        <?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ echo $this->_lang['weblink_message']; } ?>
-        <table width="50%" style="min-width: 415px;" align="left" border="0" cellspacing="0" cellpadding="0">
-          <tr style="height: 24px;">
-            <td style="width:150px; text-align:left;">
-              <span class='warning'><?php echo $this->_lang['document_title']; ?></span></td>
-            <td>
-              <input name="pagetitle" id="pagetitle" type="text" maxlength="100" value="<?php echo isset($content['pagetitle']) ? $content['pagetitle'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-          <tr style="height: 24px;">
-            <td style="width:150px; text-align:left;">
-              <span class='warning'><?php echo $this->_lang['long_title']; ?></span>
-            </td>
-            <td>
-              <input name="setitle" id="setitle" type="text" maxlength="120" value="<?php echo isset($content['longtitle']) ? $content['longtitle'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_long_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['document_description']; ?></span></td>
-            <td>
-              <input name="description" id="description" type="text" maxlength="255" value="<?php echo isset($content['description']) ? $content['description'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['document_alias']; ?></span></td>
-            <td>
-              <input id="alias" name="alias" type="text" maxlength="100" value="<?php echo isset($content['alias']) ? $content['alias'] : ''; ?>" class="inputBox" style="width:200px;">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_alias_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-              <div id="aliasUniqueMessage" style="padding-left:7px;color:red;font-weight:bold;display:none;"><?php echo $this->_lang['alias_exists']; ?></div><div id="aliasUniqueMessageResponse" style="padding-left:7px;color:green;font-weight:bold;display:none;"></div>
-            </td>
-          </tr>
-    
-    <?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ ?>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['weblink']; ?></span></td>
-            <td>
-              <input name="taContent" id="taContent" type="text" maxlength="255" value="<?php echo isset($content['content']) ? $content['content'] : 'http://'; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_weblink_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-    
-    <?php } ?>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['document_parent']; ?></span></td>
-            <td valign="top">
-    
-    <?php
-            if (isset($_REQUEST['pid']) && !empty($_REQUEST['pid']) && !isset($content['parent'])) {
-                $parentDoc = $this->getDocument($_REQUEST['pid']);
-                if (count($parentDoc) > 0) {
-                    $parentname = $parentDoc['pagetitle'];
-                    $parentId = $parentDoc['id'];
-                } else {
-                    $parentname = $this->config['site_name'];
-                    $parentId = 0;
-                }
-            } else {
-                if($parentDoc = $this->getDocument($content['parent'])) {
-                    $parentname = $parentDoc['pagetitle'];
-                    $parentId = $content['parent'];
-                } else {
-                    $parentname = $this->config['site_name'];
-                    $parentId = 0;
-                }
-            }
-    ?>
-    
-            &nbsp;&nbsp;<b><span id="parentName"><?php echo $parentId; ?> (<?php echo $parentname; ?>)</span></b>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_parent_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            <input type="hidden" name="parent" id="parent" value="<?php echo $parentId; ?>" >
-            </td>
-          </tr>
-        </table>
-        <table width="50%" style="min-width: 415px;" align="right" border="0" cellspacing="0" cellpadding="0">
-            <tr style="height: 24px;">
-                <td width="150"><span class='warning'><?php echo $this->_lang['document_meta_title']; ?></span></td>
-                <td><input name="meta_title" id="meta_title" type="text" maxlength="255" value="<?php echo isset($content['meta_title']) ? $content['meta_title'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
-            </tr>
-            <tr style="height: 24px;">
-                <td width="150"><span class='warning'><?php echo $this->_lang['document_meta_description']; ?></span></td>
-                <td><input name="meta_description" id="meta_description" type="text" maxlength="255" value="<?php echo isset($content['meta_description']) ? $content['meta_description'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
-            </tr>
-            <tr style="height: 24px;">
-                <td width="150"><span class='warning'><?php echo $this->_lang['document_meta_keywords']; ?></span></td>
-                <td><input name="meta_keywords" id="meta_keywords" type="text" maxlength="255" value="<?php echo isset($content['meta_keywords']) ? $content['meta_keywords'] : ''; ?>" class="inputBox" style="width:200px;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_keywords_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
-            </tr>
-        </table>
+<!-- Main content -->
+<section class="content">
+    <div class="action-btns">
+        <?php if ($this->checkUserRole('edit_document', $_SESSION['internalKey']) || $this->checkUserRole('save_document', $_SESSION['internalKey'])) {?>
+        <a href="javascript:;" id="saveDocument" class="btn btn-success"><?php echo $this->_lang["save"]; ?></a>
+        <a href="javascript:;" id="saveCloseDocument" class="btn btn-primary"><?php echo $this->_lang["save_and_close"]; ?></a>
+        <?php } ?>
+        <?php if ($this->checkUserRole('delete_document', $_SESSION['internalKey'])) {?>
+        <a href="javascript:;" id="deleteDocument" class="btn btn-danger"><?php echo $this->_lang["delete"]; ?></a>
+        <?php } ?>
+        <a href="javascript:;" id="cancelDocument" class="btn btn-warning"><?php echo $this->_lang["cancel"]; ?></a>
     </div>
-    <div id="publishing">
-        <table width="50%" align="left" style="min-width: 415px;" border="0" cellspacing="0" cellpadding="0">
-          <tr style="height: 24px;">
-            <td width="150"><span class='warning'><?php echo $this->_lang['document_opt_folder']; ?></span></td>
-            <td>
-          <input name="isfolder" id="isfolder" type="checkbox"<?php echo (isset($content['isfolder']) && $content['isfolder']==1) ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_folder_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-            <td rowspan="11" width="150" align="center">
-              &nbsp <!-- old keywords not used because of meta keywords -->
-            </td>
-          </tr>
-    
-    <?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ ?>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['document_opt_richtext']; ?></span></td>
-        <td><input name="richtext" id="richtext" type="checkbox"<?php echo (isset($content['richtext']) && $content['richtext']==1) ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_richtext_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></td>
-          </tr>
-    
-    <?php } ?>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['document_opt_published']; ?></span></td>
-            <td>
-                <?php if($content['published'] == "" || !isset($content['published'])){ $content['published'] = $this->config['publish_default']; } ?>
-                <input name="published" id="published" type="checkbox"<?php echo (isset($content['published']) && $content['published']==1) ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_published_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-    
-    <!-- START:createdondate Added [0615] by Ralph -->
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['createdon']; ?></span></td>
-            <td>
-              <table width="" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td width="">
-                    <input style="width:170px;" class="inputBox" id="createdon" name="createdon" type="text" value="<?php echo $content['createdon']=="0" || !isset($content['createdon']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['createdon']);?>">
-                    <script type="text/javascript">
-                        $('#createdon').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
-                    </script>
-                  </td>
-                  <td valign="middle">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_createdon_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-    <!-- END:createdondate Added [0615] by Ralph -->
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['page_data_publishdate']; ?></span></td>
-            <td>
-              
-    
-              <table width="" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td width="">
-                    <input style="width:170px;" class="inputBox" id="pub_date" name="pub_date" type="text" value="<?php echo $content['pub_date']=="0" || !isset($content['pub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['pub_date']);?>">
-                    <script type="text/javascript">
-                        $('#pub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
-                    </script>
-                  </td>
-                  <td valign="middle">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_publishdate_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['page_data_unpublishdate']; ?></span></td>
-            <td>
-              
-              <table width="" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td width="">
-                    <input style="width:170px;" class="inputBox" id="unpub_date" name="unpub_date" type="text" value="<?php echo $content['unpub_date']=="0" || !isset($content['unpub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['unpub_date']);?>" />
-                    <script type="text/javascript">
-                        $('#unpub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
-                    </script>
-                  </td>
-                  <td valign="middle">&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_unpublishdate_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-    
-          <tr style="height: 24px;">
-            <td align="left" style="width:150px;">
-              <span class='warning'><?php echo $this->_lang['document_opt_menu_index']; ?></span>
-            </td>
-            <td>
-              <input name="menuindex" id="menuindex" type="text" maxlength="5" value="<?php echo isset($content['menuindex']) ? $content['menuindex'] : ''; ?>" class="inputBox" style="width:40px; text-align:right;" >&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_menu_index_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-        </table>
-        <table width="50%" align="right" style="min-width: 415px;" border="0" cellspacing="0" cellpadding="0">
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['page_data_searchable']; ?></span></td>
-            <td>
-              <?php if($content['searchable'] == "" || !isset($content['searchable'])){ $content['searchable'] = $this->config['search_default']; } ?>
-              <input name="searchable" id="searchable" type="checkbox"<?php echo (isset($content['searchable']) && $content['searchable']==1) ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_searchable_help']; ?>" onClick="alert(this.alt);" style="cursor:help;" />
-            </td>
-          </tr>
-    
-    <?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){ ?>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['page_data_cacheable']; ?></span></td>
-            <td>
-              <?php if($content['cacheable'] == "" || !isset($content['cacheable'])){ $content['cacheable'] = $this->config['cache_default']; } ?>
-              <input name="cacheable" id="cacheable" type="checkbox"<?php echo (isset($content['cacheable']) && $content['cacheable']==1) ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_cacheable_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['document_opt_emptycache']; ?></span></td>
-            <td>
-              <input name="syncsite" id="syncsite" type="checkbox"<?php echo (isset($this->config['syncsitecheck_default']) && $this->config['syncsitecheck_default']=='1') ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_emptycache_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['page_data_template']; ?></span></td>
-            <td>
-    
-    <?php
-    
-              $sql = "select templatename, id from ".$this->db."site_templates ORDER BY templatename ASC";
-              $rs = $this->dbQuery($sql);
-    
-    ?>
-    
-              <select name="template" id="template" class="inputBox" style="width:150px">
-    
-    <?php
-              while ($row = $this->fetchRow($rs))
-              {
-                $selectedtext = ($row['id'] == $this->config['default_template'] && empty($content['template'])) ? "selected='selected'" : "" ;
-                if (isset($content['template']) && !empty($content['template']) && $row['id'] == $content['template']) {
-                    $selectedtext = "selected='selected'";
-                }
-    ?>
-                <option value="<?php echo $row['id']; ?>" <?php echo $selectedtext; ?>><?php echo $row['templatename']; ?></option>
-    <?php       }?>
-    
-              </select>
-              &nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_template_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-    
-    <?php if($_SESSION['role']==1) { ?>
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['page_data_contentType']; ?></span></td>
-            <td>
-              <select name="contentType" id="contentType" class="inputBox" style="width:150px">
-                <option value="text/html"<?php echo (isset($content['contentType']) && $content['contentType']=='text/html') ? " selected='selected'" : ''; ?>>text/html</option>
-                <option value="text/plain"<?php echo (isset($content['contentType']) && $content['contentType']=='text/plain') ? " selected='selected'" : ''; ?>>text/plain</option>
-                <option value="text/xml"<?php echo (isset($content['contentType']) && $content['contentType']=='text/xml') ? " selected='selected'" : ''; ?>>text/xml</option>
-              </select>
-              &nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_contentType_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-    
-    <?php } else { ?>
-    
-          <input type="hidden" name="contentType" id="contentType" value="text/html" />
-    
-    <?php } ?>
-    
-          <input type="hidden" name="type" id="type" value="document">
-          <?php } else { ?>
-          <input type="hidden" name="contentType" id="contentType" value="text/html" />
-          <input type="hidden" name="cacheable" name="cacheable" value="0" />
-          <input type="hidden" name="syncsite" name="syncsite" value="1" />
-          <input type="hidden" name="template" id="template" value="0" />
-          <input type="hidden" name="richtext" id="richtext" value="0" />
-          <input type="hidden" name="type" id="type" value="reference" />
-          </tr>
-    
-    <?php } ?>
-    
-    <!-- MARKER:removed reset_createdon_date checkbox in [0615] by Ralph -->
-    
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['require_authenticate']; ?></span><div style="<?php echo (isset($content['authenticate']) && $content['authenticate']=='1') ? "" : 'display:none;'; ?>" class="grpLink"><a href="javascript:;" class="groupsBtn">Manage Groups</a></td>
-            <td valign="top">
-              <input name="authenticate" id="authenticate" type="checkbox"<?php echo (isset($content['authenticate']) && $content['authenticate']=='1') ? " checked='checked'" : ''; ?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['require_authenticate_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-          <tr style="height: 24px;">
-            <td><span class='warning'><?php echo $this->_lang['showinmenu']; ?></span></td>
-            <td>
-                <?php if($content['showinmenu'] == "" || !isset($content['showinmenu'])) { $content['showinmenu'] = $this->config['showinmenu_default']; }?>
-              <input name="showinmenu" id="showinmenu" type="checkbox"<?php echo (isset($content['showinmenu']) && $content['showinmenu']=='1') ? " checked='checked'" : '';?>>&nbsp;&nbsp;<img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['showinmenu_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
-            </td>
-          </tr>
-          <!-- End::New in [0614] Ralph -->
-    
-        </table>
-    </div>
-    <div id="templateVars">
-        <form>
-        <?php
-        if (!isset($id)) {
-            echo "<p>You must first save the document to see the template variables available for the template chosen for this document.</p>";
-        } else {
-            
-            echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">';
-            
-            if(count($templateVars) > 0) {
-                foreach($templateVars as $tv) {
-                    $field_size = '';
-                    $field_max_size = '';
-                    $cValue = '';
-                    if (isset($content['tvs'][$tv['tv_id']])) {
-                        $cValue = $content['tvs'][$tv['tv_id']];
-                    }
-                    switch($tv['type']) {
-                        case 'text':
-                        default:
-                            echo '<tr>';
-                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
-                            echo '<td>';
-                            if ($tv['field_size'] > 0) {
-                                $field_size = ' size="'.$tv['field_size'].'"';
-                            }
-                            if ($tv['field_max_size'] > 0) {
-                                $field_max_size = ' maxlength="'.$tv['field_max_size'].'"';
-                            }
-                            $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
-                            echo "<input type='text' name='".$tv['field_name']."' id='".$tv['field_name']."'".$field_size.$field_max_size." value='".$val."' />";
-                            echo '</td>';
-                            echo '</tr>';
-                            break;
-                        case 'textarea':
-                            echo '<tr>';
-                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
-                            echo '<td>';
-                            $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
-                            echo "<textarea name='".$tv['field_name']."' id='".$tv['field_name']."'>".$val."</textarea>";
-                            echo '</td>';
-                            echo '</tr>';
-                            break;
-                        case 'checkbox':
-                            echo '<tr>';
-                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
-                            echo '<td>';
-                            $checked = ((isset($cValue) && !empty($cValue)) && $cValue == $tv['default_val']) ? " checked='checked'":'';
-                            echo "<input type='checkbox' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$tv['default_val']."'".$checked." />";
-                            echo '</td>';
-                            echo '</tr>';
-                            break;
-                        case 'radio':
-                            echo '<tr>';
-                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
-                            echo '<td>';
-                            if (!empty($tv['opts'])) {
-                                $opts = explode("|", $tv['opts']);
-                                if (count($opts) > 0) {
-                                    foreach($opts as $o) {
-                                        $option = explode(":", $o);
-                                        $checked = ((isset($cValue) && !empty($cValue)) && $cValue == $option[1]) ? " checked='checked'":'';
-                                        echo "<input type='radio' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$option[1]."'".$checked." /> ".$option[0]."<br />";
-                                    }
-                                }
-                            }
-                            echo '</td>';
-                            echo '</tr>';
-                            break;
-                        case 'select':
-                            echo '<tr>';
-                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
-                            echo '<td>';
-                            echo "<select name='".$tv['field_name']."' id='".$tv['field_name']."'>";
-                            if (!empty($tv['opts'])) {
-                                $opts = explode("|", $tv['opts']);
-                                if (count($opts) > 0) {
-                                    foreach($opts as $o) {
-                                        $option = explode(":", $o);
-                                        $selected = ((isset($cValue) && !empty($cValue)) && $cValue == $option[1]) ? " selected='selected'":'';
-                                        echo "<option value='".$option[1]."'".$selected.">".$option[0]."</option>";
-                                    }
-                                }
-                            } else {
-                                echo "<option value=''>No options specified for this tv!</option>";
-                            }
-                            echo "</select>";
-                            echo '</td>';
-                            echo '</tr>';
-                            break;
-                        case 'file':
-                            echo '<tr>';
-                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
-                            echo '<td>';
-                            $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
-                            echo "<input style='width:200px;margin-right:15px;' type='text' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$val."' />";
-                            echo "<a href='javascript:;' id='fileBrowser' class='button' onclick='Etomite.elFinderWindow(\"".$tv['field_name']."\");'>Browse</a>";
-                            echo '</td>';
-                            echo '</tr>';
-                            break;
-                        case 'date':
-                            echo '<tr>';
-                            echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
-                            echo '<td>';
-                            $val = (isset($cValue) && !empty($cValue)) ? date('Y-m-d @ h:i a', $cValue):$tv['default_val'];
-                            echo "<input type='text' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$val."' />";
-                            echo "<script type=\"text/javascript\">
-                        $('#".$tv['field_name']."').datetimepicker({dateFormat: 'yy-mm-dd', separator: ' @ ', ampm: true, showOn: \"both\", buttonImage: \"./images/icons/cal.gif\", buttonImageOnly: true});
-                    </script>";
-                            echo '</td>';
-                            echo '</tr>';
-                            break;
-                    }
-                }
-            }
-            echo '</table>';
-            
-            // template vars
-            if (isset($content['tvs']) && count($content['tvs']) > 0) {
-                
-            } else {
-                // no varables for this document
-            }
-        }?>
-        </form>
-    </div>
-    <div id="prev-versions">
-        <?php
-        if($id){
-              $sql = "SELECT * FROM ".$this->db."site_content_versions WHERE ".$this->db."site_content_versions.orig_id = $id ORDER BY ".$this->db."site_content_versions.versionedon DESC;";
-              $vrs = $this->dbQuery($sql);
-              $nums = $this->recordCount($vrs);
-              if(!empty($vrs) && $nums>0){
-              ?>
-                <table width="100%" cellpadding="5">
-                    <tr>
-                        <th align="left"><?php echo $this->_lang['document_previous_version_date']; ?></th>
-                        <th align="left"><?php echo $this->_lang['document_previous_version_editedby']; ?></th>
-                        <th align="left"><?php echo $this->_lang['document_previous_version_actions']; ?></th>
-                    </tr>
-              <?php
-                while($r = $this->fetchRow($vrs)){
-                    ?>
-                        <tr>
-                            <td><?php echo strftime($this->config['date_format'].$sep.$this->config['time_format'], $r['versionedon']);?></td>
-                            <td>
-                            <?php
-                                // get username who edited this version last
-                                $usql = "SELECT * FROM ".$this->db."manager_users WHERE id=".$r['editedby']." LIMIT 1;";
-                                $urs = $this->dbQuery($usql);
-                                if($urs){
-                                    $urow = $this->fetchRow($urs);
-                                    $username = $urow['username'];
-                                    // now get full name
-                                    $usql = "SELECT * FROM ".$this->db."user_attributes WHERE internalKey=".$r['editedby']." LIMIT 1;";
-                                    $urs = $this->dbQuery($usql);
-                                    $urow = $this->fetchRow($urs);
-                                    $fullname = $urow['fullname'];
-                                    echo $fullname." (".$username.")";
-                                }else{
-                                    echo "N/A";
-                                }
-                            ?>
-                            </td>
-                            <td nowrap="nowrap"><a href="#" onclick="$('#doc_<?php echo $r['id'];?>').toggle(); return false;"><?php echo $this->_lang['view_info']?></a> <a href="index.php?a=5&revid=<?php echo $r['id']; ?>&id=<?php echo $content['id'];?>&mode=999" onclick="return revert();"><?php echo $this->_lang['revert']; ?></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">
-                            <div id="doc_<?php echo $r['id'];?>" style="display:none;">
-                                <div style="border:#000 solid 1px;padding:5px;">
-                                    <p><strong><?php echo $this->_lang["document_title"]; ?>: </strong><?php echo $r['pagetitle']; ?></p>
-                                    <p><strong><?php echo $this->_lang["long_title"]; ?>: </strong><?php echo $r['longtitle']; ?></p>
-                                    <p><strong><?php echo $this->_lang["document_description"]; ?>: </strong><?php echo $r['description']; ?></p>
-                                    <p><strong><?php echo $this->_lang["document_alias"]; ?>: </strong><?php echo $r['alias']; ?></p>
-                                    <p><strong><?php echo $this->_lang["document_meta_title"]; ?>: </strong><?php echo $r['meta_title']; ?></p>
-                                    <p><strong><?php echo $this->_lang["document_meta_description"]; ?>: </strong><?php echo $r['meta_description']; ?></p>
-                                    <p><strong><?php echo $this->_lang["document_meta_keywords"]; ?>: </strong><?php echo $r['meta_keywords']; ?></p>
-                                    <p><strong><?php echo $this->_lang["document_content"]; ?>: </strong><br /><blockquote><?php echo $r['content']; ?></blockquote></p>
-                                </div>
+    <div class="nav-tabs-custom">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs pull-right">
+        	<li><a href="#prev-versions" data-toggle="tab"><?php echo $this->_lang['document_previous_versions']; ?></a></li>
+        	<li><a href="#templateVars" data-toggle="tab"><?php echo $this->_lang['template_var_tab']; ?></a></li>
+        	<li><a href="#publishing" data-toggle="tab"><?php echo $this->_lang['document_settings']; ?></a></li>
+            <li class="active"><a href="#identification" data-toggle="tab"><?php echo $this->_lang['document']; ?></a></li>
+            <li class="pull-left header"><i class="fa fa-edit"></i> <span id="docTitle" class="box-title"><?php echo isset($content['pagetitle']) ? stripslashes($content['pagetitle']) : $this->_lang["un_saved"]; ?></span></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="identification" style="position: relative;">
+            <?php
+			if($id && count($content)>0) {
+			?>
+			<input type="hidden" name="docId" id="docId" value="<?php echo $id; ?>" />
+			<?php
+			}
+			?>
+            	<?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ echo $this->_lang['weblink_message']; } ?>
+                <div class="row">
+                    <div class="col-md-6"> <!-- left column -->
+                    	<div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['document_title']; ?></label></div>
+                            <div class="col-md-7"><input name="pagetitle" id="pagetitle" type="text" maxlength="100" value="<?php echo isset($content['pagetitle']) ? $content['pagetitle'] : ''; ?>" class="form-control"></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['long_title']; ?></label></div>
+                            <div class="col-md-7"><input name="setitle" id="setitle" type="text" maxlength="120" value="<?php echo isset($content['longtitle']) ? $content['longtitle'] : ''; ?>" class="form-control" ></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_long_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['document_description']; ?></label></div>
+                            <div class="col-md-7"><input name="description" id="description" type="text" maxlength="255" value="<?php echo isset($content['description']) ? $content['description'] : ''; ?>" class="form-control"></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['document_alias']; ?></label></div>
+                            <div class="col-md-7">
+                                <input id="alias" name="alias" type="text" maxlength="100" value="<?php echo isset($content['alias']) ? $content['alias'] : ''; ?>" class="form-control"><div id="aliasUniqueMessage" style="display:none;" class="alert alert-warning"><i class="fa fa-warning"></i> <?php echo $this->_lang['alias_exists']; ?></div><div id="aliasUniqueMessageResponse" style="display:none;" class="alert alert-sucess"></div></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_alias_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
                             </div>
-                            </td>
-                        </tr>
-                    <?php
-                }// end while
-                ?>
-                </table>
-                <?php
-              }else{
-              ?>
-                <p><?php echo $this->_lang['document_no_previous_versions']; ?></p>
-              <?php
-              }
-        }else{ // new doc so just say no previous versions
-        ?>
-        <p><?php echo $this->_lang['document_no_previous_versions']; ?></p>
-        <?php
-        }
-        ?>
+                        </div>
+                        
+                        <?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ ?>
+                        <div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['weblink']; ?></label></div>
+                            <div class="col-md-7"><input name="taContent" id="taContent" type="text" maxlength="255" value="<?php echo isset($content['content']) ? $content['content'] : 'http://'; ?>" class="form-control"></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_weblink_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
+                        </div>
+                        <?php } ?>
+                        
+                        <div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['document_parent']; ?></label></div>
+                            <div class="col-md-7">
+                                <?php
+                                            if (isset($_REQUEST['pid']) && !empty($_REQUEST['pid']) && !isset($content['parent'])) {
+                                                $parentDoc = $this->getDocument($_REQUEST['pid']);
+                                                if (count($parentDoc) > 0) {
+                                                    $parentname = $parentDoc['pagetitle'];
+                                                    $parentId = $parentDoc['id'];
+                                                } else {
+                                                    $parentname = $this->config['site_name'];
+                                                    $parentId = 0;
+                                                }
+                                            } else {
+                                                if($parentDoc = $this->getDocument($content['parent'])) {
+                                                    $parentname = $parentDoc['pagetitle'];
+                                                    $parentId = $content['parent'];
+                                                } else {
+                                                    $parentname = $this->config['site_name'];
+                                                    $parentId = 0;
+                                                }
+                                            }
+                                    ?>
+                                    
+                                            <b><span id="parentName"><?php echo $parentId; ?> (<?php echo $parentname; ?>)</span></b></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_parent_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                                            <input type="hidden" name="parent" id="parent" value="<?php echo $parentId; ?>" >
+                            </div>
+                        </div>
+                    </div><!-- end left column -->
+                    <div class="col-md-6"> <!-- right column -->
+                    	<div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['document_meta_title']; ?></label></div>
+                            <div class="col-md-7">
+                                <input name="meta_title" id="meta_title" type="text" maxlength="255" value="<?php echo isset($content['meta_title']) ? $content['meta_title'] : ''; ?>" class="form-control"></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_title_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['document_meta_description']; ?></label></div>
+                            <div class="col-md-7">
+                                <input name="meta_description" id="meta_description" type="text" maxlength="255" value="<?php echo isset($content['meta_description']) ? $content['meta_description'] : ''; ?>" class="form-control"></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_description_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label><?php echo $this->_lang['document_meta_keywords']; ?></label></div>
+                            <div class="col-md-7">
+                                <input name="meta_keywords" id="meta_keywords" type="text" maxlength="255" value="<?php echo isset($content['meta_keywords']) ? $content['meta_keywords'] : ''; ?>" class="form-control"></div><div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_meta_keywords_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                    </div><!-- end right column -->
+                </div>
+            </div>
+            <div class="tab-pane" id="publishing" style="position: relative;">
+            	<div class="row">
+                    <div class="col-md-6"> <!-- left column -->
+                    	<div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_folder']; ?></label></div>
+                            <div class="col-md-7"><input name="isfolder" id="isfolder" type="checkbox"<?php echo (isset($content['isfolder']) && $content['isfolder']==1) ? " checked='checked'" : ''; ?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_folder_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
+                        </div>
+                        
+                        <?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ ?>
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_richtext']; ?></label></div>
+                            <div class="col-md-7"><input name="richtext" id="richtext" type="checkbox"<?php echo (isset($content['richtext']) && $content['richtext']==1) ? " checked='checked'" : ''; ?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_richtext_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
+                        </div>
+                        <?php } ?>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_published']; ?></label></div>
+                            <?php if($content['published'] == "" || !isset($content['published'])){ $content['published'] = $this->config['publish_default']; } ?>
+                            <div class="col-md-7"><input name="published" id="published" type="checkbox"<?php echo (isset($content['published']) && $content['published']==1) ? " checked='checked'" : ''; ?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_published_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['createdon']; ?></label></div>
+                            <div class="col-md-7"><input class="form-control" id="createdon" name="createdon" type="text" value="<?php echo $content['createdon']=="0" || !isset($content['createdon']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['createdon']);?>"></div>
+                            <div class="col-md-1"><script type="text/javascript">
+                                $('#createdon').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
+                            </script>
+                            <img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_createdon_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['page_data_publishdate']; ?></label></div>
+                            <div class="col-md-7"><input class="form-control" id="pub_date" name="pub_date" type="text" value="<?php echo $content['pub_date']=="0" || !isset($content['pub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['pub_date']);?>"></div>
+                            <div class="col-md-1"><script type="text/javascript">
+                                $('#pub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
+                            </script>
+                            <img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_publishdate_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['page_data_unpublishdate']; ?></label></div>
+                            <div class="col-md-7"><input class="form-control" id="unpub_date" name="unpub_date" type="text" value="<?php echo $content['unpub_date']=="0" || !isset($content['unpub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['unpub_date']);?>" /></div>
+                            <div class="col-md-1"><script type="text/javascript">
+                                $('#unpub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
+                            </script>
+                            <img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_unpublishdate_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_menu_index']; ?></label></div>
+                            <div class="col-md-7"><input name="menuindex" id="menuindex" type="text" maxlength="5" value="<?php echo isset($content['menuindex']) ? $content['menuindex'] : ''; ?>" class="form-control"></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_menu_index_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                    </div><!-- end left column -->
+                    
+                    <div class="col-md-6"> <!-- left column -->
+                    	<div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['page_data_searchable']; ?></label></div>
+                            <?php if($content['searchable'] == "" || !isset($content['searchable'])){ $content['searchable'] = $this->config['search_default']; } ?>
+                            <div class="col-md-7"><input name="searchable" id="searchable" type="checkbox"<?php echo (isset($content['searchable']) && $content['searchable']==1) ? " checked='checked'" : ''; ?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_searchable_help']; ?>" onClick="alert(this.alt);" style="cursor:help;" />
+                            </div>
+                        </div>
+                        
+                        <?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){ ?>
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['page_data_cacheable']; ?></label></div>
+                            <?php if($content['cacheable'] == "" || !isset($content['cacheable'])){ $content['cacheable'] = $this->config['cache_default']; } ?>
+                            <div class="col-md-7"><input name="cacheable" id="cacheable" type="checkbox"<?php echo (isset($content['cacheable']) && $content['cacheable']==1) ? " checked='checked'" : ''; ?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_cacheable_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_emptycache']; ?></label></div>
+                            <div class="col-md-7"><input name="syncsite" id="syncsite" type="checkbox"<?php echo (isset($this->config['syncsitecheck_default']) && $this->config['syncsitecheck_default']=='1') ? " checked='checked'" : ''; ?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_emptycache_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['page_data_template']; ?></label></div>
+                            <div class="col-md-7"><?php
+            
+                      $sql = "select templatename, id from ".$this->db."site_templates ORDER BY templatename ASC";
+                      $rs = $this->dbQuery($sql);
+            
+            ?>
+            
+                      <select name="template" id="template" class="form-control">
+            
+            <?php
+                      while ($row = $this->fetchRow($rs))
+                      {
+                        $selectedtext = ($row['id'] == $this->config['default_template'] && empty($content['template'])) ? "selected='selected'" : "" ;
+                        if (isset($content['template']) && !empty($content['template']) && $row['id'] == $content['template']) {
+                            $selectedtext = "selected='selected'";
+                        }
+            ?>
+                        <option value="<?php echo $row['id']; ?>" <?php echo $selectedtext; ?>><?php echo $row['templatename']; ?></option>
+            <?php       }?>
+            
+                      </select></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_template_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['page_data_contentType']; ?></label></div>
+                            <div class="col-md-7"><select name="contentType" id="contentType" class="form-control">
+                        <option value="text/html"<?php echo (isset($content['contentType']) && $content['contentType']=='text/html') ? " selected='selected'" : ''; ?>>text/html</option>
+                        <option value="text/plain"<?php echo (isset($content['contentType']) && $content['contentType']=='text/plain') ? " selected='selected'" : ''; ?>>text/plain</option>
+                        <option value="text/xml"<?php echo (isset($content['contentType']) && $content['contentType']=='text/xml') ? " selected='selected'" : ''; ?>>text/xml</option>
+                      </select></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_contentType_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        <input type="hidden" name="type" id="type" value="document">
+                        <?php } else { ?>
+                        <input type="hidden" name="contentType" id="contentType" value="text/html" />
+                        <input type="hidden" name="cacheable" name="cacheable" value="0" />
+                        <input type="hidden" name="syncsite" name="syncsite" value="1" />
+                        <input type="hidden" name="template" id="template" value="0" />
+                        <input type="hidden" name="richtext" id="richtext" value="0" />
+                        <input type="hidden" name="type" id="type" value="reference" />
+                        <?php } ?>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['require_authenticate']; ?></label><div style="<?php echo (isset($content['authenticate']) && $content['authenticate']=='1') ? "" : 'display:none;'; ?>" class="grpLink"><a href="javascript:;" class="groupsBtn">Manage Groups</a></div></div>
+                            <div class="col-md-7"><input name="authenticate" id="authenticate" type="checkbox"<?php echo (isset($content['authenticate']) && $content['authenticate']=='1') ? " checked='checked'" : ''; ?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['require_authenticate_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col-md-4"><label><?php echo $this->_lang['showinmenu']; ?></label></div>
+                            <?php if($content['showinmenu'] == "" || !isset($content['showinmenu'])) { $content['showinmenu'] = $this->config['showinmenu_default']; }?>
+                            <div class="col-md-7"><input name="showinmenu" id="showinmenu" type="checkbox"<?php echo (isset($content['showinmenu']) && $content['showinmenu']=='1') ? " checked='checked'" : '';?>></div>
+                            <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['showinmenu_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
+                            </div>
+                        </div>
+                        
+                    </div><!-- end left column -->
+                </div><!-- end wrapper row -->
+            </div>
+            <div class="tab-pane" id="templateVars" style="position: relative;">
+            	<form>
+				<?php
+                if (!isset($id)) {
+                    echo "<p>You must first save the document to see the template variables available for the template chosen for this document.</p>";
+                } else {
+                    
+                    echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">';
+                    
+                    if(count($templateVars) > 0) {
+                        foreach($templateVars as $tv) {
+                            $field_size = '';
+                            $field_max_size = '';
+                            $cValue = '';
+                            if (isset($content['tvs'][$tv['tv_id']])) {
+                                $cValue = $content['tvs'][$tv['tv_id']];
+                            }
+                            switch($tv['type']) {
+                                case 'text':
+                                default:
+                                    echo '<tr>';
+                                    echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                                    echo '<td>';
+                                    if ($tv['field_size'] > 0) {
+                                        $field_size = ' size="'.$tv['field_size'].'"';
+                                    }
+                                    if ($tv['field_max_size'] > 0) {
+                                        $field_max_size = ' maxlength="'.$tv['field_max_size'].'"';
+                                    }
+                                    $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
+                                    echo "<input type='text' name='".$tv['field_name']."' id='".$tv['field_name']."'".$field_size.$field_max_size." value='".$val."' />";
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    break;
+                                case 'textarea':
+                                    echo '<tr>';
+                                    echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                                    echo '<td>';
+                                    $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
+                                    echo "<textarea name='".$tv['field_name']."' id='".$tv['field_name']."'>".$val."</textarea>";
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    break;
+                                case 'checkbox':
+                                    echo '<tr>';
+                                    echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                                    echo '<td>';
+                                    $checked = ((isset($cValue) && !empty($cValue)) && $cValue == $tv['default_val']) ? " checked='checked'":'';
+                                    echo "<input type='checkbox' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$tv['default_val']."'".$checked." />";
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    break;
+                                case 'radio':
+                                    echo '<tr>';
+                                    echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                                    echo '<td>';
+                                    if (!empty($tv['opts'])) {
+                                        $opts = explode("|", $tv['opts']);
+                                        if (count($opts) > 0) {
+                                            foreach($opts as $o) {
+                                                $option = explode(":", $o);
+                                                $checked = ((isset($cValue) && !empty($cValue)) && $cValue == $option[1]) ? " checked='checked'":'';
+                                                echo "<input type='radio' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$option[1]."'".$checked." /> ".$option[0]."<br />";
+                                            }
+                                        }
+                                    }
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    break;
+                                case 'select':
+                                    echo '<tr>';
+                                    echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                                    echo '<td>';
+                                    echo "<select name='".$tv['field_name']."' id='".$tv['field_name']."'>";
+                                    if (!empty($tv['opts'])) {
+                                        $opts = explode("|", $tv['opts']);
+                                        if (count($opts) > 0) {
+                                            foreach($opts as $o) {
+                                                $option = explode(":", $o);
+                                                $selected = ((isset($cValue) && !empty($cValue)) && $cValue == $option[1]) ? " selected='selected'":'';
+                                                echo "<option value='".$option[1]."'".$selected.">".$option[0]."</option>";
+                                            }
+                                        }
+                                    } else {
+                                        echo "<option value=''>No options specified for this tv!</option>";
+                                    }
+                                    echo "</select>";
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    break;
+                                case 'file':
+                                    echo '<tr>';
+                                    echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                                    echo '<td>';
+                                    $val = (isset($cValue) && !empty($cValue)) ? stripslashes($cValue):$tv['default_val'];
+                                    echo "<input style='width:200px;margin-right:15px;' type='text' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$val."' />";
+                                    echo "<a href='javascript:;' id='fileBrowser' class='button' onclick='Etomite.elFinderWindow(\"".$tv['field_name']."\");'>Browse</a>";
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    break;
+                                case 'date':
+                                    echo '<tr>';
+                                    echo '<td width="200"><span class="warning">'.$tv['name'].'</span>:</td>';
+                                    echo '<td>';
+                                    $val = (isset($cValue) && !empty($cValue)) ? date('Y-m-d @ h:i a', $cValue):$tv['default_val'];
+                                    echo "<input type='text' name='".$tv['field_name']."' id='".$tv['field_name']."' value='".$val."' />";
+                                    echo "<script type=\"text/javascript\">
+                                $('#".$tv['field_name']."').datetimepicker({dateFormat: 'yy-mm-dd', separator: ' @ ', ampm: true, showOn: \"both\", buttonImage: \"./images/icons/cal.gif\", buttonImageOnly: true});
+                            </script>";
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    break;
+                            }
+                        }
+                    }
+                    echo '</table>';
+                    
+                    // template vars
+                    if (isset($content['tvs']) && count($content['tvs']) > 0) {
+                        
+                    } else {
+                        // no varables for this document
+                    }
+                } ?>
+                </form>
+            </div>
+            <div class="tab-pane" id="prev-versions" style="position: relative;">
+            	<?php
+				if($id){
+					  $sql = "SELECT * FROM ".$this->db."site_content_versions WHERE ".$this->db."site_content_versions.orig_id = $id ORDER BY ".$this->db."site_content_versions.versionedon DESC;";
+					  $vrs = $this->dbQuery($sql);
+					  $nums = $this->recordCount($vrs);
+					  if(!empty($vrs) && $nums>0){
+					  ?>
+						<table width="100%" cellpadding="5">
+							<tr>
+								<th align="left"><?php echo $this->_lang['document_previous_version_date']; ?></th>
+								<th align="left"><?php echo $this->_lang['document_previous_version_editedby']; ?></th>
+								<th align="left"><?php echo $this->_lang['document_previous_version_actions']; ?></th>
+							</tr>
+					  <?php
+						while($r = $this->fetchRow($vrs)){
+							?>
+								<tr>
+									<td><?php echo strftime($this->config['date_format'].$sep.$this->config['time_format'], $r['versionedon']);?></td>
+									<td>
+									<?php
+										// get username who edited this version last
+										$usql = "SELECT * FROM ".$this->db."manager_users WHERE id=".$r['editedby']." LIMIT 1;";
+										$urs = $this->dbQuery($usql);
+										if($urs){
+											$urow = $this->fetchRow($urs);
+											$username = $urow['username'];
+											// now get full name
+											$usql = "SELECT * FROM ".$this->db."user_attributes WHERE internalKey=".$r['editedby']." LIMIT 1;";
+											$urs = $this->dbQuery($usql);
+											$urow = $this->fetchRow($urs);
+											$fullname = $urow['fullname'];
+											echo $fullname." (".$username.")";
+										}else{
+											echo "N/A";
+										}
+									?>
+									</td>
+									<td nowrap="nowrap"><a href="#" onclick="$('#doc_<?php echo $r['id'];?>').toggle(); return false;"><?php echo $this->_lang['view_info']?></a> <a href="index.php?a=5&revid=<?php echo $r['id']; ?>&id=<?php echo $content['id'];?>&mode=999" onclick="return revert();"><?php echo $this->_lang['revert']; ?></a>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">
+									<div id="doc_<?php echo $r['id'];?>" style="display:none;">
+										<div style="border:#000 solid 1px;padding:5px;">
+											<p><strong><?php echo $this->_lang["document_title"]; ?>: </strong><?php echo $r['pagetitle']; ?></p>
+											<p><strong><?php echo $this->_lang["long_title"]; ?>: </strong><?php echo $r['longtitle']; ?></p>
+											<p><strong><?php echo $this->_lang["document_description"]; ?>: </strong><?php echo $r['description']; ?></p>
+											<p><strong><?php echo $this->_lang["document_alias"]; ?>: </strong><?php echo $r['alias']; ?></p>
+											<p><strong><?php echo $this->_lang["document_meta_title"]; ?>: </strong><?php echo $r['meta_title']; ?></p>
+											<p><strong><?php echo $this->_lang["document_meta_description"]; ?>: </strong><?php echo $r['meta_description']; ?></p>
+											<p><strong><?php echo $this->_lang["document_meta_keywords"]; ?>: </strong><?php echo $r['meta_keywords']; ?></p>
+											<p><strong><?php echo $this->_lang["document_content"]; ?>: </strong><br /><pre><?php echo $r['content']; ?></pre></p>
+										</div>
+									</div>
+									</td>
+								</tr>
+							<?php
+						}// end while
+						?>
+						</table>
+						<?php
+					  }else{
+					  ?>
+						<p><?php echo $this->_lang['document_no_previous_versions']; ?></p>
+					  <?php
+					  }
+				}else{ // new doc so just say no previous versions
+				?>
+				<p><?php echo $this->_lang['document_no_previous_versions']; ?></p>
+				<?php
+				}
+				?>
+            </div>
+        </div>
     </div>
+    <?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){?>
+    <div class="box box-primary">
+        <div class="box-header">
+            <i class="fa fa-edit"></i>
+            <h3 class="box-title"><?php echo $this->_lang['document_content']; ?></h3>
+        </div>
+        <div class="box-body">
+        	<div id="docContent">
+                <textarea rows="10" cols="60" name="taContent" id="taContent" style="height:400px; width:100%"><?php echo isset($content['content']) ? stripslashes($content['content']) : ""; ?></textarea>
+            </div>
+        </div>
     </div>
-</div>
+    <?php } ?>
+</section>
 
-<?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){?>
-<div style="overflow: visible; margin: 10px; border: #999 solid 1px;">
-    <div class='header'><?php echo $this->_lang['document_content']; ?></div>
-    <div id="docContent">
-        <textarea rows="10" cols="60" name="taContent" id="taContent" style="height:400px; width:100%"><?php echo isset($content['content']) ? stripslashes($content['content']) : ""; ?></textarea>
-    </div>
-</div>
-<?php } ?>
-</div>
 <div id="groupsWindow" style="display:none;">
 <?php
 	$groups = $this->getGroups();
@@ -594,7 +559,6 @@ if($id && count($content)>0) {
 		}
        
     });
-    $('#doc-tabs').tabs();
     $('#pagetitle').keyup(function() {
         $('#docTitle').text($('#pagetitle').val());
     });

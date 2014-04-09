@@ -1,0 +1,56 @@
+.navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a, .navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a, .navbar-nav > .tasks-menu > .dropdown-menu > li .menu > li > a { white-space: normal; }
+
+.navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a > p { margin: 0; }
+.navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a > h4 { margin: 0; }
+
+#fileManager .elfinder-button {
+	box-sizing: initial;
+	-moz-box-sizing: initial;
+}
+
+.action-btns {
+	margin-bottom: 10px;
+}
+
+#rootNode {
+	padding-left: 15px;
+}
+
+#docTree {
+	padding-left: 15px;
+}
+
+ul.jqtree-tree .jqtree-title.hiddenNode {
+	color: #999;
+}
+
+ul.jqtree-tree .jqtree-title.unpublishedNode {
+	color: #990000;
+	font-style: italic;
+}
+
+.fa.unpublishedNode {
+	color: #990000;
+	font-weight: bold;
+}
+
+ul.jqtree-tree .jqtree-title.deletedNode {
+	text-decoration: line-through;
+}
+
+.data-title:before {
+    background: none repeat scroll 0 0 #DDDDDD;
+    content: attr(data-menutitle);
+    display: block;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    left: 0;
+    padding: 2px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.data-title *:first-child {
+    margin-top: 20px;
+}

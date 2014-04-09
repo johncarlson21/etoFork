@@ -1,0 +1,36 @@
+<p><?php echo $_lang["onlineusers_message"]."&nbsp;".strftime($etomite->config['time_format'], time()+$etomite->config['server_offset_time']); ?></p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><?php echo $_lang["onlineusers_user"]; ?></th>
+      <th><?php echo $_lang["onlineusers_userid"]; ?></th>
+      <th><?php echo $_lang["onlineusers_ipaddress"]; ?></th>
+      <th><?php echo $_lang["onlineusers_lasthit"]; ?></th>
+      <th><?php echo $_lang["onlineusers_action"]; ?></th>
+    </tr>
+  </thead>
+  <tbody>
+
+<?php
+$timetocheck = (time()-(60*20)); //+$etomite->config['server_offset_time'];
+include_once("includes/actionlist.inc.php");
+$sql = "SELECT * FROM ".$etomite->db."active_users WHERE ".$etomite->db."active_users.lasthit > '".$timetocheck."' ORDER BY username ASC";
+$rs = $etomite->dbQuery($sql);
+$limit = $etomite->recordCount($rs);
+if($limit < 1)
+{
+echo "<tr><td colspan='5'>No active users found.</td></tr>";
+}
+else
+{
+for($i = 0; $i < $limit; $i++)
+{
+$activeusers = $etomite->fetchRow($rs);
+$currentaction = getAction($activeusers['action'], $activeusers['id']);
+echo "<tr><td><strong>".$activeusers['username']."</td><td>".$activeusers['internalKey']."</td><td></strong>".$activeusers['ip']."</td><td>".strftime($etomite->config['time_format'], $activeusers['lasthit']+$etomite->config['server_offset_time'])."</td><td>$currentaction</td></tr>";
+}
+}
+?>
+
+</tbody>
+</table>

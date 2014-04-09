@@ -1,4 +1,23 @@
-<div class="header"><?php echo $etomite->_lang['about_title']; ?></div>
-<div class="content">
-<?php echo $etomite->_lang['about_msg']; ?>
-</div>
+<section class="content-header">
+    <h1>
+        <?php echo $etomite->_lang['about_title']; ?>
+        <small>Welcome</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-group"></i> <?php echo $etomite->_lang['about_title']; ?></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="box box-primary">
+        <div class="box-header">
+            <i class="fa fa-group"></i>
+            <h3 class="box-title"><?php echo $etomite->_lang['about_title']; ?></h3>
+        </div>
+        <div class="box-body">
+			<?php echo $etomite->_lang['about_msg']; ?>
+        </div>
+    </div>
+</section>
