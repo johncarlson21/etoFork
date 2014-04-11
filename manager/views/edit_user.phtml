@@ -1,160 +1,161 @@
-<div class="header"><?php echo $this->_lang['user_title']; ?>
-    <?php if (isset($userdata['id'])) {
-        echo " - ".$userdata['fullname']." (".$userdata['username'].")";
-    } ?>
-</div>
-<div class="action-btns">
-    <a href="javascript:;" id="saveUser" class="button"><?php echo $this->_lang["save"]; ?></a>
-    <?php if ($id && !empty($id)) {?>
-    <a href="javascript:;" id="deleteUser" class="button"><?php echo $this->_lang["delete"]; ?></a>
-    <?php } ?>
-    <a href="javascript:;" id="cancelUser" class="button"><?php echo $this->_lang["cancel"]; ?></a>
-</div>
-<div id="user-tabs">
-    <ul>
-        <li><a href="#user-tab"><?php echo $this->_lang['user_title']; ?></a></li>
-        <li><a href="#user-permissions"><?php echo $this->_lang['group']; ?></a></li>
-    </ul>
-    <div id="user-tab">
-        <div id="editUser">
-        <input type="hidden" name="id" id="id" value="<?php echo isset($userdata['id']) ? $userdata['id'] : '' ?>">
-        <table border="0" cellspacing="0" cellpadding="4">
-          <tr>
-            <td colspan="3">
-              <span id="blocked-msg" class="warning"><?php if($userdata['blocked']==1 || ($userdata['blockeduntil']>time() && $userdata['blockeduntil']!=0) || $userdata['failedlogins']>3) { ?><span class='warning'><?php echo $this->_lang['user_is_blocked']; ?></span><?php } ?></span>
-              <br />
-            </td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['username']; ?>:</td>
-            <td>&nbsp;</td>
-            <td width="400"><input type="text" name="username" id="username" class="inputBox" style="width:150px" value="<?php echo $userdata['username']; ?>"><div style="display: none;" id="uniqueUsername"></div></td>
-          </tr>
-          <tr>
-            <td valign="top"><?php echo isset($userdata['id']) && is_numeric($userdata['id']) ? $this->_lang['change_password_new'].":" : $this->_lang['password'].":" ; ?></td>
-            <td>&nbsp;</td>
-            <td>
-               <?php
-               if (isset($userdata['id']) && is_numeric($userdata['id'])) { ?>
-                   <input style="float: left;" name="newpasswordcheck" id="newpasswordcheck" type="checkbox" onclick="$('#passwordBlock').toggle()">
-                    <div style="display:none; float:left;" id="passwordBlock">
-                        <input class="inputBox" name="newpassword" id="newpassword" type="text" />
-                        <a href="javascript:;" id="generatePasswordBtn" class="button"><?php echo $this->_lang["generate_password"]; ?></a>
+<section class="content-header">
+    <h1>
+        <?php echo $this->_lang['user_title']; ?>
+        <?php if (isset($userdata['id'])) {
+			echo " - ".$userdata['fullname']." (".$userdata['username'].")";
+		} ?>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-user"></i> <?php echo $this->_lang['user_management_title']; ?></li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="action-btns">
+        <a href="javascript:;" id="saveUser" class="btn btn-success"><?php echo $this->_lang["save"]; ?></a>
+        <?php if ($id && !empty($id)) {?>
+        <a href="javascript:;" id="deleteUser" class="btn btn-danger"><?php echo $this->_lang["delete"]; ?></a>
+        <?php } ?>
+        <a href="javascript:;" id="cancelUser" class="btn btn-warning"><?php echo $this->_lang["cancel"]; ?></a>
+    </div>
+    <div class="nav-tabs-custom">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#user-tab" data-toggle="tab"><?php echo $this->_lang['user_title']; ?></a></li>
+        	<li><a href="#user-permissions" data-toggle="tab"><?php echo $this->_lang['group']; ?></a></li>
+        </ul>
+        <div class="tab-content">
+        	<div class="tab-pane active" id="user-tab" style="position: relative;">
+                <div id="editUser">
+                <input type="hidden" name="id" id="id" value="<?php echo isset($userdata['id']) ? $userdata['id'] : '' ?>">
+                <?php if($userdata['blocked']==1 || ($userdata['blockeduntil']>time() && $userdata['blockeduntil']!=0) || $userdata['failedlogins']>3) { ?>
+                <div class="alert alert-warning">
+                	<i class="fa fa-warning"></i>
+                	<?php echo $this->_lang['user_is_blocked']; ?>
+                </div>
+                <?php } ?>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['username']; ?>:</label></div>
+                    <div class="col-md-9"><input type="text" name="username" id="username" class="form-control" value="<?php echo $userdata['username']; ?>"><div style="display: none;" id="uniqueUsername"></div></div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo isset($userdata['id']) && is_numeric($userdata['id']) ? $this->_lang['change_password_new'].":" : $this->_lang['password'].":" ; ?></label></div>
+                    <div class="col-md-9">
+                    	<?php
+					   if (isset($userdata['id']) && is_numeric($userdata['id'])) { ?>
+						   <input name="newpasswordcheck" id="newpasswordcheck" type="checkbox" onclick="$('#passwordBlock').toggle()">
+							<div style="display:none;" id="passwordBlock">
+								<input class="form-control" name="newpassword" id="newpassword" type="text" />
+								<a href="javascript:;" id="generatePasswordBtn" class="btn btn-primary"><?php echo $this->_lang["generate_password"]; ?></a>
+							</div>
+					   <?php
+					   } else {
+					   ?>
+						<input class="form-control" name="newpassword" id="newpassword" type="text" /><br /><a href="javascript:;" id="generatePasswordBtn" class="button"><?php echo $this->_lang["generate_password"]; ?></a>
+					   <?php } ?>
                     </div>
-               <?php
-               } else {
-               ?>
-                <input class="inputBox" name="newpassword" id="newpassword" type="text" /> <a href="javascript:;" id="generatePasswordBtn" class="button"><?php echo $this->_lang["generate_password"]; ?></a>
-               <?php } ?>
-               
-            </td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_full_name']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input type="text" name="fullname" id="fullname" class="inputBox" style="width:150px" value="<?php echo $userdata['fullname']; ?>"></td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_email']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input type="text" name="email" id="email" class="inputBox" style="width:150px" value="<?php echo $userdata['email']; ?>"></td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_phone']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input type="text" name="phone" id="phone" class="inputBox" style="width:150px" value="<?php echo $userdata['phone']; ?>"></td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_mobile']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input type="text" name="mobilephone" id="mobilephone" class="inputBox" style="width:150px" value="<?php echo $userdata['mobilephone']; ?>"></td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_role']; ?>:</td>
-            <td>&nbsp;</td>
-            <td>
-        <?php
-            if($_SESSION['role'] != 1){
-              $sql = "select name, id from ".$this->db."user_roles WHERE id != 1";
-            } else {
-              $sql = "select name, id from ".$this->db."user_roles";
-            }
-    
-            $rs = $this->dbQuery($sql);
-        ?>
-        <select name="role" id="role" class="inputBox" style="width:150px">
-        <?php
-        while ($row = $this->fetchRow($rs)) {
-          $selectedtext = $row['id']==$userdata['role'] ? "selected='selected'" : "" ;
-        ?>
-          <option value="<?php echo $row['id']; ?>" <?php echo $selectedtext; ?>><?php echo $row['name']; ?></option>
-        <?php
-        }
-        ?>
-        </select>
-          </td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_sendmessages']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input name="sendmessages" id="sendmessages" type="checkbox"<?php echo $userdata['mailmessages']==1 ? " checked='checked'": "" ; ?> /></td>
-          </tr>
-          <?php if (isset($userdata['id']) && is_numeric($userdata['id'])) { ?>
-          <tr>
-            <td><?php echo $this->_lang['user_logincount']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><?php echo $userdata['logincount'] ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_prevlogin']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><?php echo $userdata['lastlogin'] > 0 ? strftime('%d-%m-%y %H:%M:%S', $userdata['lastlogin']+$this->config['server_offset_time']) : ''; ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_failedlogincount']; ?>:</td>
-            <td>&nbsp;<input type="hidden" name="failedlogincount" id="failedlogincount"  value="<?php echo $userdata['failedlogincount']; ?>"></td>
-            <td><span id='failed'><?php echo $userdata['failedlogincount'] ?></span>&nbsp;&nbsp;&nbsp;[<a href="javascript:;" onclick="Etomite.resetUserFailed(<?php echo $userdata['id'];?>);"><?php echo $this->_lang['reset_failedlogins']; ?></a>]</td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['user_block']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input name="blocked" id="blocked" type="checkbox"<?php echo $userdata['blocked']==1 ? " checked='checked'": "" ; ?> /></td>
-          </tr>
-          <?php } ?>
-        </table>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_full_name']; ?>:</label></div>
+                    <div class="col-md-9"><input type="text" name="fullname" id="fullname" class="form-control" value="<?php echo $userdata['fullname']; ?>"></div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_email']; ?>:</label></div>
+                    <div class="col-md-9"><input type="text" name="email" id="email" class="form-control" value="<?php echo $userdata['email']; ?>"></div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_phone']; ?>:</label></div>
+                    <div class="col-md-9"><input type="text" name="phone" id="phone" class="form-control" value="<?php echo $userdata['phone']; ?>"></div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_mobile']; ?>:</label></div>
+                    <div class="col-md-9"><input type="text" name="mobilephone" id="mobilephone" class="form-control" value="<?php echo $userdata['mobilephone']; ?>"></div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_role']; ?>:</label></div>
+                    <div class="col-md-9">
+                    	<?php
+							if($_SESSION['role'] != 1){
+							  $sql = "select name, id from ".$this->db."user_roles WHERE id != 1";
+							} else {
+							  $sql = "select name, id from ".$this->db."user_roles";
+							}
+					
+							$rs = $this->dbQuery($sql);
+						?>
+						<select name="role" id="role" class="form-control">
+						<?php
+						while ($row = $this->fetchRow($rs)) {
+						  $selectedtext = $row['id']==$userdata['role'] ? "selected='selected'" : "" ;
+						?>
+						  <option value="<?php echo $row['id']; ?>" <?php echo $selectedtext; ?>><?php echo $row['name']; ?></option>
+						<?php
+						}
+						?>
+						</select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_sendmessages']; ?>:</label></div>
+                    <div class="col-md-9"><input name="sendmessages" id="sendmessages" type="checkbox"<?php echo $userdata['mailmessages']==1 ? " checked='checked'": "" ; ?> /></div>
+                </div>
+                <?php if (isset($userdata['id']) && is_numeric($userdata['id'])) { ?>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_logincount']; ?>:</label></div>
+                    <div class="col-md-9"><?php echo $userdata['logincount'] ?></div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_prevlogin']; ?>:</label></div>
+                    <div class="col-md-9"><?php echo $userdata['lastlogin'] > 0 ? strftime('%d-%m-%y %H:%M:%S', $userdata['lastlogin']+$this->config['server_offset_time']) : ''; ?></div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_failedlogincount']; ?>:</label></div>
+                    <div class="col-md-9">
+                    	<?php echo $userdata['failedlogincount'] ?> <a class="btn btn-default btn-sm" href="javascript:;" onclick="Etomite.resetUserFailed(<?php echo $userdata['id'];?>);"><?php echo $this->_lang['reset_failedlogins']; ?></a>
+                    	<input type="hidden" name="failedlogincount" id="failedlogincount"  value="<?php echo $userdata['failedlogincount']; ?>">
+                    </div>
+                </div>
+                <div class="row form-group">
+                	<div class="col-md-3"><label><?php echo $this->_lang['user_block']; ?>:</label></div>
+                    <div class="col-md-9"><input name="blocked" id="blocked" type="checkbox"<?php echo $userdata['blocked']==1 ? " checked='checked'": "" ; ?> /></div>
+                </div>
+                <?php } ?>
+                </div>
+                <?php if($userdata['id']==$_SESSION['internalKey']) { ?><span class='warning'><b><?php echo $this->_lang['user_edit_self_msg']; ?></span><br /><?php } ?>
+            </div>
+            <div class="tab-pane" id="user-permissions" style="position: relative;">
+            	<p><?php echo $this->_lang['access_permissions_user_message']; ?></p>
+				<?php
+                  $groupsarray = array();
+                  if (isset($userdata['id']) && is_numeric($userdata['id'])) {
+                      $sql = "SELECT * FROM ".$this->db."member_groups where member=".$userdata['id']."";
+                      $rs = $this->dbQuery($sql);
+                      $limit = $this->recordCount($rs);
+                      for ($i = 0; $i < $limit; $i++) {
+                        $currentgroup=$this->fetchRow($rs);
+                        $groupsarray[$i] = $currentgroup['user_group'];
+                      }
+                  }
+                  echo $this->_lang['access_permissions_user_message']; ?>
+                  <br />
+                <?php
+                $sql = "SELECT name, id FROM ".$this->db."membergroup_names";
+                $rs = $this->dbQuery($sql);
+                $limit = $this->recordCount($rs);
+                for($i=0; $i<$limit; $i++) {
+                  $row=$this->fetchRow($rs);
+            ?>
+              <input type="checkbox" name="user_groups[]" id="user_groups[]" <?php echo in_array($row['id'], $groupsarray) ? "checked='checked'" : "" ; ?> value="<?php echo $row['id'];?>" /> <?php echo $row['name']; ?><br />
+            <?php
+                }
+            ?>
+            </div>
         </div>
-        <?php if($userdata['id']==$_SESSION['internalKey']) { ?><span class='warning'><b><?php echo $this->_lang['user_edit_self_msg']; ?></span><br /><?php } ?>
     </div>
-    <div id="user-permissions">
-        <p><?php echo $this->_lang['access_permissions_user_message']; ?></p>
-        <?php
-          $groupsarray = array();
-          if (isset($userdata['id']) && is_numeric($userdata['id'])) {
-              $sql = "SELECT * FROM ".$this->db."member_groups where member=".$userdata['id']."";
-              $rs = $this->dbQuery($sql);
-              $limit = $this->recordCount($rs);
-              for ($i = 0; $i < $limit; $i++) {
-                $currentgroup=$this->fetchRow($rs);
-                $groupsarray[$i] = $currentgroup['user_group'];
-              }
-          }
-          echo $this->_lang['access_permissions_user_message']; ?>
-          <br />
-        <?php
-        $sql = "SELECT name, id FROM ".$this->db."membergroup_names";
-        $rs = $this->dbQuery($sql);
-        $limit = $this->recordCount($rs);
-        for($i=0; $i<$limit; $i++) {
-          $row=$this->fetchRow($rs);
-    ?>
-      <input type="checkbox" name="user_groups[]" id="user_groups[]" <?php echo in_array($row['id'], $groupsarray) ? "checked='checked'" : "" ; ?> value="<?php echo $row['id'];?>" /><?php echo $row['name']; ?><br />
-    <?php
-        }
-    ?>
-    </div>
-</div>
+</section>
+
 <script type="text/javascript">
-    $('#user-tabs').tabs();
     $('#generatePasswordBtn').click(function() {
         Etomite.generatePassword();
     });

@@ -2835,7 +2835,7 @@ title='$siteName'>$siteName</a></h2>
                 $tree[$i]['title']      = $p['pagetitle'] . " (" . $p['id'] . ")";
 				$tree[$i]['label']		= $p['pagetitle'] . " (" . $p['id'] . ")";
 				$tree[$i]['id']			= $p['id'];
-                $tree[$i]['key']        = "id_" . $p['id'];
+                //$tree[$i]['key']        = "id_" . $p['id'];
                 $tree[$i]['docUrl']     = $this->makeUrl($p['id']);
                 $tree[$i]['tooltip']    = "Alias: " . $p['alias'] . " - Menu index: " . $p['menuindex'];
                 $tree[$i]['showinmenu'] = $p['showinmenu'];
@@ -2845,6 +2845,7 @@ title='$siteName'>$siteName</a></h2>
                 if ($p['isfolder'] == 1) {
                     $tree[$i]['is_folder'] = true;
                 }
+				/*
                 if ($p['type'] == 'reference') {
                     if ($p['isfolder'] == 1) {
                         $tree[$i]['icon'] = 'weblinkfolder.gif';
@@ -2879,7 +2880,7 @@ title='$siteName'>$siteName</a></h2>
                             $tree[$i]['icon'] = 'unpublishedpage.gif';
                         }
                     }
-                }
+                }*/
                 if ($children = $this->generateDocTree($p['id'])) {
                     if (count($children) > 0) {
                         $tree[$i]['children'] = $children;

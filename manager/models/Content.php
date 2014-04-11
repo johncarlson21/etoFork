@@ -30,15 +30,15 @@ class Content extends etomite {
         }
     }
 	
-	public function saveTreeChildren($child) {
-    	if($child) {
-    		// first add this child to the array
-    		$this->treeChildren[] = $child['key'];
-    		if(count($child['children']) > 0) {
-    			foreach($child['children'] as $c) {
-    				$this->saveTreeChildren($c);
-    			}
-    		}
+	public function saveTreeChildren($tree) {
+    	if($tree && count($tree) > 0) {
+			foreach($tree as $child) {
+				// first add this child to the array
+				$this->treeChildren[] = $child['id'];
+				if(isset($child['children']) && count($child['children']) > 0) {
+						$this->saveTreeChildren($child['children']);
+				}
+			}
     	}
     	return;
     }
@@ -46,23 +46,10 @@ class Content extends etomite {
     public function saveTree($data=array(), $count=0) {
         if (is_array($data) && count($data) > 0) {
             // process the tree here
-            /*$menuindex = $count;
-            foreach($data['children'] as $child) {
-                $id = str_replace("id_", "", $child['key']);
-                $this->updIntTableRows(array('menuindex'=>$menuindex), 'site_content', 'id='.$id);
-                $menuindex++;
-                if (isset($child['children']) && count($child['children']) > 0) {
-                    $menuindex = $this->saveTree($child, $menuindex);
-                }
-                if($count > 0) {
-                    return $menuindex;
-                }
-                
-            }*/
-			$this->saveTreeChildren($data['children'][0]);
+			$this->saveTreeChildren($data);
             $data = $this->treeChildren;
             for($i=0;$i < count($data);$i++) {
-                $id = str_replace("id_", "", $data[$i]);
+                $id = $data[$i];
                 if ($id > 0) {
                     $this->updIntTableRows(array('menuindex'=>$i), 'site_content', 'id='.$id);
                 }

@@ -107,6 +107,7 @@
 .context-menu-item.icon-hidemenu { background-image: url(images/link_break.png); }
 .context-menu-item.icon-purge { background-image: url(images/cancel.png); }
 .context-menu-item.icon-refresh { background-image: url(images/arrow_refresh.png); }
+.context-menu-item.icon-convert { background-image: url(images/doc_convert.png); }
 
 
 /* vertically align inside labels */

@@ -211,9 +211,11 @@ var Etomite = {
 				$li.find('.jqtree-element').first().attr('data-id', node.id);
 				$li.find('.jqtree-element').first().attr('data-docurl', node.docUrl);
 				$li.find('.jqtree-element').first().attr('data-weblink', node.weblink);
-				if (node.is_folder == 1) {
+				if (node.is_folder == 1 && node.weblink == 1) {
+					$li.find('.jqtree-title').before('<i class="fa fa-globe"></i> &nbsp;');
+				} else if (node.is_folder == 1) {
 					$li.find('.jqtree-title').before('<i class="fa fa-folder-o"></i> &nbsp;');	
-				} else if (node.weblink == 'true') {
+				} else if (node.weblink == 1) {
 					$li.find('.jqtree-title').before('<i class="fa fa-globe"></i> &nbsp;');
 				} else {
 					$li.find('.jqtree-title').before('<i class="fa fa-file-o"></i> &nbsp;');	
@@ -231,6 +233,39 @@ var Etomite = {
 				
 			}
 		});
+				
+		$('#docTree').bind(
+			'tree.move',
+			function(event) {
+				var prevparent = event.move_info.previous_parent.id;
+				var node = event.move_info.moved_node;
+				event.preventDefault();
+				event.move_info.do_move();
+				var parent = node.parent.id;
+				if (prevparent != parent) {
+					// need to move this document
+					if (parent == null || parent == 'undefined' || parent < 1) {
+						parent = 0;
+					}
+					Etomite.updateDocProperty('parent', parent, node.id);
+				}
+				console.log('current parent'+parent);
+				$.ajax({
+					url: 'ActionServer.php',
+					dataType: 'html',
+					data: {
+						action: 'saveTree',
+						tree: $('#docTree').tree('toJson')
+					},
+					success: function(response) {
+						if(response === null || json.succeed !== true) {
+                            Etomite.errorDialog('Error moving document', 'Error');
+                        }
+						Etomite.loadDocTree();
+					} // end function
+				});
+			}
+		);
 		
 		$('#docTree').bind(
 			'tree.click',
@@ -362,6 +397,12 @@ var Etomite = {
 							case "hidemenu":
 								Etomite.updateDocProperty('showinmenu', '0', id);
 								break;
+							case "convdoc":
+								Etomite.updateDocProperty('type', 'document', id);
+								break;
+							case "convlink":
+								Etomite.updateDocProperty('type', 'reference', id);
+								break;
 						} // end switch
 					},
 					items: {
@@ -369,6 +410,8 @@ var Etomite = {
 						"edit": {name: "Edit", icon: "edit"},
 						"copy": {name: "Duplicate", icon: "copy"},
 						"move": {name: "Change Parent Document", icon: "move"},
+						"convdoc": {name: "Convert to Document", icon: "convert"},
+						"convlink": {name: "Convert to Weblink", icon: "convert"},
 						"sep1": "---------",
 						"create": {name: "Create Document Here", icon: "add"},
 						"createw": {name: "Create Weblink Here", icon: "addw"},
@@ -454,6 +497,7 @@ var Etomite = {
                             },
                             success: function(html) {
                                 $('#mainContent').html(html);
+								activateCollapse();
                             }
                         });
                     });
@@ -568,6 +612,7 @@ var Etomite = {
                         }
                     } else {
                         Etomite.loadPaneFromAction('loadWelcome');
+						activateCollapse();
 						Etomite.editingDoc = false;
                     }
                 }
@@ -640,6 +685,7 @@ var Etomite = {
                     Etomite.movingDocId = '';
                     
                     Etomite.loadPaneFromAction('loadWelcome');
+					activateCollapse();
                     $(this).dialog('close');
                     $(this).dialog('destroy');
                     $('#moveDocumentDialog').remove();
@@ -651,6 +697,7 @@ var Etomite = {
                     Etomite.movingDoc = false;
                     Etomite.movingDocId = '';
                     Etomite.loadPaneFromAction('loadWelcome');
+					activateCollapse();
                 }
             }
         });
@@ -712,6 +759,7 @@ var Etomite = {
                             },
                             success: function(html) {
                                 $('#mainContent').html(html);
+								activateCollapse();
 								Etomite.editingDoc = false;
                             }
                         });
@@ -1254,7 +1302,7 @@ var Etomite = {
         
         if (newpw.length > 0) {
             if (newpw.length < 6) {
-                error =+ "Password to short";
+                error += "Password to short";
             }
         }
         

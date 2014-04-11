@@ -6,7 +6,7 @@
 $svn_rev = 226;
 $small_version = "2"; // Current codebase
 $patch_level = ".5"; // Revision number
-$release = "2.4 r".$svn_rev; // Full current etoFork release number
+$release = "2.5 r".$svn_rev; // Full current etoFork release number
 $code_name = "Raven"; // Current etoFork codename
 $full_appname = "EtoFork - Etomite CMS ".$release." ($code_name)";
 $full_slogan = "Fast, Free, Infinitely Flexible";

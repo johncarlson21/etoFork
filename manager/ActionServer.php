@@ -46,12 +46,17 @@ class ActionServer extends Ajax {
         if (!isset($_REQUEST['tree']) || count($_REQUEST['tree']) < 1) {
             $this->respond(true,'');
         }
+		$td = stripslashes($_REQUEST['tree']);
+		// updated for new jqTree json
+		$td = json_decode($td,true);
+		
         $Content = new Content();
-        if ($Content->saveTree($_REQUEST['tree'])) {
+        if ($Content->saveTree($td)) {
             $this->respond(true, $Content->_lang['save_tree']);
         } else {
             $this->respond(false, $Content->_lang['save_tree_error']);
         }
+		
     }
     
     public function reloadModuleNav() {
@@ -501,5 +506,6 @@ $action_server->validateRequest(array('action'));
 
 $action = $_REQUEST['action'];
 $action_server->$action();
+
 
 ?>

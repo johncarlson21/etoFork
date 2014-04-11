@@ -54,3 +54,8 @@ ul.jqtree-tree .jqtree-title.deletedNode {
 .data-title *:first-child {
     margin-top: 20px;
 }
+
+.tooltip.in {
+	background: transparent;
+	border: none;
+}

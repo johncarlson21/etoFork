@@ -26,8 +26,6 @@
     </ol>
 </section>
 <?php
-$cssPath = !empty($tiny_css_path) ? $tiny_css_path : "";
-$cssSelectors = !empty($tiny_css_selectors) ? $tiny_css_selectors : "theme_advanced_styles";
 $cfg['ilibs_dir'] = array('../assets/images/');
 $sep = " @ ";
 ?>
@@ -151,7 +149,7 @@ $sep = " @ ";
                             <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_folder_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
                         </div>
                         
-                        <?php if($reference || (isset($content['type']) && $content['type'] == "reference")){ ?>
+                        <?php if(!$reference && $content['type'] != "reference"){ ?>
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_richtext']; ?></label></div>
                             <div class="col-md-7"><input name="richtext" id="richtext" type="checkbox"<?php echo (isset($content['richtext']) && $content['richtext']==1) ? " checked='checked'" : ''; ?>></div>
