@@ -34,7 +34,9 @@ function spin(stop) {
 			}
 		).spin(target);
 	} else {
-		spinner.stop();
+		setTimeout(function() {
+			spinner.stop();
+		}, 1000);
 	}
 }
 

@@ -1,12 +1,11 @@
 <?php
 // Version stuff...
-// this needs to change once there is a file version check for etoFork
 
 $small_version = $etomite->config['small_version'];
 $patch_level = $etomite->config['patch_level'];
 $release = $etomite->config['release'];
 
-if(@$handle = fopen("http://www.etomite.com/status/status.php", "r"))
+if(@$handle = fopen("http://www.etofork.com/status/status.php", "r"))
 {
   $newversion = fgets($handle, 4096);
   fclose($handle);

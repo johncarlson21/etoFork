@@ -440,7 +440,6 @@ var Etomite = {
     /* CONTENT */
     editDocument: function(docId, parentId, weblink) {
         Etomite.editingDoc = true;
-        spin();
         if (weblink != 'true' || weblink == null || weblink == '') {
             weblink = false;
         }
@@ -464,12 +463,6 @@ var Etomite = {
 						$('#groupsWindow').dialog('remove');
 					}
                     Etomite.loadPane(response);
-                    setTimeout(function() {
-                        spin(false);
-                        if(weblink == false){
-                            //setupTiny("taContent");
-                        }
-                    }, 1000);
 					
 					$("#saveDocument").unbind( "click" );
 					$("#saveCloseDocument").unbind( "click" );
@@ -705,7 +698,6 @@ var Etomite = {
 	
 	duplicateDocument: function(docId, weblink) {
 		Etomite.editingDoc = true;
-        spin();
         if (weblink != 'true' || weblink == null || weblink == '') {
             weblink = false;
         }
@@ -728,12 +720,6 @@ var Etomite = {
 						$('#groupsWindow').dialog('remove');
 					}
                     Etomite.loadPane(response);
-                    setTimeout(function() {
-                        spin(false);
-                        if(weblink == false){
-                            //setupTiny("taContent");
-                        }
-                    }, 1000);
                     
 					$("#saveDocument").unbind( "click" );
 					$("#saveCloseDocument").unbind( "click" );
@@ -1669,7 +1655,6 @@ var Etomite = {
     },
     
     installModule: function() {
-        spin();
         $.ajax({
             url: '../modules/module.php',
             dataType: 'html',
@@ -1680,7 +1665,6 @@ var Etomite = {
                 if (response === null) {
                     Etomite.errorDialog('There was an error trying to start install process!', 'Error!');
                 } else {
-					spin(false);
                     Etomite.loadPane(response);
 					
                     $('.install-module-btn').click(function() {

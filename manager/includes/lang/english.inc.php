@@ -1,14 +1,12 @@
 <?php
 /***************************************************************************
  Filename:  includes/lang/english.inc.php
- Function:  English language file for Etomite.
- Modified By: The Etomite Content Management System Project
- Last Modified: 2008-05-06 [v1.0]
+ Description:  English language file for etoFork.
  Modified By John Carlson
  Last Modified: 2014-04-08
 /***************************************************************************/
 
-$_lang["login_message"] = "Please enter your login credentials to start your etoFork session. Your username and password are case-sensitive, so please enter them carefully!"; // changed 06 RC2
+$_lang["login_message"] = "Please enter your login credentials to start your etoFork session. Your username and password are case-sensitive, so please enter them carefully!";
 $_lang["login_terms_error"] = "Sorry! To login, you must agree to the terms of use.";
 $_lang["include_ordering_error"] = "<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the etoFork Manager instead of accessing this file directly.";
 $_lang["copy_msg"] = "etoFork is &copy; and &trade; of The etoFork Project.";
@@ -71,7 +69,7 @@ $_lang["manager"] = "Manager";
 $_lang["test_page"] = "Test page";
 $_lang["logout"] = "Logout";
 $_lang["nojava"] = "Java seems to be disabled. Click <a href='index.php?a=1&f=9&javaDis=1'>here</a> to load the non-java menu.";
-$_lang["confirm_empty_trash"] = "This will permanently remove ALL deleted documents?\\n\\nProceed?"; // changed 06 RC2
+$_lang["confirm_empty_trash"] = "This will permanently remove ALL deleted documents?\\n\\nProceed?";
 $_lang["unable_set_parent"] = "Unable to set new parent!";
 $_lang["confirm_delete_document"] = "Are you sure you want to delete this document?\\nAny children documents will also be deleted.";
 $_lang["already_deleted"] = "has already been deleted.";
@@ -104,7 +102,7 @@ $_lang["deleted_weblink"] = "This is a deleted weblink.";
 $_lang["published_weblink_folder"] = "This is a published weblink folder.";
 $_lang["unpublished_weblink_folder"] = "This is an un-published weblink folder.";
 $_lang["deleted_weblink_folder"] = "This is a deleted weblink folder.";
-$_lang["empty_recycle_bin"] = "Purge deleted documents"; // changed 06 rc 2
+$_lang["empty_recycle_bin"] = "Purge deleted documents";
 $_lang["loading_doc_tree"] = "Loading document tree...";
 $_lang["loading_menu"] = "Loading menu...";
 $_lang["loading_menu_tree"] = "Loading document tree and menu...";
@@ -114,7 +112,7 @@ $_lang["confirm_remove_locks"] = "Users sometimes close their browser while edit
 $_lang["welcome_title"] = "Welcome to etoFork";
 $_lang["welcome_message"] = "Welcome to etoFork! To start, select a document from the tree to
  the left of the screen, or choose a menu option from the main menu. Suggestions, comments or compliments are always welcome at the <a href='http://www.etomite.com/forums/' rel='external'>Etomite
- Forums</a>.<p>We hope you enjoy using etoFork,<br />The etoFork Development Team</p>"; // Returned 0614
+ Forums</a>.<p>We hope you enjoy using etoFork,<br />The etoFork Development Team</p>";
 $_lang["welcome_messages"] = "Your inbox contains <b>%d</b> message(s), of which <b>%s</b> are unread.";
 $_lang["activity_title"] = "Recent documents";
 $_lang["activity_message"] = "This list shows the last documents you created or edited:";
@@ -152,7 +150,7 @@ $_lang["edit"] = "Edit";
 $_lang["save"] = "Save";
 $_lang["delete"] = "Delete";
 $_lang["cancel"] = "Cancel";
-$_lang["undelete"] = "Undelete"; // Added in 0.6.1 - replaces obsolete find_in_tree
+$_lang["undelete"] = "Undelete";
 $_lang["preview"] = "Preview";
 $_lang["move"] = "Move";
 $_lang["yes"] = "Yes";
@@ -176,15 +174,15 @@ $_lang["errorpage_message"] = "Enter the ID of the document you want to send use
 $_lang["sitestatus_title"] = "Site status:";
 $_lang["sitestatus_message"] = "Select 'online' to publish your site on the web. If you select 'Offline', your visitors will see the 'Site unavailable message', and won't be able to browse the site.";
 $_lang["siteunavailable_title"] = "Site unavailable message:";
-$_lang["siteunavailable_message"] = "Message to show when the site is offline or if an error occurs. If a numeric value is inserted here it will be interpreted as a document id and that document will be used to render the appropriate message. If that document does not exist then the Error page will be rendered."; // modified in [0614]
+$_lang["siteunavailable_message"] = "Message to show when the site is offline or if an error occurs. If a numeric value is inserted here it will be interpreted as a document id and that document will be used to render the appropriate message. If that document does not exist then the Error page will be rendered.";
 $_lang["friendlyurls_title"] = "Use friendly URLs:";
 $_lang["friendlyurls_message"] = "This allows you to use search engine friendly URLs with etoFork. Please note, this only works for etoFork installations running on Apache, and you'll need to write a .htaccess file for this to work. See the .htaccess file included in the distribution for more info.";
 $_lang["friendlyurlsprefix_title"] = "Prefix for friendly URLs:";
-$_lang["friendlyurlsprefix_message"] = "Here you can specify the prefix to use for friendly URLs. For example, a prefix setting of 'page' will turn the URL /index.php?id=2 to the friendly URL /page2.html (assuming the suffix is set to .html). This way you can specify what your users (and search engines) see for links on your site."; // updated 0.6 - removed htaccess warning
+$_lang["friendlyurlsprefix_message"] = "Here you can specify the prefix to use for friendly URLs. For example, a prefix setting of 'page' will turn the URL /index.php?id=2 to the friendly URL /page2.html (assuming the suffix is set to .html). This way you can specify what your users (and search engines) see for links on your site.";
 $_lang["friendlyurlsuffix_title"] = "Suffix for friendly URLs:";
-$_lang["friendlyurlsuffix_message"] = "Here you can specify the suffix for Friendly URLs. Specifying '.html' will append .html to all your friendly URLs."; // updated 0.6 - removed htaccess warning
+$_lang["friendlyurlsuffix_message"] = "Here you can specify the suffix for Friendly URLs. Specifying '.html' will append .html to all your friendly URLs.";
 $_lang["udperms_title"] = "Use access permissions:";
-$_lang["udperms_message"] = "Access permissions allow you to specify which pages your users are allowed to edit. You'll need to assign your users to user groups, your documents to document groups, and then you'll need to specify which user groups are allowed to access which document groups. When you first turn this on, only administrators will be allowed to edit any documents."; // updated 0.6
+$_lang["udperms_message"] = "Access permissions allow you to specify which pages your users are allowed to edit. You'll need to assign your users to user groups, your documents to document groups, and then you'll need to specify which user groups are allowed to access which document groups. When you first turn this on, only administrators will be allowed to edit any documents.";
 $_lang["menutype_title"] = "Menu type:";
 $_lang["menutype_message"] = "Select whether you want to use the advanced Java menu or the regular plain text menu. [Currently you can't change this as I still need to re-write the non-java menu, sorry!]";
 $_lang["nologentries_title"] = "Number of log entries:";
@@ -273,9 +271,9 @@ $_lang['warning_not_saved'] = "The changes you have made have not been saved yet
 $_lang['functionnotimpl'] = "Sorry!";
 $_lang['functionnotimpl_message'] = "This function has not been implemented yet.";
 $_lang['move_document_title'] = "Move document";
-$_lang['move_document_message'] = "You can move a document and all of its children by selecting a new parent ID. If you select a document that is not a folder, it will be changed to a folder. If a folder no longer has children, it will be changed to a document."; // changed in 0.6.1
+$_lang['move_document_message'] = "You can move a document and all of its children by selecting a new parent ID. If you select a document that is not a folder, it will be changed to a folder. If a folder no longer has children, it will be changed to a document.";
 $_lang['document_to_be_moved'] = "Document to be moved";
-$_lang['move_document_new_parent'] = "Please enter a new parent ID."; // changed in 0.6.1
+$_lang['move_document_new_parent'] = "Please enter a new parent ID.";
 $_lang['new_parent'] = "New parent";
 $_lang['edit_parser_title'] = "Edit Parser";
 $_lang['edit_parser_warning'] = "<b style='color:#821517'>Editing this file can severely screw your site!</b><br>You are now editing a physical PHP file. Be sure to make a backup of this (in Notepad or something) before saving any changes!";
@@ -313,11 +311,11 @@ $_lang['role_delete_doc'] = "Delete documents";
 $_lang['role_cache_refresh'] = "Empty the site's cache";
 $_lang['role_create_template'] = "Create new site templates";
 $_lang['role_edit_template'] = "Edit site templates (allows saving and updating)";
-$_lang['role_save_template'] = "Save templates"; // not used anymore
+$_lang['role_save_template'] = "Save templates";
 $_lang['role_delete_template'] = "Delete templates";
 $_lang['role_create_snippet'] = "Create new snippets";
 $_lang['role_edit_snippet'] = "Edit snippets (allows saving and updating)";
-$_lang['role_save_snippet'] = "Save snippets"; // not used anymore
+$_lang['role_save_snippet'] = "Save snippets";
 $_lang['role_delete_snippet'] = "Delete snippets";
 $_lang['role_new_user'] = "Create new users";
 $_lang['role_edit_user'] = "Edit users";
@@ -341,7 +339,7 @@ $_lang['confirm_delete_user'] = "Are you sure you want to delete this user?";
 $_lang['alert_delete_self'] = "You can't delete yourself!";
 $_lang['user_title'] = "Create/ edit user";
 $_lang['user_is_blocked'] = "This user is blocked!";
-$_lang['submit'] = "Submit"; // added in 0.6.1-RC2
+$_lang['submit'] = "Submit";
 $_lang['password_gen_method'] = "How do you want to create this user's password?";
 $_lang['password_gen_gen'] = "Let etoFork generate a password.";
 $_lang['password_gen_specify'] = "Let me specify the password:";
@@ -373,9 +371,9 @@ $_lang['template_desc'] = "Template description";
 $_lang['refresh_title'] = "Clear Cache";
 $_lang['refresh_published'] = "<b>%s</b> documents were published.";
 $_lang['refresh_unpublished'] = "<b>%s</b> documents were unpublished.";
-$_lang['refresh_cache'] = "Cache: Found <b>%s</b> files in cache directory and deleted <b>%d</b> cache files.<p>New cache files will be created when pages are requested."; // changed in 0.6
+$_lang['refresh_cache'] = "Cache: Found <b>%s</b> files in cache directory and deleted <b>%d</b> cache files.<p>New cache files will be created when pages are requested.";
 $_lang['about_title'] = "About etoFork";
-$_lang['about_msg'] = "etoFork was derived from Etomite CMS and still uses a lot of the original code. Since Etomite is no longer supported, I&rsquo;ve taken it upon myself to continue with updating the code, and etoFork was born!<br /><br />There are heavy changes made to the code and the way that the CMS works.<br /><br />Many thanks goes out to the guys at Etomite for the inspiration to create and extend on the Etomite CMS.<br /><br />Etomite was originally written by Alex Butter, and is licensed under <a href=\"../assets/docs/gpl-3.0-standalone.html\" target=\"main\">GPL</a>.<br /><br />In March of 2005 the project was handed over to Ralph Dahlgren (Development and Support) and Dean (Etomite.com Website and Support). Etomite 0.6.1 marks the first release since Alex left Etomite to devote more time and effort into his new project."; // changed in 0.6.1 and [v1.0]
+$_lang['about_msg'] = "etoFork was derived from Etomite CMS and still uses a lot of the original code. Since Etomite is no longer supported, I&rsquo;ve taken it upon myself to continue with updating the code, and etoFork was born!<br /><br />There are heavy changes made to the code and the way that the CMS works.<br /><br />Many thanks goes out to the guys at Etomite for the inspiration to create and extend on the Etomite CMS.<br /><br />Etomite was originally written by Alex Butter, and is licensed under <a href=\"../assets/docs/gpl-3.0-standalone.html\" target=\"main\">GPL</a>.<br /><br />In March of 2005 the project was handed over to Ralph Dahlgren (Development and Support) and Dean (Etomite.com Website and Support). Etomite 0.6.1 marks the first release since Alex left Etomite to devote more time and effort into his new project.";
 $_lang['messages_title'] = "Messages";
 $_lang['messages_inbox'] = "Inbox";
 $_lang['messages_sent_tab'] = "Sent Messages";
@@ -449,12 +447,12 @@ $_lang['search_results_returned_desc'] = "Description";
 $_lang['search_view_docdata'] = "View this item";
 $_lang['search_item_deleted'] = "This item has been deleted";
 $_lang['help_title'] = "Help";
-$_lang['help_msg'] = "etoFork usage is a lot like Etomite. Current documentation can be found <a href=\"https://code.google.com/p/etofork/w/list\" target=\"_blank\">here</a>!<br /><br />Etomite Forums are no longer available, but we are hosting the Etomite Docs, you can use the link below to the docs.<br /><br />If you need help using Etomite, your best bet is to visit the <a href='http://www.etomite.com/forums/' target='_blank'>Etomite Forums</a>. Also, the <a href='http://www.etofork.com/etomite-docs.html' target='_blank'>Etomite Docs</a>, (at www.etofork.com), contains documentation about using Etomite and how to set it up. The answers you are looking for might be there. If not, post your question in the forums and the Etomite community will help in providing answers as soon as possible. It is through the continued active envolvement of the membership that Etomite has evolved into the product that it is today. Please consider giving back to the community in any way possible."; // edited for 0614
+$_lang['help_msg'] = "etoFork usage is a lot like Etomite. Current documentation can be found <a href=\"https://code.google.com/p/etofork/w/list\" target=\"_blank\">here</a>!<br /><br />Etomite Forums are no longer available, but we are hosting the Etomite Docs, you can use the link below to the docs.<br /><br />If you need help using Etomite, your best bet is to visit the <a href='http://www.etomite.com/forums/' target='_blank'>Etomite Forums</a>. Also, the <a href='http://www.etofork.com/etomite-docs.html' target='_blank'>Etomite Docs</a>, (at www.etofork.com), contains documentation about using Etomite and how to set it up. The answers you are looking for might be there. If not, post your question in the forums and the Etomite community will help in providing answers as soon as possible. It is through the continued active envolvement of the membership that Etomite has evolved into the product that it is today. Please consider giving back to the community in any way possible.";
 $_lang['configcheck_images'] = "Images directory not writable";
 $_lang['configcheck_images_msg'] = "The images directory isn't writable, or doesn't exist. This means the ImageManager functions in the editor will not work!";
 $_lang['php_version_check'] = "etoFork is compatible with PHP version 5.2.17 and higher. Please upgrade your PHP installation!";
 $_lang['document_alias'] = "Document's alias";
-$_lang['document_alias_help'] = "Here you can select an alias for this document. This will make the document accessible using:\n\nhttp://yourserver/alias\n\nThis only works if you're using friendly URLs. A document's alias can only contain\n letters, numbers, dash - and underscore _ characters."; // changed 06 RC2
+$_lang['document_alias_help'] = "Here you can select an alias for this document. This will make the document accessible using:\n\nhttp://yourserver/alias\n\nThis only works if you're using friendly URLs. A document's alias can only contain\n letters, numbers, dash - and underscore _ characters.";
 $_lang['etomite_slogan'] = "Fast, Free, Ultimately Flexible - \nEtomite Content Management";
 $_lang['user_management_title'] = "Manage Users";
 $_lang['user_management_msg'] = "Here you can choose which user you wish to edit.";
@@ -472,15 +470,15 @@ $_lang['server_protocol_message'] = "If your site is on a https connection, plea
 $_lang['server_protocol_http'] = "http";
 $_lang['server_protocol_https'] = "https";
 $_lang['to_plugin_title'] = "Table Operations:";
-$_lang['to_plugin_message'] = "[HTMLArea only] - Do you wish to enable extended table operations in the document editor?"; // changed 06 RC2
+$_lang['to_plugin_message'] = "[HTMLArea only] - Do you wish to enable extended table operations in the document editor?";
 $_lang['im_plugin_title'] = "Image Manager:";
 $_lang['cm_plugin_title'] = "Context Menu:";
-$_lang['cm_plugin_message'] = "[HTMLArea only] - Do you wish to enable the Context Menu in the document editor?"; // changed 06 RC2
-$_lang['server_info'] = "Server Information"; // changed 0.6.1
+$_lang['cm_plugin_message'] = "[HTMLArea only] - Do you wish to enable the Context Menu in the document editor?";
+$_lang['server_info'] = "Server Information";
 $_lang['settings_site'] = "Site settings";
 $_lang['settings_furls'] = "Friendly URL settings";
-$_lang['settings_users'] = "User settings"; //changed 0.6 - shortened
-$_lang['settings_ui'] = "Interface &amp; editor settings"; //changed 0.6 - added editor
+$_lang['settings_users'] = "User settings";
+$_lang['settings_ui'] = "Interface &amp; editor settings";
 $_lang['use_doc_editor_title'] = "Enable document editor:";
 $_lang['use_doc_editor_message'] = "Do you want to enable the rich text editor for your documents? If you're more comfortable writing HTML, then you can turn the editor off using this setting. Note that this setting applies to all documents and all users!";
 $_lang['use_code_editor_title'] = "Enable snippet/chunk editor:";
@@ -567,7 +565,7 @@ $_lang['visits_started_here'] = "Visits started here";
 $_lang['no_logging_found'] = "etoFork did not find any logging data in the database. This means that logging is turned off, or your site has had no visitors yet.";
 $_lang['visitor_online'] = "Visitors currently viewing your site";
 $_lang['visitor_online_message'] = "This table shows which visitors have been active on your site in the last 20 minutes (since <b>%s</b>).";
-$_lang['access_permission_denied'] = "You do not have the correct permissions for this document."; // changed 0.6 RC2
+$_lang['access_permission_denied'] = "You do not have the correct permissions for this document.";
 $_lang['warning'] = "Warning!";
 $_lang['documents'] = "Documents";
 $_lang['datechanged'] = "Date changed";
@@ -720,7 +718,7 @@ $_lang['audit_trail_sort_desc'] = "Most recent first";
 $_lang['audit_trail_not_set'] = "(not set)";
 $_lang['audit_trail_nr'] = "Number of results";
 $_lang['audit_trail_results'] = "Query results";
-$_lang['audit_trail_sort_help'] = "<p>You can sort the table by clicking on the column headers. If the logs are becoming too large, you can empty the logs. This will remove all previous log entries and cannot be undone!</p>"; // modified in 0.6.1-RTMb
+$_lang['audit_trail_sort_help'] = "<p>You can sort the table by clicking on the column headers. If the logs are becoming too large, you can empty the logs. This will remove all previous log entries and cannot be undone!</p>";
 $_lang['audit_trail_time'] = "Time";
 $_lang['audit_trail_no_search'] = "No search query entered yet.";
 $_lang['audit_trail_no_results'] = "Your search query returned an empty result set (i.e. no matching log entries found).";
@@ -756,18 +754,18 @@ $_lang['select_all'] = "Select All";
 $_lang['clear_selected'] = "Clear Selected";
 $_lang["which_doc_editor_message"] = "Here you can select which rich text editor you prefer to use. Only HTMLArea and XINHA share a few settings, otherwise settings will be exclusive to each editor.";
 $_lang['im_plugin_message'] = "[XINHA and HTMLArea] - Do you wish to enable the image manager in the document editor? This will allow your users to upload and edit images on the server.";
-$_lang['im_plugin_base_dir_message'] = "This setting is usually automatically generated. If you're using IIS, however, etoFork may not be able to work the path out on it's own, causing the ImageManager to show an error. In that case, you can enter the path to the images directory here (the path as you'd see it in Windows Explorer)."; // changed 0.6 RC2
-$_lang['im_plugin_base_url_message'] = "This setting is usually automatically generated. If you're using IIS, however, etoFork may not be able to work the URL out on it's own, causing the ImageManager to show an error. In that case, you can enter the URL to the images directory here (the URL as you'd enter it on Internet Explorer)."; // changed 0.6 RC2
+$_lang['im_plugin_base_dir_message'] = "This setting is usually automatically generated. If you're using IIS, however, etoFork may not be able to work the path out on it's own, causing the ImageManager to show an error. In that case, you can enter the path to the images directory here (the path as you'd see it in Windows Explorer).";
+$_lang['im_plugin_base_url_message'] = "This setting is usually automatically generated. If you're using IIS, however, etoFork may not be able to work the URL out on it's own, causing the ImageManager to show an error. In that case, you can enter the URL to the images directory here (the URL as you'd enter it on Internet Explorer).";
 $_lang["tiny_css_path_message"] = "Enter the path to your CSS file that you wish to use within the TinyMCE editor. The best way to enter the path is to enter the path from the root of your server, for example: /assets/site/style.css. If you do not wish to load a stylesheet into the editor, leave this field blank.";
 $_lang["tiny_css_selectors_message"] = "Here you can enter a list of selectors that should be available in the editor. Enter them as follows:<br />'displayName=selectorName;displayName2=selectorName2'<br />For instance, say you have <b>.mono</b> and <b>.smallText</b> selectors in your CSS file, you could add them here as:<br />'Monospaced text=mono;Small text=smallText'<br />Note that the last entry should not have a semi-colon after it.";
-$_lang['reset_createdon_date'] = "Reset Creation Date"; // added in 0.6.1-RC2
-$_lang['document_reset_createdon_help'] = "Checking this option when editing a document will reset the documents creation date to the same value as the last edited date, essentially making it a new document. This feature is helpful for reusing old documents for new content."; // added in 0.6.1-RC2
+$_lang['reset_createdon_date'] = "Reset Creation Date";
+$_lang['document_reset_createdon_help'] = "Checking this option when editing a document will reset the documents creation date to the same value as the last edited date, essentially making it a new document. This feature is helpful for reusing old documents for new content.";
 $_lang['sys_info_nothing_found'] = "No edits or creates found.";
 $_lang['sys_info_bad_number_users'] = "Incorrect number of users returned while trying to retrieve user's name!";
 $_lang['sys_info_eto_install_info'] = "This page shows some general information about the etoFork installation.";
-$_lang['sys_info_version_ok'] = " Your etoFork installation is up-to-date."; // modified in 0.6.1-RC3
-$_lang['sys_info_version_update'] = " Latest version available for <a href='http://www.etomite.com/downloads.html' target='_blank'>download</a> is "; // modified in 0.6.1-RC3
-$_lang['sys_info_version_no_connect'] = " Couldn't contact Etomite server to check for updates."; // modified in 0.6.1-RC3
+$_lang['sys_info_version_ok'] = " Your etoFork installation is up-to-date.";
+$_lang['sys_info_version_update'] = " Latest version available for <a href='http://www.etofork.com/downloads.html' target='_blank'>download</a> is ";
+$_lang['sys_info_version_no_connect'] = " Couldn't contact etoFork server to check for updates.";
 $_lang['sys_info_table_instructions'] = "Hover the mouse cursor over a table's name to see a short description of the table's function (not all tables have <i>comments</i> set)";
 $_lang['sys_info_table_clear'] = "<b style='color:#990033'>Note:</b> Overhead is unused space reserved by MySQL. To free up this space, click on the table's overhead figure.";
 $_lang['sys_info_no_active_users'] = "No active users found.";
@@ -795,24 +793,24 @@ $_lang['sys_info_effective_size'] = "Effective size";
 $_lang['sys_info_index_size'] = "Index size";
 $_lang['sys_info_total_size'] = "Total";
 $_lang['sys_info_totals'] = "Totals";
-$_lang['sys_info_base_page_abs'] = "Manager absolute path"; // added in 0.6.1-RC3
-$_lang['sys_info_base_page_rel'] = "Path relative to web root"; // added in 0.6.1-RC3
-$_lang['sys_info_base_page_www'] = "Manager URL"; // added in 0.6.1-RC3
-$_lang['document_alias_alert'] = "A document's alias can only contain letters, numbers,\\n dash - and underscore _ characters."; // added in 0.6.1-RC2 by Lucky
-$_lang['confirm_goto_keywords'] = "Are you sure you want abort your document edits and proceed to the keyword management page? Any current document changes will be lost!"; // added in 0.6.1 RTM
-$_lang['no_preview'] = "Unpublished content items cannot be previewed."; // added in 0.6.1 RTM
-$_lang['your_ip_address'] = "Your IP address is:"; // added in 0.6.1 RTM
+$_lang['sys_info_base_page_abs'] = "Manager absolute path";
+$_lang['sys_info_base_page_rel'] = "Path relative to web root";
+$_lang['sys_info_base_page_www'] = "Manager URL";
+$_lang['document_alias_alert'] = "A document's alias can only contain letters, numbers,\\n dash - and underscore _ characters.";
+$_lang['confirm_goto_keywords'] = "Are you sure you want abort your document edits and proceed to the keyword management page? Any current document changes will be lost!";
+$_lang['no_preview'] = "Unpublished content items cannot be previewed.";
+$_lang['your_ip_address'] = "Your IP address is:";
 
-$_lang['xSkin'] = "Editor Skin:"; // added in 0.6.1 RTM
-$_lang['xSkin_message'] = "[XINHA only] - You can select a custom editor skin in place of the default (Blue Look). This setting is for visual appearance of toolbar buttons only and has no effect on editor performance."; // added in 0.6.1 RTM
+$_lang['xSkin'] = "Editor Skin:";
+$_lang['xSkin_message'] = "[XINHA only] - You can select a custom editor skin in place of the default (Blue Look). This setting is for visual appearance of toolbar buttons only and has no effect on editor performance.";
 
-$_lang['use_preview_title'] = "Enable Preview:"; // added in 0.6.1 RTMb
-$_lang['use_preview_message'] = "Should documents be allowed to be previewed in the preview panel when viewing document data? If you experience problems with previews for any reason then previews should be disabled"; // added in 0.6.1 RTMb
-$_lang['preview_disabled'] = "Document previews are currently disabled"; // added in 0.6.1 RTMb
-$_lang['audit_trail_empty_logs'] = "Empty audit trail table"; // added in 0.6.1 RTMb
-$_lang['audit_trail_empty_logs_confirm'] = "Are you sure you want to empty the manager user audit trail logging table? This action cannot be undone."; // added in 0.6.1 RTMb
-$_lang['empty_visitor_logs'] = "Empty visitor logging tables"; // added in 0.6.1 RTMb
-$_lang['empty_visitor_logs_confirm'] = "Are you sure you want to empty the visitor logging tables? This action cannot be undone."; // added in 0.6.1 RTMb
+$_lang['use_preview_title'] = "Enable Preview:";
+$_lang['use_preview_message'] = "Should documents be allowed to be previewed in the preview panel when viewing document data? If you experience problems with previews for any reason then previews should be disabled";
+$_lang['preview_disabled'] = "Document previews are currently disabled";
+$_lang['audit_trail_empty_logs'] = "Empty audit trail table";
+$_lang['audit_trail_empty_logs_confirm'] = "Are you sure you want to empty the manager user audit trail logging table? This action cannot be undone.";
+$_lang['empty_visitor_logs'] = "Empty visitor logging tables";
+$_lang['empty_visitor_logs_confirm'] = "Are you sure you want to empty the visitor logging tables? This action cannot be undone.";
 $_lang['generic_delete_confirm'] = "Are you sure you want to delete this record? This action cannot be undone.";
 $_lang['require_authenticate'] = "Authenticate?";
 $_lang['require_authenticate_help'] = "Checking this option will force user authentication before allowing public site access to this document. If the etoFork configuration setting Use access permissions is enabled then advanced Document Group authentication is performed, otherwise only a valid login session is required for successful authentication.";
@@ -864,7 +862,7 @@ $_lang["confirm_hideinmenu"] = "Are you sure you want to hide this document in m
 $_lang['role_chunk_management'] = "Chunk management";
 $_lang['role_create_chunk'] = "Create new chunks";
 $_lang['role_edit_chunk'] = "Edit chunks (allows saving and updating)";
-$_lang['role_save_chunk'] = "Save chunks"; // not used any more
+$_lang['role_save_chunk'] = "Save chunks";
 $_lang['role_delete_chunk'] = "Delete chunks";
 $_lang['role_tv_management'] = "Template Variables management";
 $_lang['role_create_tv'] = "Create new tvs";
