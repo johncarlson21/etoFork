@@ -20,23 +20,19 @@ var spinner = null;
 
 function spin(stop) {
 	if (stop !== false) {
-		if (spinner !== null) {
-			spinner.spin();
-		} else {
-			var target = document.getElementById('adminbody');
-			spinner = new Spinner(
-				{
-					lines: 12, // The number of lines to draw
-					length: 18, // The length of each line
-					width: 7, // The line thickness
-					radius: 23, // The radius of the inner circle
-					color: '#000', // #rgb or #rrggbb
-					speed: 1.5, // Rounds per second
-					trail: 60, // Afterglow percentage
-					shadow: false // Whether to render a shadow
-				}
-			).spin(target);
-		}
+		var target = document.getElementById('adminbody');
+		spinner = new Spinner(
+			{
+				lines: 12, // The number of lines to draw
+				length: 18, // The length of each line
+				width: 7, // The line thickness
+				radius: 23, // The radius of the inner circle
+				color: '#000', // #rgb or #rrggbb
+				speed: 1.5, // Rounds per second
+				trail: 60, // Afterglow percentage
+				shadow: false // Whether to render a shadow
+			}
+		).spin(target);
 	} else {
 		spinner.stop();
 	}
@@ -118,4 +114,32 @@ function activateCollapse() {
             bf.slideDown();
         }
     });
+}
+
+function setResourceTab(stab) {
+	var type = $('#editResource #type').val();
+	var tab = null;
+	switch(type) {
+		case 'template':
+			tab = "templates";
+		break;
+		case 'snippet':
+			tab = "snippets";
+		break;
+		case 'chunk':
+			tab = "chunks";
+		break;
+	}
+	switch(stab) {
+		case 'tv':
+			tab = "templateVars";
+		break;
+		case 'section':
+			tab = "categories";
+		break;	
+	}
+	setTimeout(function() {
+		$('a[href=#' + tab + ']').tab('show');
+	}, 1500);
+	
 }

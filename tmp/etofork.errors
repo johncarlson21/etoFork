@@ -1932,3 +1932,19 @@ INSERT INTO `jcwebsol_etofork`.etomite_customer_data_notes SET `customer_id`='1'
 [10-Apr-2014 15:42:28 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php:695) in /home/jcwebsol/public_html/etofork/manager/index.php on line 87
 [10-Apr-2014 15:54:55 America/Chicago] PHP Warning:  preg_match() [<a href='function.preg-match'>function.preg-match</a>]: Empty regular expression in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 695
 [10-Apr-2014 15:54:55 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php:695) in /home/jcwebsol/public_html/etofork/manager/index.php on line 87
+[14-Apr-2014 16:16:28 America/Chicago] Error:
+[14-Apr-2014 16:16:28 America/Chicago] Row count error in template query result.
+SELECT * FROM `jcwebsol_etofork`.etomite_site_templates WHERE `jcwebsol_etofork`.etomite_site_templates.id = '0';
+
+
+
+
+
+[14-Apr-2014 16:16:50 America/Chicago] Error:
+[14-Apr-2014 16:16:50 America/Chicago] Row count error in template query result.
+SELECT * FROM `jcwebsol_etofork`.etomite_site_templates WHERE `jcwebsol_etofork`.etomite_site_templates.id = '0';
+
+
+
+
+

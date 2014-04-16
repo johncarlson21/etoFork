@@ -1,100 +1,118 @@
-<div class="header"><?php echo $this->_lang["edit_tv"]; ?></div>
-<div class="action-btns">
-    <?php if ($this->checkUserRole('edit_tv', $_SESSION['internalKey'])) {?>
-    <a href="javascript:;" id="saveTV" class="button"><?php echo $this->_lang["save"]; ?></a>
-    <?php } ?>
-    <?php if ($id && !empty($id) && $this->checkUserRole('delete_tv', $_SESSION['internalKey'])) {?>
-    <a href="javascript:;" id="deleteTV" class="button"><?php echo $this->_lang["delete"]; ?></a>
-    <?php } ?>
-    <a href="javascript:;" id="cancelTV" class="button"><?php echo $this->_lang["cancel"]; ?></a>
-</div>
-<div class="content" id="editTV">
-    <input type="hidden" name="tv_id" id="tv_id" value="<?php echo isset($tv['tv_id']) && is_numeric($tv['tv_id']) ? $tv['tv_id'] : ''?>" />
-    <table width="100%" cellpadding="5" cellspacing="0" border="0" class="resource-table">
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_name"]; ?>:</span></td>
-            <td><input type="text" maxlength="150" name="name" id="name" class="inputBox" style="width:300px;" value="<?php echo isset($tv['name']) ? stripslashes($tv['name']):'';?>" /></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_field_name"]; ?>:</span></td>
-            <td><input type="text" maxlength="50" name="field_name" id="field_name" class="inputBox" style="width:300px;" value="<?php echo isset($tv['field_name']) ? stripslashes($tv['field_name']):'';?>" /></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_description"]; ?>:</span></td>
-            <td><textarea name="description" id="description" cols="50" rows="6"><?php echo isset($tv['description']) ? stripslashes($tv['description']):'';?></textarea></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_field_type"]; ?>:</span></td>
-            <td>
-                <select name="type" id="type">
-                    <?php foreach($tvTypes as $t) {
-                        if (isset($tv['type']) && $tv['type'] == $t) {
-                            echo "<option value='".$t."' selected='selected'>".ucwords($t)."</option>";
-                        } else {
-                            echo "<option value='".$t."'>".ucwords($t)."</option>";
-                        }
-                    }?>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_output_type"]; ?>:</span></td>
-            <td>
-                <select name="output_type" id="output_type">
-                    <?php foreach($tvOTypes as $t) {
-                        if (isset($tv['output_type']) && $tv['output_type'] == $t) {
-                            echo "<option value='".$t."' selected='selected'>".ucwords($t)."</option>";
-                        } else {
-                            echo "<option value='".$t."'>".ucwords($t)."</option>";
-                        }
-                    }?>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_options"]; ?>:</span></td>
-            <td><textarea name="opts" id="opts" cols="50" rows="6"><?php echo isset($tv['opts']) ? stripslashes($tv['opts']):'';?></textarea></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_default_val"]; ?>:</span></td>
-            <td><textarea name="default_val" id="default_val" cols="50" rows="6"><?php echo isset($tv['description']) ? stripslashes($tv['description']):'';?></textarea></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_field_size"]; ?>:</span></td>
-            <td><input type="text" maxlength="3" size="5" name="field_size" id="field_size" class="inputBox" value="<?php echo isset($tv['field_size']) ? (int)$tv['field_size']:'';?>" /></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_field_max_size"]; ?>:</span></td>
-            <td><input type="text" maxlength="3" size="5" name="field_max_size" id="field_max_size" class="inputBox" value="<?php echo isset($tv['field_max_size']) ? (int)$tv['field_max_size']:'';?>" /></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_order"]; ?>:</span></td>
-            <td><input type="text" maxlength="3" size="5" name="tv_order" id="tv_order" class="inputBox" value="<?php echo isset($tv['tv_order']) ? (int)$tv['tv_order']:'0';?>" /></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_required"]; ?>:</span></td>
-            <td><input type="checkbox" name="required" id="required" value="1" <?php echo isset($tv['required']) && $tv['required'] == 1 ? 'checked="checked"':'';?>" /></td>
-        </tr>
-        <tr>
-            <td width="200"><span class="warning"><?php echo $this->_lang["tv_templates"]; ?>:</span></td>
-            <td>
-                <select name="templates" id="templates" multiple="multiple" size="8">
-                    <?php
-                        if(count($templates) > 0) {
-                            foreach($templates as $tpl) {
-                                if(isset($tv['templates']) && count($tv['templates']) > 0) {
-                                    if (in_array($tpl['id'], $tv['templates'])) {
-                                        echo "<option value='".$tpl['id']."' selected='selected'>".$tpl['templatename']."</option>";
+<section class="content-header">
+    <h1>
+        <?php echo $this->_lang["edit_tv"]; ?>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-desktop"></i> <?php echo $this->_lang['edit_tv']; ?></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="action-btns">
+        <?php if ($this->checkUserRole('edit_tv', $_SESSION['internalKey'])) {?>
+        <a href="javascript:;" id="saveTV" class="btn btn-success"><?php echo $this->_lang["save"]; ?></a>
+        <?php } ?>
+        <?php if ($id && !empty($id) && $this->checkUserRole('delete_tv', $_SESSION['internalKey'])) {?>
+        <a href="javascript:;" id="deleteTV" class="btn btn-danger"><?php echo $this->_lang["delete"]; ?></a>
+        <?php } ?>
+        <a href="javascript:;" id="cancelTV" class="btn btn-warning"><?php echo $this->_lang["cancel"]; ?></a>
+    </div>
+
+	<div class="box box-primary">
+        <div class="box-header">
+            <i class="fa fa-desktop"></i>
+            <h3 class="box-title"><?php echo $this->_lang['edit_tv']; ?></h3>
+        </div>
+        <div class="box-body">
+        	<input type="hidden" name="tv_id" id="tv_id" value="<?php echo isset($tv['tv_id']) && is_numeric($tv['tv_id']) ? $tv['tv_id'] : ''?>" />
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_name"]; ?>:</label></div>
+                <div class="col-md-9"><input type="text" maxlength="150" name="name" id="name" class="form-control" value="<?php echo isset($tv['name']) ? stripslashes($tv['name']):'';?>" /></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_field_name"]; ?>:</label></div>
+                <div class="col-md-9"><input type="text" maxlength="50" name="field_name" id="field_name" class="form-control" value="<?php echo isset($tv['field_name']) ? stripslashes($tv['field_name']):'';?>" /></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_description"]; ?>:</label></div>
+                <div class="col-md-9"><textarea name="description" class="form-control" id="description" cols="50" rows="6"><?php echo isset($tv['description']) ? stripslashes($tv['description']):'';?></textarea></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_field_type"]; ?>:</label></div>
+                <div class="col-md-9">
+                	<select name="type" id="type" class="form-control">
+						<?php foreach($tvTypes as $t) {
+                            if (isset($tv['type']) && $tv['type'] == $t) {
+                                echo "<option value='".$t."' selected='selected'>".ucwords($t)."</option>";
+                            } else {
+                                echo "<option value='".$t."'>".ucwords($t)."</option>";
+                            }
+                        }?>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_output_type"]; ?>:</label></div>
+                <div class="col-md-9">
+                	<select name="output_type" id="output_type">
+						<?php foreach($tvOTypes as $t) {
+                            if (isset($tv['output_type']) && $tv['output_type'] == $t) {
+                                echo "<option value='".$t."' selected='selected'>".ucwords($t)."</option>";
+                            } else {
+                                echo "<option value='".$t."'>".ucwords($t)."</option>";
+                            }
+                        }?>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_options"]; ?>:</label></div>
+                <div class="col-md-9"><textarea name="opts" class="form-control" id="opts" cols="50" rows="6"><?php echo isset($tv['opts']) ? stripslashes($tv['opts']):'';?></textarea></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_default_val"]; ?>:</label></div>
+                <div class="col-md-9"><textarea name="default_val" class="form-control" id="default_val" cols="50" rows="6"><?php echo isset($tv['description']) ? stripslashes($tv['description']):'';?></textarea></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_field_size"]; ?>:</label></div>
+                <div class="col-md-9"><input type="text" maxlength="3" size="5" name="field_size" id="field_size" class="form-control" value="<?php echo isset($tv['field_size']) ? (int)$tv['field_size']:'';?>" /></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_field_max_size"]; ?>:</label></div>
+                <div class="col-md-9"><input type="text" maxlength="3" size="5" name="field_max_size" id="field_max_size" class="form-control" value="<?php echo isset($tv['field_max_size']) ? (int)$tv['field_max_size']:'';?>" /></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_order"]; ?>:</label></div>
+                <div class="col-md-9"><input type="text" maxlength="3" size="5" name="tv_order" id="tv_order" class="form-control" value="<?php echo isset($tv['tv_order']) ? (int)$tv['tv_order']:'0';?>" /></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_required"]; ?>:</label></div>
+                <div class="col-md-9"><input type="checkbox" name="required" id="required" value="1" <?php echo isset($tv['required']) && $tv['required'] == 1 ? 'checked="checked"':'';?> /></div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-3"><label><?php echo $this->_lang["tv_templates"]; ?>:</label></div>
+                <div class="col-md-9">
+                	<select name="templates" id="templates" multiple="multiple" size="8">
+						<?php
+                            if(count($templates) > 0) {
+                                foreach($templates as $tpl) {
+                                    if(isset($tv['templates']) && count($tv['templates']) > 0) {
+                                        if (in_array($tpl['id'], $tv['templates'])) {
+                                            echo "<option value='".$tpl['id']."' selected='selected'>".$tpl['templatename']."</option>";
+                                        } else {
+                                            echo "<option value='".$tpl['id']."'>".$tpl['templatename']."</option>";
+                                        }
                                     } else {
                                         echo "<option value='".$tpl['id']."'>".$tpl['templatename']."</option>";
                                     }
-                                } else {
-                                    echo "<option value='".$tpl['id']."'>".$tpl['templatename']."</option>";
                                 }
                             }
-                        }
-                    ?>
-                </select>
-            </td>
-    </table>
-</div>
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

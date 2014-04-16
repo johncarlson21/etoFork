@@ -901,6 +901,7 @@ var Etomite = {
                 });
                 $('#cancelResource').click(function() {
                     Etomite.loadPaneFromAction('loadResourcesView');
+					setResourceTab();
                 });
             }
         });
@@ -961,6 +962,7 @@ var Etomite = {
                             }
                         } else {
                             Etomite.loadPaneFromAction('loadResourcesView');
+							setResourceTab();
                         }
                     }
                 }
@@ -995,6 +997,7 @@ var Etomite = {
                 } else {
                     Etomite.notify(json.message);
                     Etomite.loadPaneFromAction('loadResourcesView');
+					setResourceTab();
                 }
                 spin(false);
             }
@@ -1032,6 +1035,7 @@ var Etomite = {
                             } else {
                                 Etomite.notify('New Resource Category Created!');
                                 Etomite.loadPaneFromAction('loadResourcesView');
+								setResourceTab('section');
                             }
                             $('#sectionForm').dialog('close');
                             $('#sectionForm').remove();
@@ -1072,6 +1076,7 @@ var Etomite = {
                 });
                 $('#cancelTV').click(function() {
                     Etomite.loadPaneFromAction('loadResourcesView');
+					setResourceTab('tv');
                 });
             }
         });
@@ -1128,6 +1133,7 @@ var Etomite = {
                 } else {
                     Etomite.notify(json.message);
                     Etomite.loadPaneFromAction('loadResourcesView');
+					setResourceTab('tv');
                 }
             }
         });
@@ -1151,6 +1157,7 @@ var Etomite = {
                     } else {
                         Etomite.notify('Template Variable Removed!');
                         Etomite.loadPaneFromAction('loadResourcesView');
+						setResourceTab('tv');
                     }
                 }
             });
@@ -1673,7 +1680,9 @@ var Etomite = {
                 if (response === null) {
                     Etomite.errorDialog('There was an error trying to start install process!', 'Error!');
                 } else {
+					spin(false);
                     Etomite.loadPane(response);
+					
                     $('.install-module-btn').click(function() {
                         if ($('#module_name').val() === null || $('#module_name').val() == '') {
                             alert("Module name must not be empty!");
@@ -1708,9 +1717,6 @@ var Etomite = {
                 }
             }
         });
-        setTimeout(function() {
-            spin(false);
-        },1000);
     },
     
     runModuleInstall: function(module) {

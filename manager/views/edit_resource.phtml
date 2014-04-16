@@ -25,7 +25,7 @@
             <i class="fa fa-flask"></i>
             <h3 class="box-title"><?php echo $header_text; ?></h3>
         </div>
-        <div class="box-body">
+        <div class="box-body" id="editResource">
         	<input type="hidden" name="id" id="id" value="<?php echo isset($resource['id']) && is_numeric($resource['id']) ? $resource['id'] : ''?>" />
             <input type="hidden" name="type" id="type" value="<?php echo $type; ?>" />
             <table width="100%" cellpadding="5" cellspacing="0" border="0" class="resource-table">
@@ -65,7 +65,7 @@
                 </tr>
                 <tr>
                     <td width="200"><span class="warning"><?php echo $this->_lang["keep_editing"]; ?>:</span></td>
-                    <td><span>&nbsp;&nbsp;</span><input name="stay" id="stay" type="checkbox" value="1" /></td>
+                    <td><span>&nbsp;&nbsp;</span><input name="stay" id="stay" type="checkbox" value="1" checked="checked" /></td>
                 </tr>
             </table>
             <textarea name="resource_editor" id="resource_editor" rows="15" style="width:100%;"><?php

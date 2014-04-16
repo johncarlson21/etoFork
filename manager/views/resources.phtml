@@ -1,7 +1,6 @@
 <section class="content-header">
     <h1>
         <?php echo $this->_lang['resource_management']; ?>
-        <small>Welcome</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -13,7 +12,7 @@
 <section class="content">
     <div class="nav-tabs-custom">
         <!-- Tabs within a box -->
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" id="resources">
             <?php if ($this->checkUserRole('new_template', $_SESSION['internalKey']) || $this->checkUserRole('edit_template', $_SESSION['internalKey'])) { ?>
             <li class="active"><a href="#templates" data-toggle="tab"><?php echo $this->_lang['manage_templates']; ?></a></li>
             <?php }?>

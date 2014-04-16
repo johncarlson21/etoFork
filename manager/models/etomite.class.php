@@ -1127,6 +1127,8 @@ class etomite
 	*/
     public function phpError($nr, $text, $file, $line)
     {
+		if (error_reporting() == 0)
+			return true; // added to fix issues with @
         if ($nr == 2048)
             return true; // added by mfx 10-18-2005 to ignore E_STRICT erros in PHP5
         if ($nr == 8 && $this->stopOnNotice == false) {
