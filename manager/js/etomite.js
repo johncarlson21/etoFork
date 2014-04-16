@@ -118,10 +118,7 @@ var Etomite = {
             success: function (content) {
                 var p = $('#mainContent');
                 p.html(content);
-                //Etomite.outerLayout.initContent('center');
-                setTimeout(function() {
-                    spin(false);
-                }, 1000);
+                spin(false);
             }
         });
     },
@@ -130,10 +127,7 @@ var Etomite = {
         spin();
         var p = $('#mainContent');
         p.html(content);
-        //Etomite.outerLayout.initContent('center');
-        setTimeout(function() {
-            spin(false);
-        }, 1000);
+        spin(false);
     },
     
     loadDocTree: function() {
@@ -592,9 +586,7 @@ var Etomite = {
 					groups: document_groups
                 },
                 success: function() {
-                    setTimeout(function() {
-                        spin(false);
-                    }, 1500);
+                    spin(false);
                     Etomite.notify('Document Saved');
                     Etomite.loadDocTree();
                     if ($('#docId').length > 0 && saveclose !== true) {
@@ -940,7 +932,7 @@ var Etomite = {
                     if (json === null || json.succeeded !== true) {
                         Etomite.errorDialog(json.message, 'Error');
                     } else {
-                        setTimeout(function(){ spin(false); }, 1000);
+                        spin(false);
                         if ($('#stay').is(':checked')) {
                             // only used for new insert
                             if(json.params !== null || json.params.id) {
@@ -1646,9 +1638,7 @@ var Etomite = {
                 } else {
                     spin();
                     $(container).html(response);
-                    setTimeout(function() {
-                        spin(false);
-                    },1000);
+                    spin(false);
                 }
             }
         });

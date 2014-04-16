@@ -1,267 +1,241 @@
-<div class="header"><?php echo $this->_lang['role_title']; ?></div>
-<div class="content" id="editRole">
-    <form id="editRoleForm">
-    <div class="action-btns">
-        <a href="javascript:;" id="saveRole" class="button"><?php echo $this->_lang["save"]; ?></a>
+<section class="content-header">
+    <h1>
+        <?php echo $this->_lang['role_title']; ?>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-group"></i> <?php echo $this->_lang['role_title']; ?></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="action-btns">
+        <a href="javascript:;" id="saveRole" class="btn btn-success"><?php echo $this->_lang["save"]; ?></a>
         <?php if ($id && !empty($id)) {?>
-        <a href="javascript:;" id="deleteRole" class="button"><?php echo $this->_lang["delete"]; ?></a>
+        <a href="javascript:;" id="deleteRole" class="btn btn-danger"><?php echo $this->_lang["delete"]; ?></a>
         <?php } ?>
-        <a href="javascript:;" id="cancelRole" class="button"><?php echo $this->_lang["cancel"]; ?></a>
+        <a href="javascript:;" id="cancelRole" class="btn btn-warning"><?php echo $this->_lang["cancel"]; ?></a>
     </div>
-    <p>&nbsp;</p>
-    <input type="hidden" name="id" id="id" value="<?php echo isset($roledata['id']) ? (int)$roledata['id'] : ''; ?>" />
-    <div class='fakefieldset'>
-        <table border="0" cellspacing="0" cellpadding="4">
-          <tr>
-            <td><?php echo $this->_lang['role_name']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input name="name" id="name" type="text" maxlength=50 value="<?php echo $roledata['name'] ; ?>" /></td>
-          </tr>
-          <tr>
-            <td><?php echo $this->_lang['document_description']; ?>:</td>
-            <td>&nbsp;</td>
-            <td><input name="description" id="description" type="text" maxlength=255 value="<?php echo $roledata['description'] ; ?>" size="60" /></td>
-          </tr>
-        </table>
+	<div class="box box-primary">
+        <div class="box-header">
+            <i class="fa fa-group"></i>
+            <h3 class="box-title"><?php echo $this->_lang['role_title']; ?></h3>
+        </div>
+        <div class="box-body" id="editRole">
+        	<form id="editRoleForm">
+            <input type="hidden" name="id" id="id" value="<?php echo isset($roledata['id']) ? (int)$roledata['id'] : ''; ?>" />
+            <div class="box box-info">
+            	<div class="box-body">
+                	<div class="row">
+                    	<div class="col-md-4"><?php echo $this->_lang['role_name']; ?>:</div>
+                        <div class="col-md-8"><input name="name" class="form-control" id="name" type="text" maxlength=50 value="<?php echo $roledata['name'] ; ?>" /></div>
+                    </div>
+                    <div class="row">
+                    	<div class="col-md-4"><?php echo $this->_lang['document_description']; ?>:</div>
+                        <div class="col-md-8"><input class="form-control" name="description" id="description" type="text" maxlength=255 value="<?php echo $roledata['description'] ; ?>" /></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['page_data_general']; ?></h3></div>
+                <div class="box-body">
+                	<input name="home" id="home" type="checkbox" checked disabled>
+                    <span><?php echo $this->_lang['role_home']; ?></span>
+                    <br />
+                
+                    <input name="messages" id="messages" type="checkbox" <?php echo $roledata['messages']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_messages']; ?></span>
+                    <br />
+                
+                    <input name="logout" id="logout" type="checkbox" checked disabled>
+                    <span><?php echo $this->_lang['role_logout']; ?></span>
+                    <br />
+                
+                    <input name="help" id="help" type="checkbox" checked disabled>
+                    <span><?php echo $this->_lang['role_help']; ?></span>
+                    <br />
+                
+                    <input name="action_ok" id="action_ok" type="checkbox" checked disabled>
+                    <span><?php echo $this->_lang['role_actionok']; ?></span>
+                    <br />
+                
+                    <input name="error_dialog" id="error_dialog" type="checkbox" checked disabled>
+                    <span><?php echo $this->_lang['role_errors']; ?></span>
+                    <br />
+                
+                    <input name="about" id="about" type="checkbox" checked disabled>
+                    <span><?php echo $this->_lang['role_about']; ?></span>
+                    <br />
+                
+                    <input name="credits" id="credits" type="checkbox" checked disabled>
+                    <span><?php echo $this->_lang['role_credits']; ?></span>
+                    <br />
+                
+                    <input name="change_password" id="change_password" type="checkbox" <?php echo $roledata['change_password']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_change_password']; ?></span>
+                    <br />
+                
+                    <input name="save_password" id="save_password" type="checkbox" <?php echo $roledata['save_password']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_save_password']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_content_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="view_document" id="view_document" type="checkbox" <?php echo $roledata['view_document']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_view_docdata']; ?></span>
+                    <br />
+                
+                    <input name="new_document" id="new_document" type="checkbox" <?php echo $roledata['new_document']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_create_doc']; ?></span>
+                    <br />
+                
+                    <input name="edit_document" id="edit_document" type="checkbox" <?php echo $roledata['edit_document']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_edit_doc']; ?></span>
+                    <br />
+                
+                    <input name="save_document" id="save_document" type="checkbox" <?php echo $roledata['save_document']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_save_doc']; ?></span>
+                    <br />
+                
+                    <input name="delete_document" id="delete_document" type="checkbox" <?php echo $roledata['delete_document']==1 ? "checked" : "" ; ?>>
+                    <span onClick="document.userform.delete_documentcheck.click()"><?php echo $this->_lang['role_delete_doc']; ?></span>
+                    <br />
+                
+                    <input name="empty_cache" id="empty_cache" type="checkbox" <?php echo $roledata['empty_cache']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_cache_refresh']; ?></span>
+                    <br />
+                
+                    <input name="export_html" id="export_html" type="checkbox" <?php echo $roledata['export_html']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['export_site']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_template_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="new_template" id="new_template" type="checkbox" <?php echo $roledata['new_template']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_create_template']; ?></span>
+                    <br />
+                
+                    <input name="edit_template" id="edit_template" type="checkbox" <?php echo $roledata['edit_template']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_edit_template']; ?></span>
+                    <br />
+                
+                    <!--<input name="save_template" id="save_template" type="checkbox" <?php echo $roledata['save_template']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_save_template']; ?></span>
+                    <br />-->
+                
+                    <input name="delete_template" id="delete_template" type="checkbox" <?php echo $roledata['delete_template']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_delete_template']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_snippet_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="new_snippet" id="new_snippet" type="checkbox" <?php echo $roledata['new_snippet']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_create_snippet']; ?></span>
+                    <br />
+                
+                    <input name="edit_snippet" id="edit_snippet" type="checkbox" <?php echo $roledata['edit_snippet']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_edit_snippet']; ?></span>
+                    <br />
+                
+                    <!--<input name="save_snippet" id="save_snippet" type="checkbox" <?php echo $roledata['save_snippet']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_save_snippet']; ?></span>
+                    <br />-->
+                
+                    <input name="delete_snippet" id="delete_snippet" type="checkbox" <?php echo $roledata['delete_snippet']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_delete_snippet']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_chunk_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="new_chunk" id="new_chunk" type="checkbox" <?php echo $roledata['new_chunk']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_create_chunk']; ?></span>
+                    <br />
+                
+                    <input name="edit_chunk" id="edit_chunk" type="checkbox" <?php echo $roledata['edit_chunk']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_edit_chunk']; ?></span>
+                    <br />
+                <!--<input name="save_chunk" id="save_chunk" type="checkbox" <?php echo $roledata['save_chunk']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_save_chunk']; ?></span>
+                    <br />-->
+                
+                    <input name="delete_chunk" id="delete_chunk" type="checkbox" <?php echo $roledata['delete_chunk']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_delete_chunk']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_tv_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="new_tv" id="new_tv" type="checkbox" <?php echo $roledata['new_tv']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_create_tv']; ?></span>
+                    <br />
+                
+                    <input name="edit_tv" id="edit_tv" type="checkbox" <?php echo $roledata['edit_tv']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_edit_tv']; ?></span>
+                    <br />
+                
+                    <input name="delete_tv" id="delete_tv" type="checkbox" <?php echo $roledata['delete_tv']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_delete_tv']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_user_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="new_user" id="new_user" type="checkbox" <?php echo $roledata['new_user']==1 ? "checked" : "" ; ?>>
+            <span><?php echo $this->_lang['role_new_user']; ?></span>
+            <br />
+        
+            <input name="edit_user" id="edit_user" type="checkbox" <?php echo $roledata['edit_user']==1 ? "checked" : "" ; ?>>
+            <span><?php echo $this->_lang['role_edit_user']; ?></span>
+            <br />
+        
+            <input name="save_user" id="save_user" type="checkbox" <?php echo $roledata['save_user']==1 ? "checked" : "" ; ?>>
+            <span><?php echo $this->_lang['role_save_user']; ?></span>
+            <br />
+        
+            <input name="delete_user" id="delete_user" type="checkbox" <?php echo $roledata['delete_user']==1 ? "checked" : "" ; ?>>
+            <span><?php echo $this->_lang['role_delete_user']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_role_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="new_role" id="new_role" type="checkbox" <?php echo $roledata['new_role']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_new_role']; ?></span>
+                    <br />
+                
+                    <input name="edit_role" id="edit_role" type="checkbox" <?php echo $roledata['edit_role']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_edit_role']; ?></span>
+                    <br />
+                
+                    <input name="save_role" id="save_role" type="checkbox" <?php echo $roledata['save_role']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_save_role']; ?></span>
+                    <br />
+                
+                    <input name="delete_role" id="delete_role" type="checkbox" <?php echo $roledata['delete_role']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_delete_role']; ?></span>
+                </div>
+            </div>
+            <div class="box box-info">
+            	<div class="box-header"><h3 class="box-title"><?php echo $this->_lang['role_config_management']; ?></h3></div>
+                <div class="box-body">
+                	<input name="logs" id="logs" type="checkbox" <?php echo $roledata['logs']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_view_logs']; ?></span>
+                    <br />
+                
+                    <input name="settings" id="settings" type="checkbox" <?php echo $roledata['settings']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_edit_settings']; ?></span>
+                    <br />
+                
+                    <input name="file_manager" id="file_manager" type="checkbox" <?php echo $roledata['file_manager']==1 ? "checked" : "" ; ?>>
+                    <span><?php echo $this->_lang['role_file_manager']; ?></span>
+                </div>
+            </div>
+          </form>
+        </div>
     </div>
-    <p>
-        <span class='fakefieldsettitle'><?php echo $this->_lang['page_data_general']; ?></span>
-    </p>
-    <div class='fakefieldset'>
-
-    <input name="home" id="home" type="checkbox" checked disabled>
-    <span><?php echo $this->_lang['role_home']; ?></span>
-    <br />
-
-    <input name="messages" id="messages" type="checkbox" <?php echo $roledata['messages']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_messages']; ?></span>
-    <br />
-
-    <input name="logout" id="logout" type="checkbox" checked disabled>
-    <span><?php echo $this->_lang['role_logout']; ?></span>
-    <br />
-
-    <input name="help" id="help" type="checkbox" checked disabled>
-    <span><?php echo $this->_lang['role_help']; ?></span>
-    <br />
-
-    <input name="action_ok" id="action_ok" type="checkbox" checked disabled>
-    <span><?php echo $this->_lang['role_actionok']; ?></span>
-    <br />
-
-    <input name="error_dialog" id="error_dialog" type="checkbox" checked disabled>
-    <span><?php echo $this->_lang['role_errors']; ?></span>
-    <br />
-
-    <input name="about" id="about" type="checkbox" checked disabled>
-    <span><?php echo $this->_lang['role_about']; ?></span>
-    <br />
-
-    <input name="credits" id="credits" type="checkbox" checked disabled>
-    <span><?php echo $this->_lang['role_credits']; ?></span>
-    <br />
-
-    <input name="change_password" id="change_password" type="checkbox" <?php echo $roledata['change_password']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_change_password']; ?></span>
-    <br />
-
-    <input name="save_password" id="save_password" type="checkbox" <?php echo $roledata['save_password']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_save_password']; ?></span>
-    <br />
-  </div>
-
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_content_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="view_document" id="view_document" type="checkbox" <?php echo $roledata['view_document']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_view_docdata']; ?></span>
-    <br />
-
-    <input name="new_document" id="new_document" type="checkbox" <?php echo $roledata['new_document']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_create_doc']; ?></span>
-    <br />
-
-    <input name="edit_document" id="edit_document" type="checkbox" <?php echo $roledata['edit_document']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_doc']; ?></span>
-    <br />
-
-    <input name="save_document" id="save_document" type="checkbox" <?php echo $roledata['save_document']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_save_doc']; ?></span>
-    <br />
-
-    <input name="delete_document" id="delete_document" type="checkbox" <?php echo $roledata['delete_document']==1 ? "checked" : "" ; ?>>
-    <span onClick="document.userform.delete_documentcheck.click()"><?php echo $this->_lang['role_delete_doc']; ?></span>
-    <br />
-
-    <input name="empty_cache" id="empty_cache" type="checkbox" <?php echo $roledata['empty_cache']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_cache_refresh']; ?></span>
-    <br />
-
-    <input name="export_html" id="export_html" type="checkbox" <?php echo $roledata['export_html']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['export_site']; ?></span>
-    <br />
-  </div>
-
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_template_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="new_template" id="new_template" type="checkbox" <?php echo $roledata['new_template']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_create_template']; ?></span>
-    <br />
-
-    <input name="edit_template" id="edit_template" type="checkbox" <?php echo $roledata['edit_template']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_template']; ?></span>
-    <br />
-
-    <!--<input name="save_template" id="save_template" type="checkbox" <?php echo $roledata['save_template']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_save_template']; ?></span>
-    <br />-->
-
-    <input name="delete_template" id="delete_template" type="checkbox" <?php echo $roledata['delete_template']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_delete_template']; ?></span>
-    <br />
-  </div>
-
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_snippet_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="new_snippet" id="new_snippet" type="checkbox" <?php echo $roledata['new_snippet']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_create_snippet']; ?></span>
-    <br />
-
-    <input name="edit_snippet" id="edit_snippet" type="checkbox" <?php echo $roledata['edit_snippet']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_snippet']; ?></span>
-    <br />
-
-    <!--<input name="save_snippet" id="save_snippet" type="checkbox" <?php echo $roledata['save_snippet']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_save_snippet']; ?></span>
-    <br />-->
-
-    <input name="delete_snippet" id="delete_snippet" type="checkbox" <?php echo $roledata['delete_snippet']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_delete_snippet']; ?></span>
-    <br />
-  </div>
-
-<!-- START:chunk permissions -->
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_chunk_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="new_chunk" id="new_chunk" type="checkbox" <?php echo $roledata['new_chunk']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_create_chunk']; ?></span>
-    <br />
-
-    <input name="edit_chunk" id="edit_chunk" type="checkbox" <?php echo $roledata['edit_chunk']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_chunk']; ?></span>
-    <br />
-<!--<input name="save_chunk" id="save_chunk" type="checkbox" <?php echo $roledata['save_chunk']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_save_chunk']; ?></span>
-    <br />-->
-
-    <input name="delete_chunk" id="delete_chunk" type="checkbox" <?php echo $roledata['delete_chunk']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_delete_chunk']; ?></span>
-    <br />
-  </div>
-<!-- END:chunk permissions -->
-
-<!-- START:tv permissions -->
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_tv_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="new_tv" id="new_tv" type="checkbox" <?php echo $roledata['new_tv']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_create_tv']; ?></span>
-    <br />
-
-    <input name="edit_tv" id="edit_tv" type="checkbox" <?php echo $roledata['edit_tv']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_tv']; ?></span>
-    <br />
-
-    <input name="delete_tv" id="delete_tv" type="checkbox" <?php echo $roledata['delete_tv']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_delete_tv']; ?></span>
-    <br />
-  </div>
-<!-- END:tv permissions -->
-
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_user_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="new_user" id="new_user" type="checkbox" <?php echo $roledata['new_user']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_new_user']; ?></span>
-    <br />
-
-    <input name="edit_user" id="edit_user" type="checkbox" <?php echo $roledata['edit_user']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_user']; ?></span>
-    <br />
-
-    <input name="save_user" id="save_user" type="checkbox" <?php echo $roledata['save_user']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_save_user']; ?></span>
-    <br />
-
-    <input name="delete_user" id="delete_user" type="checkbox" <?php echo $roledata['delete_user']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_delete_user']; ?></span>
-    <br />
-  </div>
-<!--
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_udperms']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="access_permissions" id="access_permissions" type="checkbox" <?php echo $roledata['access_permissions']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_access_persmissions']; ?></span>
-    <br />
-  </div>
--->
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_role_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="new_role" id="new_role" type="checkbox" <?php echo $roledata['new_role']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_new_role']; ?></span>
-    <br />
-
-    <input name="edit_role" id="edit_role" type="checkbox" <?php echo $roledata['edit_role']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_role']; ?></span>
-    <br />
-
-    <input name="save_role" id="save_role" type="checkbox" <?php echo $roledata['save_role']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_save_role']; ?></span>
-    <br />
-
-    <input name="delete_role" id="delete_role" type="checkbox" <?php echo $roledata['delete_role']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_delete_role']; ?></span>
-    <br />
-  </div>
-
-  <p>
-    <span class='fakefieldsettitle'><?php echo $this->_lang['role_config_management']; ?></span>
-  </p>
-
-  <div class='fakefieldset'>
-    <input name="logs" id="logs" type="checkbox" <?php echo $roledata['logs']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_view_logs']; ?></span>
-    <br />
-
-    <input name="settings" id="settings" type="checkbox" <?php echo $roledata['settings']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_edit_settings']; ?></span>
-    <br />
-
-    <input name="file_manager" id="file_manager" type="checkbox" <?php echo $roledata['file_manager']==1 ? "checked" : "" ; ?>>
-    <span><?php echo $this->_lang['role_file_manager']; ?></span>
-    <br />
-  </div>
-  </form>
-  <p>&nbsp;</p>
-</div>
+</section>

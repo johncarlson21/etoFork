@@ -1948,3 +1948,5 @@ SELECT * FROM `jcwebsol_etofork`.etomite_site_templates WHERE `jcwebsol_etofork`
 
 
 
+[16-Apr-2014 13:39:37 America/Chicago] PHP Warning:  preg_match() [<a href='function.preg-match'>function.preg-match</a>]: Empty regular expression in /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php on line 695
+[16-Apr-2014 13:39:37 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jcwebsol/public_html/etofork/manager/models/etomite.class.php:695) in /home/jcwebsol/public_html/etofork/manager/index.php on line 87
