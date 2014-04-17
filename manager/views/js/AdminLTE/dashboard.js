@@ -26,9 +26,9 @@ $(function() {
     }).disableSelection();;
 
     //bootstrap WYSIHTML5 - text editor
-    $(".textarea").wysihtml5();
+    // $(".textarea").wysihtml5();
 
-    $('.daterange').daterangepicker(
+    /*$('.daterange').daterangepicker(
             {
                 ranges: {
                     'Today': [moment(), moment()],
@@ -43,7 +43,7 @@ $(function() {
             },
     function(start, end) {
         alert("You chose: " + start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-    });
+    }); */
 
     //Date for the calendar events (dummy data)
     var date = new Date();
@@ -52,7 +52,7 @@ $(function() {
             y = date.getFullYear();
 
     //Calendar
-    $('#calendar').fullCalendar({
+    /*$('#calendar').fullCalendar({
         editable: true, //Enable drag and drop
         events: [
             {
@@ -113,7 +113,7 @@ $(function() {
             center: '',
             right: 'prev,next'
         }
-    });
+    }); */
 
     //SLIMSCROLL FOR CHAT WIDGET
     $('#chat-box').slimScroll({

@@ -19,6 +19,8 @@ function elFinderBrowser (field_name, url, type, win) {
 var spinner = null;
 
 function spin(stop) {
+	// possibly removing this
+	return;
 	if (stop !== false) {
 		var target = document.getElementById('adminbody');
 		spinner = new Spinner(
