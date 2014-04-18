@@ -1,9 +1,15 @@
 <?php
 /**************************************************************************
+
  etoFork Content Management System
+
 Copyright (c) 2011 All Rights Reserved
+
 John Carlson - <johncarlson21@gmail.com>
+
 System Model - handles calls pertaining main system functionality
+
+
 
 /**************************************************************************/
 if (!defined('CONFIG_LOADED')) {
@@ -85,6 +91,7 @@ class System extends etomite {
             foreach($this->settingsFields as $field) {
                 $value = '';
                 if (isset($_REQUEST[$field])) {
+					if ($field == 'site_name') { $_REQUEST[$field] = htmlspecialchars(stripslashes($_REQUEST[$field]),ENT_QUOTES); }
                     $value = is_numeric($_REQUEST[$field]) ? (int) $_REQUEST[$field] : mysql_real_escape_string($_REQUEST[$field]);
                     if (!$this->updIntTableRows(array('setting_value'=>$value), 'system_settings', 'setting_name="'.$field.'"')) {
                         return false; // there was an error
