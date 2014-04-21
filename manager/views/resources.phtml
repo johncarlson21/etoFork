@@ -102,7 +102,7 @@
 						$rs = $this->dbQuery($sql);
 						$limit = $this->recordCount($rs);
 						if ($limit > 0) {
-							$stabs[] = $rowS['name']." - ".$rowS['description'];
+							$stabs[] = $rowS['name']; //." - ".$rowS['description'];
 							$stc = "<ul>";
 							  for($i=0; $i<$limit; $i++) {
 								$row = $this->fetchRow($rs);
@@ -122,7 +122,9 @@
                 <div class="nav-tabs-custom">
                     <!-- Snippet Tabs within a box -->
                     <ul class="nav nav-tabs">
-                        <?php if (count($stabs) > 0) {
+                        <?php 
+						$ucSel = '';
+						if (count($stabs) > 0) {
 							$c = 0;
 							foreach($stabs as $tab) {
 							?>
@@ -130,8 +132,8 @@
                             <?php	
 							$c++;
 							}
-						}?>
-                        <li><a href="#uncategorized" data-toggle="tab"><?php echo $this->_lang['un_categorized']; ?></a></li>
+						} else { $ucSel = 'active'; }?>
+                        <li class="<?php echo $ucSel;?>"><a href="#uncategorized" data-toggle="tab"><?php echo $this->_lang['un_categorized']; ?></a></li>
                     </ul>
                     <div class="tab-content">
                     	<?php if (count($stabcontent) > 0) {
@@ -145,7 +147,7 @@
 							$c++;
 							}
 						}?>
-                        <div class="tab-pane" id="uncategorized" style="position: relative;">
+                        <div class="tab-pane <?php echo $ucSel;?>" id="uncategorized" style="position: relative;">
                         	<?php
 							$sql = "select name, id, description, locked from ".$this->db."site_snippets where section<1 order by name";
 							  $rs = $this->dbQuery($sql);
@@ -208,7 +210,7 @@
 						$rs = $this->dbQuery($sql);
 						$limit = $this->recordCount($rs);
 						if ($limit > 0) {
-							$stabs[] = $rowS['name']." - ".$rowS['description'];
+							$stabs[] = $rowS['name']; //." - ".$rowS['description'];
 							$stc = "<ul>";
 							  for($i=0; $i<$limit; $i++) {
 								$row = $this->fetchRow($rs);
@@ -228,7 +230,9 @@
                 <div class="nav-tabs-custom">
                     <!-- Chunks Tabs within a box -->
                     <ul class="nav nav-tabs">
-                        <?php if (count($stabs) > 0) {
+                        <?php 
+						$ucSel = '';
+						if (count($stabs) > 0) {
 							$c = 0;
 							foreach($stabs as $tab) {
 							?>
@@ -236,8 +240,8 @@
                             <?php	
 							$c++;
 							}
-						}?>
-                        <li><a href="#cuncategorized" data-toggle="tab"><?php echo $this->_lang['un_categorized']; ?></a></li>
+						} else { $ucSel = 'active'; }?>
+                        <li class="<?php echo $ucSel;?>"><a href="#cuncategorized" data-toggle="tab"><?php echo $this->_lang['un_categorized']; ?></a></li>
                     </ul>
                     <div class="tab-content">
                     	<?php if (count($stabcontent) > 0) {
@@ -251,7 +255,7 @@
 							$c++;
 							}
 						}?>
-                        <div class="tab-pane" id="cuncategorized" style="position: relative;">
+                        <div class="tab-pane <?php echo $ucSel;?>" id="cuncategorized" style="position: relative;">
                         	<?php
 							$sql = "select name, id, description, locked from ".$this->db."site_htmlsnippets where section<1 order by name";
 							  $rs = $this->dbQuery($sql);

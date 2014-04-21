@@ -243,16 +243,16 @@ var Etomite = {
 					}
 					Etomite.updateDocProperty('parent', parent, node.id);
 				}
-				console.log('current parent'+parent);
+				
 				$.ajax({
 					url: 'ActionServer.php',
-					dataType: 'html',
+					dataType: 'json',
 					data: {
 						action: 'saveTree',
 						tree: $('#docTree').tree('toJson')
 					},
 					success: function(response) {
-						if(response === null || json.succeed !== true) {
+						if(response === null || response.succeeded !== true) {
                             Etomite.errorDialog('Error moving document', 'Error');
                         }
 						Etomite.loadDocTree();
@@ -933,9 +933,10 @@ var Etomite = {
                         Etomite.errorDialog(json.message, 'Error');
                     } else {
                         spin(false);
+						Etomite.notify('Resource Saved!');
                         if ($('#stay').is(':checked')) {
                             // only used for new insert
-                            if(json.params !== null || json.params.id) {
+                            if((json.params !== null || json.params.id) && rId == '') {
                                 $('#editResource #id').val(json.params.id);
                             }
                         } else {

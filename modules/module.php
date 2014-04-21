@@ -196,8 +196,8 @@ class module {
                 }
             }
             
-            $snSectionId = 1; // set to default section
-            $chSectionId = 2; // set to default section
+            $snSectionId = 0; // set to default section
+            $chSectionId = 0; // set to default section
             $snippets = array();
             $chunks = array();
             
