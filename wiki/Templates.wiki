@@ -1,5 +1,0 @@
-#summary Your site layout
-
-=Templates=
-
-Basically you would just create your template just like you were making a static HTML page, the only difference is that you can now use that same template for multiple documents. Templates can use multiple other developmental elements to display elements of your site.

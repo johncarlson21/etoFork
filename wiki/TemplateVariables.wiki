@@ -1,5 +1,0 @@
-#summary Template Variable Docs
-
-=Template Variables=
-
-Coming Soon
