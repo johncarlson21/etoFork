@@ -24,7 +24,7 @@ ini_set('ignore_repeated_errors','On');
 */
 
 // Etomite database connection parameters
-$config_release = "2.51 r248";
+$config_release = "2.51 r250";
 $database_type = "mysql";
 $database_server = "{HOST}";
 $database_user = "{USER}";

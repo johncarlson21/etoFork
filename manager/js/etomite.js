@@ -456,7 +456,8 @@ var Etomite = {
 						$('#groupsWindow').dialog('destroy');
 						$('#groupsWindow').dialog('remove');
 					}
-                    Etomite.loadPane(response);
+					
+					Etomite.loadPane(response);
 					
 					$("#saveDocument").unbind( "click" );
 					$("#saveCloseDocument").unbind( "click" );
@@ -518,6 +519,7 @@ var Etomite = {
                             $('#aliasUniqueMessage').hide();
                         }
                     });
+					
                 }
             }
         });
@@ -711,7 +713,8 @@ var Etomite = {
 						$('#groupsWindow').dialog('destroy');
 						$('#groupsWindow').dialog('remove');
 					}
-                    Etomite.loadPane(response);
+					
+					Etomite.loadPane(response);
                     
 					$("#saveDocument").unbind( "click" );
 					$("#saveCloseDocument").unbind( "click" );
