@@ -2834,6 +2834,8 @@ title='$siteName'>$siteName</a></h2>
             }*/
             for ($i = 0; $i < count($parents); $i++) {
                 $p                      = $parents[$i];
+		$p['pagetitle'] = stripslashes($p['pagetitle']);
+		$p['pagetitle'] = htmlentities($p['pagetitle']);
                 $tree[$i]['title']      = $p['pagetitle'] . " (" . $p['id'] . ")";
 				$tree[$i]['label']		= $p['pagetitle'] . " (" . $p['id'] . ")";
 				$tree[$i]['id']			= $p['id'];
