@@ -92,7 +92,8 @@ class synccache{
        $tmp1 = $this->etomite->fetchRow($rs);
        $tmpPHP .= '$this->tpl_list['.$tmp1[$i_tmp].']'."=".$tmp1['id'].";\n";
     }
-
+	
+	/* //changed to new file based cache for chunks and snippets to keep the initial cached settings load small
     // WRITE Chunks to cache file
     $sql = "SELECT * FROM ".$this->db."site_htmlsnippets";
     $rs = $this->etomite->dbQuery($sql);
@@ -109,7 +110,7 @@ class synccache{
     for ($i_tmp=0; $i_tmp<$limit_tmp; $i_tmp++) {
        $tmp1 = $this->etomite->fetchRow($rs);
        $tmpPHP .= '$this->snippetCache[\''.$tmp1['name'].'\']'."='".base64_encode($tmp1['snippet'])."';\n";
-    }
+    } */
 
     // close and write the file
     $tmpPHP .= "?>";

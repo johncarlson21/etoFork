@@ -287,6 +287,8 @@ var Etomite = {
 					selector: 'li div',
 					className: 'data-title',
 					autoHide: true,
+					zIndex: 9999,
+					//determinePosition: {my: "center top", at: "center bottom", of: this, collision: "fit fit"},
 					callback: function(key, options) {
 						if (Etomite.editingDoc == true || Etomite.movingDoc == true) {
 							alert('You are editing or moving a document! Please save or cancel first!');
