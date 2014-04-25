@@ -2,3 +2,4 @@
 manager/includes/config.inc.php
 assets/cache/etomiteCache.idx.php
 assets/cache/etomitePublishing.idx
+modules/mod_*
