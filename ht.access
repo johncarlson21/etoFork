@@ -1,4 +1,5 @@
 # URL rewriting for Etomite CMS
+# Last Modified: 2014-04-25 by John Carlson
 # Last Modified: 2006-03-30 by Ralph Dahlgren
 #
 # You must be running on Apache mod_rewrite to use this.
