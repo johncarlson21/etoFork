@@ -370,6 +370,52 @@ class etomite
             return "";
         }
     }
+	
+	/**
+	* Check and Get Cached resource
+	*
+	* @param varchar $resourceName name of resource
+	* @param varchar $type type of resource; default chunk
+	* @return return either cached resource or resource directly from db
+	*/
+	public function getResource($resourceName=false, $type='chunk') {
+		if ($resourceName !== false) {
+			// check if resource exists
+			$resourceName = trim($resourceName);
+			$tbl = '';
+			$resource = '';
+			switch($type) {
+				case "chunk":
+					$tbl = 'site_htmlsnippets';
+					$cacheFolder = 'chunks/';
+				break;
+				case "snippet":
+					$tbl = 'site_snippets';
+					$cacheFolder = 'snippets/';
+				break;	
+			}
+			
+			// check for cached file if enabled
+			if ($this->config['cache_resources'] == 1) {
+				if (file_exists(absolute_base_path."assets/cache/".$cacheFolder.$resourceName.".etoCache")) {
+					$resource = @file_get_contents(absolute_base_path."assets/cache/".$cacheFolder.$resourceName.".etoCache");
+				}
+			}
+			// pull from db no cache file exists or resouce cache disabled
+			if (empty($resource)) {
+				if ($result = $this->getIntTableRows('*', $tbl, "name='".$resourceName."'", '', '', 1)) {
+					$resourceData = $result[0];
+					$resource = $resourceData['snippet'];
+					if ($this->config['cache_resources'] == 1) {
+						@file_put_contents(absolute_base_path."assets/cache/".$cacheFolder.$resourceName.".etoCache", $resource);
+					}
+					//$resource = $resourceData['snippet'];
+				}
+			}
+			// return nothing if no resource found
+			return $resource;
+		}
+	}
     
 	/**
 	* Discover document method
@@ -767,24 +813,11 @@ class etomite
     public function mergeHTMLSnippetsContent($content)
     {
         $settingsCount = preg_match_all('~{{(.*?)}}~', $content, $matches);
+		$replace = array();
         if ($settingsCount)
             $this->parseAgain = true; // [v1.2]
         for ($i = 0; $i < $settingsCount; $i++) {
-            if (isset($this->chunkCache[$matches[1][$i]])) {
-                $replace[$i] = base64_decode($this->chunkCache[$matches[1][$i]]);
-            } else {
-                $sql    = "SELECT * FROM " . $this->db . "site_htmlsnippets WHERE " . $this->db . "site_htmlsnippets.name='" . $matches[1][$i] . "';";
-                $result = $this->dbQuery($sql);
-                $limit  = $this->recordCount($result);
-                if ($limit < 1) {
-                    $this->chunkCache[$matches[1][$i]] = "";
-                    $replace[$i]                       = "";
-                } else {
-                    $row                               = $this->fetchRow($result);
-                    $this->chunkCache[$matches[1][$i]] = $row['snippet'];
-                    $replace[$i]                       = $row['snippet'];
-                }
-            }
+			$replace[$i] = $this->getChunk($matches[1][$i]);
         }
         $content = str_replace($matches[0], $replace, $content);
         return $content;
@@ -806,7 +839,7 @@ class etomite
         if (is_array($params)) {
             extract($params, EXTR_SKIP);
         }
-        $snip = eval(base64_decode($snippet));
+        $snip = eval($snippet);
         return $snip;
     }
 	
@@ -836,32 +869,19 @@ class etomite
             $snippetParams[$i] = $params;
         }
         $nrSnippetsToGet = count($matches[1]);
+		$snippets = array();
         for ($i = 0; $i < $nrSnippetsToGet; $i++) {
-            if (isset($this->snippetCache[$matches[1][$i]])) {
-                $snippets[$i]['name']    = $matches[1][$i];
-                $snippets[$i]['snippet'] = $this->snippetCache[$matches[1][$i]];
-            } else {
-                $sql    = "SELECT * FROM " . $this->db . "site_snippets WHERE " . $this->db . "site_snippets.name='" . $matches[1][$i] . "';";
-                $result = $this->dbQuery($sql);
-                if ($this->recordCount($result) == 1) {
-                    $row                  = $this->fetchRow($result);
-                    $snippets[$i]['name'] = $row['name'];
-                    $row['snippet']       = trim($row['snippet']);
-                    // check the snippet for php tags
-                    if (preg_match("/^(<\?php|<\?)/", $row['snippet'])) {
-                        $row['snippet'] = "?>" . $row['snippet'];
-                    }
-                    if (substr($row['snippet'], 0, -2) == "?>") {
-                        $row['snippet'] .= "<?php ";
-                    }
-                    $snippets[$i]['snippet'] = base64_encode($row['snippet']);
-                    $this->snippetCache      = $snippets[$i];
-                } else {
-                    $snippets[$i]['name']    = $matches[1][$i];
-                    $snippets[$i]['snippet'] = base64_encode("return false;");
-                    $this->snippetCache      = $snippets[$i];
-                }
-            }
+			$snippet = $this->getResource($matches[1][$i], 'snippet');
+			$snippet = trim($snippet);
+			// check the snippet for php tags
+			if (preg_match("/^(<\?php|<\?)/", $snippet)) {
+				$snippet = "?>" . $snippet;
+			}
+			if (substr($snippet, 0, -2) == "?>") {
+				$snippet .= "<?php ";
+			}
+			$snippets[$i]['name'] = $matches[1][$i];
+			$snippets[$i]['snippet'] = $snippet;
         }
         for ($i = 0; $i < $nrSnippetsToGet; $i++) {
             $parameter            = array();
@@ -1713,7 +1733,7 @@ title='$siteName'>$siteName</a></h2>
 	*/
     public function runSnippet($snippetName, $params = array())
     {
-        return $this->evalSnippet($this->snippetCache[$snippetName], $params);
+        return $this->evalSnippet($this->getResource($snippetName, 'snippet'), $params);
     }
 	
 	/**
@@ -1724,7 +1744,8 @@ title='$siteName'>$siteName</a></h2>
 	*/
     public function getChunk($chunkName)
     {
-        return base64_decode($this->chunkCache[$chunkName]);
+        //return base64_decode($this->chunkCache[$chunkName]);
+		return $this->getResource($chunkName, 'chunk');
     }
 	
 	/**

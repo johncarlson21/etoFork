@@ -1,5 +1,9 @@
 .htaccess
 manager/includes/config.inc.php
+assets/cache/*.etoCache
 assets/cache/etomiteCache.idx.php
 assets/cache/etomitePublishing.idx
+assets/cache/chunks/*.etoCache
+assets/cache/snippets/*.etoCache
 modules/mod_*
+tmp/etofork.errors

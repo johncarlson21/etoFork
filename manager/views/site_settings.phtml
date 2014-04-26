@@ -260,6 +260,17 @@
           <td colspan="2"><div class='split'></div></td>
         </tr>
         <tr>
+        	<td nowrap="nowrap" class="menuHeader" valign="top"><b><?php echo $this->_lang["defaultresourcecache_title"] ?></b></td>
+            <td> <input type="radio" name="cache_resources" value="1" <?php echo ($this->config['cache_resources']=='1' || !isset($this->config['cache_resources'])) ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["yes"]; ?><br />
+            <input type="radio" name="cache_resources" value="0" <?php echo $this->config['cache_resources']=='0' ? 'checked="checked"' : "" ; ?>>
+            <?php echo $this->_lang["no"]; ?> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class='comment'><?php echo $this->_lang["defaultresourcecache_message"] ?></td>
+        </tr>
+        <tr>
           <td nowrap class="menuHeader" valign="top"><b><?php echo $this->_lang["defaultpublish_title"] ?></b></td>
           <td> <input type="radio" name="publish_default" value="1" <?php echo ($this->config['publish_default']=='1' || !isset($this->config['publish_default'])) ? 'checked="checked"' : "" ; ?>>
             <?php echo $this->_lang["yes"]; ?><br />

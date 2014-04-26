@@ -877,7 +877,9 @@ INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES (
 
 INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('manager_layout', '1');
 
-INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('zend_urls', '1');
+INSERT INTO `system_settings` (`setting_name`, `setting_value`) VALUES ('zend_urls', '1');
+
+INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('cache_resources', '0');
 
 --
 -- Dumping data for table `{PREFIX}site_snippets`

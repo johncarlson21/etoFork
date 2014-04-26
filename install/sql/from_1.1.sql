@@ -187,6 +187,8 @@ ALTER TABLE `{PREFIX}user_messages` CHANGE `type` `type` varchar(50)  COLLATE ut
 
 INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('zend_urls', '1');
 
+INSERT INTO `{PREFIX}system_settings` (`setting_name`, `setting_value`) VALUES ('cache_resources', '0');
+
 UPDATE `{PREFIX}system_settings` SET `setting_value`='{VERSION}' WHERE `setting_name`='settings_version';
 
 --

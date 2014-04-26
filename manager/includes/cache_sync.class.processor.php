@@ -33,6 +33,7 @@ class synccache{
     }
     $filesincache = 0;
     $deletedfilesincache = 0;
+	// normal cache directory for settings and documents cache
     if ($handle = opendir($this->cachePath)) {
       while (false !== ($file = readdir($handle))) {
         if ($file != "." && $file != "..") {
@@ -46,6 +47,38 @@ class synccache{
       }
       closedir($handle);
     }
+	// empty chunks cache directory
+	if ($handle = opendir($this->cachePath."chunks/")) {
+      while (false !== ($file = readdir($handle))) {
+        if ($file != "." && $file != ".." && $file != "index.html") {
+          $filesincache += 1;
+          if (preg_match ("/\.etoCache/", $file)) {
+            $deletedfilesincache += 1;
+			// don't output the chunk cache file name
+            //$deletedfiles[] = $file;
+            @unlink($this->cachePath."chunks/".$file);
+          }
+        }
+      }
+      closedir($handle);
+    }
+	
+	// empty snippets cache directory
+	if ($handle = opendir($this->cachePath."snippets/")) {
+      while (false !== ($file = readdir($handle))) {
+        if ($file != "." && $file != ".." && $file != "index.html") {
+          $filesincache += 1;
+          if (preg_match ("/\.etoCache/", $file)) {
+            $deletedfilesincache += 1;
+			// don't output the snippet cache file name
+            //$deletedfiles[] = $file;
+            @unlink($this->cachePath."snippets/".$file);
+          }
+        }
+      }
+      closedir($handle);
+    }
+	
 
 /****************************************************************************/
 /*  BUILD CACHE FILES                            */
@@ -93,25 +126,6 @@ class synccache{
        $tmpPHP .= '$this->tpl_list['.$tmp1[$i_tmp].']'."=".$tmp1['id'].";\n";
     }
 	
-	/* //changed to new file based cache for chunks and snippets to keep the initial cached settings load small
-    // WRITE Chunks to cache file
-    $sql = "SELECT * FROM ".$this->db."site_htmlsnippets";
-    $rs = $this->etomite->dbQuery($sql);
-    $limit_tmp = $this->etomite->recordCount($rs);
-    for ($i_tmp=0; $i_tmp<$limit_tmp; $i_tmp++) {
-       $tmp1 = $this->etomite->fetchRow($rs);
-       $tmpPHP .= '$this->chunkCache[\''.$tmp1['name'].'\']'."='".base64_encode($tmp1['snippet'])."';\n";
-    }
-
-    // WRITE snippets to cache file
-    $sql = "SELECT * FROM ".$this->db."site_snippets";
-    $rs = $this->etomite->dbQuery($sql);
-    $limit_tmp = $this->etomite->recordCount($rs);
-    for ($i_tmp=0; $i_tmp<$limit_tmp; $i_tmp++) {
-       $tmp1 = $this->etomite->fetchRow($rs);
-       $tmpPHP .= '$this->snippetCache[\''.$tmp1['name'].'\']'."='".base64_encode($tmp1['snippet'])."';\n";
-    } */
-
     // close and write the file
     $tmpPHP .= "?>";
     $filename = $this->cachePath.'etomiteCache.idx.php';
@@ -128,9 +142,40 @@ class synccache{
        exit;
     }
     fclose($handle);
+	
+	// reload cache file. fixes issues with not being able to use updated cache settings immediately
+	if (file_exists(absolute_base_path . "assets/cache/etomiteCache.idx.php")) {
+		include_once(absolute_base_path . "assets/cache/etomiteCache.idx.php");
+	}
 
 /****************************************************************************/
 /*  END OF BUILD CACHE FILES                        */
+/*  CREATE CHUNK AND SNIPPET CACHE FILES  */
+	
+	//changed to new file based cache for chunks and snippets to keep the initial cached settings load small
+    // WRITE Chunks to cache file if cache is enabled
+	if ($this->etomite->config['cache_resources'] == 1) {
+		$sql = "SELECT * FROM ".$this->db."site_htmlsnippets";
+		$rs = $this->etomite->dbQuery($sql);
+		$limit_tmp = $this->etomite->recordCount($rs);
+		for ($i_tmp=0; $i_tmp<$limit_tmp; $i_tmp++) {
+		   $tmp1 = $this->etomite->fetchRow($rs);
+		   @file_put_contents($this->cachePath."chunks/".$tmp1['name'].".etoCache", $tmp1['snippet']);
+		}
+	}
+
+    // WRITE snippets to cache file if cache is enabled
+	if ($this->etomite->config['cache_resources'] == 1) {
+		$sql = "SELECT * FROM ".$this->db."site_snippets";
+		$rs = $this->etomite->dbQuery($sql);
+		$limit_tmp = $this->etomite->recordCount($rs);
+		for ($i_tmp=0; $i_tmp<$limit_tmp; $i_tmp++) {
+		   $tmp1 = $this->etomite->fetchRow($rs);
+		   @file_put_contents($this->cachePath."snippets/".$tmp1['name'].".etoCache", $tmp1['snippet']);
+		}
+	}
+
+/*  END OF CHUNK AND SNIPPET CHACHE FILES  */
 /*  PUBLISH TIME FILE                            */
 /****************************************************************************/
     // update publish time file
