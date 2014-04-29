@@ -5,5 +5,7 @@ assets/cache/etomiteCache.idx.php
 assets/cache/etomitePublishing.idx
 assets/cache/chunks/*.etoCache
 assets/cache/snippets/*.etoCache
+assets/.tmb/
+assets/.tmb/*
 modules/mod_*
 tmp/etofork.errors
