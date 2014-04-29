@@ -200,7 +200,7 @@ var Etomite = {
 		$('#docTree').tree({
 			dataUrl: 'ActionServer.php?action=getDocTree',
 			dragAndDrop: true,
-			autoOpen: 0,
+			autoOpen: false,
 			onCreateLi: function(node, $li) {
 				$li.find('.jqtree-element').first().attr('data-id', node.id);
 				$li.find('.jqtree-element').first().attr('data-docurl', node.docUrl);
