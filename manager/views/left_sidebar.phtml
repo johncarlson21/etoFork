@@ -72,19 +72,7 @@
                             </ul>
                         </li>
                         <?php } ?>
-                        <?php if($_SESSION['permissions']['new_user']==1 || $_SESSION['permissions']['edit_user']==1 || $_SESSION['permissions']['new_role']==1 || $_SESSION['permissions']['edit_role']==1 || $_SESSION['permissions']['access_permissions']==1) { ?>
-                        <li class="treeview">
-                            <a href="javascript:;">
-                                <i class="fa fa-user"></i>
-                                <span><?php echo $_lang["users"]; ?></span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('loadUsersView');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["user_management_title"]; ?></a></li>
-                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('loadGroupsView');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang['group_management_title']; ?></a></li>
-                            </ul>
-                        </li>
-                        <?php }
+                        <?php
                             $allow_resource = false;
                             foreach ($resourcePermsArr as $perm) {
                                 if ($etomite->checkUserRole($perm, $_SESSION['internalKey'])) {
@@ -108,6 +96,19 @@
 							echo $etomite->buildAdminModuleMenu();
 							?>
                         </li>
+                        <?php if($_SESSION['permissions']['new_user']==1 || $_SESSION['permissions']['edit_user']==1 || $_SESSION['permissions']['new_role']==1 || $_SESSION['permissions']['edit_role']==1 || $_SESSION['permissions']['access_permissions']==1) { ?>
+                        <li class="treeview">
+                            <a href="javascript:;">
+                                <i class="fa fa-user"></i>
+                                <span><?php echo $_lang["users"]; ?></span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('loadUsersView');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["user_management_title"]; ?></a></li>
+                                <li><a href="javascript:;" onClick="Etomite.loadPaneFromAction('loadGroupsView');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang['group_management_title']; ?></a></li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                         <?php if($_SESSION['permissions']['settings']==1 || $_SESSION['permissions']['edit_parser']==1 || $_SESSION['permissions']['logs']==1 || $_SESSION['permissions']['file_manager']==1 || $_SESSION['permissions']['export_html']==1) { ?>
                         <li class="treeview">
                             <a href="javascript:;">

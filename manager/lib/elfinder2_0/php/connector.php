@@ -53,7 +53,16 @@ $opts = array(
 		    'tmbURL'	=> www_base_path . 'assets/.tmb',
 			'utf8fix'    => true,
 			'tmbCrop'    => false, // URL to files (REQUIRED)
-			'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
+			'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
+			'attributes' => array(
+				array(
+					'pattern' => "/manager/",
+					'read' => false,
+					'write' => false,
+					'hidden' => true,
+					'locked' => false
+				)
+			)
 		)
 	)
 );
