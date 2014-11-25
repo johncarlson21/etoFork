@@ -111,7 +111,7 @@ $_lang["show_tree"] = "Show tree";
 $_lang["confirm_remove_locks"] = "Users sometimes close their browser while editing documents, templates, snippets or parsers, possibly leaving the item they were editing in locked state. By pressing OK you can remove ALL locks currently in place.\\n\\nProceed?";
 $_lang["welcome_title"] = "Welcome to etoFork";
 $_lang["welcome_message"] = "Welcome to etoFork! To start, select a document from the tree to
- the left of the screen, or choose a menu option from the main menu. Suggestions, comments or compliments are always welcome at the <a href='http://www.etomite.com/forums/' rel='external'>Etomite
+ the left of the screen, or choose a menu option from the main menu. Suggestions, comments or compliments are always welcome at the <a href='http://forum.etofork.com/forums/' rel='external'>etoFork
  Forums</a>.<p>We hope you enjoy using etoFork,<br />The etoFork Development Team</p>";
 $_lang["welcome_messages"] = "Your inbox contains <b>%d</b> message(s), of which <b>%s</b> are unread.";
 $_lang["activity_title"] = "Recent documents";
@@ -447,13 +447,13 @@ $_lang['search_results_returned_desc'] = "Description";
 $_lang['search_view_docdata'] = "View this item";
 $_lang['search_item_deleted'] = "This item has been deleted";
 $_lang['help_title'] = "Help";
-$_lang['help_msg'] = "etoFork usage is a lot like Etomite. Current documentation can be found <a href=\"https://code.google.com/p/etofork/w/list\" target=\"_blank\">here</a>!<br /><br />Etomite Forums are no longer available, but we are hosting the Etomite Docs, you can use the link below to the docs.<br /><br />If you need help using Etomite, your best bet is to visit the <a href='http://www.etomite.com/forums/' target='_blank'>Etomite Forums</a>. Also, the <a href='http://www.etofork.com/etomite-docs.html' target='_blank'>Etomite Docs</a>, (at www.etofork.com), contains documentation about using Etomite and how to set it up. The answers you are looking for might be there. If not, post your question in the forums and the Etomite community will help in providing answers as soon as possible. It is through the continued active envolvement of the membership that Etomite has evolved into the product that it is today. Please consider giving back to the community in any way possible.";
+$_lang['help_msg'] = "etoFork usage is a lot like Etomite. Current documentation can be found <a href=\"https://code.google.com/p/etofork/w/list\" target=\"_blank\">here</a>!<br /><br />Etomite Forums are no longer available, but we are hosting the Etomite Docs, you can use the link below to the docs.<br /><br />If you need help using Etomite, your best bet is to visit the <a href='http://forum.etofork.com/forums/' target='_blank'>etoFork Forums</a>. Also, the <a href='http://www.etofork.com/etomite-docs.html' target='_blank'>Etomite Docs</a>, (at www.etofork.com), contains documentation about using Etomite and how to set it up. The answers you are looking for might be there. If not, post your question in the forums and the etoFork community will help in providing answers as soon as possible. Please consider giving back to the community in any way possible.";
 $_lang['configcheck_images'] = "Images directory not writable";
 $_lang['configcheck_images_msg'] = "The images directory isn't writable, or doesn't exist. This means the ImageManager functions in the editor will not work!";
 $_lang['php_version_check'] = "etoFork is compatible with PHP version 5.2.17 and higher. Please upgrade your PHP installation!";
 $_lang['document_alias'] = "Document's alias";
 $_lang['document_alias_help'] = "Here you can select an alias for this document. This will make the document accessible using:\n\nhttp://yourserver/alias\n\nThis only works if you're using friendly URLs. A document's alias can only contain\n letters, numbers, dash - and underscore _ characters.";
-$_lang['etomite_slogan'] = "Fast, Free, Ultimately Flexible - \nEtomite Content Management";
+$_lang['etomite_slogan'] = "Fast, Free, Ultimately Flexible - \netoFork Content Management";
 $_lang['user_management_title'] = "Manage Users";
 $_lang['user_management_msg'] = "Here you can choose which user you wish to edit.";
 $_lang['role_management_title'] = "Role Management";
