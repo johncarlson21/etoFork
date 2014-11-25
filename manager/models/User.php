@@ -171,11 +171,62 @@ class User extends etomite {
     
     public function editRole() {
         $id = (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['id'])) ? (int)$_REQUEST['id'] : false;
+		// roledata represents all the columns in the user_roles table
+		$roledata = array(
+			'id'=>'',
+			'name'=>'',
+			'description'=>'',
+			'frames'=>'',
+			'home'=>'',
+			'view_document'=>'',
+			'new_document'=>'',
+			'save_document'=>'',
+			'delete_document'=>'',
+			'action_ok'=>'',
+			'logout'=>'',
+			'help'=>'',
+			'messages'=>'',
+			'new_user'=>'',
+			'edit_user'=>'',
+			'logs'=>'',
+			'edit_parser'=>'',
+			'save_parser'=>'',
+			'edit_template'=>'',
+			'settings'=>'',
+			'credits'=>'',
+			'new_template'=>'',
+			'save_template'=>'',
+			'delete_template'=>'',
+			'edit_snippet'=>'',
+			'new_snippet'=>'',
+			'save_snippet'=>'',
+			'delete_snippet'=>'',
+			'empty_cache'=>'',
+			'edit_document'=>'',
+			'change_password'=>'',
+			'error_dialog'=>'',
+			'about'=>'',
+			'file_manager'=>'',
+			'save_user'=>'',
+			'delete_user'=>'',
+			'save_password'=>'',
+			'edit_role'=>'',
+			'save_role'=>'',
+			'delete_role'=>'',
+			'new_role'=>'',
+			'access_permissions'=>'',
+			'new_chunk'=>'',
+			'save_chunk'=>'',
+			'edit_chunk'=>'',
+			'delete_chunk'=>'',
+			'export_html'=>'',
+			'new_tv'=>'',
+			'edit_tv'=>'',
+			'delete_tv'=>''
+		);
         if ($id) {
             $r = $this->getIntTableRows('*', 'user_roles', 'id='.$id);
             $roledata = $r[0];
-        } else {
-            $roledata = array();
         }
         include('views/edit_role.phtml');
     }

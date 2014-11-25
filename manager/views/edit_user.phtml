@@ -29,7 +29,7 @@
         	<div class="tab-pane active" id="user-tab" style="position: relative;">
                 <div id="editUser">
                 <input type="hidden" name="id" id="id" value="<?php echo isset($userdata['id']) ? $userdata['id'] : '' ?>">
-                <?php if($userdata['blocked']==1 || ($userdata['blockeduntil']>time() && $userdata['blockeduntil']!=0) || $userdata['failedlogins']>3) { ?>
+                <?php if(!empty($userdata) && ($userdata['blocked']==1 || ($userdata['blockeduntil']>time() && $userdata['blockeduntil']!=0) || (isset($userdata['failedlogins']) &&$userdata['failedlogins']>3))) { ?>
                 <div class="alert alert-warning">
                 	<i class="fa fa-warning"></i>
                 	<?php echo $this->_lang['user_is_blocked']; ?>
@@ -37,7 +37,7 @@
                 <?php } ?>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo $this->_lang['username']; ?>:</label></div>
-                    <div class="col-md-9"><input type="text" name="username" id="username" class="form-control" value="<?php echo $userdata['username']; ?>"><div style="display: none;" id="uniqueUsername"></div></div>
+                    <div class="col-md-9"><input type="text" name="username" id="username" class="form-control" value="<?php echo isset($userdata['username']) ? $userdata['username'] : ''; ?>"><div style="display: none;" id="uniqueUsername"></div></div>
                 </div>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo isset($userdata['id']) && is_numeric($userdata['id']) ? $this->_lang['change_password_new'].":" : $this->_lang['password'].":" ; ?></label></div>
@@ -58,19 +58,19 @@
                 </div>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo $this->_lang['user_full_name']; ?>:</label></div>
-                    <div class="col-md-9"><input type="text" name="fullname" id="fullname" class="form-control" value="<?php echo $userdata['fullname']; ?>"></div>
+                    <div class="col-md-9"><input type="text" name="fullname" id="fullname" class="form-control" value="<?php echo isset($userdata['fullname']) ? $userdata['fullname'] : ''; ?>"></div>
                 </div>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo $this->_lang['user_email']; ?>:</label></div>
-                    <div class="col-md-9"><input type="text" name="email" id="email" class="form-control" value="<?php echo $userdata['email']; ?>"></div>
+                    <div class="col-md-9"><input type="text" name="email" id="email" class="form-control" value="<?php echo isset($userdata['email']) ? $userdata['email'] : ''; ?>"></div>
                 </div>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo $this->_lang['user_phone']; ?>:</label></div>
-                    <div class="col-md-9"><input type="text" name="phone" id="phone" class="form-control" value="<?php echo $userdata['phone']; ?>"></div>
+                    <div class="col-md-9"><input type="text" name="phone" id="phone" class="form-control" value="<?php echo isset($userdata['phone']) ? $userdata['phone'] : ''; ?>"></div>
                 </div>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo $this->_lang['user_mobile']; ?>:</label></div>
-                    <div class="col-md-9"><input type="text" name="mobilephone" id="mobilephone" class="form-control" value="<?php echo $userdata['mobilephone']; ?>"></div>
+                    <div class="col-md-9"><input type="text" name="mobilephone" id="mobilephone" class="form-control" value="<?php echo isset($userdata['mobildphone']) ? $userdata['mobilephone'] : ''; ?>"></div>
                 </div>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo $this->_lang['user_role']; ?>:</label></div>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="row form-group">
                 	<div class="col-md-3"><label><?php echo $this->_lang['user_sendmessages']; ?>:</label></div>
-                    <div class="col-md-9"><input name="sendmessages" id="sendmessages" type="checkbox"<?php echo $userdata['mailmessages']==1 ? " checked='checked'": "" ; ?> /></div>
+                    <div class="col-md-9"><input name="sendmessages" id="sendmessages" type="checkbox"<?php echo isset($userdata['mailmessages']) && $userdata['mailmessages']==1 ? " checked='checked'": "" ; ?> /></div>
                 </div>
                 <?php if (isset($userdata['id']) && is_numeric($userdata['id'])) { ?>
                 <div class="row form-group">
@@ -122,10 +122,10 @@
                 </div>
                 <?php } ?>
                 </div>
-                <?php if($userdata['id']==$_SESSION['internalKey']) { ?><span class='warning'><b><?php echo $this->_lang['user_edit_self_msg']; ?></span><br /><?php } ?>
+                <?php if(isset($userdata['id']) && $userdata['id']==$_SESSION['internalKey']) { ?><span class='warning'><b><?php echo $this->_lang['user_edit_self_msg']; ?></b></span><br /><?php } ?>
             </div>
             <div class="tab-pane" id="user-permissions" style="position: relative;">
-            	<p><?php echo $this->_lang['access_permissions_user_message']; ?></p>
+            	<p><?php echo $this->_lang['access_permissions_users_message']; ?></p>
 				<?php
                   $groupsarray = array();
                   if (isset($userdata['id']) && is_numeric($userdata['id'])) {
@@ -137,7 +137,7 @@
                         $groupsarray[$i] = $currentgroup['user_group'];
                       }
                   }
-                  echo $this->_lang['access_permissions_user_message']; ?>
+                  // echo $this->_lang['access_permissions_users_message']; ?>
                   <br />
                 <?php
                 $sql = "SELECT name, id FROM ".$this->db."membergroup_names";

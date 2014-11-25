@@ -103,7 +103,7 @@ $sep = " @ ";
                                                     $parentId = 0;
                                                 }
                                             } else {
-                                                if($parentDoc = $this->getDocument($content['parent'])) {
+                                                if(isset($content['parent']) && $parentDoc = $this->getDocument($content['parent'])) {
                                                     $parentname = $parentDoc['pagetitle'];
                                                     $parentId = $content['parent'];
                                                 } else {
@@ -149,7 +149,7 @@ $sep = " @ ";
                             <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_folder_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
                         </div>
                         
-                        <?php if(!$reference && $content['type'] != "reference"){ ?>
+                        <?php if(!$reference && isset($content['type']) && $content['type'] != "reference"){ ?>
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_richtext']; ?></label></div>
                             <div class="col-md-7"><input name="richtext" id="richtext" type="checkbox"<?php echo (isset($content['richtext']) && $content['richtext']==1) ? " checked='checked'" : ''; ?>></div>
@@ -159,14 +159,14 @@ $sep = " @ ";
                         
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['document_opt_published']; ?></label></div>
-                            <?php if($content['published'] == "" || !isset($content['published'])){ $content['published'] = $this->config['publish_default']; } ?>
+                            <?php if(!isset($content['published']) || $content['published'] == ""){ $content['published'] = $this->config['publish_default']; } ?>
                             <div class="col-md-7"><input name="published" id="published" type="checkbox"<?php echo (isset($content['published']) && $content['published']==1) ? " checked='checked'" : ''; ?>></div>
                             <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['document_opt_published_help']; ?>" onClick="alert(this.alt);" style="cursor:help;"></div>
                         </div>
                         
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['createdon']; ?></label></div>
-                            <div class="col-md-7"><input class="form-control" id="createdon" name="createdon" type="text" value="<?php echo $content['createdon']=="0" || !isset($content['createdon']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['createdon']);?>"></div>
+                            <div class="col-md-7"><input class="form-control" id="createdon" name="createdon" type="text" value="<?php echo !isset($content['createdon']) || $content['createdon']=="0" ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['createdon']);?>"></div>
                             <div class="col-md-1"><script type="text/javascript">
                                 $('#createdon').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
                             </script>
@@ -176,7 +176,7 @@ $sep = " @ ";
                         
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['page_data_publishdate']; ?></label></div>
-                            <div class="col-md-7"><input class="form-control" id="pub_date" name="pub_date" type="text" value="<?php echo $content['pub_date']=="0" || !isset($content['pub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['pub_date']);?>"></div>
+                            <div class="col-md-7"><input class="form-control" id="pub_date" name="pub_date" type="text" value="<?php echo !isset($content['pub_date']) || $content['pub_date']=="0" ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['pub_date']);?>"></div>
                             <div class="col-md-1"><script type="text/javascript">
                                 $('#pub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
                             </script>
@@ -186,7 +186,7 @@ $sep = " @ ";
                         
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['page_data_unpublishdate']; ?></label></div>
-                            <div class="col-md-7"><input class="form-control" id="unpub_date" name="unpub_date" type="text" value="<?php echo $content['unpub_date']=="0" || !isset($content['unpub_date']) ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['unpub_date']);?>" /></div>
+                            <div class="col-md-7"><input class="form-control" id="unpub_date" name="unpub_date" type="text" value="<?php echo !isset($content['unpub_date']) || $content['unpub_date']=="0" ? '' : strftime($this->config['date_format'].$sep.$this->config['time_format'], $content['unpub_date']);?>" /></div>
                             <div class="col-md-1"><script type="text/javascript">
                                 $('#unpub_date').datetimepicker({dateFormat: 'yy-mm-dd', separator: '<?php echo $sep;?>', ampm: true, showOn: "both", buttonImage: "./images/icons/cal.gif", buttonImageOnly: true});
                             </script>
@@ -206,7 +206,7 @@ $sep = " @ ";
                     <div class="col-md-6"> <!-- left column -->
                     	<div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['page_data_searchable']; ?></label></div>
-                            <?php if($content['searchable'] == "" || !isset($content['searchable'])){ $content['searchable'] = $this->config['search_default']; } ?>
+                            <?php if(!isset($content['searchable']) || $content['searchable'] == ""){ $content['searchable'] = $this->config['search_default']; } ?>
                             <div class="col-md-7"><input name="searchable" id="searchable" type="checkbox"<?php echo (isset($content['searchable']) && $content['searchable']==1) ? " checked='checked'" : ''; ?>></div>
                             <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_searchable_help']; ?>" onClick="alert(this.alt);" style="cursor:help;" />
                             </div>
@@ -215,7 +215,7 @@ $sep = " @ ";
                         <?php if(!$reference || (isset($content['type']) && $content['type'] != "reference")){ ?>
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['page_data_cacheable']; ?></label></div>
-                            <?php if($content['cacheable'] == "" || !isset($content['cacheable'])){ $content['cacheable'] = $this->config['cache_default']; } ?>
+                            <?php if(!isset($content['cacheable']) || $content['cacheable'] == ""){ $content['cacheable'] = $this->config['cache_default']; } ?>
                             <div class="col-md-7"><input name="cacheable" id="cacheable" type="checkbox"<?php echo (isset($content['cacheable']) && $content['cacheable']==1) ? " checked='checked'" : ''; ?>></div>
                             <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['page_data_cacheable_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
                             </div>
@@ -284,7 +284,7 @@ $sep = " @ ";
                         
                         <div class="row">
                         	<div class="col-md-4"><label><?php echo $this->_lang['showinmenu']; ?></label></div>
-                            <?php if($content['showinmenu'] == "" || !isset($content['showinmenu'])) { $content['showinmenu'] = $this->config['showinmenu_default']; }?>
+                            <?php if(!isset($content['showinmenu']) || $content['showinmenu'] == "") { $content['showinmenu'] = $this->config['showinmenu_default']; }?>
                             <div class="col-md-7"><input name="showinmenu" id="showinmenu" type="checkbox"<?php echo (isset($content['showinmenu']) && $content['showinmenu']=='1') ? " checked='checked'" : '';?>></div>
                             <div class="col-md-1"><img src="./images/icons/b02_trans.gif" onMouseover="this.src='./images/icons/b02.gif';" onMouseout="this.src='./images/icons/b02_trans.gif';" alt="<?php echo $this->_lang['showinmenu_help']; ?>" onClick="alert(this.alt);" style="cursor:help;">
                             </div>

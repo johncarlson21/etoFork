@@ -61,7 +61,7 @@
                 <?php } ?>
                 <tr>
                     <td width="200"><span class="warning"><?php echo $this->_lang["resource_locked"]; ?>:</span></td>
-                    <td><span>&nbsp;&nbsp;</span><input name="locked" id="locked" type="checkbox" <?php echo $resource['locked']==1 ? "checked='checked'" : "" ;?> class="inputBox"> Only Administrators (Role ID 1) can edit</td>
+                    <td><span>&nbsp;&nbsp;</span><input name="locked" id="locked" type="checkbox" <?php echo isset($resource['locked']) && $resource['locked'] == 1 ? "checked='checked'" : "" ;?> class="inputBox"> Only Administrators (Role ID 1) can edit</td>
                 </tr>
                 <tr>
                     <td width="200"><span class="warning"><?php echo $this->_lang["keep_editing"]; ?>:</span></td>

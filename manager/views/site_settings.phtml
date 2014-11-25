@@ -45,6 +45,7 @@
           <td>
             <select name="server_offset_time" size="1" class="inputBox">
 <?php
+	$server_offset_time = $this->config['server_offset_time'];
   for($i=-24; $i<25; $i++)
   {
     $seconds = $i*60*60;

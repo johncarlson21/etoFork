@@ -130,6 +130,7 @@ $_lang["onlineusers_userid"] = "User's ID";
 $_lang["onlineusers_ipaddress"] = "User's IP address";
 $_lang["onlineusers_lasthit"] = "Last hit";
 $_lang["onlineusers_action"] = "Action";
+$_lang["onlineusers_action_id"] = "Action ID";
 $_lang["configcheck_title"] = "Configuration check";
 $_lang["configcheck_notok"] = "One or more configuration details didn't check out OK: ";
 $_lang["configcheck_ok"] = "Check passed OK - no warnings to report.";

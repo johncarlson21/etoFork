@@ -115,11 +115,11 @@ else
                   <td width="20">&nbsp;</td>
                   <td><b><?php echo $etomite->config['code_name'] ?>&nbsp;</b></td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                   <td><?php echo $etomite->_lang['sys_info_acc_perms'];?></td>
                   <td>&nbsp;</td>
-                  <td><b><?php echo $use_udperms==1 ? $etomite->_lang['sys_info_perms_enabled'] : $etomite->_lang['sys_info_perms_disabled']; ?>&nbsp;</b></td>
-                  </tr>
+                  <td><b><?php //echo $use_udperms==1 ? $etomite->_lang['sys_info_perms_enabled'] : $etomite->_lang['sys_info_perms_disabled']; ?>&nbsp;</b></td>
+                  </tr> -->
                   <tr>
                   <td><?php echo $etomite->_lang['sys_info_time'];?></td>
                   <td>&nbsp;</td>
@@ -201,6 +201,8 @@ else
                 $sql = "SHOW TABLE STATUS FROM ".$etomite->dbConfig['dbase'].";";
                 $rs = $etomite->dbQuery($sql);
                 $limit = $etomite->recordCount($rs);
+				$total = 0;
+				$totaloverhead = 0;
                 for ($i = 0; $i < $limit; $i++)
                 {
                   $log_status = $etomite->fetchRow($rs);
