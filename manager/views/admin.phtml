@@ -58,7 +58,7 @@
 				Etomite.EtoRoot = "<?php echo absolute_base_path; ?>";
 				Etomite.rel = "<?php echo relative_base_path ?>";
 				Etomite.db_url = "<?php echo www_base_path ?>";
-				Etomite.cssPath = "<?php echo $cssPath; ?>";
+				Etomite.cssPath = "<?php echo isset($cssPath) ? $cssPath : ''; ?>";
 				Etomite.dateFormat = "<?php echo $etomite->config['date_format']; ?>";
 				Etomite.timeFormat = "<?php echo $etomite->config['time_format']; ?>";
 				Etomite.init();

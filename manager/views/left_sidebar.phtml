@@ -128,7 +128,7 @@
                                 <?php if($_SESSION['permissions']['file_manager']==1) { ?>
                                 <li class="hidden-xs"><a href="javascript:;" onclick="Etomite.loadPaneFromAction('manageFiles');"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["manage_files"]; ?></a></li>
                                 <?php } ?>
-                                <?php   if($_SESSION['permissions']['export_html']==1) { 
+                                <?php   if(isset($_SESSION['permissions']['export_html']) && $_SESSION['permissions']['export_html']==1) { 
 								// not really used 
 								} ?>
                                 <li class="hidden-xs"><a href="javascript:;" onclick="Etomite.installModule();"><i class="fa fa-angle-double-right"></i> <?php echo $_lang["manage_modules"]; ?></a></li>

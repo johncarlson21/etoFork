@@ -12,17 +12,17 @@
   <!-- <tr>
     <td><?php echo $_lang["yourinfo_role"]; ?></td>
     <td>&nbsp;</td>
-    <td><b><?php echo $_SESSION['permissions']['name']; ?></b></td>
+    <td><b><?php echo isset($_SESSION['permissions']['name']) ? $_SESSION['permissions']['name'] : ''; ?></b></td>
   </tr>
   <tr>
     <td><?php echo $_lang["document_description"]; ?>:</td>
     <td>&nbsp;</td>
-    <td><b><?php echo $_SESSION['permissions']['description']; ?></b></td>
+    <td><b><?php echo isset($_SESSION['permissions']['description']) ? $_SESSION['permissions']['description'] : ''; ?></b></td>
   </tr> -->
   <tr>
     <td><?php echo $_lang["yourinfo_previous_login"]; ?></td>
     <td>&nbsp;</td>
-    <td><b><?php echo strftime($etomite->config['date_format'].' @ '.$etomite->config['time_format'], $_SESSION['lastlogin']+$server_offset_time); ?></b></td>
+    <td><b><?php echo strftime($etomite->config['date_format'].' @ '.$etomite->config['time_format'], $_SESSION['lastlogin']+$etomite->config['server_offset_time']); ?></b></td>
   </tr>
   <tr>
     <td><?php echo $_lang["your_ip_address"]; ?></td>

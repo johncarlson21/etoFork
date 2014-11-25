@@ -90,11 +90,7 @@ header('Content-Type: text/html; charset='.$etomite->config['etomite_charset']);
 
 if(!$etomite->userLoggedIn()){
     // show login form and exit
-    /*if ($detect->isMobile()) {
-        include_once("views/mobile_login.phtml");
-    } else {*/
-        include_once("views/login.phtml");
-    //}
+    include_once("views/login.phtml");
     exit;
 }
 
@@ -103,10 +99,8 @@ if(!isset($_SESSION['validated']))
   echo "Not Logged In!";
   exit;
 }
-/*if ($detect->isMobile()) {
-    include_once('views/mobile_admin.phtml');
-} else {*/
-	// changed to reference new layout
-    include_once('views/admin.phtml');
-//}
+
+// changed to reference new layout
+include_once('views/admin.phtml');
+
 ?>

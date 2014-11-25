@@ -61,7 +61,7 @@ also added a new function to add the page alias to the <body> tag example: domai
 */
 class etomite
 {
-    public $db, $rs, $result, $sql, $table_prefix, $debug, $documentIdentifier, $documentMethod, $documentGenerated, $documentContent, $tstart, $snippetParsePasses, $documentObject, $templateObject, $snippetObjects, $stopOnNotice, $executedQueries, $queryTime, $currentSnippet, $documentName, $aliases, $visitor, $entrypage, $documentListing, $dumpSnippets, $chunkCache, $snippetCache, $contentTypes, $dumpSQL, $queryCode, $tbl, $error404page, $version, $code_name, $notice, $blockLogging, $useblockLogging, $offline_page;
+    public $db, $rs, $result, $sql, $table_prefix, $debug, $documentIdentifier, $documentMethod, $documentGenerated, $documentContent, $tstart, $snippetParsePasses, $documentObject, $templateObject, $snippetObjects, $stopOnNotice, $executedQueries, $queryTime, $currentSnippet, $documentName, $aliases, $aliasListing, $visitor, $entrypage, $documentListing, $dumpSnippets, $chunkCache, $snippetCache, $contentTypes, $dumpSQL, $queryCode, $tbl, $error404page, $version, $code_name, $notice, $blockLogging, $useblockLogging, $offline_page;
     // new variables for the new functions and code
     public $config = array();
     public $_request = array(); // variable to hold the request/post/get from a url format of /varname/value/varname2/value2
@@ -102,7 +102,7 @@ class etomite
         $this->dbConfig['pass']             = $GLOBALS['database_password'];
         $this->dbConfig['table_prefix']     = $GLOBALS['table_prefix'];
         $this->db                           = $this->dbConfig['dbase'] . "." . $this->dbConfig['table_prefix'];
-        $this->_lang                        = $GLOBALS['_lang'];
+        // $this->_lang                        = $GLOBALS['_lang'];
         // convert variables initially calculated in config.inc.php into config variables
         $this->config['absolute_base_path'] = absolute_base_path;
         $this->config['relative_base_path'] = relative_base_path;
@@ -203,20 +203,20 @@ class etomite
 	*/
     public function getSettings()
     {
-        if (file_exists(absolute_base_path . "assets/cache/etomiteCache.idx.php")) {
-            include_once(absolute_base_path . "assets/cache/etomiteCache.idx.php");
+        if (file_exists($this->config['absolute_base_path'] . "assets/cache/etomiteCache.idx.php")) {
+            include($this->config['absolute_base_path'] . "assets/cache/etomiteCache.idx.php");
         } else {
             /*$result = $this->dbQuery("SELECT setting_name, setting_value FROM ".$this->db."system_settings");
             while ($row = $this->fetchRow($result, 'both')) {
             $this->config[$row[0]] = $row[1];
             }*/
-            include_once(MANAGER_PATH . "includes/cache_sync.class.processor.php");
+            include(MANAGER_PATH . "includes/cache_sync.class.processor.php");
             $sync = new synccache($this, $this->_lang);
-            $sync->setCachepath(absolute_base_path . "assets/cache/");
+            $sync->setCachepath($this->config['absolute_base_path'] . "assets/cache/");
             $sync->setReport(false);
             $sync->emptyCache();
-            if (file_exists(absolute_base_path . "assets/cache/etomiteCache.idx.php")) {
-                include_once(absolute_base_path . "assets/cache/etomiteCache.idx.php");
+            if (file_exists($this->config['absolute_base_path'] . "assets/cache/etomiteCache.idx.php")) {
+                include($this->config['absolute_base_path'] . "assets/cache/etomiteCache.idx.php");
             }
         }
         // get current version information
@@ -237,6 +237,7 @@ class etomite
         $aliases                       = array();
         $templates                     = array();
         $parents                       = array();
+		$authenticates = array();
         $limit_tmp                     = count($this->aliasListing);
         for ($i_tmp = 0; $i_tmp < $limit_tmp; $i_tmp++) {
             if ($this->aliasListing[$i_tmp]['alias'] != "") {
@@ -1290,6 +1291,7 @@ title='$siteName'>$siteName</a></h2>
         // $showhidden = setting to [true|1] will override the showinmenu flag setting (default=false)
         $limit = ($limit != "") ? "LIMIT $limit" : "";
         $tbl   = $this->db . "site_content";
+		$showinmenu = '';
         if ($showhidden == 0)
             $showinmenu = "AND $tbl.showinmenu=1";
         $sql           = "SELECT $fields FROM $tbl WHERE $tbl.parent=$id $showinmenu ORDER BY $sort $dir $limit;";
@@ -1528,7 +1530,7 @@ title='$siteName'>$siteName</a></h2>
         $baseURL = $this->config['www_base_path'];
         if ($this->config['zend_urls'] == 1 && !empty($alias) && isset($this->documentListing[$alias])) {
             $url = $baseURL . $alias;
-        } elseif ($this->config['zend_urls'] == 1 && $this->aliases[$id] != "") {
+        } elseif ($this->config['zend_urls'] == 1 && isset($this->aliases[$id]) && $this->aliases[$id] != "") {
             if ($id != $this->config['site_start']) {
                 $url = $baseURL . $this->aliases[$id];
             } else {
@@ -1540,7 +1542,7 @@ title='$siteName'>$siteName</a></h2>
             $url = $baseURL . $this->config['friendly_url_prefix'] . $alias . $this->config['friendly_url_suffix'];
         }
         // $alias wasn't sent or doesn't exist so try to get the documents alias based on id if it exists
-            elseif ($this->config['friendly_alias_urls'] == 1 && $this->aliases[$id] != "") {
+            elseif ($this->config['friendly_alias_urls'] == 1 && isset($this->aliases[$id]) && $this->aliases[$id] != "") {
             if ($id != $this->config['site_start']) {
                 $url = $baseURL . $this->config['friendly_url_prefix'] . $this->aliases[$id] . $this->config['friendly_url_suffix'];
             } else {
@@ -1913,7 +1915,7 @@ title='$siteName'>$siteName</a></h2>
             mysql_select_db($this->dbConfig['dbase']);
             $tend      = $this->getMicroTime();
             $totaltime = $tend - $tstart;
-            if ($this->config['dumpSQL']) {
+            if (isset($this->config['dumpSQL']) && $this->config['dumpSQL']) {
                 $this->queryCode .= "<fieldset style='text-align:left'><legend>Database connection</legend>" . sprintf("Database connection was created in %2.4f s", $totaltime) . "</fieldset><br />";
             }
             $this->queryTime = $this->queryTime + $totaltime;
@@ -3010,7 +3012,7 @@ title='$siteName'>$siteName</a></h2>
             $moduleParams = array();
             foreach ($tempParams as $p) {
                 $pPart                   = explode("=", $p);
-                $moduleParams[$pPart[0]] = $pPart[1];
+                $moduleParams[$pPart[0]] = isset($pPart[1]) && !empty($pPart[1]) ? $pPart[1] : '';
             }
             require_once(absolute_base_path . 'modules/' . $module . "/" . $module . ".php");
             $action             = (isset($action) && !empty($action)) ? $action : 'index'; // defaults to adminView
