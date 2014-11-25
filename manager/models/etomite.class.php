@@ -102,7 +102,7 @@ class etomite
         $this->dbConfig['pass']             = $GLOBALS['database_password'];
         $this->dbConfig['table_prefix']     = $GLOBALS['table_prefix'];
         $this->db                           = $this->dbConfig['dbase'] . "." . $this->dbConfig['table_prefix'];
-        // $this->_lang                        = $GLOBALS['_lang'];
+        $this->_lang                        = isset($GLOBALS['_lang']) ? $GLOBALS['_lang'] : array();
         // convert variables initially calculated in config.inc.php into config variables
         $this->config['absolute_base_path'] = absolute_base_path;
         $this->config['relative_base_path'] = relative_base_path;
